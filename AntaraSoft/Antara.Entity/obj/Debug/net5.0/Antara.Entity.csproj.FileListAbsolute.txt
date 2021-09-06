@@ -1,0 +1,12 @@
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Entity.deps.json
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Entity.dll
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\bin\Debug\net5.0\ref\Antara.Entity.dll
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Entity.pdb
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.csproj.AssemblyReference.cache
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.GeneratedMSBuildEditorConfig.editorconfig
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.AssemblyInfoInputs.cache
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.AssemblyInfo.cs
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.csproj.CoreCompileInputs.cache
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.dll
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\ref\Antara.Entity.dll
+D:\Universidad\Capston\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Entity.pdb
