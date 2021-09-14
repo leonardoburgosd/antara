@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Antara.Entity\Antara.Entity.csproj" />
+    <ProjectReference Include="..\Antara.Interface\Antara.Interface.csproj" />
+  </ItemGroup>
+
 </Project>

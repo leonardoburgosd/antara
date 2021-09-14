@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AOPJWlvDRA4K/Jrc+54Yuss9kC9j3+/U/BwotNp1AFuFIXuv+41yB28W2nDlN+P8GNA7U4zf8INswKDuIkSR2Q==",
+  "dgSpecHash": "ZpHLIp3s+yt/vTF/IRog7mks1qFnefAM9o+ZC2+RglbAnZmWNJPpmOyiy4iatjoli1JR2T8OeEFsAi8l6WLMZw==",
   "success": true,
-  "projectFilePath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj",
+  "projectFilePath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lbd_2\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512"
   ],

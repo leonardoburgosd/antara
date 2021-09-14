@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "Antara.Entity/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Antara.Entity.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Antara.Entity.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Antara.Entity/1.0.0": {
+      "type": "project",
+      "path": "../Antara.Entity/Antara.Entity.csproj",
+      "msbuildProject": "../Antara.Entity/Antara.Entity.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Antara.Entity >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\lbd_2\\.nuget\\packages\\": {},
@@ -16,11 +35,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+      "projectUniqueName": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
       "projectName": "Antara.Interface",
-      "projectPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+      "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
       "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
-      "outputPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\obj\\",
+      "outputPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -43,7 +62,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

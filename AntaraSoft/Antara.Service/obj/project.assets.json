@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "Antara.Entity/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Antara.Entity.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Antara.Entity.dll": {}
+        }
+      },
+      "Antara.Interface/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Antara.Entity": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Antara.Interface.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Antara.Interface.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Antara.Entity/1.0.0": {
+      "type": "project",
+      "path": "../Antara.Entity/Antara.Entity.csproj",
+      "msbuildProject": "../Antara.Entity/Antara.Entity.csproj"
+    },
+    "Antara.Interface/1.0.0": {
+      "type": "project",
+      "path": "../Antara.Interface/Antara.Interface.csproj",
+      "msbuildProject": "../Antara.Interface/Antara.Interface.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Antara.Entity >= 1.0.0",
+      "Antara.Interface >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\lbd_2\\.nuget\\packages\\": {},
@@ -16,11 +54,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
+      "projectUniqueName": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
       "projectName": "Antara.Service",
-      "projectPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
+      "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
       "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
-      "outputPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Service\\obj\\",
+      "outputPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -43,7 +81,14 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj"
+            },
+            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
