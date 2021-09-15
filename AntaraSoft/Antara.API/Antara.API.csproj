@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Antara.Entity\Antara.Entity.csproj" />
-    <ProjectReference Include="..\Antara.Interface\Antara.Interface.csproj" />
+    <ProjectReference Include="..\Antara.Entity\Antara.Model.csproj" />
+    <ProjectReference Include="..\Antara.Repository\Antara.Repository.csproj" />
   </ItemGroup>
 
 </Project>

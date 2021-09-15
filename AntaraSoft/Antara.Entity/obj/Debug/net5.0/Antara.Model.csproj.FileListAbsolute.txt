@@ -1,0 +1,12 @@
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.deps.json
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\ref\Antara.Model.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.pdb
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.csproj.AssemblyReference.cache
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.AssemblyInfoInputs.cache
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.AssemblyInfo.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.csproj.CoreCompileInputs.cache
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\ref\Antara.Model.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.pdb

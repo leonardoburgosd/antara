@@ -1,3 +1,7 @@
+using Antara.Model;
+using Antara.Model.Contracts;
+using Antara.Repository.Dapper;
+using Antara.Repository.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +28,9 @@ namespace Antara.API
         {
             services.AddControllers();
             services.AddOptions();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
+            services.AddTransient<IUsuario, UsuarioRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

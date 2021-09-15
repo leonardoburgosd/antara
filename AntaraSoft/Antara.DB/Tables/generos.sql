@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[generos]
-(
-  id VARCHAR(50) PRIMARY KEY DEFAULT NEWID(),
-  type VARCHAR(45) NOT NULL,
-  parent VARCHAR(45) NULL DEFAULT 0
-)

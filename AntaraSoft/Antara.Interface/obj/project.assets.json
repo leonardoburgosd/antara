@@ -1,56 +1,32 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
-      "Antara.Entity/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v5.0",
-        "compile": {
-          "bin/placeholder/Antara.Entity.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Antara.Entity.dll": {}
-        }
-      }
-    }
+    "net5.0": {}
   },
-  "libraries": {
-    "Antara.Entity/1.0.0": {
-      "type": "project",
-      "path": "../Antara.Entity/Antara.Entity.csproj",
-      "msbuildProject": "../Antara.Entity/Antara.Entity.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net5.0": [
-      "Antara.Entity >= 1.0.0"
-    ]
+    "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\lbd_2\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Diego\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+      "projectUniqueName": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
       "projectName": "Antara.Interface",
-      "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
-      "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
-      "outputPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Interface\\obj\\",
+      "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+      "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
+      "outputPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lbd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -62,11 +38,7 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {
-            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj": {
-              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Entity.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
