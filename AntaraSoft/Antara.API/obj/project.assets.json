@@ -613,25 +613,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Diego\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\lbd_2\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
+      "projectUniqueName": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
       "projectName": "Antara.API",
-      "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
-      "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-      "outputPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.API\\obj\\",
+      "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
+      "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
+      "outputPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lbd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -644,11 +649,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
-              "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
+            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
             },
-            "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj": {
-              "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj"
+            "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Github\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj"
             }
           }
         }
@@ -680,7 +685,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
