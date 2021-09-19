@@ -1,15 +1,4 @@
 @charset "UTF-8";
-/*!
-* Start Bootstrap - SB Admin v7.0.3 (https://startbootstrap.com/template/sb-admin)
-* Copyright 2013-2021 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-*/
-/*!
- * Bootstrap v5.1.0 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -11693,6 +11682,24 @@ body {
 .color-blanco{
   color: #fff;
 }
+
 .nombre-usuario{
   padding: 10px;
+}
+
+.fondo-menu-derecho{
+  background: #1d242e;
+}
+
+.izquierda{
+  float: left;
+  height: 100vh;
+}
+
+.elemento{
+  float: left;
+}
+
+.miniatura{
+  border-radius: 100%;
 }

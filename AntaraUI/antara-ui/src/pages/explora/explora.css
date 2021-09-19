@@ -1,0 +1,40 @@
+
+.border-principal{
+    border-radius: 8px;
+}
+.img-wrapper {
+    position: relative;
+   }
+.img-responsive {
+    width: 100%;
+    height: auto;
+  }
+  
+.img-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: left;
+    padding: 40px;
+  }
+  .img-overlay>.texto>span{
+    color: black;
+  }
+  
+.img-overlay:before {
+    content: ' ';
+    display: block;
+    height: 50%;
+  }
+
+.texto-ir{
+    font-size: 40px;
+}
+.texto-negro{
+  color: black;
+}
+.texto-negro>h1>span{
+  font-weight: bold;
+}
