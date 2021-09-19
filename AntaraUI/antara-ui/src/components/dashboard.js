@@ -5,7 +5,7 @@ import MenuLeft from "./dashboard/menu-left";
 
 function Dashboard() {
         return (
-            <div>
+            <div className="sb-nav-fixed">
                 <MenuTop></MenuTop>
                 <MenuLeft></MenuLeft>
             </div>

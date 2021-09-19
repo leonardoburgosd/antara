@@ -5,7 +5,7 @@ import NewPlaylist from "../../pages/playlist/new-playlist";
 import ErrorPage from "../../pages/private-configuration/error-page";
 const Container = () => {
     return (
-        <div className="row">
+        <div className="row ">
              <Switch>
                 <Route exact path="/dashboard" component={Explora} />
                 <Route exact path="/dashboard/playlist" component={NewPlaylist}/>

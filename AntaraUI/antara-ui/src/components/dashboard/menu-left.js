@@ -21,19 +21,19 @@ const MenuLeft = () => {
                         </div>
                     </div>
                 </nav>
-            </div>
-            <div className="bg-dark" id="layoutSidenav_content">
+            </div> 
+            <div className="bg-dark " id="layoutSidenav_content">
                 <main className="color-blanco">
-                    <section className="col-9 izquierda">
-                        <div className="container-fluid">
+                    <div className="col-9 izquierda">
+                        <div className="container-fluid ">
                             <Container></Container>
                         </div>
-                    </section>
-                    <section className="col-3 izquierda sb-sidenav sb-sidenav-dark">
+                    </div>
+                    <div className="col-3 izquierda sb-sidenav sb-sidenav-dark">
                         <div className="container-fluid">
                             <MenuRight></MenuRight>
                         </div>
-                    </section>
+                    </div>
                 </main>
             </div>
         </div>
