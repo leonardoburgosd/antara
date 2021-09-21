@@ -31,6 +31,14 @@ namespace Antara.API
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuario, UsuarioRepository>();
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthSection = Configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthSection["ClienteId"];
+                    options.ClientSecret = googleAuthSection["ClienteSecret"];
+                });
+                
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
