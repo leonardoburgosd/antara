@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "Antara.Service/1.0.0": {
+        "dependencies": {
+          "Antara.Model": "1.0.0"
+        },
+        "runtime": {
+          "Antara.Service.dll": {}
+        }
+      },
+      "Antara.Model/1.0.0": {
+        "runtime": {
+          "Antara.Model.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Antara.Service/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Antara.Model/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

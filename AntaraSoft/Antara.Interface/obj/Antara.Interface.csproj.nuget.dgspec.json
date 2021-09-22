@@ -1,28 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj": {}
+    "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj": {}
   },
   "projects": {
-    "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj": {
+    "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+        "projectUniqueName": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
         "projectName": "Antara.Interface",
-        "projectPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
-        "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
-        "outputPath": "D:\\Universidad\\Capston\\AntaraSoft\\Antara.Interface\\obj\\",
+        "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\Antara.Interface.csproj",
+        "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
+        "outputPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Interface\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\lbd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

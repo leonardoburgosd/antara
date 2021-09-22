@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+.registro-bg {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(29, 36, 46, 1) 50%,
+    rgba(18, 73, 135, 1) 100%
+  );
+  font-family: "Quicksand", sans-serif;
+  color: white;
+}
+.contenedor {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.styled-hr {
+  width: 70%;
+  margin-bottom: 40px;
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    hsl(211, 99%, 50%),
+    rgba(0, 0, 0, 0)
+  );
+}

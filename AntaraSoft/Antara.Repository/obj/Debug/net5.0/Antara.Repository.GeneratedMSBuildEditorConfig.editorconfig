@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = Antara.Repository
-build_property.ProjectDir = D:\Universidad\Capston\AntaraSoft\Antara.Repository\
+build_property.ProjectDir = D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.Repository\
