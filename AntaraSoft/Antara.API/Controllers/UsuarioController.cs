@@ -1,4 +1,5 @@
 ﻿using Antara.Model.Contracts;
+using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
 using Antara.Service;
 using Microsoft.AspNetCore.Http;

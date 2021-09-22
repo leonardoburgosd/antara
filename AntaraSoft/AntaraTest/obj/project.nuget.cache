@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RncHPLFoNLi3d4c1/9feqytNHQpwpcwMzJNwIsnmPnGXlsNszbD3oJtbARtTFsxsenxmOH3rjng8v4S8leXTwA==",
+  "dgSpecHash": "qWq1CQFLP/rl8pvOZ6nIkTP070jKvn26j1buApPvZgKZ7hV3rvYPm2ZHHEEy0BN7KMZ0Ms8+iFsvYAtcrQgZcA==",
   "success": true,
-  "projectFilePath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
+  "projectFilePath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lbd_2\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\lbd_2\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",

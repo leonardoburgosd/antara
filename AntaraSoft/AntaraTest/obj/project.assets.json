@@ -6082,11 +6082,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
+      "projectUniqueName": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
       "projectName": "AntaraTest",
-      "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
+      "projectPath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
       "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
-      "outputPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\AntaraTest\\obj\\",
+      "outputPath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\AntaraTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -6110,11 +6110,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
-              "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
+            "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
             },
-            "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj": {
-              "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj"
+            "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj"
             }
           }
         }

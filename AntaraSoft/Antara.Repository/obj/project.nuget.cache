@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ByAdelXJdq7xDyfTymdCMvxI48Nrs3SYvuCbaYap+Pq3r/PoJLX1tk6lLTKMn+ltjggdLCEGeyNSI/iDaa9hIw==",
+  "dgSpecHash": "VmHuusB/Vi/Fo+9xPts+J/nXwEbJ6RL04+Yteey4EfTvwpeeNCWqUiiOsSwy26YKtuLPSsTAOwW0tjnxkszvVg==",
   "success": true,
-  "projectFilePath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj",
+  "projectFilePath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lbd_2\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
     "C:\\Users\\lbd_2\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",

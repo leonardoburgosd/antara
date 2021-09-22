@@ -1,5 +1,6 @@
 using Antara.Model;
 using Antara.Model.Contracts;
+using Antara.Model.Contracts.Services;
 using Antara.Repository.Dapper;
 using Antara.Repository.Repositories;
 using Antara.Service;

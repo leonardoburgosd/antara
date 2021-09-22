@@ -1,4 +1,5 @@
 ﻿using Antara.Model.Contracts;
+using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
 using System;
 using System.Collections.Generic;

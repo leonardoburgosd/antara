@@ -40,20 +40,6 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Usuario> Login(string usuario, string password)
-        {
-            try
-            {
-                Usuario user = await usuarioRepo.Login(usuario, password);
-                if (user == null)
-                    throw new ApplicationException("Usuario o password incorrectos");
-                return user;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
 
         /*
         public async Task<Boolean> DeleteUsuario(long id)

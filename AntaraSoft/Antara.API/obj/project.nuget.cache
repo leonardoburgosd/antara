@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xCIg5NymfnQFOIXEkwOOpMjXc80lSf/sFIHWMPzq/s8hm8nRTmYt1FCs8hqpGMaaVmT7qmaM3IdXB72lrPwq9Q==",
+  "dgSpecHash": "z/btZWHL1IBgKu8O7imL0qa2c2Dp3NUBhc9Ky8ZoOPfj9oSYma5PFmsQ1jYdr4PsbT3agy9UeNaTfjvn4LJjhQ==",
   "success": true,
-  "projectFilePath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
+  "projectFilePath": "D:\\Local\\Documentos\\GitHub\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lbd_2\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
     "C:\\Users\\lbd_2\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.10\\microsoft.aspnetcore.authentication.google.5.0.10.nupkg.sha512",
