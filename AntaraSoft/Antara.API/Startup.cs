@@ -33,6 +33,8 @@ namespace Antara.API
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IUsuarioServices, UsuarioService>();
+            services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
+            services.AddTransient<ILoginService, LoginService>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
