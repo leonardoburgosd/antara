@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment,useState } from "react";
 import "../../design/css/form.css";
 import visibility from "../../design/assets/img/visibility_icon.svg";
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 class Form extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       email: "",
       emailConfirm: "",
@@ -24,7 +24,9 @@ class Form extends Component {
       birthDate: false,
     };
   }
+  
 
+  //#region validations
   visibility = () => {
     const passwordField = document.getElementById("password");
     if (passwordField.type === "password") {
@@ -132,6 +134,17 @@ class Form extends Component {
         birthDate: "",
         gender: "",
       });
+
+      fetch("https://localhost:44392/api/usuario",{
+        method:"",
+        body: JSON.stringify()
+      })
+      .then(response=>response.json())
+      .then((datosRespuesta)=>{
+        console.log(datosRespuesta)
+      })
+      .catch(console.log)
+
     }
   };
 
@@ -152,8 +165,11 @@ class Form extends Component {
       this.validations.birthDate = false;
     }
   };
+  //#endregion
 
   render() {
+   
+
     return (
       <main className="form">
         <form onSubmit={this.handleSubmit}>
@@ -276,7 +292,7 @@ class Form extends Component {
             <Link>Terminos y Condiciones de Uso</Link> de Antara.
           </p>
           <div className="boton-container">
-            <button type="submit" className="button-register">
+            <button type="submit" onchange="registrar()" className="button-register">
               Registrate
             </button>
           </div>

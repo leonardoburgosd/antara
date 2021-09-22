@@ -86,6 +86,15 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
         "type": "package",
         "dependencies": {
@@ -207,6 +216,19 @@
         },
         "runtime": {
           "bin/placeholder/Antara.Repository.dll": {}
+        }
+      },
+      "Antara.Service/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Antara.Model": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Antara.Service.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Antara.Service.dll": {}
         }
       }
     }
@@ -371,6 +393,33 @@
         "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "runtime.native.System.Data.SqlClient.sni/4.7.0": {
@@ -631,35 +680,47 @@
       "type": "project",
       "path": "../Antara.Repository/Antara.Repository.csproj",
       "msbuildProject": "../Antara.Repository/Antara.Repository.csproj"
+    },
+    "Antara.Service/1.0.0": {
+      "type": "project",
+      "path": "../Antara.Service/Antara.Service.csproj",
+      "msbuildProject": "../Antara.Service/Antara.Service.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "Antara.Model >= 1.0.0",
       "Antara.Repository >= 1.0.0",
-      "Microsoft.AspNetCore.Authentication.Google >= 5.0.10"
+      "Antara.Service >= 1.0.0",
+      "Microsoft.AspNetCore.Authentication.Google >= 5.0.10",
+      "Newtonsoft.Json >= 13.0.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Diego\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\lbd_2\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
+      "projectUniqueName": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
       "projectName": "Antara.API",
-      "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
-      "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-      "outputPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.API\\obj\\",
+      "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
+      "packagesPath": "C:\\Users\\lbd_2\\.nuget\\packages\\",
+      "outputPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lbd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -672,11 +733,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
-              "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
+            "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Entity\\Antara.Model.csproj"
             },
-            "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj": {
-              "projectPath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj"
+            "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj"
+            },
+            "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Git\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj"
             }
           }
         }
@@ -694,6 +758,10 @@
           "Microsoft.AspNetCore.Authentication.Google": {
             "target": "Package",
             "version": "[5.0.10, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           }
         },
         "imports": [
@@ -714,7 +782,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -47,16 +47,6 @@ function Explora() {
           <Tarjeta nombre="Salsa"></Tarjeta>
           <Tarjeta nombre="Rock"></Tarjeta>
           <Tarjeta nombre="Rap"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
-          <Tarjeta nombre="Latino"></Tarjeta>
         </div>
       </div>
     </div>

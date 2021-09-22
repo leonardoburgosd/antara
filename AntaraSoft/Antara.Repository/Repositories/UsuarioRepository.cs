@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Antara.Repository.Repositories
 {
-    public class UsuarioRepository : IUsuario
+    public class UsuarioRepository : IUsuarioRepository
     {
         private readonly IDapper dapper;
         private AppSettings settings;
@@ -20,7 +20,7 @@ namespace Antara.Repository.Repositories
             this.dapper = dapper;
             settings = options.Value;
         }
-        public async Task CreateUsuario(Usuario usuario)
+        public async Task<Usuario> CreateUsuario(Usuario usuario)
         {
             try
             {
@@ -34,7 +34,8 @@ namespace Antara.Repository.Repositories
                     @Active = true,
                     @RegistrationDate = DateTime.Now,
                     @Country = usuario.Country
-                }); 
+                });
+                return usuario;
             }
             catch (Exception err)
             {
@@ -42,7 +43,7 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task DeleteUsuario(long id)
+        public async Task<long> DeleteUsuario(long id)
         {
             try
             {
@@ -51,6 +52,7 @@ namespace Antara.Repository.Repositories
                     @Id = id,
                     @Active = false
                 });
+                return id;
             }
             catch (Exception err)
             {
@@ -88,6 +90,23 @@ namespace Antara.Repository.Repositories
             catch (Exception err)
             {
                 throw err;
+            }
+        }
+
+        public async Task<Usuario> Login(string email, string password)
+        {
+            try
+            {
+                Usuario usuario = null;
+                usuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new {
+                    @Email = email,
+                    @Password = password
+                });
+                return usuario;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 

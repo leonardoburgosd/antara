@@ -2,6 +2,7 @@
 using Antara.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,10 @@ namespace Antara.API.Controllers
     [ApiController]
     public class UsuarioController : Controller
     {
-        private readonly IUsuario usuarioRepo;
-        public UsuarioController( IUsuario usuarioRepo)
+        private readonly IUsuarioServices usuarioServices;
+        public UsuarioController(IUsuarioServices usuarioServices)
         {
-            this.usuarioRepo = usuarioRepo;
+            this.usuarioServices = usuarioServices;
         }
 
         // POST /api/usuario
@@ -25,8 +26,8 @@ namespace Antara.API.Controllers
         {
             try
             {
-               await usuarioRepo.CreateUsuario(usuario);
-               return Ok();
+                await usuarioServices.CreateUsuario(usuario);
+                return Ok();
             }
             catch (Exception err)
             {
@@ -34,15 +35,13 @@ namespace Antara.API.Controllers
             }
         }
 
-
         // GET /api/usuario
         [HttpGet]
         public async Task<IEnumerable<Usuario>> GetUsuario()
         {
             try
             {
-                var listaUsuarios = await usuarioRepo.GetUsuario();
-                return listaUsuarios;
+                return await usuarioServices.GetUsuario();
             }
             catch (Exception err)
             {
@@ -56,12 +55,10 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var usuario = await usuarioRepo.GetUsuario(id);
-                if(usuario == null)
-                {
+                Usuario usuario = await usuarioServices.GetUsuario(id);
+                if (usuario == null)
                     return NotFound();
-                }
-                return usuario ;
+                return usuario;
             }
             catch (Exception err)
             {
@@ -75,7 +72,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                await usuarioRepo.UpdateUsuario(usuario);
+                await usuarioServices.UpdateUsuario(usuario);
                 return Ok();
             }
             catch (Exception err)
@@ -90,12 +87,32 @@ namespace Antara.API.Controllers
         {
             try
             {
-                await usuarioRepo.DeleteUsuario(id);
+                await usuarioServices.DeleteUsuario(id);
                 return Ok();
             }
             catch (Exception err)
             {
                 throw err;
+            }
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> Login([FromBody] object autenticacion)
+        {
+            try
+            {
+                dynamic autenticacionConvert = JsonConvert.DeserializeObject(autenticacion.ToString());
+                Usuario user = await usuarioServices.Login((string)autenticacionConvert.email, (string)autenticacionConvert.password);
+                return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
+            }
+            catch(ApplicationException ae)
+            {
+                return  StatusCode(401,Json(new { error= ae.Message}));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

@@ -42,5 +42,21 @@ namespace Antara.Repository.Dapper
                 throw err;
             }
         }
+
+        public async Task<T> QueryWithReturn<T>(string conexionString, string storedProcedure, dynamic parameters = null) where T : class
+        {
+            try
+            {
+                using (IDbConnection connection = new SqlConnection(conexionString))
+                {
+                    var result = await connection.QueryAsync<T>(storedProcedure, param: (object)parameters, commandType: CommandType.StoredProcedure);
+                    return  await Task.Run(() => Enumerable.FirstOrDefault<T>(result)); ;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

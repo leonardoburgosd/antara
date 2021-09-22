@@ -12220,3 +12220,7 @@ body {
 .miniatura {
   border-radius: 100%;
 }
+
+.nav-rigth{
+  width: 300px;
+}

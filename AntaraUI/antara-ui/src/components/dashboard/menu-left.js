@@ -29,15 +29,13 @@ const MenuLeft = () => {
           </div>
         </nav>
       </div>
-      <div className="bg-dark " id="layoutSidenav_content">
-        <main className="color-blanco">
-          <div className="col-12">
-            <div className="container-fluid ">
-              <Container></Container>
-            </div>
+      <main className="bg-dark color-blanco" id="layoutSidenav_content">
+        <div className="col-12">
+          <div className="container-fluid ">
+            <Container></Container>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

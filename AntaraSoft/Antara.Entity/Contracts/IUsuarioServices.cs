@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Antara.Model.Contracts
 {
-    public interface IUsuario
+    public interface IUsuarioServices
     {
-        Task CreateUsuario(Usuario usuario);
+        Task<Boolean> CreateUsuario(Usuario usuario);
         Task<IEnumerable<Usuario>> GetUsuario();
-        Task UpdateUsuario(Usuario usuario);
+        Task<Boolean> UpdateUsuario(Usuario usuario);
         Task<Usuario> GetUsuario(long id);
-        Task DeleteUsuario(long id);
+        Task<Boolean> DeleteUsuario(long id);
+        Task<Usuario> Login(string usuario, string password);
     }
 }

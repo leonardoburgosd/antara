@@ -2,6 +2,7 @@ using Antara.Model;
 using Antara.Model.Contracts;
 using Antara.Repository.Dapper;
 using Antara.Repository.Repositories;
+using Antara.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,8 @@ namespace Antara.API
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
-            services.AddTransient<IUsuario, UsuarioRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IUsuarioServices, UsuarioService>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {

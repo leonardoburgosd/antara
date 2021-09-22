@@ -7,11 +7,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Antara.Entity\Antara.Model.csproj" />
     <ProjectReference Include="..\Antara.Repository\Antara.Repository.csproj" />
+    <ProjectReference Include="..\Antara.Service\Antara.Service.csproj" />
   </ItemGroup>
 
 </Project>
