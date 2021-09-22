@@ -28,31 +28,6 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Boolean> DeleteUsuario(long id)
-        {
-            try
-            {
-                id = await usuarioRepo.DeleteUsuario(id);
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public async Task<IEnumerable<Usuario>> GetUsuario()
-        {
-            try
-            {
-                return await usuarioRepo.GetUsuario();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public async Task<Usuario> GetUsuario(long id)
         {
             try
@@ -69,9 +44,9 @@ namespace Antara.Service
         {
             try
             {
-                Usuario user = await usuarioRepo.Login(usuario,password);
+                Usuario user = await usuarioRepo.Login(usuario, password);
                 if (user == null)
-                     throw new ApplicationException("Usuario o password incorrectos");
+                    throw new ApplicationException("Usuario o password incorrectos");
                 return user;
             }
             catch (Exception e)
@@ -79,6 +54,34 @@ namespace Antara.Service
                 throw e;
             }
         }
+
+        /*
+        public async Task<Boolean> DeleteUsuario(long id)
+        {
+            try
+            {
+                id = await usuarioRepo.DeleteUsuario(id);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        public async Task<IEnumerable<Usuario>> GetUsuario()
+        {
+            try
+            {
+                return await usuarioRepo.GetUsuario();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
 
         public async Task<Boolean> UpdateUsuario(Usuario usuario)
         {
@@ -92,5 +95,6 @@ namespace Antara.Service
                 throw;
             }
         }
+        */
     }
 }

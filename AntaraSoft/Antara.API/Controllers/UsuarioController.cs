@@ -1,5 +1,6 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Entities;
+using Antara.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,14 +11,16 @@ using System.Threading.Tasks;
 
 namespace Antara.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/usuario")]
     [ApiController]
     public class UsuarioController : Controller
     {
-        private readonly IUsuarioServices usuarioServices;
-        public UsuarioController(IUsuarioServices usuarioServices)
+        private readonly IRegistrarUsuarioService registrarUsuarioService;
+        private readonly ILoginService loginService;
+        public UsuarioController(IRegistrarUsuarioService registrarUsuarioService, ILoginService loginService)
         {
-            this.usuarioServices = usuarioServices;
+            this.registrarUsuarioService = registrarUsuarioService;
+            this.loginService = loginService;
         }
 
         // POST /api/usuario
@@ -26,8 +29,8 @@ namespace Antara.API.Controllers
         {
             try
             {
-                await usuarioServices.CreateUsuario(usuario);
-                return Ok();
+                var newUsuario = await registrarUsuarioService.CreateUsuario(usuario);
+                return CreatedAtAction(nameof(GetUsuario), new { id = newUsuario.Id }, newUsuario);
             }
             catch (Exception err)
             {
@@ -35,6 +38,44 @@ namespace Antara.API.Controllers
             }
         }
 
+        // GET /api/usuario/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Usuario>> GetUsuario(long id)
+        {
+            try
+            {
+                Usuario usuario = await registrarUsuarioService.GetUsuario(id);
+                if (usuario == null)
+                    return NotFound();
+                return usuario;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        // POST /api/usuario/login
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> Login([FromBody] object autenticacion)
+        {
+            try
+            {
+                dynamic autenticacionConvert = JsonConvert.DeserializeObject(autenticacion.ToString());
+                Usuario user = await loginService.Login((string)autenticacionConvert.email, (string)autenticacionConvert.password);
+                return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
+            }
+            catch (ApplicationException ae)
+            {
+                return StatusCode(401, Json(new { error = ae.Message }));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /*
         // GET /api/usuario
         [HttpGet]
         public async Task<IEnumerable<Usuario>> GetUsuario()
@@ -49,22 +90,7 @@ namespace Antara.API.Controllers
             }
         }
 
-        // GET /api/usuario/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(long id)
-        {
-            try
-            {
-                Usuario usuario = await usuarioServices.GetUsuario(id);
-                if (usuario == null)
-                    return NotFound();
-                return usuario;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
+        
 
         // PUT /api/usuario
         [HttpPut]
@@ -96,24 +122,6 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<ActionResult> Login([FromBody] object autenticacion)
-        {
-            try
-            {
-                dynamic autenticacionConvert = JsonConvert.DeserializeObject(autenticacion.ToString());
-                Usuario user = await usuarioServices.Login((string)autenticacionConvert.email, (string)autenticacionConvert.password);
-                return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
-            }
-            catch(ApplicationException ae)
-            {
-                return  StatusCode(401,Json(new { error= ae.Message}));
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        */
     }
 }

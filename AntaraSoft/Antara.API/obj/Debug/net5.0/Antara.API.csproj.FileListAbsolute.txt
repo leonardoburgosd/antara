@@ -130,3 +130,7 @@ D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.dll
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.pdb
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.pdb

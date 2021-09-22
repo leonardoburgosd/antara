@@ -20,11 +20,32 @@ namespace Antara.Repository.Repositories
             this.dapper = dapper;
             settings = options.Value;
         }
+
+        public async Task<Boolean> CheckUniqueEmail(string email)
+        {
+            try
+            {
+                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CheckUniqueEmail", new
+                {
+                    @Email = email
+                });
+                if (response == null)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
         public async Task<Usuario> CreateUsuario(Usuario usuario)
         {
             try
             {
-                dynamic response = await dapper.Consultas<dynamic>(settings.ConexionString, "CreateUsuario", new
+                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CreateUsuario", new
                 {
                     @Email = usuario.Email,
                     @Password = usuario.Password,
@@ -35,7 +56,7 @@ namespace Antara.Repository.Repositories
                     @RegistrationDate = DateTime.Now,
                     @Country = usuario.Country
                 });
-                return usuario;
+                return response[0];
             }
             catch (Exception err)
             {
@@ -43,6 +64,46 @@ namespace Antara.Repository.Repositories
             }
         }
 
+        public async Task<Usuario> GetUsuario(long id)
+        {
+            try
+            {
+                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "GetUsuario", new
+                {
+                    @Id = id
+                });
+                if (response == null)
+                {
+                    return null;
+                }
+                return response[0];
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public async Task<Usuario> Login(string email, string password)
+        {
+            try
+            {
+                Usuario usuario = null;
+                usuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new
+                {
+                    @Email = email,
+                    @Password = password
+                });
+                return usuario;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
+        /* DELETE UPDATE GET ALL
         public async Task<long> DeleteUsuario(long id)
         {
             try
@@ -73,43 +134,6 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<Usuario> GetUsuario(long id)
-        {
-            try
-            {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "GetUsuario", new
-                {
-                    @Id = id
-                });
-                if(response == null)
-                {
-                    return null;
-                }
-                return response[0];
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        public async Task<Usuario> Login(string email, string password)
-        {
-            try
-            {
-                Usuario usuario = null;
-                usuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new {
-                    @Email = email,
-                    @Password = password
-                });
-                return usuario;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public async Task UpdateUsuario(Usuario usuario)
         {
             try
@@ -128,5 +152,6 @@ namespace Antara.Repository.Repositories
                 throw err;
             }
         }
+        */
     }
 }
