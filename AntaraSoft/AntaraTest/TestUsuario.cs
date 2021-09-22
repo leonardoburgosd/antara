@@ -18,11 +18,8 @@ namespace AntaraTest
         [TestMethod]
         public async Task TestMethod1Async()
         {
-            Usuario user = new Usuario() {
-                Name=""
-            };
-            await usuarioRepo.CreateUsuario(user);
-            Assert.AreEqual(true,);
+            Usuario user = await usuarioRepo.Login("leburgosdiaz@gmail.com","1234");
+            Assert.AreEqual(false,user);
         }
     }
 }
