@@ -31,7 +31,7 @@ const MenuLeft = () => {
       </div>
       <div className="bg-dark " id="layoutSidenav_content">
         <main className="color-blanco">
-          <div className="col-9 izquierda">
+          <div className="col-12">
             <div className="container-fluid ">
               <Container></Container>
             </div>

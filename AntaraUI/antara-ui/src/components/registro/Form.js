@@ -276,7 +276,7 @@ class Form extends Component {
             <Link>Terminos y Condiciones de Uso</Link> de Antara.
           </p>
           <div className="boton-container">
-            <button type="submit" className="btn">
+            <button type="submit" className="button-register">
               Registrate
             </button>
           </div>

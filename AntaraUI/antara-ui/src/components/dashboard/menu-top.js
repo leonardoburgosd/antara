@@ -20,7 +20,7 @@ const MenuTop = () => {
             />
           </div>
         </li>
-        <li className="nav-item dropdown ">
+        <li className="nav-item dropdown">
           <Link
             className="nav-link dropdown-toggle"
             id="navbarDropdown"

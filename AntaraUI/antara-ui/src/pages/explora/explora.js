@@ -15,15 +15,13 @@ function Explora() {
               alt="Sia"
             />
             <div className="img-overlay">
-              <div className="btn-md texto-negro">
+              <div className="texto-negro">
                 <h1>
                   Ultimos hits de <span>Sia</span>
                 </h1>
               </div>
-              <Link className="btn btn-md" to="/">
-                <span className="texto-ir">
+              <Link className="btn-md" to="/">
                   Ir <i className="fas fa-play"></i>
-                </span>
               </Link>
             </div>
           </div>
@@ -38,6 +36,10 @@ function Explora() {
           <Tarjeta nombre="Rock"></Tarjeta>
           <Tarjeta nombre="Rap"></Tarjeta>
           <Tarjeta nombre="Latino"></Tarjeta>
+          <Tarjeta nombre="Merengue"></Tarjeta>
+          <Tarjeta nombre="Instrumental"></Tarjeta>
+          <Tarjeta nombre="Algo mas
+          "></Tarjeta>
         </div>
         <h1>Explorar todo</h1>
         <div className="row">
