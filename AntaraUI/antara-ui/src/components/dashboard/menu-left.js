@@ -9,8 +9,7 @@ const MenuLeft = () => {
       <div id="layoutSidenav_nav">
         <nav
           className="sb-sidenav accordion sb-sidenav-dark"
-          id="sidenavAccordion"
-        >
+          id="sidenavAccordion">
           <div className="sb-sidenav-menu">
             <div className="nav">
               <div className="sb-sidenav-menu-heading">MENU</div>
@@ -35,11 +34,6 @@ const MenuLeft = () => {
           <div className="col-9 izquierda">
             <div className="container-fluid ">
               <Container></Container>
-            </div>
-          </div>
-          <div className="col-3 izquierda sb-sidenav sb-sidenav-dark">
-            <div className="container-fluid">
-              <MenuRight></MenuRight>
             </div>
           </div>
         </main>

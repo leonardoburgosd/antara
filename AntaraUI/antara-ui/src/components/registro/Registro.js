@@ -6,9 +6,9 @@ import Form from "./Form";
 function Registro() {
   return (
     <div className="registro-bg">
-      <div className="container">
+      <div className="contenedor">
         <Header></Header>
-        <hr className="styled-hr" />
+        <div className="styled-hr" />
         <Form></Form>
       </div>
     </div>

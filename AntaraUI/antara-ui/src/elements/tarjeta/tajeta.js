@@ -15,7 +15,7 @@ function Tarjeta(elemento) {
   ];
   let valor = Math.floor(0 + Math.random() * (7 - 0));
   return (
-    <div className="col-sm-3 mb-3 ">
+    <div className="col-sm-3 mb-3">
       <div className={"card " + colores[valor]}>
         <div classNames="card-body">
           <h5 className="card-title texto-centrado">

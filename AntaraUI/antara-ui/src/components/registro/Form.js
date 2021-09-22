@@ -282,7 +282,7 @@ class Form extends Component {
           </div>
         </form>
         <p>
-          ¿Ya tienes cuenta? <Link>Inicia sesión</Link>.
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>.
         </p>
       </main>
     );

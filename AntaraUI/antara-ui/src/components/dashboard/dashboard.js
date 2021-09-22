@@ -1,7 +1,7 @@
 import React from "react";
-import MenuTop from "./dashboard/menu-top";
-import MenuLeft from "./dashboard/menu-left";
-
+import MenuTop from "./menu-top";
+import MenuLeft from "./menu-left";
+import '../../design/css/styles.css'
 function Dashboard() {
   return (
     <div className="sb-nav-fixed">

@@ -4,7 +4,7 @@ import Registro from "./components/registro/Registro";
 import Home from "./components/home/Home";
 import ErrorPage from "./pages/private-configuration/error-page";
 import PrivateRoute from "./pages/private-configuration/PrivateRoute";
-import Dashboard from "./components/dashboard";
+import Dashboard from "./components/dashboard/dashboard";
 
 function App() {
   return (
