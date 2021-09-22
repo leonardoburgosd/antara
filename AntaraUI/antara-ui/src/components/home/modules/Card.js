@@ -3,7 +3,7 @@ import "../../../design/css/home/card.css";
 import playIcon from "../../../design/assets/img/play_arrow_black_24dp.svg";
 
 function Card(props) {
-  const classes = "card " + props.addClass;
+  const classes = "card card-home " + props.addClass;
   return (
     <div className={classes}>
       <h2>{props.name}</h2>
