@@ -15,7 +15,7 @@ form .label {
   width: 100%;
   font-size: 1rem;
 }
-input:not([type="radio"]) {
+.form input:not([type="radio"]) {
   width: 100%;
   max-width: 600px;
   height: 50px;
@@ -24,17 +24,18 @@ input:not([type="radio"]) {
   border-radius: 10px;
   margin-top: 15px;
   font-size: 1.15rem;
+  font-family: "Quicksand", sans-serif;
 }
-input:not([type="radio"]):focus {
+.form input:not([type="radio"]):focus {
   border: 2px solid hsl(211, 99%, 50%);
   outline: none;
 }
 
-input[type="radio"] {
+.form input[type="radio"] {
   margin: 0 5px;
 }
 
-input[type="password"] {
+.form input[type="password"] {
   padding-right: 35px;
 }
 
@@ -73,6 +74,7 @@ input[type="password"] {
   border-radius: 5px;
   border: none;
   font-weight: 700;
+  font-family: "Quicksand", sans-serif;
   cursor: pointer;
   background-color: rgb(18, 73, 135);
   background-image: linear-gradient(
@@ -89,13 +91,13 @@ input[type="password"] {
   color: #fff;
 }
 
-p {
+.form p {
   text-align: center;
   font-size: 0.8rem;
   margin: 20px 0;
 }
 
-a {
+.form a {
   color: hsl(211, 99%, 50%);
 }
 

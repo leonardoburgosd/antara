@@ -1,4 +1,4 @@
-header {
+.registro-header {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ header {
   letter-spacing: -0.1rem;
 }
 
-header img {
+.registro-header img {
   width: 100%;
   max-width: 300px;
   height: auto;

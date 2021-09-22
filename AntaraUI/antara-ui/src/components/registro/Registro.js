@@ -5,10 +5,12 @@ import Form from "./Form";
 
 function Registro() {
   return (
-    <div className="container">
-      <Header></Header>
-      <hr className="styled-hr" />
-      <Form></Form>
+    <div className="registro-bg">
+      <div className="container">
+        <Header></Header>
+        <hr className="styled-hr" />
+        <Form></Form>
+      </div>
     </div>
   );
 }
