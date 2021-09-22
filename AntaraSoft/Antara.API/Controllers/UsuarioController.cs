@@ -59,12 +59,11 @@ namespace Antara.API.Controllers
         // POST /api/usuario/login
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Login([FromBody] object autenticacion)
+        public async Task<ActionResult> Login([FromBody] Authentication autenticacion)
         {
             try
             {
-                dynamic autenticacionConvert = JsonConvert.DeserializeObject(autenticacion.ToString());
-                Usuario user = await loginService.Login((string)autenticacionConvert.email, (string)autenticacionConvert.password);
+                Usuario user = await loginService.Login(autenticacion.email, autenticacion.password);
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }
             catch (ApplicationException ae)

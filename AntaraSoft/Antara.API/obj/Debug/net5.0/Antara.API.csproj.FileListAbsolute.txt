@@ -173,3 +173,8 @@ D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.
 D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\ref\Antara.API.dll
 D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.pdb
 D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.genruntimeconfig.cache
+D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Microsoft.OpenApi.dll
+D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Local\Documentos\GitHub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.MvcApplicationPartsAssemblyInfo.cs
