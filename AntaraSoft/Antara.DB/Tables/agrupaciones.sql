@@ -1,9 +1,10 @@
 ﻿CREATE TABLE [dbo].[agrupaciones]
 (
-	id BIGINT NOT NULL IDENTITY(1,1),
+    id BIGINT NOT NULL IDENTITY(0,1),
   name VARCHAR(45) NOT NULL,
   description VARCHAR(150) NULL,
   published BIT NOT NULL DEFAULT 0,
+  publicationDate DATE NULL,
   tipos_agrupaciones_id BIGINT NOT NULL,
   usuarios_id BIGINT NOT NULL,
   PRIMARY KEY (id),

@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[audios]
 (
-	id BIGINT NOT NULL IDENTITY(1,1),
+	  id BIGINT NOT NULL IDENTITY(0,1),
   name VARCHAR(45) NOT NULL,
-  registrationDate DATE NOT NULL,
+  registrationDate DATE NOT NULL DEFAULT SYSDATETIME(),
   creationYear INT NULL DEFAULT 0,
   interpreter VARCHAR(45) NOT NULL,
   writer VARCHAR(45) NOT NULL,

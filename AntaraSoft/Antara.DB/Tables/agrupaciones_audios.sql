@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[agrupaciones_audios]
 (
-	agrupaciones_id BIGINT NOT NULL,
+	  agrupaciones_id BIGINT NOT NULL,
   audios_id BIGINT NOT NULL,
   PRIMARY KEY (agrupaciones_id, audios_id),
   CONSTRAINT fk_agrupaciones_has_Audios_agrupaciones1

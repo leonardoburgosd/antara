@@ -59,22 +59,23 @@
     <Folder Include="Stored procedures" />
     <Folder Include="Tables" />
     <Folder Include="Data" />
+    <Folder Include="Stored procedures\usuario" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\usuarios.sql" />
-    <Build Include="Stored procedures\GetUsuario.sql" />
-    <Build Include="Tables\tipos_agrupaciones_1.sql" />
-    <Build Include="Tables\agrupaciones_1.sql" />
-    <Build Include="Tables\generos_1.sql" />
-    <Build Include="Tables\audios_1.sql" />
-    <Build Include="Tables\agrupaciones_audios_1.sql" />
-    <Build Include="Stored procedures\GetActiveUsuarios.sql" />
-    <Build Include="Stored procedures\GetAllUsuarios.sql" />
-    <Build Include="Stored procedures\CreateUsuario.sql" />
-    <Build Include="Stored procedures\UpdateUsuario.sql" />
-    <Build Include="Stored procedures\DeleteUsuario.sql" />
-    <Build Include="Stored procedures\CheckUniqueEmail.sql" />
-    <Build Include="Stored procedures\LoginUsuario.sql" />
+    <Build Include="Tables\tipos_agrupaciones.sql" />
+    <Build Include="Tables\agrupaciones.sql" />
+    <Build Include="Tables\generos.sql" />
+    <Build Include="Tables\audios.sql" />
+    <Build Include="Tables\agrupaciones_audios.sql" />
+    <Build Include="Stored procedures\usuario\Antara_Usuario_Login.sql" />
+    <Build Include="Stored procedures\usuario\CreateUsuario.sql" />
+    <Build Include="Stored procedures\usuario\DeleteUsuario.sql" />
+    <Build Include="Stored procedures\usuario\GetActiveUsuarios.sql" />
+    <Build Include="Stored procedures\usuario\GetAllUsuarios.sql" />
+    <Build Include="Stored procedures\usuario\UpdateUsuario.sql" />
+    <Build Include="Stored procedures\usuario\GetUsuario.sql" />
+    <Build Include="Stored procedures\usuario\CheckUniqueEmail.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Data.sql" />
