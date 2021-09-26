@@ -41,7 +41,7 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Boolean> VerifyEmail(string email)
+        public async Task<Boolean> IsEmailValid(string email)
         {
             try
             {

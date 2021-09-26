@@ -58,9 +58,25 @@
     <Folder Include="Properties" />
     <Folder Include="Stored procedures" />
     <Folder Include="Tables" />
+    <Folder Include="Data" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Stored procedures\Antara_Usuario_Login.sql" />
     <Build Include="Tables\usuarios.sql" />
+    <Build Include="Stored procedures\GetUsuario.sql" />
+    <Build Include="Tables\tipos_agrupaciones_1.sql" />
+    <Build Include="Tables\agrupaciones_1.sql" />
+    <Build Include="Tables\generos_1.sql" />
+    <Build Include="Tables\audios_1.sql" />
+    <Build Include="Tables\agrupaciones_audios_1.sql" />
+    <Build Include="Stored procedures\GetActiveUsuarios.sql" />
+    <Build Include="Stored procedures\GetAllUsuarios.sql" />
+    <Build Include="Stored procedures\CreateUsuario.sql" />
+    <Build Include="Stored procedures\UpdateUsuario.sql" />
+    <Build Include="Stored procedures\DeleteUsuario.sql" />
+    <Build Include="Stored procedures\CheckUniqueEmail.sql" />
+    <Build Include="Stored procedures\LoginUsuario.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Data.sql" />
   </ItemGroup>
 </Project>

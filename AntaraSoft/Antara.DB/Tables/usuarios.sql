@@ -1,6 +1,6 @@
-﻿CREATE TABLE [dbo].[Usuario]
+﻿CREATE TABLE [dbo].[usuarios]
 (
-		id BIGINT NOT NULL IDENTITY(1,1),
+		id BIGINT NOT NULL IDENTITY(0,1),
 	  email VARCHAR(45) NOT NULL UNIQUE,
 	  password VARCHAR(150) NOT NULL,
 	  name VARCHAR(45) NOT NULL,
