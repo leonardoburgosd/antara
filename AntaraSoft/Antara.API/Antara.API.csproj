@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Antara.Entity\Antara.Model.csproj" />
     <ProjectReference Include="..\Antara.Repository\Antara.Repository.csproj" />
+    <ProjectReference Include="..\Antara.Security\Antara.Security.csproj" />
     <ProjectReference Include="..\Antara.Service\Antara.Service.csproj" />
   </ItemGroup>
 

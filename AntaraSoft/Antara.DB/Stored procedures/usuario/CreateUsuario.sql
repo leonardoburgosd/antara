@@ -10,3 +10,7 @@
 AS
 	INSERT INTO usuarios(email,password,name,birthDate,gender,registrationDate,country,active)
 	VALUES(@email,@password,@name,@birthDate,@gender,@registrationDate,@country,@active)
+
+	SELECT id,email,name,birthDate,gender,registrationDate,country,active
+	FROM usuarios
+	where email = @email

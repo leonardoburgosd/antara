@@ -11,7 +11,7 @@ namespace Antara.Model.Contracts
     {
         Task<Usuario> CreateUsuario(Usuario usuario);
         Task<Usuario> GetUsuario(long id);
-        Task<Usuario> Login(string email, string password);
+        Task<Usuario> Login(string email);
         Task<Boolean> CheckUniqueEmail(string email);
         /*
         Task UpdateUsuario(Usuario usuario);

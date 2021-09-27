@@ -1,5 +1,6 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Entities;
+using Antara.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,27 @@ namespace Antara.Service
     public class RegistrarUsuarioService : IRegistrarUsuarioService
     {
         private readonly IUsuarioRepository usuarioRepo;
-        public RegistrarUsuarioService(IUsuarioRepository usuarioRepo)
+        private readonly IEncryptText encryptText;
+        public RegistrarUsuarioService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
             this.usuarioRepo = usuarioRepo;
+            this.encryptText = encryptText;
         }
 
         public async Task<Usuario> CreateUsuario(Usuario usuario)
         {
             try
             {
-                var newUsuario = await usuarioRepo.CreateUsuario(usuario);
-                return newUsuario;
+                usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
+                usuario = await usuarioRepo.CreateUsuario(usuario);
+                return usuario;
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
+
 
         public async Task<Usuario> GetUsuario(long id)
         {

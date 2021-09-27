@@ -14,20 +14,6 @@ namespace Antara.Service
             this.usuarioRepo = usuarioRepo;
         }
 
-        public async Task<Boolean> CreateUsuario(Usuario usuario)
-        {
-            try
-            {
-                usuario = await usuarioRepo.CreateUsuario(usuario);
-                if (usuario.Id != 0) return true;
-                else return false;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public async Task<Usuario> GetUsuario(long id)
         {
             try

@@ -23,14 +23,14 @@
             <div class="col-8 antara-font">
                 <div class="mb-3 row">
                     <label for="exampleInputEmail1" class="form-label ">Correo</label>
-                    <input type="email" class="form-antara" id="exampleInputEmail1" placeholder="Correo" aria-describedby="emailHelp">
+                    <input type="email" class="form-antara" id="exampleInputEmail1" [(ngModel)]="auth.email" placeholder="Correo" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 row">
                     <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                    <input type="password" class="form-antara" placeholder="Contraseña" id="exampleInputPassword1">
+                    <input type="password" class="form-antara" [(ngModel)]="auth.password" placeholder="Contraseña" id="exampleInputPassword1">
                 </div>
                 <div class="mb-3 row">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" (click)="login()">
                         Ingresar
                     </button>
 

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "XOYAN6beHwWMhhiH69FNZNT/BdL8Vx1RygeJE5jRYcpArWk7UBKSSW/vjn2dpOHteImrf/PHvv2d7ho09Usa+w==",
+  "dgSpecHash": "u5JYo4ecuWC2/qp2MA+QbmsTofcUemFQer1R4lBNOTs/vXPd9ul7DZ6kD2v8tXCiZNuYGU659laQ7OH84ROT6Q==",
   "success": true,
   "projectFilePath": "D:\\Local\\Documentos\\Git\\AntaraSoft\\AntaraTest\\AntaraTest.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\lbd_2\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\lbd_2\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\lbd_2\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",

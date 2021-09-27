@@ -9,7 +9,6 @@ namespace Antara.Model.Contracts
 {
     public interface IUsuarioServices
     {
-        Task<Boolean> CreateUsuario(Usuario usuario);
         Task<Usuario> GetUsuario(long id);
         /*
         Task<IEnumerable<Usuario>> GetUsuario();

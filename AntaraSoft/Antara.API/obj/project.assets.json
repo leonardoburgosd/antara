@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "BCrypt.Net-Next/4.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/BCrypt.Net-Next.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/BCrypt.Net-Next.dll": {}
+        }
+      },
       "Dapper/2.0.90": {
         "type": "package",
         "compile": {
@@ -289,11 +298,25 @@
           "bin/placeholder/Antara.Repository.dll": {}
         }
       },
+      "Antara.Security/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "BCrypt.Net-Next": "4.0.2"
+        },
+        "compile": {
+          "bin/placeholder/Antara.Security.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Antara.Security.dll": {}
+        }
+      },
       "Antara.Service/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "Antara.Model": "1.0.0"
+          "Antara.Model": "1.0.0",
+          "Antara.Security": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Antara.Service.dll": {}
@@ -305,6 +328,39 @@
     }
   },
   "libraries": {
+    "BCrypt.Net-Next/4.0.2": {
+      "sha512": "LyNKpIpr4GraRD9+xlTviyxxbZpF6J4xJf7DvraC1mR8PSN/KonGc4rt8C/fjkD3vaEvgA7BcvsbHFCOjgczyQ==",
+      "type": "package",
+      "path": "bcrypt.net-next/4.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bcrypt.net-next.4.0.2.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "lib/net20/BCrypt.Net-Next.dll",
+        "lib/net20/BCrypt.Net-Next.xml",
+        "lib/net35/BCrypt.Net-Next.dll",
+        "lib/net35/BCrypt.Net-Next.xml",
+        "lib/net40/BCrypt.Net-Next.dll",
+        "lib/net40/BCrypt.Net-Next.xml",
+        "lib/net452/BCrypt.Net-Next.dll",
+        "lib/net452/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt.Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt.Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt.Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/net5.0/BCrypt.Net-Next.dll",
+        "lib/net5.0/BCrypt.Net-Next.xml",
+        "lib/netcoreapp3.1/BCrypt.Net-Next.dll",
+        "lib/netcoreapp3.1/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt.Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt.Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml"
+      ]
+    },
     "Dapper/2.0.90": {
       "sha512": "e4YjOLJptnpwHIbP8HxjaYf7So9lhUC43rvvGMEkH4Q4CiVlm4rOxYDo0HyuHlMQKj0U5Ob/nCMm52TUhTaZQg==",
       "type": "package",
@@ -868,6 +924,11 @@
       "path": "../Antara.Repository/Antara.Repository.csproj",
       "msbuildProject": "../Antara.Repository/Antara.Repository.csproj"
     },
+    "Antara.Security/1.0.0": {
+      "type": "project",
+      "path": "../Antara.Security/Antara.Security.csproj",
+      "msbuildProject": "../Antara.Security/Antara.Security.csproj"
+    },
     "Antara.Service/1.0.0": {
       "type": "project",
       "path": "../Antara.Service/Antara.Service.csproj",
@@ -878,6 +939,7 @@
     "net5.0": [
       "Antara.Model >= 1.0.0",
       "Antara.Repository >= 1.0.0",
+      "Antara.Security >= 1.0.0",
       "Antara.Service >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.Google >= 5.0.10",
       "Newtonsoft.Json >= 13.0.1",
@@ -926,6 +988,9 @@
             },
             "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj": {
               "projectPath": "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Repository\\Antara.Repository.csproj"
+            },
+            "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Security\\Antara.Security.csproj": {
+              "projectPath": "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Security\\Antara.Security.csproj"
             },
             "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Service\\Antara.Service.csproj": {
               "projectPath": "D:\\Local\\Documentos\\Git\\AntaraSoft\\Antara.Service\\Antara.Service.csproj"

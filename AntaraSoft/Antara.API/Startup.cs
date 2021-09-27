@@ -3,6 +3,7 @@ using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
 using Antara.Repository.Dapper;
 using Antara.Repository.Repositories;
+using Antara.Security;
 using Antara.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,14 @@ namespace Antara.API
             services.AddTransient<IUsuarioServices, UsuarioService>();
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IEncryptText, EncryptText>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AntaraApi", Version = "v1" });
@@ -68,6 +77,8 @@ namespace Antara.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseEndpoints(endpoints =>
             {

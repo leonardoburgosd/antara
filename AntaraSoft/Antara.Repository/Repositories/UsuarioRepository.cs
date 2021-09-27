@@ -25,7 +25,7 @@ namespace Antara.Repository.Repositories
         {
             try
             {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CheckUniqueEmail", new
+                Usuario response = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "CheckUniqueEmail", new
                 {
                     @Email = email
                 });
@@ -45,7 +45,7 @@ namespace Antara.Repository.Repositories
         {
             try
             {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CreateUsuario", new
+                Usuario nuevoUsuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "CreateUsuario", new
                 {
                     @Email = usuario.Email,
                     @Password = usuario.Password,
@@ -56,7 +56,7 @@ namespace Antara.Repository.Repositories
                     @RegistrationDate = DateTime.Now,
                     @Country = usuario.Country
                 });
-                return response[0];
+                return nuevoUsuario;
             }
             catch (Exception err)
             {
@@ -84,17 +84,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<Usuario> Login(string email, string password)
+        public async Task<Usuario> Login(string email)
         {
             try
             {
-                Usuario usuario = null;
-                usuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new
+                return await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new
                 {
-                    @Email = email,
-                    @Password = password
+                    @Email = email
                 });
-                return usuario;
             }
             catch (Exception e)
             {
