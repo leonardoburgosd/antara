@@ -26,18 +26,18 @@ namespace Antara.API.Controllers
 
         // POST /api/usuario
         [HttpPost]
-        public async Task<ActionResult<dynamic>> CreateUsuarioAsync([FromBody] Usuario usuario)
+        public async Task<ActionResult> CreateUsuarioAsync([FromBody] Usuario usuario)
         {
             try
             {
                 if (registrarUsuarioService.IsEmailValid(usuario.Email).Result)
                 {
-                    usuario = await registrarUsuarioService.CreateUsuario(usuario);
-                    return new { usuario.Name, usuario.Gender, usuario.Email,usuario.Country, usuario.BirthDate };
+                    var newUsuario = await registrarUsuarioService.CreateUsuario(usuario);
+                    return CreatedAtAction(nameof(GetUsuarioAsync), new { id = newUsuario.Id }, newUsuario);
                 }
                 throw new ApplicationException("Este correo electrónico ya esta siendo usado");
             }
-            catch(ApplicationException ae)
+            catch (ApplicationException ae)
             {
                 return StatusCode(409, Json(new { error = ae.Message }));
             }
@@ -47,7 +47,6 @@ namespace Antara.API.Controllers
             }
         }
 
-        // GET /api/usuario/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuarioAsync(long id)
         {

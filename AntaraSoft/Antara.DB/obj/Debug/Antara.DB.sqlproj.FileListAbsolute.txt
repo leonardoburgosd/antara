@@ -1,0 +1,6 @@
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\bin\Debug\Antara.DB.dacpac
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\bin\Debug\Antara.DB.dll
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\bin\Debug\Antara.DB.pdb
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\obj\Debug\Antara.DB.sqlproj.AssemblyReference.cache
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\obj\Debug\Antara.DB.dll
+D:\Local\Documentos\Git\AntaraSoft\Antara.DB\obj\Debug\Antara.DB.pdb
