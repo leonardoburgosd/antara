@@ -60,3 +60,5 @@ D:\Local\Documentos\Git\AntaraSoft\Antara.Service\obj\Debug\net5.0\ref\Antara.Se
 D:\Local\Documentos\Git\AntaraSoft\Antara.Service\obj\Debug\net5.0\Antara.Service.pdb
 D:\Local\Documentos\Git\AntaraSoft\Antara.Service\bin\Debug\net5.0\Antara.Security.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.Service\bin\Debug\net5.0\Antara.Security.pdb
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\bin\Debug\net5.0\Antara.Security.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\bin\Debug\net5.0\Antara.Security.pdb

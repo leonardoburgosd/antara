@@ -20,21 +20,22 @@ namespace Antara.Service
             this.encryptText = encryptText;
         }
 
-        public async Task<Usuario> Login(string usuario, string password)
+        public async Task<Usuario> Login(string email, string password)
         {
             try
             {
-                Usuario user = await usuarioRepo.Login(usuario);
+                Usuario user = await usuarioRepo.Login(email);
                 if (user != null)
                 {
-                    if (encryptText.ComprarHash(password, user.Password)) return user;
-                    else throw new ApplicationException("Usuario o password incorrectos.");
-                }else throw new ApplicationException("Usuario no encontrado.");
+                    if (encryptText.CompararHash(password, user.Password)) return user;
+                    else throw new ArgumentException("Correo electrónico o contraseña incorrectos.");
+                }else throw new ArgumentException("Correo electrónico no encontrado.");
 
             }
             catch (Exception e)
             {
-                throw e;
+                Console.Write(e);
+                throw;
             }
         }
     }

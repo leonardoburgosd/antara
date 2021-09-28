@@ -35,17 +35,16 @@ namespace Antara.API
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-            services.AddTransient<IUsuarioServices, UsuarioService>();
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IEncryptText, EncryptText>();
-
+            /*
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             });
-
+            */
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AntaraApi", Version = "v1" });
@@ -68,7 +67,6 @@ namespace Antara.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AntaraApi v1"));
             }
-            app.UseDeveloperExceptionPage();
             app.UseCors("AllowWebapp");
 
 

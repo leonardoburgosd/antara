@@ -230,3 +230,6 @@ D:\Local\Documentos\Git\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.API\obj\Debug\net5.0\ref\Antara.API.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.pdb
 D:\Local\Documentos\Git\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.genruntimeconfig.cache
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\BCrypt.Net-Next.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Security.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Security.pdb

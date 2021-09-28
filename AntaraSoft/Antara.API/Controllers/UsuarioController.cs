@@ -24,7 +24,7 @@ namespace Antara.API.Controllers
             this.loginService = loginService;
         }
 
-        // POST /api/usuario
+        // url: "localhost:8080/api/usuario"
         [HttpPost]
         public async Task<ActionResult> CreateUsuarioAsync([FromBody] Usuario usuario)
         {
@@ -33,20 +33,21 @@ namespace Antara.API.Controllers
                 if (registrarUsuarioService.IsEmailValid(usuario.Email).Result)
                 {
                     var newUsuario = await registrarUsuarioService.CreateUsuario(usuario);
-                    return CreatedAtAction(nameof(GetUsuarioAsync), new { id = newUsuario.Id }, newUsuario);
+                    return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario);
                 }
-                throw new ApplicationException("Este correo electrónico ya esta siendo usado");
-            }
-            catch (ApplicationException ae)
-            {
-                return StatusCode(409, Json(new { error = ae.Message }));
+                throw new ArgumentException("Este correo electrónico ya esta siendo usado");
             }
             catch (Exception err)
             {
-                throw err;
+                if (err.Message.Contains("Este correo electrónico ya esta siendo usado"))
+                {
+                    return StatusCode(409, Json(new { error = err.Message }));
+                }
+                throw;
             }
         }
 
+        // url: "localhost:8080/api/usuario/{id}"
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuarioAsync(long id)
         {
@@ -57,13 +58,13 @@ namespace Antara.API.Controllers
                     return NotFound();
                 return usuario;
             }
-            catch (Exception err)
+            catch (Exception)
             {
-                throw err;
+                throw;
             }
         }
 
-        // POST /api/usuario/login
+        // url: "localhost:8080/api/usuario/login"
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult> LoginAsync([FromBody] Authentication autenticacion)
@@ -73,62 +74,13 @@ namespace Antara.API.Controllers
                 Usuario user = await loginService.Login(autenticacion.email, autenticacion.password);
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }
-            catch (ApplicationException ae)
-            {
-                return StatusCode(401, Json(new { error = ae.Message }));
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        /*
-        // GET /api/usuario
-        [HttpGet]
-        public async Task<IEnumerable<Usuario>> GetUsuario()
-        {
-            try
-            {
-                return await usuarioServices.GetUsuario();
-            }
             catch (Exception err)
             {
-                throw err;
-            }
-        }
-
-        
-
-        // PUT /api/usuario
-        [HttpPut]
-        public async Task<ActionResult> UpddateUsuario(Usuario usuario)
-        {
-            try
-            {
-                await usuarioServices.UpdateUsuario(usuario);
-                return Ok();
-            }
-            catch (Exception err)
-            {
+                if(err.Message.Contains("Correo electrónico")){
+                    return StatusCode(401, Json(new { error = err.Message }));
+                }
                 throw;
             }
         }
-
-        // DELETE api/usuario/{id}
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUsuario(long id)
-        {
-            try
-            {
-                await usuarioServices.DeleteUsuario(id);
-                return Ok();
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        */
     }
 }

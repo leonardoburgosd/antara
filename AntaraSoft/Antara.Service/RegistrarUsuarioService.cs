@@ -13,6 +13,7 @@ namespace Antara.Service
     {
         private readonly IUsuarioRepository usuarioRepo;
         private readonly IEncryptText encryptText;
+
         public RegistrarUsuarioService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
             this.usuarioRepo = usuarioRepo;
@@ -27,9 +28,10 @@ namespace Antara.Service
                 usuario = await usuarioRepo.CreateUsuario(usuario);
                 return usuario;
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                throw e;
+                Console.Write(err);
+                throw;
             }
         }
 
@@ -40,9 +42,10 @@ namespace Antara.Service
             {
                 return await usuarioRepo.GetUsuario(id);
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                throw e;
+                Console.Write(err);
+                throw;
             }
         }
 
@@ -52,9 +55,10 @@ namespace Antara.Service
             {
                 return await usuarioRepo.CheckUniqueEmail(email);
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                throw e;
+                Console.Write(err);
+                throw;
             }
         }
     }
