@@ -102,3 +102,7 @@
 .fa-rojo{
     color: #b80707;
 }
+.message-error{
+    font-size: .875em;
+    color: #dc3545;
+}

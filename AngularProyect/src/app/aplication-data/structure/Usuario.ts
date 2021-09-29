@@ -4,4 +4,5 @@ export class Usuario{
     birthDate:Date | undefined;
     gender:string | undefined;
     country:string | undefined;
+    password:string | undefined;
 }
