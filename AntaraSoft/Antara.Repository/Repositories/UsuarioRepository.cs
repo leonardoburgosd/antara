@@ -23,6 +23,11 @@ namespace Antara.Repository.Repositories
         {
             try
             {
+                if(email == null)
+                {
+                    throw new ArgumentNullException("No se proporciono ningún " + nameof(email));
+                }
+
                 Usuario response = await dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
                 {
                     @Email = email
@@ -32,6 +37,7 @@ namespace Antara.Repository.Repositories
                     return true;
                 }
                 return false;
+
             }
             catch (Exception err)
             {
@@ -64,18 +70,39 @@ namespace Antara.Repository.Repositories
             }
         }
 
+        public async Task PhysicalDeleteUsuario(long id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    throw new ArgumentNullException("No se proporciono ningún " + nameof(id));
+                }
+                var response = await dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
+                {
+                    @Id = id
+                });
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+
         public async Task<Usuario> GetUsuario(long id)
         {
             try
             {
+                if(id == 0)
+                {
+                    throw new ArgumentNullException("No se proporciono ningún " + nameof(id));
+                }
                 var response = await dapper.QueryWithReturn<Usuario>("GetUsuario", new
                 {
                     @Id = id
                 });
-                if (response == null)
-                {
-                    return null;
-                }
+
                 return response;
             }
             catch (Exception err)
@@ -89,6 +116,10 @@ namespace Antara.Repository.Repositories
         {
             try
             {
+                if (email == null)
+                {
+                    throw new ArgumentNullException("No se proporciono ningún " + nameof(email));
+                }
                 return await dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
                 {
                     @Email = email

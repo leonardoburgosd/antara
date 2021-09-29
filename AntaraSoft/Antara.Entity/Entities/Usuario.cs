@@ -11,7 +11,7 @@ namespace Antara.Model.Entities
     {
         public long Id { get; set; }
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
-        [EmailAddress(ErrorMessage = "Correo electrónico no cumple con el formato")]
+        [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Ingrese una contraseña")]

@@ -103,7 +103,7 @@
     <Property Name="sonar.updatecenter.url">https://update.sonarsource.org/update-center.properties</Property>
     <Property Name="sonar.core.id">BF41A1F2-AXobz82ICou2SMmPFqwM</Property>
     <Property Name="sonar.junit.reportPaths">D:/UPN/CALIDAD/nominasoft _v2/target/surefire-reports/TEST-com.calidad.nominasoft.ContratoTest.xml</Property>
-    <Property Name="sonar.core.startTime">27/09/2021 17:15:12</Property>
+    <Property Name="sonar.core.startTime">28/09/2021 16:15:58</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://localhost:9000</Property>

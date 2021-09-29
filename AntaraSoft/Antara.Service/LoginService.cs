@@ -27,10 +27,13 @@ namespace Antara.Service
                 Usuario user = await usuarioRepo.Login(email);
                 if (user != null)
                 {
-                    if (encryptText.CompararHash(password, user.Password)) return user;
-                    else throw new ArgumentException("Correo electrónico o contraseña incorrectos.");
-                }else throw new ArgumentException("Correo electrónico no encontrado.");
-
+                    bool pass = encryptText.CompararHash(password, user.Password);
+                    if (pass)
+                    {
+                        return usuarioRepo.GetUsuario(user.Id).Result;
+                    }
+                }
+                return null;
             }
             catch (Exception e)
             {

@@ -39,11 +39,12 @@ namespace Antara.API.Controllers
             }
             catch (Exception err)
             {
-                if (err.Message.Contains("Este correo electrónico ya esta siendo usado"))
+                if (err.Message.Contains("Este correo electrónico ya esta siendo usado")
+                    || err.Message.Contains("No se pudo crear el usuario"))
                 {
                     return StatusCode(409, Json(new { error = err.Message }));
                 }
-                throw;
+                else return StatusCode(500, err);
             }
         }
 
@@ -56,11 +57,11 @@ namespace Antara.API.Controllers
                 Usuario usuario = await registrarUsuarioService.GetUsuario(id);
                 if (usuario == null)
                     return NotFound();
-                return usuario;
+                return StatusCode(200, usuario);
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                return StatusCode(500, err);
             }
         }
 

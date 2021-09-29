@@ -13,6 +13,7 @@ namespace Antara.Model.Contracts
         Task<Usuario> GetUsuario(long id);
         Task<Usuario> Login(string email);
         Task<Boolean> CheckUniqueEmail(string email);
+        Task PhysicalDeleteUsuario(long id);
 
     }
 }
