@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Data.SqlClient;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace AntaraTest
@@ -18,7 +17,9 @@ namespace AntaraTest
 
         [TestMethod]
         [DataRow("testCreate@correo.com", 0)]
+        [DataRow("testLogin@correo.com", 1)]
         [DataRow(null, 1)]
+        [DataRow("testCreate@correo.com", 2)]
         public void CreateUsuarioTest(string email, int caso)
         {
             Usuario esperado = new(email, "test123", "Test", new(1999, 12, 31), 'M', "Peru");
@@ -33,31 +34,40 @@ namespace AntaraTest
             mockEncrypter.Setup(x => x.GeneratePasswordHash(esperado.Password)).Returns(BCryptNet.HashPassword(esperado.Password));
             var servicio = new RegistrarUsuarioService(usuarioRepo,mockEncrypter.Object);
 
-            if(caso == 0)
+            switch (caso)
             {
-                var actual = servicio.CreateUsuario(esperado).Result;
-                if (actual != null)
-                {
-                    Assert.IsNotNull(actual.Id);
-                    Assert.AreEqual(esperado.Email, actual.Email);
-                    Assert.IsTrue(BCryptNet.Verify(password, actual.Password));
-                    Assert.AreEqual(esperado.Name, actual.Name);
-                    Assert.AreEqual(esperado.BirthDate, actual.BirthDate);
-                    Assert.AreEqual(esperado.Gender, actual.Gender);
-                    Assert.IsNotNull(actual.RegistrationDate);
-                    Assert.IsTrue(actual.Active);
-                    Assert.AreEqual(esperado.Country, actual.Country);
-
-                    usuarioRepo.PhysicalDeleteUsuario(actual.Id).Wait();
-                }
-            }
-            else{
-                Assert.ThrowsException<AggregateException>(() =>
-                {
+                case 0:
                     var actual = servicio.CreateUsuario(esperado).Result;
-                });
-            
-            }
+                    if (actual != null)
+                    {
+                        Assert.IsNotNull(actual.Id);
+                        Assert.AreEqual(esperado.Email, actual.Email);
+                        Assert.IsTrue(BCryptNet.Verify(password, actual.Password));
+                        Assert.AreEqual(esperado.Name, actual.Name);
+                        Assert.AreEqual(esperado.BirthDate, actual.BirthDate);
+                        Assert.AreEqual(esperado.Gender, actual.Gender);
+                        Assert.IsNotNull(actual.RegistrationDate);
+                        Assert.IsTrue(actual.Active);
+                        Assert.AreEqual(esperado.Country, actual.Country);
+
+                        usuarioRepo.PhysicalDeleteUsuario(actual.Id).Wait();
+                    }
+                    break;
+
+                case 1:
+                    Assert.ThrowsException<AggregateException>(() =>
+                    {
+                        var actual = servicio.CreateUsuario(esperado).Result;
+                    });
+                    break;
+                case 2:
+                    esperado.Name = null;
+                    Assert.ThrowsException<AggregateException>(() =>
+                    {
+                        var actual = servicio.CreateUsuario(esperado).Result;
+                    });
+                    break;
+            }   
         }
 
         [TestMethod]
@@ -99,7 +109,7 @@ namespace AntaraTest
                 });
             }
         }
-
+        /*
         [TestMethod]
         [DataRow("testEmail@correo.com", false)]
         [DataRow("testEmail1@correo.com", true)]
@@ -134,5 +144,6 @@ namespace AntaraTest
                 });
             }
         }
+        */
     }
 }

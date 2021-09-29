@@ -23,7 +23,7 @@ VD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\AppSett
 ;/ 0
 }1 2
 } 
-} ®
+} ²	
 rD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contracts\Repository\IUsuarioRepository.cs
 	namespace 	
 Antara
@@ -84,9 +84,16 @@ GetUsuario  
 string' -
 email. 3
 )3 4
-;4 5
-} 
-} æ
+;4 5
+Task !
+PhysicalDeleteUsuario "
+(" #
+long# '
+id( *
+)* +
+;+ ,
+} 
+} æ
 kD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contracts\Services\ILoginService.cs
 	namespace 	
 Antara
@@ -176,7 +183,7 @@ GetUsuario  
 )/ 0
 ;0 1
 } 
-} ’
+} î
 ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Audios.cs
 	namespace 	
 Antara
@@ -232,81 +239,130 @@ ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entitie
 ;  !
 set" %
 ;% &
-}' (
-public 
-DateTime 
-RegistrationDate (
-{) *
-get+ .
-;. /
-set0 3
-;3 4
-}5 6
-public 
-int 
-CreationYear 
-{  !
-get" %
-;% &
-set' *
-;* +
-}, -
-public 
-string 
-Interpreter !
-{" #
-get$ '
-;' (
-set) ,
-;, -
-}. /
-public 
-string 
-Writer 
-{ 
-get "
-;" #
-set$ '
-;' (
-}) *
-public 
-string 
-Producer 
-{  
-get! $
-;$ %
-set& )
-;) *
-}+ ,
-public 
-int 
-Reproductions  
-{! "
-get# &
-;& '
-set( +
-;+ ,
-}- .
-public 
-long 
-	Genero_id 
-{ 
-get  #
-;# $
-set% (
-;( )
-}* +
+}' (
+[ 	
+Required	 
+] 
+public 
+DateTime 
+RegistrationDate (
+{) *
+get+ .
+;. /
+set0 3
+;3 4
+}5 6
+[ 	
+Range	 
+( 
+$num 
+, 
+$num 
+) 
+] 
+public 
+int 
+CreationYear 
+{  !
+get" %
+;% &
+set' *
+;* +
+}, -
+[ 	
+Required	 
+] 
+[ 	
+StringLength	 
+( 
+$num 
+, 
+ErrorMessage &
+=' (
+$str) J
+)J K
+]K L
+public 
+string 
+Interpreter !
+{" #
+get$ '
+;' (
+set) ,
+;, -
+}. /
 public 
-string 
-Url 
-{ 
-get 
-;  
-set! $
-;$ %
-}& '
-} 
-} Þ
+string 
+Writer 
+{ 
+get "
+;" #
+set$ '
+;' (
+}) *
+public 
+string 
+Producer 
+{  
+get! $
+;$ %
+set& )
+;) *
+}+ ,
+public 
+int 
+Reproductions  
+{! "
+get# &
+;& '
+set( +
+;+ ,
+}- .
+[ 	
+Required	 
+] 
+public 
+Genero 
+Genero 
+{ 
+get "
+;" #
+set$ '
+;' (
+}) *
+[ 	
+Required	 
+] 
+[ 	
+StringLength	 
+( 
+$num 
+) 
+] 
+public 
+string 
+Url 
+{ 
+get 
+;  
+set! $
+;$ %
+}& '
+public   
+void    
+AumentarReproduccion   (
+(  ( )
+)  ) *
+{!! 	
+this"" 
+."" 
+Reproductions"" 
++="" !
+$num""" #
+;""# $
+}## 	
+}$$ 
+}%% Þ
 bD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Authentication.cs
 	namespace 	
 Antara
@@ -394,7 +450,52 @@ bD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entitie
 ;) *
 }+ ,
 } 
-} ó
+} ƒ
+ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Genero.cs
+	namespace 	
+Antara
+ 
+. 
+Model 
+. 
+Entities 
+{ 
+public		 
+
+class		 
+Genero		 
+{
+
+ 
+public 
+long 
+Id 
+{ 
+get 
+; 
+set !
+;! "
+}# $
+public 
+string 
+Type 
+{ 
+get  
+;  !
+set" %
+;% &
+}' (
+public 
+long 
+Parent 
+{ 
+get  
+;  !
+set" %
+;% &
+}' (
+} 
+} ž 
 [D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Usuario.cs
 	namespace 	
 Antara
@@ -432,14 +533,18 @@ bD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entitie
 $str! @
 )@ A
 ]A B
-[ 	
-EmailAddress	 
-( 
-ErrorMessage "
-=# $
-$str% R
-)R S
-]S T
+[ 	
+RegularExpression	 
+( 
+$str b
+,b c
+ErrorMessaged p
+=q r
+$str	s  
+)
+  ¡
+]
+¡ ¢
 [ 	
 StringLength	 
 ( 

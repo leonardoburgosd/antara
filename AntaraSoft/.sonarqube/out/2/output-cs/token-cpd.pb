@@ -1,4 +1,4 @@
-Ð
+ï
 XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs
 	namespace 	
 Antara
@@ -80,60 +80,64 @@ XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginS
 != 
 null  
 )  !
-{ 
-if 
-( 
-encryptText #
-.# $
-CompararHash$ 0
-(0 1
-password1 9
-,9 :
-user; ?
-.? @
-Password@ H
-)H I
-)I J
-returnK Q
-userR V
-;V W
-else 
-throw 
-new "
-ArgumentException# 4
-(4 5
-$str5 c
-)c d
-;d e
-}   
-else   
-throw   
-new   
-ArgumentException    1
-(  1 2
-$str  2 U
-)  U V
-;  V W
-}"" 
-catch## 
-(## 
-	Exception## 
-e## 
-)## 
-{$$ 
-Console%% 
-.%% 
-Write%% 
-(%% 
-e%% 
-)%%  
-;%%  !
-throw&& 
-;&& 
-}'' 
-}(( 	
-})) 
-}** Ë
+{ 
+bool 
+pass 
+= 
+encryptText  +
+.+ ,
+CompararHash, 8
+(8 9
+password9 A
+,A B
+userC G
+.G H
+PasswordH P
+)P Q
+;Q R
+if 
+( 
+pass 
+) 
+{   
+return!! 
+usuarioRepo!! *
+.!!* +
+
+GetUsuario!!+ 5
+(!!5 6
+user!!6 :
+.!!: ;
+Id!!; =
+)!!= >
+.!!> ?
+Result!!? E
+;!!E F
+}"" 
+}## 
+return$$ 
+null$$ 
+;$$ 
+}%% 
+catch&& 
+(&& 
+	Exception&& 
+e&& 
+)&& 
+{'' 
+Console(( 
+.(( 
+Write(( 
+((( 
+e(( 
+)((  
+;((  !
+throw)) 
+;)) 
+}** 
+}++ 	
+},, 
+}-- Ë
 cD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\RegistrarUsuarioService.cs
 	namespace
 

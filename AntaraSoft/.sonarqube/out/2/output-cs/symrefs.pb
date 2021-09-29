@@ -1,9 +1,9 @@
-Ö
+ö
 XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs
 
- 
-, 7 % 0
-& 1  #
+ (
+, 7 % 0!! *
+& 1   +
 
  
 / : *
@@ -11,9 +11,10 @@ XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginS
 
 # (
 0 57 <
-> F1 9(
-  ; ?R V
-## %% Í
+> F9 A(
+  C G!!6 :
+  
+&& (( Í
 cD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\RegistrarUsuarioService.cs
 
  (2

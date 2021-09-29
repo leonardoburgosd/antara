@@ -24,9 +24,12 @@ namespace Antara.Service
         {
             try
             {
-                usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
-                usuario = await usuarioRepo.CreateUsuario(usuario);
-                return usuario;
+                if(IsEmailValid(usuario.Email).Result)
+                {
+                    usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
+                    return await usuarioRepo.CreateUsuario(usuario);
+                }
+                throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
             }
             catch (Exception err)
             {
@@ -34,7 +37,6 @@ namespace Antara.Service
                 throw;
             }
         }
-
 
         public async Task<Usuario> GetUsuario(long id)
         {
@@ -49,7 +51,7 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Boolean> IsEmailValid(string email)
+        private async Task<Boolean> IsEmailValid(string email)
         {
             try
             {

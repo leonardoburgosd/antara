@@ -19,31 +19,34 @@ namespace Antara.Repository.Repositories
             this.dapper = dapper;
         }
 
-        public async Task<Boolean> CheckUniqueEmail(string email)
+        public Task<Boolean> CheckUniqueEmail(string email)
         {
             try
             {
                 if(email == null)
                 {
-                    throw new ArgumentNullException("No se proporciono ningún " + nameof(email));
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
                 }
-
-                Usuario response = await dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
-                {
-                    @Email = email
-                });
-                if (response == null)
-                {
-                    return true;
-                }
-                return false;
-
+                return CheckUniqueEmailInner(email);
             }
             catch (Exception err)
             {
                 Console.Write(err);
                 throw;
             }
+        }
+
+        private async Task<Boolean> CheckUniqueEmailInner(string email)
+        {
+            Usuario response = await dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
+            {
+                @Email = email
+            });
+            if (response == null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<Usuario> CreateUsuario(Usuario usuario)
@@ -70,18 +73,15 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task PhysicalDeleteUsuario(long id)
+        public Task PhysicalDeleteUsuario(long id)
         {
             try
             {
                 if (id == 0)
                 {
-                    throw new ArgumentNullException("No se proporciono ningún " + nameof(id));
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
                 }
-                var response = await dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
-                {
-                    @Id = id
-                });
+                return PhysicalDeleteUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -90,20 +90,23 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<Usuario> GetUsuario(long id)
+        private async Task PhysicalDeleteUsuarioInner(long id)
+        {
+            await dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
+            {
+                @Id = id
+            });
+        }
+
+        public Task<Usuario> GetUsuario(long id)
         {
             try
             {
                 if(id == 0)
                 {
-                    throw new ArgumentNullException("No se proporciono ningún " + nameof(id));
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
                 }
-                var response = await dapper.QueryWithReturn<Usuario>("GetUsuario", new
-                {
-                    @Id = id
-                });
-
-                return response;
+                return GetUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -112,24 +115,37 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<Usuario> Login(string email)
+        private async Task<Usuario> GetUsuarioInner(long id)
+        {
+            return await dapper.QueryWithReturn<Usuario>("GetUsuario", new
+            {
+                @Id = id
+            });
+        }
+
+        public Task<Usuario> Login(string email)
         {
             try
             {
                 if (email == null)
                 {
-                    throw new ArgumentNullException("No se proporciono ningún " + nameof(email));
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
                 }
-                return await dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
-                {
-                    @Email = email
-                });
+                return LoginInner(email);
             }
             catch (Exception err)
             {
                 Console.Write(err);
                 throw;
             }
+        }
+
+        private async Task<Usuario> LoginInner(string email)
+        {
+            return await dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
+            {
+                @Email = email
+            });
         }
     }
 }

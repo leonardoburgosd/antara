@@ -3,7 +3,7 @@ VD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\AppSett
 
 		 
 
- $‡
+ $¯
 rD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contracts\Repository\IUsuarioRepository.cs
 
 
@@ -24,7 +24,11 @@ rD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contrac
 
  &
 
-. 3ù
+. 3
+
+ "
+
+( *ù
 kD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contracts\Services\ILoginService.cs
 
 
@@ -52,7 +56,7 @@ vD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Contrac
 
  "
 
-* /‡
+* /ˆ
 ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Audios.cs
 
 
@@ -63,21 +67,22 @@ ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entitie
 
  
 
- (
+ (
 
- 
+ 
 
- !
+ !
 
- 
+ 
 
- 
+ 
+  "" 
 
-  
+ 
 
- 
+ 
 
- à
+   (à
 bD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Authentication.cs
 
 
@@ -86,7 +91,16 @@ bD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entitie
 
  
 
- ≠
+ å
+ZD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Genero.cs
+
+		 
+
+ 
+
+ 
+
+ ≠
 [D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Entity\Entities\Usuario.cs
 
 

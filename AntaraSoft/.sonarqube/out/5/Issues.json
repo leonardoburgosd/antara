@@ -31,27 +31,6 @@
           "properties": {
             "warningLevel": 1
           }
-        },
-        {
-          "ruleId": "S2737",
-          "level": "warning",
-          "message": "Add logic to this catch clause or eliminate it and rethrow the exception automatically.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/UsuarioController.cs",
-                "region": {
-                  "startLine": 61,
-                  "startColumn": 13,
-                  "endLine": 64,
-                  "endColumn": 14
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
         }
       ],
       "rules": {
@@ -69,22 +48,6 @@
               "SonarWay",
               "MainSourceScope",
               "TestSourceScope"
-            ]
-          }
-        },
-        "S2737": {
-          "id": "S2737",
-          "shortDescription": "\"catch\" clauses should do more than rethrow",
-          "fullDescription": "A catch clause that only rethrows the caught exception has the same effect as omitting the catch altogether and letting it bubble up automatically, but with more code and the additional detriment of leaving maintainers scratching their heads. ",
-          "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2737",
-          "properties": {
-            "category": "Minor Code Smell",
-            "isEnabledByDefault": true,
-            "tags": [
-              "C#",
-              "SonarWay",
-              "MainSourceScope"
             ]
           }
         }

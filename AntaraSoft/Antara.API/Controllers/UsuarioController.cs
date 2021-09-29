@@ -1,13 +1,8 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
-using Antara.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Antara.API.Controllers
@@ -16,12 +11,12 @@ namespace Antara.API.Controllers
     [ApiController]
     public class UsuarioController : Controller
     {
-        private readonly IRegistrarUsuarioService registrarUsuarioService;
-        private readonly ILoginService loginService;
+        private readonly IRegistrarUsuarioService _registrarUsuarioService;
+        private readonly ILoginService _loginService;
         public UsuarioController(IRegistrarUsuarioService registrarUsuarioService, ILoginService loginService)
         {
-            this.registrarUsuarioService = registrarUsuarioService;
-            this.loginService = loginService;
+            _registrarUsuarioService = registrarUsuarioService;
+            _loginService = loginService;
         }
 
         // url: "localhost:8080/api/usuario"
@@ -30,12 +25,8 @@ namespace Antara.API.Controllers
         {
             try
             {
-                if (registrarUsuarioService.IsEmailValid(usuario.Email).Result)
-                {
-                    var newUsuario = await registrarUsuarioService.CreateUsuario(usuario);
-                    return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario);
-                }
-                throw new ArgumentException("Este correo electrónico ya esta siendo usado");
+                var newUsuario = await _registrarUsuarioService.CreateUsuario(usuario);
+                return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario);
             }
             catch (Exception err)
             {
@@ -54,7 +45,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                Usuario usuario = await registrarUsuarioService.GetUsuario(id);
+                Usuario usuario = await _registrarUsuarioService.GetUsuario(id);
                 if (usuario == null)
                     return NotFound();
                 return StatusCode(200, usuario);
@@ -72,7 +63,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                Usuario user = await loginService.Login(autenticacion.email, autenticacion.password);
+                Usuario user = await _loginService.Login(autenticacion.email, autenticacion.password);
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }
             catch (Exception err)
