@@ -1,0 +1,8 @@
+.btn-playlist{
+    background: #1d242e;
+    color: #2169b6;
+}
+.btn-playlist:hover{
+    color: #1d242e;
+    background: #2169b6;
+}

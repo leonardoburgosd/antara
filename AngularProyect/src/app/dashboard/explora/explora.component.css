@@ -1,0 +1,9 @@
+.card-publicidad{
+    background: #ff5c39;
+    padding: 30px;
+    border-radius: 10px;
+    background-image: url("../../../assets/images/logo_small_icon_only.png");
+    background-repeat: no-repeat;
+    background-size: 8%;
+    background-position: bottom right;
+}

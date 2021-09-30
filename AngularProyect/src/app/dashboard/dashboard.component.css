@@ -1,15 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
-
+*{
+  --heigh-nav:56px;
+}
 .menu-color{
   background: #1d242e;
-  height: 91.5vh;
-  
+  height: calc(100vh - var(--heigh-nav));
+  overflow: auto;
 }
 
 .contenido-color{
   background: #15181f;
-  height:  91.5vh;
-  
+  height: calc(100vh - var(--heigh-nav));
+  overflow: auto;
 }
 
 .contenido-claro{
