@@ -1,11 +1,8 @@
-.card-album{
-    background: #232c38;
-}
-.ir-album{
-    text-decoration: none;
-    font-size: 20px;
-    color: #fff;
-}
-.artist-antara{
-    font-size: 15px;
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
 }
