@@ -14,38 +14,46 @@ namespace Antara.Repository.Repositories
     public class UsuarioRepository : IUsuarioRepository
     {
         private readonly IDapper dapper;
-        private AppSettings settings;
-        public UsuarioRepository(IDapper dapper, IOptions<AppSettings> options)
+        public UsuarioRepository(IDapper dapper)
         {
             this.dapper = dapper;
-            settings = options.Value;
         }
 
-        public async Task<Boolean> CheckUniqueEmail(string email)
+        public Task<Boolean> CheckUniqueEmail(string email)
         {
             try
             {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CheckUniqueEmail", new
+                if(email == null)
                 {
-                    @Email = email
-                });
-                if (response == null)
-                {
-                    return true;
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
                 }
-                return false;
+                return CheckUniqueEmailInner(email);
             }
             catch (Exception err)
             {
-                throw err;
+                Console.Write(err);
+                throw;
             }
+        }
+
+        private async Task<Boolean> CheckUniqueEmailInner(string email)
+        {
+            Usuario response = await dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
+            {
+                @Email = email
+            });
+            if (response == null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<Usuario> CreateUsuario(Usuario usuario)
         {
             try
             {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "CreateUsuario", new
+                Usuario nuevoUsuario = await dapper.QueryWithReturn<Usuario>("CreateUsuario", new
                 {
                     @Email = usuario.Email,
                     @Password = usuario.Password,
@@ -56,102 +64,88 @@ namespace Antara.Repository.Repositories
                     @RegistrationDate = DateTime.Now,
                     @Country = usuario.Country
                 });
-                return response[0];
+                return nuevoUsuario;
             }
             catch (Exception err)
             {
-                throw err;
+                Console.Write(err);
+                throw;
             }
         }
 
-        public async Task<Usuario> GetUsuario(long id)
+        public Task PhysicalDeleteUsuario(long id)
         {
             try
             {
-                var response = await dapper.Consultas<Usuario>(settings.ConexionString, "GetUsuario", new
+                if (id == 0)
                 {
-                    @Id = id
-                });
-                if (response == null)
-                {
-                    return null;
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
                 }
-                return response[0];
+                return PhysicalDeleteUsuarioInner(id);
             }
             catch (Exception err)
             {
-                throw err;
+                Console.Write(err);
+                throw;
             }
         }
 
-        public async Task<Usuario> Login(string email, string password)
+        private async Task PhysicalDeleteUsuarioInner(long id)
+        {
+            await dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
+            {
+                @Id = id
+            });
+        }
+
+        public Task<Usuario> GetUsuario(long id)
         {
             try
             {
-                Usuario usuario = null;
-                usuario = await dapper.QueryWithReturn<Usuario>(settings.ConexionString, "Antara_Usuario_Login", new
+                if(id == 0)
                 {
-                    @Email = email,
-                    @Password = password
-                });
-                return usuario;
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return GetUsuarioInner(id);
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                throw e;
+                Console.Write(err);
+                throw;
             }
         }
 
-        
-        /* DELETE UPDATE GET ALL
-        public async Task<long> DeleteUsuario(long id)
+        private async Task<Usuario> GetUsuarioInner(long id)
+        {
+            return await dapper.QueryWithReturn<Usuario>("GetUsuario", new
+            {
+                @Id = id
+            });
+        }
+
+        public Task<Usuario> Login(string email)
         {
             try
             {
-                dynamic response = await dapper.Consultas<dynamic>(settings.ConexionString, "DeleteUsuario", new
+                if (email == null)
                 {
-                    @Id = id,
-                    @Active = false
-                });
-                return id;
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
+                }
+                return LoginInner(email);
             }
             catch (Exception err)
             {
-                throw err;
+                Console.Write(err);
+                throw;
             }
         }
 
-        public async Task<IEnumerable<Usuario>> GetUsuario()
+        private async Task<Usuario> LoginInner(string email)
         {
-            try
+            return await dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
             {
-                IEnumerable<Usuario> response = await dapper.Consultas<Usuario>(settings.ConexionString, "GetActiveUsuarios");
-                return response;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
+                @Email = email
+            });
         }
-
-        public async Task UpdateUsuario(Usuario usuario)
-        {
-            try
-            {
-                dynamic response = await dapper.Consultas<dynamic>(settings.ConexionString, "UpdateUsuario", new
-                {
-                    @Id = usuario.Id,
-                    @Name = usuario.Name,
-                    @BirthDate = usuario.BirthDate,
-                    @Gender = usuario.Gender,
-                    @Country = usuario.Country
-                });
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-        */
     }
 }

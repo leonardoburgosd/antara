@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "gPl/zjXBB0i2BIjzkF8B2vEWCazMHYI8K4Ceystm/zhTwfnkl0ddW8B8HOTfsnmKAtLAC1LYIm9eyQQcl5wtPw==",
+  "success": true,
+  "projectFilePath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Security\\Antara.Security.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Diego\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

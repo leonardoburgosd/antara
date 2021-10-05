@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{611dced5-4b35-48f9-81f4-8443d9a7d378}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -22,6 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <PermissionSet>SAFE</PermissionSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -58,9 +59,26 @@
     <Folder Include="Properties" />
     <Folder Include="Stored procedures" />
     <Folder Include="Tables" />
+    <Folder Include="Data" />
+    <Folder Include="Stored procedures\usuario" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Stored procedures\Antara_Usuario_Login.sql" />
     <Build Include="Tables\usuarios.sql" />
+    <Build Include="Tables\tipos_agrupaciones.sql" />
+    <Build Include="Tables\agrupaciones.sql" />
+    <Build Include="Tables\generos.sql" />
+    <Build Include="Tables\audios.sql" />
+    <Build Include="Tables\agrupaciones_audios.sql" />
+    <Build Include="Stored procedures\usuario\Antara_Usuario_Login.sql" />
+    <Build Include="Stored procedures\usuario\CreateUsuario.sql" />
+    <Build Include="Stored procedures\usuario\DeleteUsuario.sql" />
+    <Build Include="Stored procedures\usuario\GetActiveUsuarios.sql" />
+    <Build Include="Stored procedures\usuario\GetAllUsuarios.sql" />
+    <Build Include="Stored procedures\usuario\UpdateUsuario.sql" />
+    <Build Include="Stored procedures\usuario\GetUsuario.sql" />
+    <Build Include="Stored procedures\usuario\CheckUniqueEmail.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Data.sql" />
   </ItemGroup>
 </Project>

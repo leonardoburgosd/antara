@@ -1,0 +1,15 @@
+.card-album{
+    background: #232c38;
+}
+.ir-album{
+    text-decoration: none;
+    font-size: 20px;
+    color: #fff;
+}
+.artist-antara{
+    font-size: 15px;
+}
+.artist-antara>a{
+    text-decoration: none;
+    color: #2169b6;
+}

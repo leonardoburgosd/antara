@@ -11,11 +11,11 @@ namespace Antara.Model.Entities
     {
         public long Id { get; set; }
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
-        [EmailAddress(ErrorMessage = "Correo electrónico no cumple con el formato")]
+        [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Ingrese una contraseña")]
-        [StringLength(18, ErrorMessage = "Debe tener entre 6 y 18 caracteres",MinimumLength = 6)]
+        [StringLength(18, ErrorMessage = "Debe tener entre 6 y 18 caracteres", MinimumLength = 6)]
         public string Password { get; set; }
         [Required(ErrorMessage = "Ingrese una nombre de perfil")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
@@ -28,5 +28,16 @@ namespace Antara.Model.Entities
         public DateTime RegistrationDate { get; set; }
         [Required(ErrorMessage = "Ingrese un país")]
         public string Country { get; set; }
+
+        public Usuario(string email, string password, string name, DateTime birthDate, char gender, string country)
+        {
+            Email = email;
+            Password = password;
+            Name = name;
+            BirthDate = birthDate;
+            Gender = gender;
+            Country = country;
+        }
+        public Usuario() { }
     }
 }

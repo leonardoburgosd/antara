@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+*{
+  --heigh-nav:56px;
+}
+.menu-color{
+  background: #1d242e;
+  height: calc(100vh - var(--heigh-nav));
+  overflow: auto;
+}
+
+.contenido-color{
+  background: #15181f;
+  height: calc(100vh - var(--heigh-nav));
+  overflow: auto;
+}
+
+.contenido-claro{
+  color: var(--bs-gray-200);
+}
+
+.navbar-propery{
+  background: #15181f;
+  color: var(--bs-gray-200);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #1d242e;
+  
+}
+
+::-webkit-scrollbar-track {
+  background: #1d242e; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 6px;
+}
+
+.miniatura {
+  border-radius: 100%;
+}
+
+.dropdown-name{
+  background: none;
+  color: var(--bs-gray-200);
+  border: 0;
+}
+
+.antara-font{
+  font-family: "Quicksand", sans-serif;
+}

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Antara.Entity\Antara.Model.csproj" />
+    <ProjectReference Include="..\Antara.Security\Antara.Security.csproj" />
   </ItemGroup>
 
 </Project>

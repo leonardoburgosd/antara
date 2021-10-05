@@ -1,6 +1,7 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
+using Antara.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,32 @@ namespace Antara.Service
     public class LoginService:ILoginService
     {
         private readonly IUsuarioRepository usuarioRepo;
-        public LoginService(IUsuarioRepository usuarioRepo)
+        private readonly IEncryptText encryptText;
+        public LoginService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
             this.usuarioRepo = usuarioRepo;
+            this.encryptText = encryptText;
         }
 
-        public async Task<Usuario> Login(string usuario, string password)
+        public async Task<Usuario> Login(string email, string password)
         {
             try
             {
-                Usuario user = await usuarioRepo.Login(usuario, password);
-                if (user == null)
-                    throw new ApplicationException("Usuario o password incorrectos");
-                return user;
+                Usuario user = await usuarioRepo.Login(email);
+                if (user != null)
+                {
+                    bool pass = encryptText.CompararHash(password, user.Password);
+                    if (pass)
+                    {
+                        return usuarioRepo.GetUsuario(user.Id).Result;
+                    }
+                }
+                return null;
             }
             catch (Exception e)
             {
-                throw e;
+                Console.Write(e);
+                throw;
             }
         }
     }

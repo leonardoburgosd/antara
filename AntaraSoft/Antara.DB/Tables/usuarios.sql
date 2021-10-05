@@ -1,4 +1,13 @@
-﻿CREATE TABLE [dbo].[Usuario]
+﻿CREATE TABLE [dbo].[usuarios]
 (
-	[Id] INT NOT NULL PRIMARY KEY
+		id BIGINT NOT NULL IDENTITY(0,1),
+	  email VARCHAR(45) NOT NULL UNIQUE,
+	  password VARCHAR(150) NOT NULL,
+	  name VARCHAR(45) NOT NULL,
+	  birthDate DATE NULL,
+	  gender CHAR NULL DEFAULT 'M',
+	  active BIT NOT NULL DEFAULT 1,
+	  registrationDate SMALLDATETIME NOT NULL DEFAULT SYSDATETIME(),
+	  country VARCHAR(45) NOT NULL,
+	  PRIMARY KEY (id)
 )

@@ -1,13 +1,8 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
-using Antara.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Antara.API.Controllers
@@ -16,113 +11,68 @@ namespace Antara.API.Controllers
     [ApiController]
     public class UsuarioController : Controller
     {
-        private readonly IRegistrarUsuarioService registrarUsuarioService;
-        private readonly ILoginService loginService;
+        private readonly IRegistrarUsuarioService _registrarUsuarioService;
+        private readonly ILoginService _loginService;
         public UsuarioController(IRegistrarUsuarioService registrarUsuarioService, ILoginService loginService)
         {
-            this.registrarUsuarioService = registrarUsuarioService;
-            this.loginService = loginService;
+            _registrarUsuarioService = registrarUsuarioService;
+            _loginService = loginService;
         }
 
-        // POST /api/usuario
+        // url: "localhost:8080/api/usuario"
         [HttpPost]
-        public async Task<ActionResult> CreateUsuario([FromBody] Usuario usuario)
+        public async Task<ActionResult> CreateUsuarioAsync([FromBody] Usuario usuario)
         {
             try
             {
-                var newUsuario = await registrarUsuarioService.CreateUsuario(usuario);
-                return CreatedAtAction(nameof(GetUsuario), new { id = newUsuario.Id }, newUsuario);
+                var newUsuario = await _registrarUsuarioService.CreateUsuario(usuario);
+                return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario);
             }
             catch (Exception err)
             {
-                throw err;
+                if (err.Message.Contains("Este correo electrónico ya esta siendo usado")
+                    || err.Message.Contains("No se pudo crear el usuario"))
+                {
+                    return StatusCode(409, Json(new { error = err.Message }));
+                }
+                else return StatusCode(500, err);
             }
         }
 
-        // GET /api/usuario/{id}
+        // url: "localhost:8080/api/usuario/{id}"
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(long id)
+        public async Task<ActionResult<Usuario>> GetUsuarioAsync(long id)
         {
             try
             {
-                Usuario usuario = await registrarUsuarioService.GetUsuario(id);
+                Usuario usuario = await _registrarUsuarioService.GetUsuario(id);
                 if (usuario == null)
                     return NotFound();
-                return usuario;
+                return StatusCode(200, usuario);
             }
             catch (Exception err)
             {
-                throw err;
+                return StatusCode(500, err);
             }
         }
 
-        // POST /api/usuario/login
+        // url: "localhost:8080/api/usuario/login"
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Login([FromBody] object autenticacion)
+        public async Task<ActionResult> LoginAsync([FromBody] Authentication autenticacion)
         {
             try
             {
-                dynamic autenticacionConvert = JsonConvert.DeserializeObject(autenticacion.ToString());
-                Usuario user = await loginService.Login((string)autenticacionConvert.email, (string)autenticacionConvert.password);
+                Usuario user = await _loginService.Login(autenticacion.email, autenticacion.password);
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }
-            catch (ApplicationException ae)
-            {
-                return StatusCode(401, Json(new { error = ae.Message }));
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        /*
-        // GET /api/usuario
-        [HttpGet]
-        public async Task<IEnumerable<Usuario>> GetUsuario()
-        {
-            try
-            {
-                return await usuarioServices.GetUsuario();
-            }
             catch (Exception err)
             {
-                throw err;
-            }
-        }
-
-        
-
-        // PUT /api/usuario
-        [HttpPut]
-        public async Task<ActionResult> UpddateUsuario(Usuario usuario)
-        {
-            try
-            {
-                await usuarioServices.UpdateUsuario(usuario);
-                return Ok();
-            }
-            catch (Exception err)
-            {
+                if(err.Message.Contains("Correo electrónico")){
+                    return StatusCode(401, Json(new { error = err.Message }));
+                }
                 throw;
             }
         }
-
-        // DELETE api/usuario/{id}
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUsuario(long id)
-        {
-            try
-            {
-                await usuarioServices.DeleteUsuario(id);
-                return Ok();
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        */
     }
 }

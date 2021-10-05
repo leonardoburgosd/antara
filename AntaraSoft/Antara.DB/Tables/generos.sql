@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[generos]
+(
+	  id BIGINT NOT NULL IDENTITY(1,1),
+  type VARCHAR(45) NOT NULL,
+  parent BIGINT NULL DEFAULT 0,
+  PRIMARY KEY (id)
+)
