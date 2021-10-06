@@ -13,6 +13,7 @@ namespace Antara.Model.Entities
         public string Description { get; set; }
         public DateTime PublicationDate { get; set; }
         public Boolean IsPublished { get; set; }
-        public string Tipe { get; set; }
+        public string Type { get; set; }
+        public long Usuario_id { get; set; }
     }
 }

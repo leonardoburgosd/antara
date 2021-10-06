@@ -28,7 +28,7 @@ namespace Antara.Repository.Repositories
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
@@ -60,13 +60,13 @@ namespace Antara.Repository.Repositories
                     @Writer = audio.Writer,
                     @Producer = audio.Producer,
                     @Reproductions = 0,
-                    @Gender_id = audio.GenderId,
+                    @Genero_id = audio.Genero_id
                 }) ;
                 return nuevoAudio;
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
@@ -83,7 +83,7 @@ namespace Antara.Repository.Repositories
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
@@ -102,19 +102,20 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<dynamic>("UpdateAudio", new
                 {
+                    @Id = audio.Id,
                     @Url = audio.Url,
                     @Name = audio.Name,
                     @CreationYear = audio.CreationYear,
                     @Interpreter = audio.Interpreter,
                     @Writer = audio.Writer,
                     @Producer = audio.Producer,
-                    @Gender_id = audio.GenderId
+                    @Genero_id = audio.Genero_id
                 });
             }
  
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
@@ -131,7 +132,7 @@ namespace Antara.Repository.Repositories
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
@@ -144,15 +145,36 @@ namespace Antara.Repository.Repositories
             });
         }
 
-        public async Task<List<Audio>> GetAudio()
+        public async Task<List<Audio>> GetAllAudio(long agrupacionId)
         {
             try
             {
-                return await _dapper.Consulta<Audio>("GetAllAudios");
+                var audiosList = await _dapper.Consulta<Audio>("GetAllAudios", new
+                {
+                    @Agrupacion_id = agrupacionId
+                });
+                return audiosList;
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
+                throw;
+            }
+        }
+
+        public async Task<List<Audio>> SearchAudios(string cadena)
+        {
+            try
+            {
+                var audiosList = await _dapper.Consulta<Audio>("SearchAudios", new
+                {
+                    @Cadena = cadena
+                });
+                return audiosList;
+            }
+            catch (Exception err)
+            {
+                Console.Write(err.Message);
                 throw;
             }
         }

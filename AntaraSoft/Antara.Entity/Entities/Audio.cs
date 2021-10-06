@@ -24,7 +24,7 @@ namespace Antara.Model.Entities
         public string Producer { get; set; }
         public int Reproductions { get; set; }
         [Required]
-        public long GenderId { get; set; }
+        public long Genero_id { get; set; }
         [Required]
         [StringLength(150)]
         public string Url { get; set; }

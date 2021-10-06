@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Antara.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/audio")]
     [ApiController]
     public class AudioController : Controller
     {
@@ -38,12 +38,12 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<Audio>> GetAudioAsync()
+        [HttpGet("all/{agrupacionId}")]
+        public async Task<ActionResult<List<Audio>>> GetAllAudioAsync(long agrupacionId)
         {
             try
             {
-                var audioList = await _gestionarAudioService.GetAudio();
+                var audioList = await _gestionarAudioService.GetAllAudio(agrupacionId);
                 return StatusCode(200, audioList);
             }
             catch (Exception err)
@@ -69,7 +69,7 @@ namespace Antara.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAudioAsync(Audio audio)
+        public async Task<ActionResult> UpdateAudioAsync([FromBody]Audio audio)
         {
             try
             {
@@ -82,13 +82,27 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAudioAsync(long id)
         {
             try
             {
                 await _gestionarAudioService.DeleteAudio(id);
                 return StatusCode(200);
+            }
+            catch (Exception err)
+            {
+                return StatusCode(500, err);
+            }
+        }
+
+        [HttpGet("/search={cadena}")]
+        public async Task<ActionResult> SearchAudioAsync(string cadena)
+        {
+            try
+            {
+                var audioList = await _gestionarAudioService.SearchAudio(cadena);
+                return StatusCode(200, audioList);
             }
             catch (Exception err)
             {

@@ -37,6 +37,7 @@ namespace Antara.API
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IGestionarAudioService, GestionarAudioService>();
+            services.AddTransient<IGestionarAgrupacionService, GestionarAgrupacionService>();
             services.AddTransient<IEncryptText, EncryptText>();
             /*
             services.AddCors(options =>

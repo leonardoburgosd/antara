@@ -73,9 +73,17 @@ namespace Antara.Service
             }
         }
 
-        public Task<List<Audio>> GetAudio()
+        public async Task<List<Audio>> GetAllAudio(long agrupacionId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await audioRepository.GetAllAudio(agrupacionId);
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
         }
 
         private async Task<Boolean> IsUrlValid(string url)
@@ -83,6 +91,19 @@ namespace Antara.Service
             try
             {
                 return await audioRepository.CheckUniqueUrl(url);
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+
+        public async Task<List<Audio>> SearchAudio(string cadena)
+        {
+            try
+            {
+                return await audioRepository.SearchAudios(cadena);
             }
             catch (Exception err)
             {
