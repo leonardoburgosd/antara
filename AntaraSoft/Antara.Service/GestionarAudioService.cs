@@ -25,7 +25,7 @@ namespace Antara.Service
                 {
                     return await audioRepository.CreateAudio(audio);
                 }
-                throw new ArgumentException("Esta url ya se encuentra registrada.");
+                throw new ArgumentException("Esta direccion url ya se encuentra registrada.");
             }
             catch (Exception err)
             {
@@ -47,11 +47,11 @@ namespace Antara.Service
             }
         }
 
-        public async Task EditAudio(Audio audio)
+        public async Task UpdateAudio(Audio audio)
         {
             try
             {
-                await audioRepository.EditAudio(audio);
+                await audioRepository.UpdateAudio(audio);
             }
             catch (Exception err)
             {

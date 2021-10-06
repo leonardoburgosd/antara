@@ -13,10 +13,10 @@ namespace Antara.Repository.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly IDapper dapper;
+        private readonly IDapper _dapper;
         public UsuarioRepository(IDapper dapper)
         {
-            this.dapper = dapper;
+            _dapper = dapper;
         }
 
         public Task<Boolean> CheckUniqueEmail(string email)
@@ -38,7 +38,7 @@ namespace Antara.Repository.Repositories
 
         private async Task<Boolean> CheckUniqueEmailInner(string email)
         {
-            Usuario response = await dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
+            Usuario response = await _dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
             {
                 @Email = email
             });
@@ -53,7 +53,7 @@ namespace Antara.Repository.Repositories
         {
             try
             {
-                Usuario nuevoUsuario = await dapper.QueryWithReturn<Usuario>("CreateUsuario", new
+                Usuario nuevoUsuario = await _dapper.QueryWithReturn<Usuario>("CreateUsuario", new
                 {
                     @Email = usuario.Email,
                     @Password = usuario.Password,
@@ -92,7 +92,7 @@ namespace Antara.Repository.Repositories
 
         private async Task PhysicalDeleteUsuarioInner(long id)
         {
-            await dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
+            await _dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
             {
                 @Id = id
             });
@@ -117,7 +117,7 @@ namespace Antara.Repository.Repositories
 
         private async Task<Usuario> GetUsuarioInner(long id)
         {
-            return await dapper.QueryWithReturn<Usuario>("GetUsuario", new
+            return await _dapper.QueryWithReturn<Usuario>("GetUsuario", new
             {
                 @Id = id
             });
@@ -142,7 +142,7 @@ namespace Antara.Repository.Repositories
 
         private async Task<Usuario> LoginInner(string email)
         {
-            return await dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
+            return await _dapper.QueryWithReturn<Usuario>("Antara_Usuario_Login", new
             {
                 @Email = email
             });

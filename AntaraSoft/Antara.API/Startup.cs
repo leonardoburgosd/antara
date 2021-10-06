@@ -1,5 +1,6 @@
 using Antara.Model;
 using Antara.Model.Contracts;
+using Antara.Model.Contracts.Repository;
 using Antara.Model.Contracts.Services;
 using Antara.Repository.Dapper;
 using Antara.Repository.Repositories;
@@ -7,15 +8,11 @@ using Antara.Security;
 using Antara.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Antara.API
 {
@@ -35,8 +32,11 @@ namespace Antara.API
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IAudioRepository, AudioRepository>();
+            services.AddTransient<IAgrupacionRepository, AgrupacionRepository>();
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IGestionarAudioService, GestionarAudioService>();
             services.AddTransient<IEncryptText, EncryptText>();
             /*
             services.AddCors(options =>

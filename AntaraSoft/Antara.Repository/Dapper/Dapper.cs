@@ -36,5 +36,21 @@ namespace Antara.Repository.Dapper
                 throw;
             }
         }
+
+        public async Task<dynamic> Consulta<T>(string procedimientoAlmacenado, dynamic parametros = null) where T : class
+        {
+            try
+            {
+                using (connection = new SqlConnection(settings.ConexionString))
+                {
+                    return await connection.QueryAsync<T>(procedimientoAlmacenado, param: (object)parametros, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
     }
 }

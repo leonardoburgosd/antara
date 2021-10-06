@@ -11,10 +11,10 @@ namespace Antara.Repository.Repositories
 {
     public class AudioRepository : IAudioRepository
     {
-        private readonly IDapper dapper;
+        private readonly IDapper _dapper;
         public AudioRepository(IDapper dapper)
         {
-            this.dapper = dapper;
+            _dapper = dapper;
         }
         public Task<bool> CheckUniqueUrl(string url)
         {
@@ -35,7 +35,7 @@ namespace Antara.Repository.Repositories
 
         private async Task<bool> CheckUniqueUrlInner(string url)
         {
-            Audio response = await dapper.QueryWithReturn<Audio>("CheckUniqueUrl", new
+            Audio response = await _dapper.QueryWithReturn<Audio>("CheckUniqueUrl", new
             {
                 @Url = url
             });
@@ -50,7 +50,7 @@ namespace Antara.Repository.Repositories
         {
             try
             {
-                var nuevoAudio = await dapper.QueryWithReturn<Audio>("CreateAudio", new
+                var nuevoAudio = await _dapper.QueryWithReturn<Audio>("CreateAudio", new
                 {
                     @Url = audio.Url,
                     @Name = audio.Name,
@@ -60,7 +60,7 @@ namespace Antara.Repository.Repositories
                     @Writer = audio.Writer,
                     @Producer = audio.Producer,
                     @Reproductions = 0,
-                    @Gender = audio.Gender,
+                    @Gender_id = audio.GenderId,
                 }) ;
                 return nuevoAudio;
             }
@@ -90,15 +90,33 @@ namespace Antara.Repository.Repositories
 
         private async Task DeleteAudioInner(long id)
         {
-            await dapper.QueryWithReturn<Usuario>("DeleteAudio", new
+            await _dapper.QueryWithReturn<dynamic>("DeleteAudio", new
             {
                 @Id = id
             });
         }
 
-        public Task EditAudio(Audio audio)
+        public async Task UpdateAudio(Audio audio)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _dapper.QueryWithReturn<dynamic>("UpdateAudio", new
+                {
+                    @Url = audio.Url,
+                    @Name = audio.Name,
+                    @CreationYear = audio.CreationYear,
+                    @Interpreter = audio.Interpreter,
+                    @Writer = audio.Writer,
+                    @Producer = audio.Producer,
+                    @Gender_id = audio.GenderId
+                });
+            }
+ 
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
         }
 
         public Task<Audio> GetAudio(long id)
@@ -120,15 +138,23 @@ namespace Antara.Repository.Repositories
 
         private async Task<Audio> GetAudioInner(long id)
         {
-            return await dapper.QueryWithReturn<Audio>("GetAudio", new
+            return await _dapper.QueryWithReturn<Audio>("GetAudio", new
             {
                 @Id = id
             });
         }
 
-        public Task<List<Audio>> GetAudio()
+        public async Task<List<Audio>> GetAudio()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _dapper.Consulta<Audio>("GetAllAudios");
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
         }
     }
 }
