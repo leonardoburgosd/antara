@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from '@angular/router';
+import { AccountComponent } from "./account/account.component";
 import { BibliotecaComponent } from "./biblioteca/biblioteca.component";
 import { DashboardComponent } from "./dashboard.component";
 import { ExploraComponent } from "./explora/explora.component";
@@ -13,6 +14,7 @@ const routes: Routes = [
             { path: '', component: ExploraComponent },
             { path: 'playlist', component: PlaylistComponent },
             { path: 'library', component: BibliotecaComponent },
+            { path: 'account', component: AccountComponent },
             { path: '**', redirectTo: '' }
         ]
     }
