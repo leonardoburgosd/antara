@@ -28,6 +28,8 @@ namespace Antara.Model.Entities
         [Required]
         [StringLength(150)]
         public string Url { get; set; }
+        [Required]
+        public long User_id { get; set; }
         public void AumentarReproduccion()
         {
             this.Reproductions += 1;

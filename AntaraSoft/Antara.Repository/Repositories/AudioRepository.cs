@@ -60,7 +60,8 @@ namespace Antara.Repository.Repositories
                     @Writer = audio.Writer,
                     @Producer = audio.Producer,
                     @Reproductions = 0,
-                    @Genero_id = audio.Genero_id
+                    @Genero_id = audio.Genero_id,
+                    @User_id = audio.User_id
                 }) ;
                 return nuevoAudio;
             }
@@ -168,7 +169,7 @@ namespace Antara.Repository.Repositories
             {
                 var audiosList = await _dapper.Consulta<Audio>("SearchAudios", new
                 {
-                    @Cadena = cadena
+                    @Cad = cadena
                 });
                 return audiosList;
             }

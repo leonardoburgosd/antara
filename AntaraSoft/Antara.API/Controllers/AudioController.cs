@@ -96,8 +96,8 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet("/search={cadena}")]
-        public async Task<ActionResult> SearchAudioAsync(string cadena)
+        [HttpGet("/search")]
+        public async Task<ActionResult> SearchAudioAsync([Bind(Prefix = "cad")] string cadena)
         {
             try
             {
