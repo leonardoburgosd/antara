@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../aplication-data/rest/usuario';
 import { Auth } from '../aplication-data/structure/Auth';
 import Swal from 'sweetalert2';
+import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,10 +12,19 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   auth: Auth = new Auth();
   error: any = [];
-  constructor(private dataService: DataService) { }
+  socialUser: SocialUser | undefined;
+  isLoggedin: boolean | undefined;  
+
+  constructor(private dataService: DataService,private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.socialUser = user;
+      this.isLoggedin = (user != null);
+      console.log(this.socialUser);
+    });
   }
+  
 
   login() {
     this.dataService.login(this.auth).then((res: any) => {
@@ -32,5 +43,10 @@ export class LoginComponent implements OnInit {
         title: 'Oops...',
         text: err.error.value.error
       })
+  }
+
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 }
