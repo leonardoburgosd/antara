@@ -39,13 +39,13 @@ namespace Antara.API
             services.AddTransient<IGestionarAudioService, GestionarAudioService>();
             services.AddTransient<IGestionarAgrupacionService, GestionarAgrupacionService>();
             services.AddTransient<IEncryptText, EncryptText>();
-            /*
+            
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             });
-            */
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AntaraApi", Version = "v1" });

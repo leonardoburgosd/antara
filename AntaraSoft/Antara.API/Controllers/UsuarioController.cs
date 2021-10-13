@@ -80,7 +80,7 @@ namespace Antara.API.Controllers
                 Usuario user = await _loginService.Login(loginDto.Email, loginDto.Password);
                 if(user == null)
                 {
-                    return NotFound(loginDto.Email);
+                    return NotFound();
                 }
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }

@@ -36,12 +36,12 @@ export class LoginComponent implements OnInit {
   }
 
   controlError(err: any) {
-    if (err.status == 400) this.error = err.error.errors;
-    else if (err.status == 401)
+    if (err.status == 400) this.error = err.error.errors; 
+    else if (err.status == 404)
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.error.value.error
+        text: err.error.title
       })
   }
 

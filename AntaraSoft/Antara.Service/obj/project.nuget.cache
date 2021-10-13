@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "GzUgX5OX9keprJaGli0Bjhh5/OZFpuPVrgpeUxGVVV2fyS7K92pmaySNwtoZpNsQQzEZ56gn3GK8Hs8NYdMjwQ==",
+  "dgSpecHash": "ksb27QRlL3++Hz0NOzpR84JfklojfAcWbQqQ43Nm7zmH32s4F0gxd39Y34PXFP9G1BzqQ+majFAiOJ5VdVbJgg==",
   "success": true,
-  "projectFilePath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
+  "projectFilePath": "D:\\Local\\Documentos\\Git hub\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Diego\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
+    "C:\\Users\\lbd_2\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
   ],
   "logs": []
 }

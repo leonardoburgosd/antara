@@ -58,3 +58,15 @@ D:\Local\Documentos\Git\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.c
 D:\Local\Documentos\Git\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.Entity\obj\Debug\net5.0\ref\Antara.Model.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.pdb
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.deps.json
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\ref\Antara.Model.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\bin\Debug\net5.0\Antara.Model.pdb
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.csproj.AssemblyReference.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.AssemblyInfoInputs.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.AssemblyInfo.cs
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.csproj.CoreCompileInputs.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\ref\Antara.Model.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Entity\obj\Debug\net5.0\Antara.Model.pdb
