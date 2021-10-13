@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Antara.Model.Entities
+namespace Antara.Model.Dtos
 {
-    public record Agrupacion
+    public class AgrupacionDto
     {
         [Required]
         public Guid Id { get; set; }

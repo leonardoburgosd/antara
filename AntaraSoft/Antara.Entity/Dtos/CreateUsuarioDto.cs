@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Antara.Model.Entities
+namespace Antara.Model.Dtos
 {
-    public record Usuario
+    public class CreateUsuarioDto
     {
-        public Guid Id { get; set; }
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
         [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
@@ -22,13 +21,7 @@ namespace Antara.Model.Entities
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public char Gender { get; set; }
-        [Required]
-        public bool Active { get; set; }
-        [Required]
-        public DateTime RegistrationDate { get; set; }
         [Required(ErrorMessage = "Ingrese un país")]
         public string Country { get; set; }
-
-        public Usuario() { }
     }
 }

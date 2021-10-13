@@ -12,16 +12,47 @@ namespace Antara.Service
     public class GestionarAgrupacionService : IGestionarAgrupacionService
     {
         private readonly IAgrupacionRepository _agrupacionRepository;
+        private enum TiposAgrupaciones
+        {
+            playlist,
+            episodio,
+            album
+        }
         public GestionarAgrupacionService(IAgrupacionRepository agrupacionRepository)
         {
             _agrupacionRepository = agrupacionRepository;
         }
 
-        public async Task<bool> AddAudioToAgrupacion(Agrupacion_Audio agrupacion_audio)
+        public Task<bool> AddAudioToAgrupacion(Agrupacion_Audio agrupacion_audio)
         {
             try
             {
-                return await _agrupacionRepository.AddAudioToAgrupacion(agrupacion_audio);
+                if (agrupacion_audio.Agrupacion_id == Guid.Empty || agrupacion_audio.Audio_id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(agrupacion_audio), "No se proporciono ningún valor");
+                }
+                return AddAudioToAgrupacionInner(agrupacion_audio);
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+        private async Task<bool> AddAudioToAgrupacionInner(Agrupacion_Audio agrupacion_audio)
+        {
+            return await _agrupacionRepository.AddAudioToAgrupacion(agrupacion_audio);
+        }
+
+        public Task CreateAgrupacion(Agrupacion agrupacion)
+        {
+            try
+            {
+                if(Enum.IsDefined(typeof(TiposAgrupaciones),agrupacion.Type.ToLower()))
+                {
+                    return CreateAgrupacionInner(agrupacion);
+                }
+                throw new ArgumentException("El tipo es desconocido.", nameof(agrupacion));
             }
             catch (Exception err)
             {
@@ -30,11 +61,20 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Agrupacion> CreateAgrupacion(Agrupacion agrupacion)
+        private async Task CreateAgrupacionInner(Agrupacion agrupacion)
+        {
+            await _agrupacionRepository.CreateAgrupacion(agrupacion);
+        }
+
+        public Task DeleteAgrupacion(Guid id)
         {
             try
             {
-                return await _agrupacionRepository.CreateAgrupacion(agrupacion);
+                if(id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return DeleteAgrupacionInner(id);
             }
             catch (Exception err)
             {
@@ -43,11 +83,42 @@ namespace Antara.Service
             }
         }
 
-        public async Task DeleteAgrupacion(long id)
+        private async Task DeleteAgrupacionInner(Guid id)
+        {
+            await _agrupacionRepository.DeleteAgrupacion(id);
+        }
+
+        public Task<Agrupacion> GetAgrupacion(Guid userId)
         {
             try
             {
-                await _agrupacionRepository.DeleteAgrupacion(id);
+                if(userId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(userId), "No se proporciono ningún valor");
+                }
+                return GetAgrupacionInner(userId);
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+        private async Task<Agrupacion> GetAgrupacionInner(Guid userId)
+        {
+            return await _agrupacionRepository.GetAgrupacion(userId);
+        }
+
+        public Task<List<Agrupacion>> GetAllAgrupacion(Guid userId)
+        {
+
+            try
+            {
+                if (userId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(userId), "No se proporciono ningún valor");
+                }
+                return GetAllAgrupacionInner(userId);
             }
             catch (Exception err)
             {
@@ -56,11 +127,20 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Agrupacion> GetAgrupacion(long id)
+        private async Task<List<Agrupacion>> GetAllAgrupacionInner(Guid userId)
+        {
+            return await _agrupacionRepository.GetAllAgrupacion(userId);
+        }
+
+        public Task UpdateAgrupacion(Agrupacion agrupacion)
         {
             try
             {
-                return await _agrupacionRepository.GetAgrupacion(id);
+                if (Enum.IsDefined(typeof(TiposAgrupaciones), agrupacion.Type.ToLower()))
+                {
+                    return UpdateAgrupacionInner(agrupacion);
+                }
+                throw new ArgumentException("El tipo es desconocido.", nameof(agrupacion));
             }
             catch (Exception err)
             {
@@ -68,13 +148,24 @@ namespace Antara.Service
                 throw;
             }
         }
-
-        public async Task<List<Agrupacion>> GetAllAgrupacion(long userId)
+        private async Task UpdateAgrupacionInner(Agrupacion agrupacion)
         {
+            await _agrupacionRepository.UpdateAgrupacion(agrupacion);
+        }
 
+        public Task<bool> RemoveAudioFromAgrupacion(Guid agrupacionId, Guid audioId)
+        {
             try
             {
-                return await _agrupacionRepository.GetAllAgrupacion(userId);
+                if (agrupacionId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(agrupacionId), "No se proporciono ningún valor");
+                }
+                else if(audioId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(audioId), "No se proporciono ningún valor");
+                }
+                return RemoveAudioFromAgrupacionInner(agrupacionId, audioId);
             }
             catch (Exception err)
             {
@@ -82,19 +173,9 @@ namespace Antara.Service
                 throw;
             }
         }
-
-        public async Task UpdateAgrupacion(Agrupacion agrupacion)
+        private async Task<bool> RemoveAudioFromAgrupacionInner(Guid agrupacionId, Guid audioId)
         {
-
-            try
-            {
-                await _agrupacionRepository.UpdateAgrupacion(agrupacion);
-            }
-            catch (Exception err)
-            {
-                Console.Write(err);
-                throw;
-            }
+            return await _agrupacionRepository.RemoveAudioFromAgrupacion(agrupacionId, audioId);
         }
     }
 }

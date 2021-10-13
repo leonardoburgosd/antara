@@ -20,14 +20,15 @@ namespace Antara.Service
             this.encryptText = encryptText;
         }
 
-        public async Task<Usuario> CreateUsuario(Usuario usuario)
+        public async Task CreateUsuario(Usuario usuario)
         {
             try
             {
                 if(IsEmailValid(usuario.Email).Result)
                 {
                     usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
-                    return await usuarioRepo.CreateUsuario(usuario);
+                    await usuarioRepo.CreateUsuario(usuario);
+                    return;
                 }
                 throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
             }
@@ -38,11 +39,15 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Usuario> GetUsuario(long id)
+        public Task<Usuario> GetUsuario(Guid id)
         {
             try
             {
-                return await usuarioRepo.GetUsuario(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return GetUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -51,17 +56,31 @@ namespace Antara.Service
             }
         }
 
-        private async Task<Boolean> IsEmailValid(string email)
+        private async Task<Usuario> GetUsuarioInner(Guid id)
+        {
+            return await usuarioRepo.GetUsuario(id);
+        }
+
+        public Task<Boolean> IsEmailValid(string email)
         {
             try
             {
-                return await usuarioRepo.CheckUniqueEmail(email);
+                if (email == null)
+                {
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
+                }
+                return IsEmailValidInner(email);
             }
             catch (Exception err)
             {
                 Console.Write(err);
                 throw;
             }
+        }
+
+        private async Task<Boolean> IsEmailValidInner(string email)
+        {
+            return await usuarioRepo.CheckUniqueEmail(email);
         }
     }
 }

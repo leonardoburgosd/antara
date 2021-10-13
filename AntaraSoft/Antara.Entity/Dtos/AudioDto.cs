@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Antara.Model.Entities
+namespace Antara.Model.Dtos
 {
-    public record Audio
+    public class AudioDto
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Ingrese un nombre para el audio")]
@@ -30,9 +30,5 @@ namespace Antara.Model.Entities
         public string Url { get; set; }
         [Required]
         public Guid User_id { get; set; }
-        public void AumentarReproduccion()
-        {
-            this.Reproductions += 1;
-        }
     }
 }

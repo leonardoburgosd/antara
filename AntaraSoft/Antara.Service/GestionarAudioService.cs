@@ -17,99 +17,151 @@ namespace Antara.Service
             this.audioRepository = audioRepository;
         }
 
-        public async Task<Audio> CreateAudio(Audio audio)
+        public async Task CreateAudio(Audio audio)
         {
             try
             {
                 if(IsUrlValid(audio.Url).Result)
                 {
-                    return await audioRepository.CreateAudio(audio);
+                    await audioRepository.CreateAudio(audio);
+                    return;
                 }
                 throw new ArgumentException("Esta direccion url ya se encuentra registrada.");
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
 
-        public async Task DeleteAudio(long id)
+        public Task DeleteAudio(Guid id)
         {
             try
             {
-                await audioRepository.DeleteAudio(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return DeleteAudioInner(id);
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
+        }
+
+        private async Task DeleteAudioInner(Guid id)
+        {
+            await audioRepository.DeleteAudio(id);
         }
 
         public async Task UpdateAudio(Audio audio)
         {
             try
             {
-                await audioRepository.UpdateAudio(audio);
+                if (IsUrlValid(audio.Url).Result)
+                {
+                    await audioRepository.UpdateAudio(audio);
+                    return;
+                }
+                throw new ArgumentException("Esta direccion url ya se encuentra registrada.");
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
 
-        public async Task<Audio> GetAudio(long id)
+        public Task<Audio> GetAudio(Guid id)
         {
             try
             {
-                return await audioRepository.GetAudio(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return GetAudioInner(id);
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
 
-        public async Task<List<Audio>> GetAllAudio(long agrupacionId)
+        private async Task<Audio> GetAudioInner(Guid id)
+        {
+            return await audioRepository.GetAudio(id);
+        }
+
+        public Task<List<Audio>> GetAllAudio(Guid agrupacionId)
         {
             try
             {
-                return await audioRepository.GetAllAudio(agrupacionId);
+                if (agrupacionId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(agrupacionId), "No se proporciono ningún valor");
+                }
+                return GetAllAudioInner(agrupacionId);
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
 
-        private async Task<Boolean> IsUrlValid(string url)
+        private async Task<List<Audio>> GetAllAudioInner(Guid agrupacionId)
+        {
+            return await audioRepository.GetAllAudio(agrupacionId);
+        }
+
+        public Task<bool> IsUrlValid(string url)
         {
             try
             {
-                return await audioRepository.CheckUniqueUrl(url);
+                if (url == null)
+                {
+                    throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
+                }
+                return IsUrlValidInner(url);
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
         }
 
-        public async Task<List<Audio>> SearchAudio(string cadena)
+        private async Task<bool> IsUrlValidInner(string url)
+        {
+            return await audioRepository.CheckUniqueUrl(url);
+        }
+
+
+        public Task<List<Audio>> SearchAudios(string cadena)
         {
             try
             {
-                return await audioRepository.SearchAudios(cadena);
+                if (cadena == null)
+                {
+                    throw new ArgumentNullException(nameof(cadena), "No se proporciono ningún valor");
+                }
+                return SearchAudiosInner(cadena);
             }
             catch (Exception err)
             {
-                Console.Write(err);
+                Console.Write(err.Message);
                 throw;
             }
+        }
+
+        private async Task<List<Audio>> SearchAudiosInner(string cadena)
+        {
+            return await audioRepository.SearchAudios(cadena);
         }
     }
 }

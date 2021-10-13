@@ -1,5 +1,7 @@
-﻿using Antara.Model.Contracts;
+﻿using Antara.Model;
+using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
+using Antara.Model.Dtos;
 using Antara.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,12 +23,24 @@ namespace Antara.API.Controllers
 
         // url: "localhost:8080/api/usuario"
         [HttpPost]
-        public async Task<ActionResult> CreateUsuarioAsync([FromBody] Usuario usuario)
+        public async Task<ActionResult<UsuarioDto>> CreateUsuarioAsync([FromBody] CreateUsuarioDto usuarioDto)
         {
             try
             {
-                var newUsuario = await _registrarUsuarioService.CreateUsuario(usuario);
-                return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario);
+                Usuario newUsuario = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Email = usuarioDto.Email,
+                    Password = usuarioDto.Password,
+                    Name = usuarioDto.Name,
+                    BirthDate = usuarioDto.BirthDate,
+                    Gender = usuarioDto.Gender,
+                    Active = true,
+                    RegistrationDate = DateTime.Now,
+                    Country = usuarioDto.Country
+                };
+                await _registrarUsuarioService.CreateUsuario(newUsuario);
+                return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario.AsDto());
             }
             catch (Exception err)
             {
@@ -41,7 +55,7 @@ namespace Antara.API.Controllers
 
         // url: "localhost:8080/api/usuario/{id}"
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuarioAsync(long id)
+        public async Task<ActionResult<Usuario>> GetUsuarioAsync(Guid id)
         {
             try
             {
@@ -59,11 +73,15 @@ namespace Antara.API.Controllers
         // url: "localhost:8080/api/usuario/login"
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> LoginAsync([FromBody] Authentication autenticacion)
+        public async Task<ActionResult> LoginAsync([FromBody] LoginUsuarioDto loginDto)
         {
             try
             {
-                Usuario user = await _loginService.Login(autenticacion.email, autenticacion.password);
+                Usuario user = await _loginService.Login(loginDto.Email, loginDto.Password);
+                if(user == null)
+                {
+                    return NotFound(loginDto.Email);
+                }
                 return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
             }
             catch (Exception err)

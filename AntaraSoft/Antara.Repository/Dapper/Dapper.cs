@@ -20,7 +20,7 @@ namespace Antara.Repository.Dapper
             settings = options.Value;
         }
 
-        public async Task<T> QueryWithReturn<T>(string storedProcedure, dynamic parameters = null) where T : class
+        public async Task<T> QueryWithReturn<T>(string storedProcedure, dynamic parameters = null)
         {
             try
             {

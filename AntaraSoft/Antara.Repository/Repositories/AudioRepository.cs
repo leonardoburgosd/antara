@@ -16,15 +16,21 @@ namespace Antara.Repository.Repositories
         {
             _dapper = dapper;
         }
-        public Task<bool> CheckUniqueUrl(string url)
+
+
+        public async Task<bool> CheckUniqueUrl(string url)
         {
             try
             {
-                if (url == null)
+                Audio response = await _dapper.QueryWithReturn<Audio>("CheckUniqueUrl", new
                 {
-                    throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
+                    @Url = url
+                });
+                if (response == null)
+                {
+                    return true;
                 }
-                return CheckUniqueUrlInner(url);
+                return false;
             }
             catch (Exception err)
             {
@@ -33,37 +39,24 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        private async Task<bool> CheckUniqueUrlInner(string url)
-        {
-            Audio response = await _dapper.QueryWithReturn<Audio>("CheckUniqueUrl", new
-            {
-                @Url = url
-            });
-            if (response == null)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<Audio> CreateAudio(Audio audio)
+        public async Task CreateAudio(Audio audio)
         {
             try
             {
                 var nuevoAudio = await _dapper.QueryWithReturn<Audio>("CreateAudio", new
                 {
+                    @Id = audio.Id,
                     @Url = audio.Url,
                     @Name = audio.Name,
-                    @RegistrationDate = DateTime.Now,
+                    @RegistrationDate = audio.RegistrationDate,
                     @CreationYear = audio.CreationYear,
                     @Interpreter = audio.Interpreter,
                     @Writer = audio.Writer,
                     @Producer = audio.Producer,
-                    @Reproductions = 0,
+                    @Reproductions = audio.Reproductions,
                     @Genero_id = audio.Genero_id,
                     @User_id = audio.User_id
-                }) ;
-                return nuevoAudio;
+                });
             }
             catch (Exception err)
             {
@@ -72,15 +65,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public Task DeleteAudio(long id)
+        public async Task DeleteAudio(Guid id)
         {
             try
             {
-                if (id == 0)
+                await _dapper.QueryWithReturn<dynamic>("DeleteAudio", new
                 {
-                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
-                }
-                return DeleteAudioInner(id);
+                    @Id = id
+                });
             }
             catch (Exception err)
             {
@@ -89,13 +81,6 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        private async Task DeleteAudioInner(long id)
-        {
-            await _dapper.QueryWithReturn<dynamic>("DeleteAudio", new
-            {
-                @Id = id
-            });
-        }
 
         public async Task UpdateAudio(Audio audio)
         {
@@ -121,15 +106,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public Task<Audio> GetAudio(long id)
+        public async Task<Audio> GetAudio(Guid id)
         {
             try
             {
-                if (id == 0)
+                return await _dapper.QueryWithReturn<Audio>("GetAudio", new
                 {
-                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
-                }
-                return GetAudioInner(id);
+                    @Id = id
+                });
             }
             catch (Exception err)
             {
@@ -138,15 +122,7 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        private async Task<Audio> GetAudioInner(long id)
-        {
-            return await _dapper.QueryWithReturn<Audio>("GetAudio", new
-            {
-                @Id = id
-            });
-        }
-
-        public async Task<List<Audio>> GetAllAudio(long agrupacionId)
+        public async Task<List<Audio>> GetAllAudio(Guid agrupacionId)
         {
             try
             {
@@ -162,6 +138,7 @@ namespace Antara.Repository.Repositories
                 throw;
             }
         }
+
 
         public async Task<List<Audio>> SearchAudios(string cadena)
         {

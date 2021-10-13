@@ -9,12 +9,12 @@ namespace Antara.Model.Contracts.Services
 {
     public interface IGestionarAudioService
     {
-        Task<Audio> CreateAudio(Audio audio);
-        Task<Audio> GetAudio(long id);
-        Task<List<Audio>> GetAllAudio(long agrupacionId);
+        Task CreateAudio(Audio audio);
+        Task<Audio> GetAudio(Guid id);
+        Task<List<Audio>> GetAllAudio(Guid agrupacionId);
         Task UpdateAudio(Audio audio);
-        Task DeleteAudio(long id);
-        Task<List<Audio>> SearchAudio(string cadena);
+        Task DeleteAudio(Guid id);
+        Task<List<Audio>> SearchAudios(string cadena);
 
     }
 }

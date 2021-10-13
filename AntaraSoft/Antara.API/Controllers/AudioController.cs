@@ -1,4 +1,6 @@
-﻿using Antara.Model.Contracts.Services;
+﻿using Antara.Model;
+using Antara.Model.Contracts.Services;
+using Antara.Model.Dtos;
 using Antara.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,26 @@ namespace Antara.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAudioAsync([FromBody]Audio audio)
+        public async Task<ActionResult<AudioDto>> CreateAudioAsync([FromBody]CreateAudioDto audioDto)
         {
             try
             {
-                var newAudio = await _gestionarAudioService.CreateAudio(audio);
-                return CreatedAtAction("GetAudio", new { id = newAudio.Id }, newAudio);
+                Audio newAudio = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = audioDto.Name,
+                    RegistrationDate = DateTime.Now,
+                    CreationYear = audioDto.CreationYear,
+                    Interpreter = audioDto.Interpreter,
+                    Writer = audioDto.Writer,
+                    Producer = audioDto.Producer,
+                    Reproductions = 0,
+                    Genero_id = audioDto.Genero_id,
+                    Url = audioDto.Url,
+                    User_id = audioDto.User_id
+                };
+                await _gestionarAudioService.CreateAudio(newAudio);
+                return CreatedAtAction("GetAudio", new { id = newAudio.Id }, newAudio.AsDto());
             }
             catch (Exception err)
             {
@@ -39,11 +55,11 @@ namespace Antara.API.Controllers
         }
 
         [HttpGet("all/{agrupacionId}")]
-        public async Task<ActionResult<List<Audio>>> GetAllAudioAsync(long agrupacionId)
+        public async Task<ActionResult<List<AudioDto>>> GetAllAudioAsync(Guid agrupacionId)
         {
             try
             {
-                var audioList = await _gestionarAudioService.GetAllAudio(agrupacionId);
+                var audioList = (await _gestionarAudioService.GetAllAudio(agrupacionId)).Select(item => item.AsDto());
                 return StatusCode(200, audioList);
             }
             catch (Exception err)
@@ -53,14 +69,16 @@ namespace Antara.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Audio>> GetAudioAsync(long id)
+        public async Task<ActionResult<AudioDto>> GetAudioAsync(Guid id)
         {
             try
             {
-                Audio audio = await _gestionarAudioService.GetAudio(id);
+                var audio = await _gestionarAudioService.GetAudio(id);
                 if (audio == null)
+                {
                     return NotFound();
-                return StatusCode(200, audio);
+                }
+                return StatusCode(200, audio.AsDto());
             }
             catch (Exception err)
             {
@@ -69,11 +87,26 @@ namespace Antara.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAudioAsync([FromBody]Audio audio)
+        public async Task<ActionResult> UpdateAudioAsync(Guid id, UpdateAudioDto audioDto)
         {
             try
             {
-                await _gestionarAudioService.UpdateAudio(audio);
+                var existingAudio = await _gestionarAudioService.GetAudio(id);
+                if(existingAudio == null)
+                {
+                    return NotFound();
+                }
+                Audio updatedAudio = existingAudio with
+                {
+                    Name = audioDto.Name,
+                    CreationYear = audioDto.CreationYear,
+                    Interpreter = audioDto.Interpreter,
+                    Writer = audioDto.Writer,
+                    Producer = audioDto.Producer,
+                    Genero_id = audioDto.Genero_id,
+                    Url = audioDto.Url,
+                };
+                await _gestionarAudioService.UpdateAudio(updatedAudio);
                 return StatusCode(200);
             }
             catch (Exception err)
@@ -83,10 +116,15 @@ namespace Antara.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAudioAsync(long id)
+        public async Task<ActionResult> DeleteAudioAsync(Guid id)
         {
             try
             {
+                var existingAudio = await _gestionarAudioService.GetAudio(id);
+                if (existingAudio == null)
+                {
+                    return NotFound();
+                }
                 await _gestionarAudioService.DeleteAudio(id);
                 return StatusCode(200);
             }
@@ -97,11 +135,11 @@ namespace Antara.API.Controllers
         }
 
         [HttpGet("/search")]
-        public async Task<ActionResult> SearchAudioAsync([Bind(Prefix = "cad")] string cadena)
+        public async Task<ActionResult<List<AudioDto>>> SearchAudioAsync([Bind(Prefix = "cadena")] string cadena)
         {
             try
             {
-                var audioList = await _gestionarAudioService.SearchAudio(cadena);
+                var audioList = (await _gestionarAudioService.SearchAudios(cadena)).Select(item => item.AsDto());
                 return StatusCode(200, audioList);
             }
             catch (Exception err)

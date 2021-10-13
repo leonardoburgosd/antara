@@ -8,7 +8,7 @@ namespace Antara.Model.Entities
 {
     public class Agrupacion_Audio
     {
-        public long Agrupacion_id { get; set; }
-        public long Audio_id { get; set; }
+        public Guid Agrupacion_id { get; set; }
+        public Guid Audio_id { get; set; }
     }
 }

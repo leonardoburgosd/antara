@@ -16,19 +16,20 @@ namespace Antara.Repository.Repositories
         {
             _dapper = dapper;
         }
-        public async Task<Agrupacion> CreateAgrupacion(Agrupacion agrupacion)
+        public async Task CreateAgrupacion(Agrupacion agrupacion)
         {
             try
             {
                 var newAgrupacion = await _dapper.QueryWithReturn<Agrupacion>("CreateAgrupacion", new
                 {
+                    @Id = agrupacion.Id,
                     @Name = agrupacion.Name,
                     @Description = agrupacion.Description,
-                    @isPublished = false,
+                    @isPublished = agrupacion.IsPublished,
+                    @PublicationDate = agrupacion.PublicationDate,
                     @Type = agrupacion.Type,
-                    @Usuario_id = agrupacion.Usuario_id
+                    @User_id = agrupacion.User_id
                 });
-                return newAgrupacion;
             }
             catch (Exception err)
             {
@@ -37,15 +38,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public Task DeleteAgrupacion(long id)
+        public async Task DeleteAgrupacion(Guid id)
         {
             try
             {
-                if (id == 0)
+                await _dapper.QueryWithReturn<Usuario>("DeleteAgrupacion", new
                 {
-                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
-                }
-                return DeleteAgrupacionInner(id);
+                    @Id = id
+                });
             }
             catch (Exception err)
             {
@@ -53,13 +53,7 @@ namespace Antara.Repository.Repositories
                 throw;
             }
         }
-        private async Task DeleteAgrupacionInner(long id)
-        {
-            await _dapper.QueryWithReturn<Usuario>("DeleteAgrupacion", new
-            {
-                @Id = id
-            });
-        }
+
 
         public async Task UpdateAgrupacion(Agrupacion agrupacion)
         {
@@ -81,15 +75,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public Task<Agrupacion> GetAgrupacion(long id)
+        public async Task<Agrupacion> GetAgrupacion(Guid id)
         {
             try
             {
-                if (id == 0)
+                return await _dapper.QueryWithReturn<Agrupacion>("GetAgrupacion", new
                 {
-                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
-                }
-                return GetAgrupacionInner(id);
+                    @Id = id,
+                });
             }
             catch (Exception err)
             {
@@ -98,37 +91,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-
-        public async Task<Agrupacion> GetAgrupacionInner(long id)
-        {
-            return await _dapper.QueryWithReturn<Agrupacion>("GetAgrupacion", new
-            {
-                @Id = id
-            });
-        }
-
-        public async Task<List<Agrupacion>> GetAllAgrupacion(long userId)
+        public async Task<List<Agrupacion>> GetAllAgrupacion(Guid userId)
         {
             try
             {
-                return await _dapper.Consulta<Agrupacion>("GetAllAgrupaciones");
-            }
-            catch (Exception err)
-            {
-                Console.Write(err);
-                throw;
-            }
-        }
-
-        public Task<bool> AddAudioToAgrupacion(Agrupacion_Audio agrupacion_audio)
-        {
-            try
-            {
-                if (agrupacion_audio.Agrupacion_id == 0 || agrupacion_audio.Audio_id == 0)
+                return await _dapper.Consulta<Agrupacion>("GetAllAgrupaciones", new
                 {
-                    throw new ArgumentNullException(nameof(agrupacion_audio), "No se proporciono ningún valor");
-                }
-                return AddAudioToAgrupacionInner(agrupacion_audio);
+                    @User_id = userId,
+                });
             }
             catch (Exception err)
             {
@@ -137,7 +107,7 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        private async Task<bool> AddAudioToAgrupacionInner(Agrupacion_Audio agrupacion_audio)
+        public async Task<bool> AddAudioToAgrupacion(Agrupacion_Audio agrupacion_audio)
         {
             try
             {
@@ -152,6 +122,28 @@ namespace Antara.Repository.Repositories
                     return false;
                 }
                 return true;
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+
+        public async Task<bool> RemoveAudioFromAgrupacion(Guid agrupacionId, Guid audioId)
+        {
+            try
+            {
+                int resultado = await _dapper.QueryWithReturn<int>("RemoveAudioFromAgrupacion", new
+                {
+                    @Agrupacion_id = agrupacionId,
+                    @Audio_id = audioId
+                });
+                if(resultado == 0)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception err)
             {

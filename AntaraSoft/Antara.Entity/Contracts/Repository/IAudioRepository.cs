@@ -9,11 +9,11 @@ namespace Antara.Model.Contracts
 {
     public interface IAudioRepository
     {
-        Task<Audio> CreateAudio(Audio audio);
-        Task<Audio> GetAudio(long id);
-        Task<List<Audio>> GetAllAudio(long agrupacionId);
+        Task CreateAudio(Audio audio);
+        Task<Audio> GetAudio(Guid id);
+        Task<List<Audio>> GetAllAudio(Guid agrupacionId);
         Task UpdateAudio(Audio audio);
-        Task DeleteAudio(long id);
+        Task DeleteAudio(Guid id);
         Task<Boolean> CheckUniqueUrl(string url);
         Task<List<Audio>> SearchAudios(string cadena);
     }

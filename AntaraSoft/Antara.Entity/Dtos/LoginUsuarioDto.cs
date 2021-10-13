@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Antara.Model.Entities
+namespace Antara.Model.Dtos
 {
-    public class Authentication
+    public class LoginUsuarioDto
     {
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
-        [EmailAddress(ErrorMessage = "Correo electrónico no cumple con el formato")]
+        [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
-        public string email { get; set; }
+        public string Email { get; set; }
         [Required(ErrorMessage = "Ingrese una contraseña")]
         [StringLength(18, ErrorMessage = "Debe tener entre 6 y 18 caracteres", MinimumLength = 6)]
-        public string password { get; set; }
+        public string Password { get; set; }
     }
 }
