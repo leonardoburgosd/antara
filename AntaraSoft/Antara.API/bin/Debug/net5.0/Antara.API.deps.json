@@ -37,6 +37,7 @@
           "Antara.Repository": "1.0.0",
           "Antara.Security": "1.0.0",
           "Antara.Service": "1.0.0",
+          "Google.Apis.Drive.v3": "1.55.0.2453",
           "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.2.2",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
@@ -607,8 +608,7 @@
       "Antara.Service/1.0.0": {
         "dependencies": {
           "Antara.Model": "1.0.0",
-          "Antara.Security": "1.0.0",
-          "Google.Apis.Drive.v3": "1.55.0.2453"
+          "Antara.Security": "1.0.0"
         },
         "runtime": {
           "Antara.Service.dll": {}

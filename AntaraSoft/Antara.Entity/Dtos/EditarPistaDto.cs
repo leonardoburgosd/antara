@@ -21,8 +21,5 @@ namespace Antara.Model.Dtos
         public string Productor { get; set; }
         [Required]
         public int GeneroId { get; set; }
-        [Required]
-        [StringLength(150)]
-        public string Url { get; set; }
     }
 }

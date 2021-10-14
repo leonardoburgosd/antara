@@ -16,7 +16,6 @@ namespace Antara.Model.Contracts.Services
         Task EliminarPista(Guid id);
         Task<List<Pista>> BuscarPistas(string cadena);
         Task ReproducirPista(Pista pista);
-        Task<string> SubirArchivo(string path, string nombreArchivo);
 
     }
 }

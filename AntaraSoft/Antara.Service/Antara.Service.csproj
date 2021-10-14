@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Drive.v3" Version="1.55.0.2453" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Antara.Entity\Antara.Model.csproj" />
     <ProjectReference Include="..\Antara.Security\Antara.Security.csproj" />
   </ItemGroup>

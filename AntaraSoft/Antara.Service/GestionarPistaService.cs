@@ -1,63 +1,20 @@
 ﻿using Antara.Model.Contracts;
 using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Google.Apis.Upload;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Antara.Service
 {
     public class GestionarPistaService : IGestionarPistaService
-    {
-        private const string PathToServiceAccountKeyFile = @"D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\ServiceAccountCred.json";
-        private const string DirectoryId = "1SiWueKfJRRXu1RCgm2ZhTlQxdcuN5Flz";
+    { 
         
         private readonly IPistaRepository audioRepository;
 
         public GestionarPistaService(IPistaRepository audioRepository)
         {
             this.audioRepository = audioRepository;
-        }
-
-        public async Task<string> SubirArchivo(string path, string nombreArchivo)
-        {
-            //Cargar las credenciales de la cuenta de servicio y definir el alcance
-            var credential = GoogleCredential.FromFile(PathToServiceAccountKeyFile)
-                .CreateScoped(DriveService.ScopeConstants.Drive);
-            //Crear un servicio drive
-            var service = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential
-            });
-            //Subir metadata del archivo
-            var fileMetadata = new Google.Apis.Drive.v3.Data.File()
-            {
-                Name = nombreArchivo,
-                Parents = new List<String>() { DirectoryId }
-            };
-            string fileUrl;
-            //Crear nuevo archivo en Google Drive
-            await using (var fsSource = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                //Crear un nuevo archivo, con metadata y stream.
-                var request = service.Files.Create(fileMetadata, fsSource, "audio/mpeg");
-                request.Fields = "*";
-                var results = await request.UploadAsync(CancellationToken.None);
-                if (results.Status == UploadStatus.Failed)
-                {
-                    Console.WriteLine($"Error subiendo el archivo: {results.Exception.Message}");
-                }
-                fileUrl = request.ResponseBody?.WebContentLink;
-            }
-            return fileUrl;
         }
 
         public async Task CrearPista(Pista audio)

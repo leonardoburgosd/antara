@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.55.0.2453" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
   </ItemGroup>

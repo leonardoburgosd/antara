@@ -356,8 +356,7 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Antara.Model": "1.0.0",
-          "Antara.Security": "1.0.0",
-          "Google.Apis.Drive.v3": "1.55.0.2453"
+          "Antara.Security": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Antara.Service.dll": {}
@@ -1069,6 +1068,7 @@
       "Antara.Repository >= 1.0.0",
       "Antara.Security >= 1.0.0",
       "Antara.Service >= 1.0.0",
+      "Google.Apis.Drive.v3 >= 1.55.0.2453",
       "Newtonsoft.Json >= 13.0.1",
       "Swashbuckle.AspNetCore >= 6.2.2"
     ]
@@ -1130,6 +1130,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "Google.Apis.Drive.v3": {
+            "target": "Package",
+            "version": "[1.55.0.2453, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"

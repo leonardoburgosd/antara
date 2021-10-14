@@ -9,10 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using System.Threading;
+using Google.Apis.Upload;
 
 namespace Antara.API.Controllers
 {
@@ -22,6 +25,8 @@ namespace Antara.API.Controllers
     {
         private readonly IGestionarPistaService _gestionarpistaService;
         private readonly IWebHostEnvironment _hostingEnv;
+        private const string DirectoryId = "1hWAXKy5ZW8Y4A9ch93EmMzAfC8pyeDbd";
+
         public PistaController(IGestionarPistaService gestionarpistaService, IWebHostEnvironment hostingEnv)
         {
             _gestionarpistaService = gestionarpistaService;
@@ -38,29 +43,28 @@ namespace Antara.API.Controllers
                     throw new ArgumentNullException(nameof(archivo));
                 }
                 var path = _hostingEnv.ContentRootPath;
-                var fileName = Path.GetFileName(archivo.FileName);
-                var filepath = Path.Combine(_hostingEnv.ContentRootPath, "pistas\\", fileName);
-                using(var fileStream = new FileStream(filepath,FileMode.Create))
+                var credentialsPath = Path.Combine(path, "credentials.json");
+                string url = await SubirArchivo(credentialsPath, archivo);
+                if(url != null)
                 {
-                    await archivo.CopyToAsync(fileStream);
+                    Pista pistaNueva = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Nombre = Path.GetFileNameWithoutExtension(archivo.FileName),
+                        FechaRegistro = DateTime.Now,
+                        AnoCreacion = pistaDto.AnoCreacion,
+                        Interprete = pistaDto.Interprete,
+                        Compositor = pistaDto.Compositor,
+                        Productor = pistaDto.Productor,
+                        Reproducciones = 0,
+                        GeneroId = pistaDto.GeneroId,
+                        Url = url.Replace("&export=download", ""),
+                        UsuarioId = pistaDto.UsuarioId
+                    };
+                    await _gestionarpistaService.CrearPista(pistaNueva);
+                    return CreatedAtAction("ObtenerPista", new { id = pistaNueva.Id }, pistaNueva.AsDto());
                 }
-                string url = await _gestionarpistaService.SubirArchivo(filepath, fileName);
-                Pista pistaNueva = new()
-                {
-                    Id = Guid.NewGuid(),
-                    Nombre = fileName,
-                    FechaRegistro = DateTime.Now,
-                    AnoCreacion = pistaDto.AnoCreacion,
-                    Interprete = pistaDto.Interprete,
-                    Compositor = pistaDto.Compositor,
-                    Productor = pistaDto.Productor,
-                    Reproducciones = 0,
-                    GeneroId = pistaDto.GeneroId,
-                    Url = url,
-                    UsuarioId = pistaDto.UsuarioId
-                };
-                await _gestionarpistaService.CrearPista(pistaNueva);
-                return CreatedAtAction("ObtenerPista", new { id = pistaNueva.Id }, pistaNueva.AsDto());
+                throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
             }
             catch (Exception err)
             {
@@ -69,7 +73,7 @@ namespace Antara.API.Controllers
                 {
                     return StatusCode(409, Json(new { error = err.Message }));
                 }
-                else return StatusCode(500, err);
+                else return StatusCode(500, err.Message.ToString());
             }
         }
 
@@ -123,7 +127,6 @@ namespace Antara.API.Controllers
                     Compositor = pistaDto.Compositor,
                     Productor = pistaDto.Productor,
                     GeneroId = pistaDto.GeneroId,
-                    Url = pistaDto.Url
                 };
                 await _gestionarpistaService.EditarPista(pistaEditada);
                 return StatusCode(200);
@@ -183,6 +186,40 @@ namespace Antara.API.Controllers
             {
                 return StatusCode(500, err);
             }
+        }
+
+        private static async Task<string> SubirArchivo(string credencialesDirectorio, IFormFile archivo)
+        {
+            //Cargar las credenciales de la cuenta de servicio y definir el alcance
+            var credential = GoogleCredential.FromFile(credencialesDirectorio)
+                .CreateScoped(DriveService.ScopeConstants.Drive);
+            //Crear un servicio drive
+            var service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential
+            });
+            //Subir metadata del archivo
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File()
+            {
+                Name = archivo.FileName,
+                Parents = new List<String>() { DirectoryId }
+            };
+            string fileUrl;
+            //Crear nuevo archivo en Google Drive
+            await using (var fsSource = new MemoryStream())
+            {
+                //Crear un nuevo archivo, con metadata y stream.
+                await archivo.CopyToAsync(fsSource);
+                var request = service.Files.Create(fileMetadata, fsSource, "audio/mpeg");
+                request.Fields = "*";
+                var results = await request.UploadAsync(CancellationToken.None);
+                if (results.Status == UploadStatus.Failed)
+                {
+                    Console.WriteLine($"Error subiendo el archivo: {results.Exception.Message}");
+                }
+                fileUrl = request.ResponseBody?.WebContentLink;
+            }
+            return fileUrl;
         }
     }
 }

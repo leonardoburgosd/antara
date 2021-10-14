@@ -57,6 +57,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Google.Apis.Drive.v3": {
+              "target": "Package",
+              "version": "[1.55.0.2453, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -332,12 +336,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.55.0.2453, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
