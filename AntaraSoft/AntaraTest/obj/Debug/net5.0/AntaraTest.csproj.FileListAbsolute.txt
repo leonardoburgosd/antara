@@ -330,3 +330,8 @@ D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\n
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Antara.Repository.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Antara.Repository.pdb
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Google.Apis.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Google.Apis.Auth.PlatformServices.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Google.Apis.Auth.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Google.Apis.Core.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\bin\Debug\net5.0\Google.Apis.Drive.v3.dll

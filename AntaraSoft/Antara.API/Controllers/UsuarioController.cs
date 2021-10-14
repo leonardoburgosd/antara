@@ -55,14 +55,14 @@ namespace Antara.API.Controllers
 
         // url: "localhost:8080/api/usuario/{id}"
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> ObtenerUsuarioAsync(Guid id)
+        public async Task<ActionResult<UsuarioDto>> ObtenerUsuarioAsync(Guid id)
         {
             try
             {
                 Usuario usuario = await _registrarUsuarioService.ObtenerUsuario(id);
                 if (usuario == null)
                     return NotFound();
-                return StatusCode(200, usuario);
+                return StatusCode(200, usuario.AsDto());
             }
             catch (Exception err)
             {
