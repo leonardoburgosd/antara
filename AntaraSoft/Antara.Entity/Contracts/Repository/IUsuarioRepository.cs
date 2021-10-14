@@ -9,11 +9,11 @@ namespace Antara.Model.Contracts
 {
     public interface IUsuarioRepository
     {
-        Task CreateUsuario(Usuario usuario);
-        Task<Usuario> GetUsuario(Guid id);
+        Task CrearUsuario(Usuario usuario);
+        Task<Usuario> ObtenerUsuario(Guid id);
         Task<Usuario> Login(string email);
-        Task<Boolean> CheckUniqueEmail(string email);
-        Task PhysicalDeleteUsuario(Guid id);
+        Task<Boolean> VerificarEmailUnico(string email);
+        Task EliminarFisicoUsuario(Guid id);
 
     }
 }

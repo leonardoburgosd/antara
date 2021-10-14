@@ -51,7 +51,7 @@ namespace Antara.Service
                     bool pass = encryptText.CompararHash(password, user.Password);
                     if (pass)
                     {
-                        return usuarioRepo.GetUsuario(user.Id).Result;
+                        return usuarioRepo.ObtenerUsuario(user.Id).Result;
                     }
                 }
                 return null;

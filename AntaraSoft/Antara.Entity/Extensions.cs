@@ -16,42 +16,42 @@ namespace Antara.Model
             {
                 Id = usuario.Id,
                 Email = usuario.Email,
-                Name = usuario.Name,
-                BirthDate = usuario.BirthDate,
-                Gender = usuario.Gender,
-                RegistrationDate = usuario.RegistrationDate,
-                Country = usuario.Country
+                Nombre = usuario.Nombre,
+                FechaNacimiento = usuario.FechaNacimiento,
+                Genero = usuario.Genero,
+                FechaRegistro = usuario.FechaRegistro,
+                Pais = usuario.Pais
             };
         }
-        public static AudioDto AsDto(this Audio audio)
+        public static PistaDto AsDto(this Pista audio)
         {
-            return new AudioDto
+            return new PistaDto
             {
                 Id = audio.Id,
-                Name = audio.Name,
-                RegistrationDate = audio.RegistrationDate,
-                CreationYear = audio.CreationYear,
-                Interpreter = audio.Interpreter,
-                Writer = audio.Writer,
-                Producer = audio.Producer,
-                Reproductions = audio.Reproductions,
-                Genero_id = audio.Genero_id,
+                Nombre = audio.Nombre,
+                FechaRegistro = audio.FechaRegistro,
+                AnoCreacion = audio.AnoCreacion,
+                Interprete = audio.Interprete,
+                Compositor = audio.Compositor,
+                Productor = audio.Productor,
+                Reproducciones = audio.Reproducciones,
+                GeneroId = audio.GeneroId,
                 Url = audio.Url,
-                User_id = audio.User_id
+                UsuarioId = audio.UsuarioId
             };
         }
 
-        public static AgrupacionDto AsDto(this Agrupacion agrupacion)
+        public static GrupoDto AsDto(this Grupo agrupacion)
         {
-            return new AgrupacionDto
+            return new GrupoDto
             {
                 Id = agrupacion.Id,
-                Name = agrupacion.Name,
-                Description = agrupacion.Description,
-                PublicationDate = agrupacion.PublicationDate,
-                IsPublished = agrupacion.IsPublished,
-                Type = agrupacion.Type,
-                User_id = agrupacion.User_id
+                Nombre = agrupacion.Nombre,
+                Descripcion = agrupacion.Descripcion,
+                FechaPublicacion = agrupacion.FechaPublicacion,
+                EstaPublicado = agrupacion.EstaPublicado,
+                Tipo = agrupacion.Tipo,
+                UsuarioId = agrupacion.UsuarioId
             };
         }
     }

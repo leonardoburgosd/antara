@@ -4,11 +4,11 @@
   "runs": [
     {
       "tool": {
-        "name": "Compilador de Microsoft (R) Visual C#",
+        "name": "Microsoft (R) Visual C# Compiler",
         "version": "3.11.0.0",
         "fileVersion": "3.11.0-4.21403.6 (ae1fff34)",
         "semanticVersion": "3.11.0",
-        "language": "es-MX"
+        "language": "en-US"
       },
       "results": [
         {
@@ -20,10 +20,241 @@
               "resultFile": {
                 "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Startup.cs",
                 "region": {
-                  "startLine": 43,
+                  "startLine": 44,
                   "startColumn": 1,
-                  "endLine": 43,
+                  "endLine": 44,
                   "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Name' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 26,
+                  "endLine": 101,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'CreationYear' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 34,
+                  "endLine": 102,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Interpreter' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 103,
+                  "startColumn": 33,
+                  "endLine": 103,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Writer' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 28,
+                  "endLine": 104,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Producer' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 105,
+                  "startColumn": 30,
+                  "endLine": 105,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Genero_id' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 106,
+                  "startColumn": 31,
+                  "endLine": 106,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Url' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "region": {
+                  "startLine": 107,
+                  "startColumn": 25,
+                  "endLine": 107,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Name' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
+                "region": {
+                  "startLine": 98,
+                  "startColumn": 26,
+                  "endLine": 98,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Description' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
+                "region": {
+                  "startLine": 99,
+                  "startColumn": 33,
+                  "endLine": 99,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'IsPublished' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
+                "region": {
+                  "startLine": 100,
+                  "startColumn": 33,
+                  "endLine": 100,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Type' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 26,
+                  "endLine": 101,
+                  "endColumn": 27
                 }
               }
             }
@@ -34,6 +265,23 @@
         }
       ],
       "rules": {
+        "S1121": {
+          "id": "S1121",
+          "shortDescription": "Assignments should not be made from within sub-expressions",
+          "fullDescription": "Assignments within sub-expressions are hard to spot and therefore make the code less readable. Ideally, sub-expressions should not have side-effects.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1121",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
         "S125": {
           "id": "S125",
           "shortDescription": "Sections of code should not be commented out",

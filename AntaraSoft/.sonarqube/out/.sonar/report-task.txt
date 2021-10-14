@@ -2,5 +2,5 @@ projectKey=antara
 serverUrl=http://localhost:9000
 serverVersion=8.9.0.43852
 dashboardUrl=http://localhost:9000/dashboard?id=antara
-ceTaskId=AXwyuCpGw5NRCWpmOVXg
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXwyuCpGw5NRCWpmOVXg
+ceTaskId=AXx7A-oinS7TeYpBrCjn
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXx7A-oinS7TeYpBrCjn

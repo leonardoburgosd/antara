@@ -14,15 +14,15 @@ namespace Antara.Repository.Repositories
             _dapper = dapper;
         }
 
-        public async Task<Boolean> CheckUniqueEmail(string email)
+        public async Task<Boolean> VerificarEmailUnico(string email)
         {
             try
             {
-                Usuario response = await _dapper.QueryWithReturn<Usuario>("CheckUniqueEmail", new
+                Usuario respuesta = await _dapper.QueryWithReturn<Usuario>("VerificarEmailUnico", new
                 {
                     @Email = email
                 });
-                if (response == null)
+                if (respuesta == null)
                 {
                     return true;
                 }
@@ -35,21 +35,21 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task CreateUsuario(Usuario usuario)
+        public async Task CrearUsuario(Usuario usuario)
         {
             try
             {
-                Usuario nuevoUsuario = await _dapper.QueryWithReturn<Usuario>("CreateUsuario", new
+                await _dapper.QueryWithReturn<Usuario>("CrearUsuario", new
                 {
                     @Id = usuario.Id,
                     @Email = usuario.Email,
                     @Password = usuario.Password,
-                    @Name = usuario.Name,
-                    @BirthDate = usuario.BirthDate,
-                    @Gender = usuario.Gender,
-                    @Active = usuario.Active,
-                    @RegistrationDate = usuario.RegistrationDate,
-                    @Country = usuario.Country
+                    @Nombre = usuario.Nombre,
+                    @FechaNacimiento = usuario.FechaNacimiento,
+                    @Genero = usuario.Genero,
+                    @EstaActivo = usuario.EstaActivo,
+                    @FechaRegistro = usuario.FechaRegistro,
+                    @Pais = usuario.Pais
                 });
             }
             catch (Exception err)
@@ -59,7 +59,7 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public Task PhysicalDeleteUsuario(Guid id)
+        public Task EliminarFisicoUsuario(Guid id)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Antara.Repository.Repositories
                 {
                     throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
                 }
-                return PhysicalDeleteUsuarioInner(id);
+                return EliminarFisicoUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -76,19 +76,19 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        private async Task PhysicalDeleteUsuarioInner(Guid id)
+        private async Task EliminarFisicoUsuarioInner(Guid id)
         {
-            await _dapper.QueryWithReturn<Usuario>("PhysicalDeleteUsuario", new
+            await _dapper.QueryWithReturn<Usuario>("EliminarFisicoUsuario", new
             {
                 @Id = id
             });
         }
 
-        public async Task<Usuario> GetUsuario(Guid id)
+        public async Task<Usuario> ObtenerUsuario(Guid id)
         {
             try
             {
-                return await _dapper.QueryWithReturn<Usuario>("GetUsuario", new
+                return await _dapper.QueryWithReturn<Usuario>("ObtenerUsuario", new
                 {
                     @Id = id
                 });

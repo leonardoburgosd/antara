@@ -1,3 +1,5 @@
 ﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\Dapper\Dapper.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\Dapper\IDapper.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\Repositories\AgrupacionRepository.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\Repositories\AudioRepository.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\Repositories\UsuarioRepository.cs

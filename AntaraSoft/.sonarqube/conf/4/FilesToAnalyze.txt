@@ -1,4 +1,6 @@
-﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\LoginServiceTest.cs
+﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\GestionarAgrupacionTest.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\GestionarAudioServiceTest.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\LoginServiceTest.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\RegistrarUsuarioServiceTest.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\SecurityTest.cs
 C:\Users\Diego\.nuget\packages\microsoft.net.test.sdk\16.9.4\build\netcoreapp2.1\Microsoft.NET.Test.Sdk.Program.cs

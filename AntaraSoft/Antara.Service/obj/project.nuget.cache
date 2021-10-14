@@ -1,10 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "ksb27QRlL3++Hz0NOzpR84JfklojfAcWbQqQ43Nm7zmH32s4F0gxd39Y34PXFP9G1BzqQ+majFAiOJ5VdVbJgg==",
+  "dgSpecHash": "ARyzZ1VpNYiItoZACcYxeE/sTWBxBHQIwmlaiwOD5qKp9ELyH/AI8FtCYsXHgepOeTwtPXc9PPkemUw9TLulIA==",
   "success": true,
-  "projectFilePath": "D:\\Local\\Documentos\\Git hub\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
+  "projectFilePath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Service\\Antara.Service.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\lbd_2\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
+    "C:\\Users\\Diego\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis\\1.55.0\\google.apis.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.auth\\1.55.0\\google.apis.auth.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.core\\1.55.0\\google.apis.core.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.drive.v3\\1.55.0.2453\\google.apis.drive.v3.1.55.0.2453.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.Service\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

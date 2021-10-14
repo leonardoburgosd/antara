@@ -13,57 +13,57 @@ namespace AntaraTest
     [TestClass]
     public class GestionarAgrupacionTest
     {
-        private readonly GestionarAgrupacionService _agrupacionService;
+        private readonly GestionarGrupoService _agrupacionService;
         public GestionarAgrupacionTest()
         {
             var options = Options.Create(new AppSettings());
             options.Value.ConexionString = "Server=.;Database=antaradb;Trusted_Connection=True;MultipleActiveResultSets=True";
             var dapper = new Antara.Repository.Dapper.Dapper(options);
-            var agrupacionRepo = new AgrupacionRepository(dapper);
-            _agrupacionService = new GestionarAgrupacionService(agrupacionRepo);
+            var agrupacionRepo = new GrupoRepository(dapper);
+            _agrupacionService = new GestionarGrupoService(agrupacionRepo);
         }
 
         [TestMethod]
         [DataRow("PlayList", 0)]
         [DataRow("MiPlayList", 1)]
         [DataRow("PlayList", 2)]
-        public void CreateAgrupacionTest(string type, int caso)
+        public void CrearGrupoTest(string type, int caso)
         {
-            Agrupacion esperado = new();
+            Grupo esperado = new();
             esperado.Id = Guid.NewGuid();
-            esperado.Name = "TestAgrupacion1";
-            esperado.Description = "Agrupacion de prueba";
-            esperado.PublicationDate = DateTime.Parse("1900-01-01");
-            esperado.IsPublished = false;
-            esperado.Type = type;
-            esperado.User_id = Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E");
+            esperado.Nombre = "TestAgrupacion1";
+            esperado.Descripcion = "Agrupacion de prueba";
+            esperado.FechaPublicacion = DateTime.Parse("1900-01-01");
+            esperado.EstaPublicado = false;
+            esperado.Tipo = type;
+            esperado.UsuarioId = Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E");
 
             switch (caso)
             {
                 case 0:
-                    _agrupacionService.CreateAgrupacion(esperado).Wait();
-                    Agrupacion actual = _agrupacionService.GetAgrupacion(esperado.Id).Result;
+                    _agrupacionService.CrearGrupo(esperado).Wait();
+                    Grupo actual = _agrupacionService.ObtenerGrupo(esperado.Id).Result;
                     if (actual != null)
                     {
                         Assert.IsNotNull(actual.Id);
-                        Assert.AreEqual(esperado.Name, actual.Name);
-                        Assert.AreEqual(esperado.Description, actual.Description);
-                        Assert.AreEqual(esperado.Type, actual.Type);
-                        Assert.AreEqual(esperado.User_id, actual.User_id);
-                        _agrupacionService.DeleteAgrupacion(actual.Id).Wait();
+                        Assert.AreEqual(esperado.Nombre, actual.Nombre);
+                        Assert.AreEqual(esperado.Descripcion, actual.Descripcion);
+                        Assert.AreEqual(esperado.Tipo, actual.Tipo);
+                        Assert.AreEqual(esperado.UsuarioId, actual.UsuarioId);
+                        _agrupacionService.EliminarGrupo(actual.Id).Wait();
                     }
                     break;
                 case 1:
                     Assert.ThrowsException<ArgumentException>(() =>
                     {
-                        _agrupacionService.CreateAgrupacion(esperado).Wait();
+                        _agrupacionService.CrearGrupo(esperado).Wait();
                     });
                     break;
                 case 2:
-                    esperado.Name = null;
+                    esperado.Nombre = null;
                     Assert.ThrowsException<AggregateException>(() =>
                     {
-                        _agrupacionService.CreateAgrupacion(esperado).Wait();
+                        _agrupacionService.CrearGrupo(esperado).Wait();
                     });
                     break;
             }
@@ -74,78 +74,78 @@ namespace AntaraTest
         [DataRow("PlayList", 0)]
         [DataRow("MiPlayList", 1)]
         [DataRow("PlayList", 2)]
-        public void UpdateAgrupacionTest(string type, int caso)
+        public void EditarGrupoTest(string tipo, int caso)
         {
-            Agrupacion esperado = new();
+            Grupo esperado = new();
             esperado.Id = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
-            esperado.Name = "TestAgrupacion0";
-            esperado.Description = "Agrupacion de prueba";
-            esperado.Type = type;
-            esperado.User_id = Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E");
+            esperado.Nombre = "TestAgrupacion0";
+            esperado.Descripcion = "Agrupacion de prueba";
+            esperado.Tipo = tipo;
+            esperado.UsuarioId = Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E");
 
             switch (caso)
             {
                 case 0:
-                    _agrupacionService.UpdateAgrupacion(esperado).Wait();
-                    Agrupacion actual = _agrupacionService.GetAgrupacion(esperado.Id).Result;
+                    _agrupacionService.EditarGrupo(esperado).Wait();
+                    Grupo actual = _agrupacionService.ObtenerGrupo(esperado.Id).Result;
                     if (actual != null)
                     {
                         Assert.IsNotNull(actual.Id);
-                        Assert.AreEqual(esperado.Name, actual.Name);
-                        Assert.AreEqual(esperado.Description, actual.Description);
-                        Assert.AreEqual(esperado.Type, actual.Type);
-                        Assert.AreEqual(esperado.User_id, actual.User_id);
+                        Assert.AreEqual(esperado.Nombre, actual.Nombre);
+                        Assert.AreEqual(esperado.Descripcion, actual.Descripcion);
+                        Assert.AreEqual(esperado.Tipo, actual.Tipo);
+                        Assert.AreEqual(esperado.UsuarioId, actual.UsuarioId);
                     }
                     break;
                 case 1:
                     Assert.ThrowsException<ArgumentException>(() =>
                     {
-                        _agrupacionService.UpdateAgrupacion(esperado).Wait();
+                        _agrupacionService.EditarGrupo(esperado).Wait();
                     });
                     break;
                 case 2:
-                    esperado.Name = null;
+                    esperado.Nombre = null;
                     Assert.ThrowsException<AggregateException>(() =>
                     {
-                        _agrupacionService.UpdateAgrupacion(esperado).Wait();
+                        _agrupacionService.EditarGrupo(esperado).Wait();
                     });
                     break;
             }
         }
 
         [TestMethod]
-        public void DeleteAgrupacionTest()
+        public void EliminarGrupoTest()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _agrupacionService.DeleteAgrupacion(Guid.Empty).Wait();
+                _agrupacionService.EliminarGrupo(Guid.Empty).Wait();
             });
         }
 
         [TestMethod]
-        public void GetAgrupacionTest()
+        public void ObtenerGrupoTest()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _agrupacionService.GetAgrupacion(Guid.Empty).Wait();
+                _agrupacionService.ObtenerGrupo(Guid.Empty).Wait();
             });
         }
 
         [DataRow(0)]
         [DataRow(1)]
         [TestMethod]
-        public void GetAllAgrupacionTest(int caso)
+        public void ObtenerTodosGruposDeUsuarioTest(int caso)
         {
             switch(caso)
             {
                 case 0:
                     Assert.ThrowsException<ArgumentNullException>(() =>
                     {
-                        List<Agrupacion> agrupacionList = _agrupacionService.GetAllAgrupacion(Guid.Empty).Result;
+                        List<Grupo> agrupacionList = _agrupacionService.ObtenerTodosGruposDeUsuario(Guid.Empty).Result;
                     });
                     break;
                 case 1:
-                    List<Agrupacion> agrupacionList = _agrupacionService.GetAllAgrupacion(Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E")).Result;
+                    List<Grupo> agrupacionList = _agrupacionService.ObtenerTodosGruposDeUsuario(Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E")).Result;
                     Assert.IsNotNull(agrupacionList);
                     break;
             }
@@ -154,24 +154,24 @@ namespace AntaraTest
         [TestMethod]
         [DataRow(0)]
         [DataRow(1)]
-        public void AddAudioToAgrupacionTest(int caso)
+        public void AgregarPistaAGrupoTest(int caso)
         {
-            Agrupacion_Audio esperado = new();
-            esperado.Audio_id = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
-            esperado.Agrupacion_id = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
+            GrupoPista esperado = new();
+            esperado.PistaId = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
+            esperado.GrupoId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
             if (caso == 0)
             {
-                esperado.Agrupacion_id = Guid.Empty;
+                esperado.GrupoId = Guid.Empty;
                 Assert.ThrowsException<ArgumentNullException>(() =>
                 {
-                    _agrupacionService.AddAudioToAgrupacion(esperado);
+                    _agrupacionService.AgregarPistaAGrupo(esperado);
                 });
             }
             else
             {
-                bool respuesta = _agrupacionService.AddAudioToAgrupacion(esperado).Result;
+                bool respuesta = _agrupacionService.AgregarPistaAGrupo(esperado).Result;
                 Assert.IsTrue(respuesta);
-                _agrupacionService.RemoveAudioFromAgrupacion(esperado.Agrupacion_id, esperado.Audio_id).Wait();
+                _agrupacionService.QuitarPistaDeGrupo(esperado).Wait();
             }
            
 
@@ -180,30 +180,57 @@ namespace AntaraTest
         [TestMethod]
         [DataRow(0)]
         [DataRow(1)]
-        public void RemoveAudioFromAgrupacion(int caso)
+        public void QuitarPistaDeGrupo(int caso)
         {
-            Guid agrupacionId;
-            Guid audioId;
+            GrupoPista grupoPista = new();
             switch(caso)
             {
                 case 0:
-                    agrupacionId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
-                    audioId = Guid.Empty;
+                    grupoPista.GrupoId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
+                    grupoPista.PistaId = Guid.Empty;
                     Assert.ThrowsException<ArgumentNullException>(() =>
                     {
-                        _agrupacionService.RemoveAudioFromAgrupacion(agrupacionId, audioId).Wait();
+                        _agrupacionService.QuitarPistaDeGrupo(grupoPista).Wait();
                     });
                     break;
                 case 1:
-                    agrupacionId = Guid.Empty; ;
-                    audioId = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
+                    grupoPista.GrupoId = Guid.Empty; ;
+                    grupoPista.PistaId = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
                     Assert.ThrowsException<ArgumentNullException>(() =>
                     {
-                        _agrupacionService.RemoveAudioFromAgrupacion(agrupacionId, audioId).Wait();
+                        _agrupacionService.QuitarPistaDeGrupo(grupoPista).Wait();
                     });
                     break;
             }
-            
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        public void PublicarGrupoTest(int caso)
+        {
+            Grupo agrupacion = _agrupacionService.ObtenerGrupo(Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415")).Result;
+
+            switch (caso)
+            {
+                case 0:
+                    if(agrupacion != null)
+                    {
+                        bool estaPublicado = _agrupacionService.PublicarGrupo(agrupacion).Result;
+                        Assert.IsTrue(estaPublicado);
+                    }
+                    break;
+                case 1:
+                    if (agrupacion != null)
+                    {
+                        Assert.ThrowsException<AggregateException>(() =>
+                        {
+                            bool estaPublicado = _agrupacionService.PublicarGrupo(agrupacion).Result;
+                        });
+                    }
+                    break;
+
+            }
         }
     }
 }

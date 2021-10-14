@@ -23,19 +23,19 @@ namespace AntaraTest
         [DataRow("test@correo.com", 1)]
         [DataRow(null, 1)]
         [DataRow("testCreate@correo.com", 2)]
-        public void CreateUsuarioTest(string email, int caso)
+        public void CrearUsuarioTest(string email, int caso)
         {
             Usuario esperado = new()
             {
                 Id = Guid.NewGuid(),
                 Email = email,
                 Password = "test123",
-                Name = "Test",
-                BirthDate = new(1999, 12, 31),
-                Gender = 'M',
-                Active = true,
-                RegistrationDate = DateTime.Now,
-                Country = "Peru"
+                Nombre = "Test",
+                FechaNacimiento = new(1999, 12, 31),
+                Genero = 'M',
+                EstaActivo = true,
+                FechaRegistro = DateTime.Now,
+                Pais = "Peru"
             };
 
             var options = Options.Create(new AppSettings());
@@ -49,42 +49,42 @@ namespace AntaraTest
             switch (caso)
             {
                 case 0:
-                    servicio.CreateUsuario(esperado).Wait();
-                    Usuario actual = servicio.GetUsuario(esperado.Id).Result;
+                    servicio.CrearUsuario(esperado).Wait();
+                    Usuario actual = servicio.ObtenerUsuario(esperado.Id).Result;
                     if (actual != null)
                     {
                         Assert.IsNotNull(actual.Id);
                         Assert.AreEqual(esperado.Email, actual.Email);
                         Assert.IsTrue(BCryptNet.Verify("test123", actual.Password));
-                        Assert.AreEqual(esperado.Name, actual.Name);
-                        Assert.AreEqual(esperado.BirthDate, actual.BirthDate);
-                        Assert.AreEqual(esperado.Gender, actual.Gender);
-                        Assert.IsNotNull(actual.RegistrationDate);
-                        Assert.IsTrue(actual.Active);
-                        Assert.AreEqual(esperado.Country, actual.Country);
+                        Assert.AreEqual(esperado.Nombre, actual.Nombre);
+                        Assert.AreEqual(esperado.FechaNacimiento, actual.FechaNacimiento);
+                        Assert.AreEqual(esperado.Genero, actual.Genero);
+                        Assert.IsNotNull(actual.FechaRegistro);
+                        Assert.IsTrue(actual.EstaActivo);
+                        Assert.AreEqual(esperado.Pais, actual.Pais);
 
-                        usuarioRepo.PhysicalDeleteUsuario(actual.Id).Wait();
+                        usuarioRepo.EliminarFisicoUsuario(actual.Id).Wait();
                     }
                     break;
 
                 case 1:
                     Assert.ThrowsException<AggregateException>(() =>
                     {
-                        servicio.CreateUsuario(esperado).Wait();
+                        servicio.CrearUsuario(esperado).Wait();
                     });
                     break;
                 case 2:
-                    esperado.Name = null;
+                    esperado.Nombre = null;
                     Assert.ThrowsException<AggregateException>(() =>
                     {
-                        servicio.CreateUsuario(esperado).Wait();
+                        servicio.CrearUsuario(esperado).Wait();
                     });
                     break;
             }   
         }
 
         [TestMethod]
-        public void GetUsuarioTests()
+        public void ObtenerUsuarioTests()
         {
             var options = Options.Create(new AppSettings());
             options.Value.ConexionString = "Server=.;Database=antaradb;Trusted_Connection=True;MultipleActiveResultSets=True";
@@ -95,7 +95,7 @@ namespace AntaraTest
 
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                var actual = servicio.GetUsuario(Guid.Empty).Result;
+                var actual = servicio.ObtenerUsuario(Guid.Empty).Result;
             });
             
         }
@@ -110,7 +110,7 @@ namespace AntaraTest
 
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                usuarioRepo.PhysicalDeleteUsuario(Guid.Empty).Wait();
+                usuarioRepo.EliminarFisicoUsuario(Guid.Empty).Wait();
             });
         }
     }

@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 
 namespace Antara.Model.Dtos
 {
-    public class UpdateAgrupacionDto
+    public class GrupoDto
     {
+        [Required]
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Ingrese un nombre para el audio")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
-        public string Name { get; set; }
+        public string Nombre { get; set; }
         [StringLength(150, ErrorMessage = "Debe ser menor de 150 caracteres")]
-        public string Description { get; set; }
+        public string Descripcion { get; set; }
+        public DateTime FechaPublicacion { get; set; }
         [Required]
-        public bool IsPublished { get; set; }
+        public bool EstaPublicado { get; set; }
         [Required]
-        public string Type { get; set; }
+        public string Tipo { get; set; }
+        [Required]
+        public Guid UsuarioId { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace AntaraTest
             var dapper = new Antara.Repository.Dapper.Dapper(options);
             var usuarioRepo = new UsuarioRepository(dapper);
             var mockEncrypter = new Mock<IEncryptText>();
-            mockEncrypter.Setup(x => x.CompararHash(password, usuarioRepo.GetUsuario(Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E")).Result.Password)).Returns(true);
+            mockEncrypter.Setup(x => x.CompararHash(password, usuarioRepo.ObtenerUsuario(Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E")).Result.Password)).Returns(true);
             var servicioLogin = new LoginService(usuarioRepo, mockEncrypter.Object);
 
             
@@ -40,10 +40,10 @@ namespace AntaraTest
                     Assert.IsNotNull(actual.Id);
                     Assert.AreEqual("test@correo.com", actual.Email);
                     Assert.IsTrue(BCryptNet.Verify(password, actual.Password));
-                    Assert.AreEqual("Test", actual.Name);
-                    Assert.AreEqual('M', actual.Gender);
-                    Assert.IsTrue(actual.Active);
-                    Assert.AreEqual("Peru", actual.Country);
+                    Assert.AreEqual("Test", actual.Nombre);
+                    Assert.AreEqual('M', actual.Genero);
+                    Assert.IsTrue(actual.EstaActivo);
+                    Assert.AreEqual("Peru", actual.Pais);
                 }
                 else
                 {

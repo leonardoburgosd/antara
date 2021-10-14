@@ -130,7 +130,6 @@ D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.dll
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.pdb
 D:\Local\Documentos\Git\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Newtonsoft.Json.dll
-D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Newtonsoft.Json.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Service.pdb
@@ -233,6 +232,13 @@ D:\Local\Documentos\Git\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.genrun
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\BCrypt.Net-Next.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Security.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.Security.pdb
+<<<<<<< HEAD
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Google.Apis.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Google.Apis.Auth.PlatformServices.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Google.Apis.Auth.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Google.Apis.Core.dll
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Google.Apis.Drive.v3.dll
+=======
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\appsettings.Development.json
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\appsettings.json
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\Antara.API.exe
@@ -280,3 +286,4 @@ D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\ref\Antara.API.dll
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.pdb
 D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.genruntimeconfig.cache
+>>>>>>> cd1ab85af533b32d04e264c854dca7d02de8556f

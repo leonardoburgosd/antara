@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Antara.Model.Dtos
 {
-    public class CreateUsuarioDto
+    public class CrearUsuarioDto
     {
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
         [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
@@ -18,10 +18,10 @@ namespace Antara.Model.Dtos
         public string Password { get; set; }
         [Required(ErrorMessage = "Ingrese una nombre de perfil")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
-        public string Name { get; set; }
-        public DateTime BirthDate { get; set; }
-        public char Gender { get; set; }
+        public string Nombre { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public char Genero { get; set; }
         [Required(ErrorMessage = "Ingrese un país")]
-        public string Country { get; set; }
+        public string Pais { get; set; }
     }
 }

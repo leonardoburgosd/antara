@@ -23,24 +23,24 @@ namespace Antara.API.Controllers
 
         // url: "localhost:8080/api/usuario"
         [HttpPost]
-        public async Task<ActionResult<UsuarioDto>> CreateUsuarioAsync([FromBody] CreateUsuarioDto usuarioDto)
+        public async Task<ActionResult<UsuarioDto>> CrearUsuarioAsync([FromBody] CrearUsuarioDto usuarioDto)
         {
             try
             {
-                Usuario newUsuario = new()
+                Usuario usuarioNuevo = new()
                 {
                     Id = Guid.NewGuid(),
                     Email = usuarioDto.Email,
                     Password = usuarioDto.Password,
-                    Name = usuarioDto.Name,
-                    BirthDate = usuarioDto.BirthDate,
-                    Gender = usuarioDto.Gender,
-                    Active = true,
-                    RegistrationDate = DateTime.Now,
-                    Country = usuarioDto.Country
+                    Nombre = usuarioDto.Nombre,
+                    FechaNacimiento = usuarioDto.FechaNacimiento,
+                    Genero = usuarioDto.Genero,
+                    EstaActivo = true,
+                    FechaRegistro = DateTime.Now,
+                    Pais = usuarioDto.Pais
                 };
-                await _registrarUsuarioService.CreateUsuario(newUsuario);
-                return CreatedAtAction("GetUsuario", new { id = newUsuario.Id }, newUsuario.AsDto());
+                await _registrarUsuarioService.CrearUsuario(usuarioNuevo);
+                return CreatedAtAction("ObtenerUsuario", new { id = usuarioNuevo.Id }, usuarioNuevo.AsDto());
             }
             catch (Exception err)
             {
@@ -55,11 +55,11 @@ namespace Antara.API.Controllers
 
         // url: "localhost:8080/api/usuario/{id}"
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuarioAsync(Guid id)
+        public async Task<ActionResult<Usuario>> ObtenerUsuarioAsync(Guid id)
         {
             try
             {
-                Usuario usuario = await _registrarUsuarioService.GetUsuario(id);
+                Usuario usuario = await _registrarUsuarioService.ObtenerUsuario(id);
                 if (usuario == null)
                     return NotFound();
                 return StatusCode(200, usuario);
@@ -77,12 +77,12 @@ namespace Antara.API.Controllers
         {
             try
             {
-                Usuario user = await _loginService.Login(loginDto.Email, loginDto.Password);
-                if(user == null)
+                Usuario usuario = await _loginService.Login(loginDto.Email, loginDto.Password);
+                if(usuario == null)
                 {
                     return NotFound();
                 }
-                return Json(new { user.Email, user.Name, user.BirthDate, user.Gender, user.RegistrationDate, user.Country });
+                return Json(new { usuario.Email, usuario.Nombre, usuario.FechaNacimiento, usuario.Genero, usuario.FechaRegistro, usuario.Pais });
             }
             catch (Exception err)
             {

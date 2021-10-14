@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Antara.Model.Entities
 {
-    public class Agrupacion_Audio
+    public class GrupoPista
     {
-        public Guid Agrupacion_id { get; set; }
-        public Guid Audio_id { get; set; }
+        public Guid GrupoId { get; set; }
+        public Guid PistaId { get; set; }
     }
 }

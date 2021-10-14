@@ -1,2 +1,4 @@
-﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs
+﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarAgrupacionService.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarAudioService.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\RegistrarUsuarioService.cs

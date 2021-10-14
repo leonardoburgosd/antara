@@ -1,4 +1,6 @@
-﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\UsuarioController.cs
+﻿D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\AgrupacionController.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\AudioController.cs
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\UsuarioController.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Program.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Startup.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs

@@ -1,4 +1,6 @@
-n
+q
+hD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\AgrupacionController.csutf-8l
+cD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\AudioController.csutf-8n
 eD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Controllers\UsuarioController.csutf-8X
 OD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Program.csutf-8X
 OD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\Startup.csutf-8ê

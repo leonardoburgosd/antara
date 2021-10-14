@@ -32,12 +32,12 @@ namespace Antara.API
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-            services.AddTransient<IAudioRepository, AudioRepository>();
-            services.AddTransient<IAgrupacionRepository, AgrupacionRepository>();
+            services.AddTransient<IPistaRepository, PistaRepository>();
+            services.AddTransient<IGrupoRepository, GrupoRepository>();
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
-            services.AddTransient<IGestionarAudioService, GestionarAudioService>();
-            services.AddTransient<IGestionarAgrupacionService, GestionarAgrupacionService>();
+            services.AddTransient<IGestionarPistaService, GestionarPistaService>();
+            services.AddTransient<IGestionarGrupoService, GestionarGrupoService>();
             services.AddTransient<IEncryptText, EncryptText>();
             
             services.AddCors(options =>
@@ -50,13 +50,7 @@ namespace Antara.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AntaraApi", Version = "v1" });
             });
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthSection = Configuration.GetSection("Authentication:Google");
-                    options.ClientId = googleAuthSection["ClienteId"];
-                    options.ClientSecret = googleAuthSection["ClienteSecret"];
-                });
+           
                 
         }
 

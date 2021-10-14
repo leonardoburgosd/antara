@@ -20,14 +20,14 @@ namespace Antara.Service
             this.encryptText = encryptText;
         }
 
-        public async Task CreateUsuario(Usuario usuario)
+        public async Task CrearUsuario(Usuario usuario)
         {
             try
             {
-                if(IsEmailValid(usuario.Email).Result)
+                if(EsEmailValido(usuario.Email).Result)
                 {
                     usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
-                    await usuarioRepo.CreateUsuario(usuario);
+                    await usuarioRepo.CrearUsuario(usuario);
                     return;
                 }
                 throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
@@ -39,7 +39,7 @@ namespace Antara.Service
             }
         }
 
-        public Task<Usuario> GetUsuario(Guid id)
+        public Task<Usuario> ObtenerUsuario(Guid id)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Antara.Service
                 {
                     throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
                 }
-                return GetUsuarioInner(id);
+                return ObtenerUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -56,12 +56,12 @@ namespace Antara.Service
             }
         }
 
-        private async Task<Usuario> GetUsuarioInner(Guid id)
+        private async Task<Usuario> ObtenerUsuarioInner(Guid id)
         {
-            return await usuarioRepo.GetUsuario(id);
+            return await usuarioRepo.ObtenerUsuario(id);
         }
 
-        public Task<Boolean> IsEmailValid(string email)
+        public Task<bool> EsEmailValido(string email)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Antara.Service
                 {
                     throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
                 }
-                return IsEmailValidInner(email);
+                return EsEmailValidoInner(email);
             }
             catch (Exception err)
             {
@@ -78,9 +78,9 @@ namespace Antara.Service
             }
         }
 
-        private async Task<Boolean> IsEmailValidInner(string email)
+        private async Task<Boolean> EsEmailValidoInner(string email)
         {
-            return await usuarioRepo.CheckUniqueEmail(email);
+            return await usuarioRepo.VerificarEmailUnico(email);
         }
     }
 }
