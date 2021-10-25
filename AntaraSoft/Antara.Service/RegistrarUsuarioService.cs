@@ -24,13 +24,30 @@ namespace Antara.Service
         {
             try
             {
-                if(EsEmailValido(usuario.Email).Result)
+                if (usuario.Tipo.ToLower() == "antara" || usuario.Tipo.ToLower() == "google")
                 {
-                    usuario.Password = _encryptText.GeneratePasswordHash(usuario.Password);
-                    await _usuarioRepo.CrearUsuario(usuario);
-                    return;
+                    if (EsEmailValido(usuario.Email).Result)
+                    {
+                        if (usuario.Tipo.ToLower() == "antara")
+                        {
+                            usuario.Password = _encryptText.GeneratePasswordHash(usuario.Password);
+                        }
+                        await _usuarioRepo.CrearUsuario(usuario);
+                        return;
+                    }
+                    else
+                    {
+                        if (usuario.Tipo.ToLower() == "antara")
+                        {
+                            throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
+                        }
+                        else if (usuario.Tipo.ToLower() == "google")
+                        {
+                            return;
+                        }
+                    }
                 }
-                throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
+                
             }
             catch (Exception err)
             {

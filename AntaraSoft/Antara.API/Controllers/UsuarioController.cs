@@ -51,7 +51,7 @@ namespace Antara.API.Controllers
                     EstaActivo = true,
                     FechaRegistro = DateTime.Now,
                     Pais = usuarioDto.Pais,
-                    Tipo = "antara"
+                    Tipo = usuarioDto.Tipo
                 };
                 if (fotoPerfil == null)
                 {
@@ -74,7 +74,7 @@ namespace Antara.API.Controllers
                 {
                     return StatusCode(409, Json(new { error = err.Message }));
                 }
-                else return StatusCode(500, err);
+                else return StatusCode(500, err.Message);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Antara.API.Controllers
             }
             catch (Exception err)
             {
-                return StatusCode(500, err);
+                return StatusCode(500, err.Message);
             }
         }
 

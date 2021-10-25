@@ -24,5 +24,7 @@ namespace Antara.Model.Dtos
         public char Genero { get; set; }
         [Required(ErrorMessage = "Ingrese un país")]
         public string Pais { get; set; }
+        [Required(ErrorMessage = "Ingrese un tipo de usuario")]
+        public string Tipo { get; set; }
     }
 }
