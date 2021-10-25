@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../aplication-data/rest/usuario';
 import { Auth } from '../aplication-data/structure/Auth';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
@@ -15,20 +17,22 @@ export class LoginComponent implements OnInit {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean | undefined;  
 
-  constructor(private dataService: DataService,private socialAuthService: SocialAuthService) { }
+  constructor(private dataService: DataService,private socialAuthService: SocialAuthService, private router:Router) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
-      console.log(this.socialUser);
+      localStorage.setItem('userResponse',JSON.stringify({user:'google',data:this.socialUser}));
+      this.router.navigate(['/dashboard']);
     });
   }
   
 
   login() {
     this.dataService.login(this.auth).then((res: any) => {
-      console.log(res);
+      localStorage.setItem('userResponse',JSON.stringify({user:'antara',data:res}));
+      this.router.navigate(['/dashboard']);
     }, (err: any) => {
       this.controlError(err);
     }
@@ -41,7 +45,7 @@ export class LoginComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.error.title
+        text: 'Usuario o password incorrectos.'
       })
   }
 
