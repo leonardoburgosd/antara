@@ -41,15 +41,17 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<Usuario>("CrearUsuario", new
                 {
-                    @Id = usuario.Id,
-                    @Email = usuario.Email,
-                    @Password = usuario.Password,
-                    @Nombre = usuario.Nombre,
-                    @FechaNacimiento = usuario.FechaNacimiento,
-                    @Genero = usuario.Genero,
-                    @EstaActivo = usuario.EstaActivo,
-                    @FechaRegistro = usuario.FechaRegistro,
-                    @Pais = usuario.Pais
+                    usuario.Id,
+                    usuario.Email,
+                    usuario.Password,
+                    usuario.Nombre,
+                    usuario.FechaNacimiento,
+                    usuario.Genero,
+                    usuario.EstaActivo,
+                    usuario.FechaRegistro,
+                    usuario.Pais,
+                    usuario.FotoPerfil,
+                    usuario.Tipo
                 });
             }
             catch (Exception err)

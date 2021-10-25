@@ -23,13 +23,13 @@ namespace Antara.API.Controllers
     [ApiController]
     public class PistaController : Controller
     {
-        private readonly IGestionarPistaService _gestionarpistaService;
+        private readonly IGestionarPistaService _gestionarPistaService;
         private readonly IWebHostEnvironment _hostingEnv;
         private const string DirectoryId = "1hWAXKy5ZW8Y4A9ch93EmMzAfC8pyeDbd";
 
         public PistaController(IGestionarPistaService gestionarpistaService, IWebHostEnvironment hostingEnv)
         {
-            _gestionarpistaService = gestionarpistaService;
+            _gestionarPistaService = gestionarpistaService;
             _hostingEnv = hostingEnv;
         }
 
@@ -38,38 +38,42 @@ namespace Antara.API.Controllers
         {
             try
             {
-                if(archivo == null)
+                if (archivo == null)
                 {
                     throw new ArgumentNullException(nameof(archivo));
                 }
-                var path = _hostingEnv.ContentRootPath;
-                var credentialsPath = Path.Combine(path, "credentials.json");
-                string url = await SubirArchivo(credentialsPath, archivo);
-                if(url != null)
+                Pista pistaNueva = new()
                 {
-                    Pista pistaNueva = new()
+                    Id = Guid.NewGuid(),
+                    Nombre = Path.GetFileNameWithoutExtension(archivo.FileName),
+                    FechaRegistro = DateTime.Now,
+                    AnoCreacion = pistaDto.AnoCreacion,
+                    Interprete = pistaDto.Interprete,
+                    Compositor = pistaDto.Compositor,
+                    Productor = pistaDto.Productor,
+                    Reproducciones = 0,
+                    GeneroId = pistaDto.GeneroId,
+                    AlbumId = pistaDto.AlbumId,
+                    EstaActivo = true
+                };
+                if(_gestionarPistaService.SonDatosValidos(pistaNueva))
+                {
+                    var path = _hostingEnv.ContentRootPath;
+                    var credentialsPath = Path.Combine(path, "credentials.json");
+                    string url = await SubirArchivo(credentialsPath, archivo);
+                    if (url != null)
                     {
-                        Id = Guid.NewGuid(),
-                        Nombre = Path.GetFileNameWithoutExtension(archivo.FileName),
-                        FechaRegistro = DateTime.Now,
-                        AnoCreacion = pistaDto.AnoCreacion,
-                        Interprete = pistaDto.Interprete,
-                        Compositor = pistaDto.Compositor,
-                        Productor = pistaDto.Productor,
-                        Reproducciones = 0,
-                        GeneroId = pistaDto.GeneroId,
-                        Url = url.Replace("&export=download", ""),
-                        UsuarioId = pistaDto.UsuarioId
-                    };
-                    await _gestionarpistaService.CrearPista(pistaNueva);
-                    return CreatedAtAction("ObtenerPista", new { id = pistaNueva.Id }, pistaNueva.AsDto());
+                        pistaNueva.Url = url.Replace("&export=download", "");
+                        await _gestionarPistaService.CrearPista(pistaNueva);
+                        return CreatedAtAction("ObtenerPista", new { id = pistaNueva.Id }, pistaNueva.AsDto());
+                    }
+                    throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
                 }
-                throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
+                throw new ArgumentException("Argumentos invalidos", nameof(pistaDto));
             }
             catch (Exception err)
             {
-                if (err.Message.Contains("Esta direccion url ya se encuentra registrada")
-                    || err.Message.Contains("No se pudo crear el pista"))
+                if (err.Message.Contains("No se pudo crear la pista"))
                 {
                     return StatusCode(409, Json(new { error = err.Message }));
                 }
@@ -77,13 +81,27 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet("todos/{grupoId}")]
-        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDeGrupoAsync(Guid grupoId)
+        [HttpGet("todos/album/{AlbumId}")]
+        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDeAlbumAsync(Guid AlbumId)
         {
             try
             {
-                var pistaList = (await _gestionarpistaService.ObtenerTodosPistasDeGrupo(grupoId)).Select(item => item.AsDto());
-                return StatusCode(200, pistaList);
+                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDeAlbum(AlbumId)).Select(item => item.AsDto());
+                return StatusCode(200, pistasList);
+            }
+            catch (Exception err)
+            {
+                return StatusCode(500, err);
+            }
+        }
+
+        [HttpGet("todos/playlist/{PlaylistId}")]
+        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDePlaylistAsync(Guid PlaylistId)
+        {
+            try
+            {
+                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDePlaylist(PlaylistId)).Select(item => item.AsDto());
+                return StatusCode(200, pistasList);
             }
             catch (Exception err)
             {
@@ -96,7 +114,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var pista = await _gestionarpistaService.ObtenerPista(id);
+                var pista = await _gestionarPistaService.ObtenerPista(id);
                 if (pista == null)
                 {
                     return NotFound();
@@ -114,7 +132,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var pista = await _gestionarpistaService.ObtenerPista(id);
+                var pista = await _gestionarPistaService.ObtenerPista(id);
                 if (pista == null)
                 {
                     return NotFound();
@@ -128,7 +146,7 @@ namespace Antara.API.Controllers
                     Productor = pistaDto.Productor,
                     GeneroId = pistaDto.GeneroId,
                 };
-                await _gestionarpistaService.EditarPista(pistaEditada);
+                await _gestionarPistaService.EditarPista(pistaEditada);
                 return StatusCode(200);
             }
             catch (Exception err)
@@ -142,12 +160,12 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var pista = await _gestionarpistaService.ObtenerPista(id);
+                var pista = await _gestionarPistaService.ObtenerPista(id);
                 if (pista == null)
                 {
                     return NotFound();
                 }
-                await _gestionarpistaService.EliminarPista(id);
+                await _gestionarPistaService.EliminarPista(id);
                 return StatusCode(200);
             }
             catch (Exception err)
@@ -161,7 +179,7 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var pistaLista = (await _gestionarpistaService.BuscarPistas(cadena)).Select(item => item.AsDto());
+                var pistaLista = (await _gestionarPistaService.BuscarPistas(cadena)).Select(item => item.AsDto());
                 return StatusCode(200, pistaLista);
             }
             catch (Exception err)
@@ -174,12 +192,12 @@ namespace Antara.API.Controllers
         {
             try
             {
-                var pista = await _gestionarpistaService.ObtenerPista(id);
+                var pista = await _gestionarPistaService.ObtenerPista(id);
                 if(pista == null)
                 {
                     return NotFound();
                 }
-                await _gestionarpistaService.ReproducirPista(pista);
+                await _gestionarPistaService.ReproducirPista(pista);
                 return StatusCode(200);
             }
             catch (Exception err)

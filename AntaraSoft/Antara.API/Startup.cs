@@ -33,11 +33,13 @@ namespace Antara.API
             services.AddTransient<IDapper, Antara.Repository.Dapper.Dapper>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IPistaRepository, PistaRepository>();
-            services.AddTransient<IGrupoRepository, GrupoRepository>();
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<IPlaylistRepository, PlaylistRepository>();
             services.AddTransient<IRegistrarUsuarioService, RegistrarUsuarioService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IGestionarPistaService, GestionarPistaService>();
-            services.AddTransient<IGestionarGrupoService, GestionarGrupoService>();
+            services.AddTransient<IGestionarAlbumService, GestionarAlbumService>();
+            services.AddTransient<IGestionarPlaylistService, GestionarPlaylistService>();
             services.AddTransient<IEncryptText, EncryptText>();
             
             services.AddCors(options =>

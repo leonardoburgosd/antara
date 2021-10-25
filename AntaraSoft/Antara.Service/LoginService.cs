@@ -12,12 +12,12 @@ namespace Antara.Service
 {
     public class LoginService:ILoginService
     {
-        private readonly IUsuarioRepository usuarioRepo;
-        private readonly IEncryptText encryptText;
+        private readonly IUsuarioRepository _usuarioRepo;
+        private readonly IEncryptText _encryptText;
         public LoginService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
-            this.usuarioRepo = usuarioRepo;
-            this.encryptText = encryptText;
+            _usuarioRepo = usuarioRepo;
+            _encryptText = encryptText;
         }
 
         public Task<Usuario> Login(string email, string password)
@@ -45,13 +45,13 @@ namespace Antara.Service
         {
             try
             {
-                Usuario user = await usuarioRepo.Login(email);
+                Usuario user = await _usuarioRepo.Login(email);
                 if (user != null)
                 {
-                    bool pass = encryptText.CompararHash(password, user.Password);
+                    bool pass = _encryptText.CompararHash(password, user.Password);
                     if (pass)
                     {
-                        return usuarioRepo.ObtenerUsuario(user.Id).Result;
+                        return _usuarioRepo.ObtenerUsuario(user.Id).Result;
                     }
                 }
                 return null;

@@ -16,8 +16,9 @@ namespace Antara.Model.Dtos
         [Required(ErrorMessage = "Ingrese una contraseña")]
         [StringLength(18, ErrorMessage = "Debe tener entre 6 y 18 caracteres", MinimumLength = 6)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Ingrese una nombre de perfil")]
+        [Required(ErrorMessage = "Ingrese un nombre de perfil")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
+        [RegularExpression("^([a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)", ErrorMessage = "Nombre no cumple con el formato")]
         public string Nombre { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public char Genero { get; set; }

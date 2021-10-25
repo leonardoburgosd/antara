@@ -11,11 +11,13 @@ namespace Antara.Model.Contracts.Services
     {
         Task CrearPista(Pista pista);
         Task<Pista> ObtenerPista(Guid id);
-        Task<List<Pista>> ObtenerTodosPistasDeGrupo(Guid grupoId);
+        Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid AlbumId);
+        Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid PlaylistId);
         Task EditarPista(Pista pista);
         Task EliminarPista(Guid id);
         Task<List<Pista>> BuscarPistas(string cadena);
         Task ReproducirPista(Pista pista);
+        bool SonDatosValidos(Pista pista);
 
     }
 }

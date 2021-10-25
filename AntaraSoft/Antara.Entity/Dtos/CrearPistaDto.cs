@@ -21,6 +21,6 @@ namespace Antara.Model.Dtos
         [Required]
         public int GeneroId { get; set; }
         [Required]
-        public Guid UsuarioId { get; set; }
+        public Guid AlbumId { get; set; }
     }
 }

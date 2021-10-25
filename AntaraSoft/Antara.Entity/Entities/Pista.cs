@@ -19,10 +19,15 @@ namespace Antara.Model.Entities
         public int Reproducciones { get; set; }
         public int GeneroId { get; set; }
         public string Url { get; set; }
-        public Guid UsuarioId { get; set; }
+        public Guid AlbumId { get; set; }
+        public bool EstaActivo { get; set; }
         public void AumentarReproduccion()
         {
             this.Reproducciones += 1;
+        }
+        public bool EsValidoAnoCreacion()
+        {
+            return (AnoCreacion > 1900 && AnoCreacion < DateTime.Now.Year);
         }
     }
 }

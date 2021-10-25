@@ -18,7 +18,9 @@ namespace Antara.Model.Entities
         public bool EstaActivo { get; set; }
         public DateTime FechaRegistro { get; set; }
         public string Pais { get; set; }
-
+        public string FotoPerfil { get; set; }
+        public string Tipo { get; set; }
         public Usuario() { }
+
     }
 }

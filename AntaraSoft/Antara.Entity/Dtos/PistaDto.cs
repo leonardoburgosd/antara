@@ -29,6 +29,7 @@ namespace Antara.Model.Dtos
         [StringLength(150)]
         public string Url { get; set; }
         [Required]
-        public Guid UsuarioId { get; set; }
+        public Guid AlbumId { get; set; }
+        public bool EstaActivo { get; set; }
     }
 }

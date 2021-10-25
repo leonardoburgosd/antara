@@ -1,4 +1,5 @@
 ﻿using Antara.Model.Contracts;
+using Antara.Model.Contracts.Repository;
 using Antara.Model.Contracts.Services;
 using Antara.Model.Entities;
 using System;
@@ -10,23 +11,19 @@ namespace Antara.Service
     public class GestionarPistaService : IGestionarPistaService
     { 
         
-        private readonly IPistaRepository audioRepository;
-
-        public GestionarPistaService(IPistaRepository audioRepository)
+        private readonly IPistaRepository _pistaRepository;
+        private readonly IAlbumRepository _albumRepository;
+        public GestionarPistaService(IPistaRepository pistaRepository, IAlbumRepository albumRepository)
         {
-            this.audioRepository = audioRepository;
+            _pistaRepository = pistaRepository;
+            _albumRepository = albumRepository;
         }
 
-        public async Task CrearPista(Pista audio)
+        public async Task CrearPista(Pista pista)
         {
             try
             {
-                if(EsUrlValido(audio.Url).Result)
-                {
-                    await audioRepository.CrearPista(audio);
-                    return;
-                }
-                throw new ArgumentException("Esta direccion url ya se encuentra registrada.");
+                await _pistaRepository.CrearPista(pista);
             }
             catch (Exception err)
             {
@@ -54,19 +51,14 @@ namespace Antara.Service
 
         private async Task EliminarPistaInner(Guid id)
         {
-            await audioRepository.EliminarPista(id);
+            await _pistaRepository.EliminarPista(id);
         }
 
         public async Task EditarPista(Pista audio)
         {
             try
             {
-                if (EsUrlValido(audio.Url).Result)
-                {
-                    await audioRepository.EditarPista(audio);
-                    return;
-                }
-                throw new ArgumentException("Esta direccion url ya se encuentra registrada.");
+                await _pistaRepository.EditarPista(audio);
             }
             catch (Exception err)
             {
@@ -94,18 +86,18 @@ namespace Antara.Service
 
         private async Task<Pista> ObtenerPistaInner(Guid id)
         {
-            return await audioRepository.ObtenerPista(id);
+            return await _pistaRepository.ObtenerPista(id);
         }
 
-        public Task<List<Pista>> ObtenerTodosPistasDeGrupo(Guid agrupacionId)
+        public Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid albumId)
         {
             try
             {
-                if (agrupacionId == Guid.Empty)
+                if (albumId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(agrupacionId), "No se proporciono ningún valor");
+                    throw new ArgumentNullException(nameof(albumId), "No se proporciono ningún valor");
                 }
-                return ObtenerTodosPistasDeGrupoInner(agrupacionId);
+                return ObtenerTodosPistasDeAlbumInner(albumId);
             }
             catch (Exception err)
             {
@@ -114,20 +106,22 @@ namespace Antara.Service
             }
         }
 
-        private async Task<List<Pista>> ObtenerTodosPistasDeGrupoInner(Guid agrupacionId)
+        
+
+        private async Task<List<Pista>> ObtenerTodosPistasDeAlbumInner(Guid albumId)
         {
-            return await audioRepository.ObtenerTodosPistasDeGrupo(agrupacionId);
+            return await _pistaRepository.ObtenerTodosPistasDeAlbum(albumId);
         }
 
-        public Task<bool> EsUrlValido(string url)
+        public Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid playlistId)
         {
             try
             {
-                if (url == null)
+                if (playlistId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(url), "No se proporciono ningún valor");
+                    throw new ArgumentNullException(nameof(playlistId), "No se proporciono ningún valor");
                 }
-                return EsUrlValidoInner(url);
+                return ObtenerTodosPistasDePlaylistInner(playlistId);
             }
             catch (Exception err)
             {
@@ -135,12 +129,10 @@ namespace Antara.Service
                 throw;
             }
         }
-
-        private async Task<bool> EsUrlValidoInner(string url)
+        private async Task<List<Pista>> ObtenerTodosPistasDePlaylistInner(Guid playlistId)
         {
-            return await audioRepository.VerificarUrlUnico(url);
+            return await _pistaRepository.ObtenerTodosPistasDePlaylist(playlistId);
         }
-
 
         public Task<List<Pista>> BuscarPistas(string cadena)
         {
@@ -161,7 +153,7 @@ namespace Antara.Service
 
         private async Task<List<Pista>> BuscarPistassInner(string cadena)
         {
-            return await audioRepository.BuscarPistass(cadena);
+            return await _pistaRepository.BuscarPistass(cadena);
         }
 
         public async Task ReproducirPista(Pista audio)
@@ -169,11 +161,32 @@ namespace Antara.Service
             try
             {
                 audio.AumentarReproduccion();
-                await audioRepository.ReproducirPista(audio.Id, audio.Reproducciones);
+                await _pistaRepository.ReproducirPista(audio.Id, audio.Reproducciones);
             }
             catch (Exception err)
             {
                 Console.Write(err.Message);
+                throw;
+            }
+        }
+        public bool SonDatosValidos(Pista pista)
+        {
+            try
+            {
+                Album album = _albumRepository.ObtenerAlbum(pista.AlbumId).Result;
+                if (album == null)
+                {
+                    throw new ArgumentNullException(nameof(pista));
+                }
+                if(pista.EsValidoAnoCreacion())
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

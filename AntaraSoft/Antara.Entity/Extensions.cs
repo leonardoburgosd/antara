@@ -20,38 +20,54 @@ namespace Antara.Model
                 FechaNacimiento = usuario.FechaNacimiento,
                 Genero = usuario.Genero,
                 FechaRegistro = usuario.FechaRegistro,
-                Pais = usuario.Pais
+                Pais = usuario.Pais,
+                FotoPerfil = usuario.FotoPerfil
             };
         }
-        public static PistaDto AsDto(this Pista audio)
+        public static PistaDto AsDto(this Pista pista)
         {
             return new PistaDto
             {
-                Id = audio.Id,
-                Nombre = audio.Nombre,
-                FechaRegistro = audio.FechaRegistro,
-                AnoCreacion = audio.AnoCreacion,
-                Interprete = audio.Interprete,
-                Compositor = audio.Compositor,
-                Productor = audio.Productor,
-                Reproducciones = audio.Reproducciones,
-                GeneroId = audio.GeneroId,
-                Url = audio.Url,
-                UsuarioId = audio.UsuarioId
+                Id = pista.Id,
+                Nombre = pista.Nombre,
+                FechaRegistro = pista.FechaRegistro,
+                AnoCreacion = pista.AnoCreacion,
+                Interprete = pista.Interprete,
+                Compositor = pista.Compositor,
+                Productor = pista.Productor,
+                Reproducciones = pista.Reproducciones,
+                GeneroId = pista.GeneroId,
+                Url = pista.Url,
+                AlbumId = pista.AlbumId,
+                EstaActivo = pista.EstaActivo
             };
         }
 
-        public static GrupoDto AsDto(this Grupo agrupacion)
+        public static AlbumDto AsDto(this Album album)
         {
-            return new GrupoDto
+            return new AlbumDto
             {
-                Id = agrupacion.Id,
-                Nombre = agrupacion.Nombre,
-                Descripcion = agrupacion.Descripcion,
-                FechaPublicacion = agrupacion.FechaPublicacion,
-                EstaPublicado = agrupacion.EstaPublicado,
-                Tipo = agrupacion.Tipo,
-                UsuarioId = agrupacion.UsuarioId
+                Id = album.Id,
+                Nombre = album.Nombre,
+                Descripcion = album.Descripcion,
+                FechaPublicacion = album.FechaPublicacion,
+                EstaPublicado = album.EstaPublicado,
+                UsuarioId = album.UsuarioId,
+                PortadaUrl = album.PortadaUrl,
+                EstaActivo = album.EstaActivo
+            };
+        }
+
+        public static PlaylistDto AsDto(this Playlist playlist)
+        {
+            return new PlaylistDto
+            {
+                Id = playlist.Id,
+                Nombre = playlist.Nombre,
+                Descripcion = playlist.Descripcion,
+                UsuarioId = playlist.UsuarioId,
+                PortadaUrl = playlist.PortadaUrl,
+                EstaActivo = playlist.EstaActivo
             };
         }
     }

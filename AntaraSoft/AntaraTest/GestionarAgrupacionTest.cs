@@ -13,13 +13,13 @@ namespace AntaraTest
     [TestClass]
     public class GestionarAgrupacionTest
     {
-        private readonly GestionarGrupoService _agrupacionService;
+        private readonly GestionarAlbumService _agrupacionService;
         public GestionarAgrupacionTest()
         {
             var options = Options.Create(new AppSettings());
             options.Value.ConexionString = "Server=.;Database=antaradb;Trusted_Connection=True;MultipleActiveResultSets=True";
             var dapper = new Antara.Repository.Dapper.Dapper(options);
-            var agrupacionRepo = new GrupoRepository(dapper);
+            var agrupacionRepo = new AlbumRepository(dapper);
             _agrupacionService = new GestionarGrupoService(agrupacionRepo);
         }
 
@@ -156,12 +156,12 @@ namespace AntaraTest
         [DataRow(1)]
         public void AgregarPistaAGrupoTest(int caso)
         {
-            GrupoPista esperado = new();
+            PlaylistPista esperado = new();
             esperado.PistaId = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
-            esperado.GrupoId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
+            esperado.PlaylistId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
             if (caso == 0)
             {
-                esperado.GrupoId = Guid.Empty;
+                esperado.PlaylistId = Guid.Empty;
                 Assert.ThrowsException<ArgumentNullException>(() =>
                 {
                     _agrupacionService.AgregarPistaAGrupo(esperado);
@@ -182,11 +182,11 @@ namespace AntaraTest
         [DataRow(1)]
         public void QuitarPistaDeGrupo(int caso)
         {
-            GrupoPista grupoPista = new();
+            PlaylistPista grupoPista = new();
             switch(caso)
             {
                 case 0:
-                    grupoPista.GrupoId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
+                    grupoPista.PlaylistId = Guid.Parse("580A2584-A918-4DFC-BCF7-6DB99CA07415");
                     grupoPista.PistaId = Guid.Empty;
                     Assert.ThrowsException<ArgumentNullException>(() =>
                     {
@@ -194,7 +194,7 @@ namespace AntaraTest
                     });
                     break;
                 case 1:
-                    grupoPista.GrupoId = Guid.Empty; ;
+                    grupoPista.PlaylistId = Guid.Empty; ;
                     grupoPista.PistaId = Guid.Parse("130127A1-B71F-414A-A0DE-BEAFF0B01C79");
                     Assert.ThrowsException<ArgumentNullException>(() =>
                     {

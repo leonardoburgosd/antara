@@ -11,13 +11,13 @@ namespace Antara.Service
 {
     public class RegistrarUsuarioService : IRegistrarUsuarioService
     {
-        private readonly IUsuarioRepository usuarioRepo;
-        private readonly IEncryptText encryptText;
+        private readonly IUsuarioRepository _usuarioRepo;
+        private readonly IEncryptText _encryptText;
 
         public RegistrarUsuarioService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
-            this.usuarioRepo = usuarioRepo;
-            this.encryptText = encryptText;
+            _usuarioRepo = usuarioRepo;
+            _encryptText = encryptText;
         }
 
         public async Task CrearUsuario(Usuario usuario)
@@ -26,8 +26,8 @@ namespace Antara.Service
             {
                 if(EsEmailValido(usuario.Email).Result)
                 {
-                    usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
-                    await usuarioRepo.CrearUsuario(usuario);
+                    usuario.Password = _encryptText.GeneratePasswordHash(usuario.Password);
+                    await _usuarioRepo.CrearUsuario(usuario);
                     return;
                 }
                 throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
@@ -58,7 +58,7 @@ namespace Antara.Service
 
         private async Task<Usuario> ObtenerUsuarioInner(Guid id)
         {
-            return await usuarioRepo.ObtenerUsuario(id);
+            return await _usuarioRepo.ObtenerUsuario(id);
         }
 
         public Task<bool> EsEmailValido(string email)
@@ -80,7 +80,7 @@ namespace Antara.Service
 
         private async Task<Boolean> EsEmailValidoInner(string email)
         {
-            return await usuarioRepo.VerificarEmailUnico(email);
+            return await _usuarioRepo.VerificarEmailUnico(email);
         }
     }
 }

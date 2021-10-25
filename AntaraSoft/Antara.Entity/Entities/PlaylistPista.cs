@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Antara.Model.Entities
 {
-    public class GrupoPista
+    public class PlaylistPista
     {
-        public Guid GrupoId { get; set; }
+        public Guid PlaylistId { get; set; }
         public Guid PistaId { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
 }

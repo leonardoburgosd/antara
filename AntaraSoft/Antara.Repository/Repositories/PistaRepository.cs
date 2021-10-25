@@ -39,23 +39,24 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task CrearPista(Pista audio)
+        public async Task CrearPista(Pista pista)
         {
             try
             {
                 await _dapper.QueryWithReturn<Pista>("CrearPista", new
                 {
-                    @Id = audio.Id,
-                    @Url = audio.Url,
-                    @Nombre = audio.Nombre,
-                    @FechaRegistro = audio.FechaRegistro,
-                    @AnoCreacion = audio.AnoCreacion,
-                    @Interprete = audio.Interprete,
-                    @Compositor = audio.Compositor,
-                    @Productor = audio.Productor,
-                    @Reproducciones = audio.Reproducciones,
-                    @GeneroId = audio.GeneroId,
-                    @UsuarioId = audio.UsuarioId
+                    @Id = pista.Id,
+                    @Url = pista.Url,
+                    @Nombre = pista.Nombre,
+                    @FechaRegistro = pista.FechaRegistro,
+                    @AnoCreacion = pista.AnoCreacion,
+                    @Interprete = pista.Interprete,
+                    @Compositor = pista.Compositor,
+                    @Productor = pista.Productor,
+                    @Reproducciones = pista.Reproducciones,
+                    @GeneroId = pista.GeneroId,
+                    @AlbumId = pista.AlbumId,
+                    @EstaActivo = pista.EstaActivo
                 });
             }
             catch (Exception err)
@@ -82,20 +83,20 @@ namespace Antara.Repository.Repositories
         }
 
 
-        public async Task EditarPista(Pista audio)
+        public async Task EditarPista(Pista pista)
         {
             try
             {
                 await _dapper.QueryWithReturn<dynamic>("EditarPista", new
                 {
-                    @Id = audio.Id,
-                    @Url = audio.Url,
-                    @Nombre = audio.Nombre,
-                    @AnoCreacion = audio.AnoCreacion,
-                    @Interprete = audio.Interprete,
-                    @Compositor = audio.Compositor,
-                    @Productor = audio.Productor,
-                    @GeneroId = audio.GeneroId
+                    @Id = pista.Id,
+                    @Url = pista.Url,
+                    @Nombre = pista.Nombre,
+                    @AnoCreacion = pista.AnoCreacion,
+                    @Interprete = pista.Interprete,
+                    @Compositor = pista.Compositor,
+                    @Productor = pista.Productor,
+                    @GeneroId = pista.GeneroId
                 });
             }
  
@@ -122,15 +123,15 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<List<Pista>> ObtenerTodosPistasDeGrupo(Guid grupoId)
+        public async Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid AlbumId)
         {
             try
             {
-                var audiosList = await _dapper.Consulta<Pista>("ObtenerTodosPistasDeGrupo", new
+                var pistasList = await _dapper.Consulta<Pista>("ObtenerTodosPistasDeAlbum", new
                 {
-                    @GrupoId = grupoId
+                    @AlbumId = AlbumId
                 });
-                return audiosList;
+                return pistasList;
             }
             catch (Exception err)
             {
@@ -139,16 +140,32 @@ namespace Antara.Repository.Repositories
             }
         }
 
+        public async Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid PlaylistId)
+        {
+            try
+            {
+                var pistasList = await _dapper.Consulta<Pista>("ObtenerTodosPistasDePlaylist", new
+                {
+                    @PlaylistId = PlaylistId
+                });
+                return pistasList;
+            }
+            catch (Exception err)
+            {
+                Console.Write(err.Message);
+                throw;
+            }
+        }
 
         public async Task<List<Pista>> BuscarPistass(string cadena)
         {
             try
             {
-                var audiosList = await _dapper.Consulta<Pista>("BuscarPistas", new
+                var pistasList = await _dapper.Consulta<Pista>("BuscarPistas", new
                 {
                     @Cadena = cadena
                 });
-                return audiosList;
+                return pistasList;
             }
             catch (Exception err)
             {

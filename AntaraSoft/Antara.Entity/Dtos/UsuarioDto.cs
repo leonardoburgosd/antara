@@ -24,5 +24,7 @@ namespace Antara.Model.Dtos
         public DateTime FechaRegistro { get; set; }
         [Required(ErrorMessage = "Ingrese un país")]
         public string Pais { get; set; }
+        [StringLength(150, ErrorMessage = "Debe ser menor de 150 caracteres")]
+        public string FotoPerfil { get; set; }
     }
 }
