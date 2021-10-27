@@ -16,17 +16,16 @@ export class LoginComponent implements OnInit {
   auth: Auth = new Auth();
   error: any = [];
   socialUser: SocialUser | undefined;
-  isLoggedin: boolean | undefined;  
+  isLoggedin: boolean | undefined;
 
-  constructor(private dataService: DataService,private socialAuthService: SocialAuthService, private router:Router) { }
+  constructor(private dataService: DataService, private socialAuthService: SocialAuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
-      localStorage.setItem('userResponse',JSON.stringify({user:'google',data:this.socialUser}));
+      localStorage.setItem('userResponse', JSON.stringify({ user: 'google', data: this.socialUser }));
       this.dataService.registro(this.BypassUserGoogleToUserAntara(this.socialUser)).then((res: any) => {
-        debugger
         console.log(res);
       }, (err: any) => {
         this.controlError(err);
@@ -34,11 +33,11 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     });
   }
-  
+
 
   login() {
     this.dataService.login(this.auth).then((res: any) => {
-      localStorage.setItem('userResponse',JSON.stringify({user:'antara',data:res}));
+      localStorage.setItem('userResponse', JSON.stringify({ user: 'antara', data: res }));
       this.router.navigate(['/dashboard']);
     }, (err: any) => {
       this.controlError(err);
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   controlError(err: any) {
-    if (err.status == 400) this.error = err.error.errors; 
+    if (err.status == 400) this.error = err.error.errors;
     else if (err.status == 404)
       Swal.fire({
         icon: 'error',
@@ -61,8 +60,8 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
-  BypassUserGoogleToUserAntara(userGoogle:SocialUser):Usuario{
-    let userAntara:Usuario = new Usuario();
+  BypassUserGoogleToUserAntara(userGoogle: SocialUser): Usuario {
+    let userAntara: Usuario = new Usuario();
     userAntara.email = userGoogle.email;
     userAntara.fechaNacimiento = new Date(1900, 1, 1);
     userAntara.genero = 'N';

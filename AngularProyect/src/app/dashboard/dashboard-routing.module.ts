@@ -13,6 +13,7 @@ const routes: Routes = [
         path: '', component: DashboardComponent, children: [
             { path: '', component: ExploraComponent },
             { path: 'playlist', component: PlaylistComponent },
+            { path: 'playlist/new', component: PlaylistComponent },
             { path: 'library', component: BibliotecaComponent },
             { path: 'account', component: AccountComponent },
             { path: '**', redirectTo: '' }

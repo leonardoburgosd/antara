@@ -28,7 +28,6 @@ export class DataService {
     data.append('Email', user.email as string);
     data.append('Password', user.password as string);
     data.append('Nombre', user.nombre as string);
-    debugger
     if (user.tipo == 'google') {
       let fecha: string = user.fechaNacimiento?.getDate() + '/' + user.fechaNacimiento?.getMonth() + '/' + user.fechaNacimiento?.getFullYear();
       data.append('FechaNacimiento', fecha);
