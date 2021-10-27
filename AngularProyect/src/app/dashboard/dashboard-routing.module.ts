@@ -4,6 +4,7 @@ import { AccountComponent } from "./account/account.component";
 import { BibliotecaComponent } from "./biblioteca/biblioteca.component";
 import { DashboardComponent } from "./dashboard.component";
 import { ExploraComponent } from "./explora/explora.component";
+import { PlaylistNewComponent } from "./playlist/playlist-new/playlist-new.component";
 import { PlaylistComponent } from "./playlist/playlist.component";
 
 const routes: Routes = [
@@ -13,7 +14,7 @@ const routes: Routes = [
         path: '', component: DashboardComponent, children: [
             { path: '', component: ExploraComponent },
             { path: 'playlist', component: PlaylistComponent },
-            { path: 'playlist/new', component: PlaylistComponent },
+            { path: 'playlist/new', component: PlaylistNewComponent },
             { path: 'library', component: BibliotecaComponent },
             { path: 'account', component: AccountComponent },
             { path: '**', redirectTo: '' }
