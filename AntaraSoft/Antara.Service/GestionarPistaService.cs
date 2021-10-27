@@ -54,11 +54,11 @@ namespace Antara.Service
             await _pistaRepository.EliminarPista(id);
         }
 
-        public async Task EditarPista(Pista audio)
+        public async Task EditarPista(Pista pista)
         {
             try
             {
-                await _pistaRepository.EditarPista(audio);
+                await _pistaRepository.EditarPista(pista);
             }
             catch (Exception err)
             {
@@ -156,12 +156,12 @@ namespace Antara.Service
             return await _pistaRepository.BuscarPistass(cadena);
         }
 
-        public async Task ReproducirPista(Pista audio)
+        public async Task ReproducirPista(Pista pista)
         {
             try
             {
-                audio.AumentarReproduccion();
-                await _pistaRepository.ReproducirPista(audio.Id, audio.Reproducciones);
+                pista.AumentarReproduccion();
+                await _pistaRepository.ReproducirPista(pista.Id, pista.Reproducciones);
             }
             catch (Exception err)
             {
@@ -184,9 +184,9 @@ namespace Antara.Service
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
+                Console.Write(err.Message);
                 throw;
             }
         }

@@ -22,14 +22,14 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<Album>("CrearAlbum", new
                 {
-                    @Id = album.Id,
-                    @Nombre = album.Nombre,
-                    @Descripcion = album.Descripcion,
-                    @EstaPublicado = album.EstaPublicado,
-                    @FechaPublicacion = album.FechaPublicacion,
-                    @PortadaUrl = album.PortadaUrl,
-                    @UsuarioId = album.UsuarioId,
-                    @EstaActivo = album.EstaActivo
+                    album.Id,
+                    album.Nombre,
+                    album.Descripcion,
+                    album.EstaPublicado,
+                    album.FechaPublicacion,
+                    album.PortadaUrl,
+                    album.UsuarioId,
+                    album.EstaActivo
                 });
             }
             catch (Exception err)
@@ -62,10 +62,10 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<Album>("EditarAlbum", new
                 {
-                    @Id = album.Id,
-                    @Nombre = album.Nombre,
-                    @Descripcion = album.Descripcion,
-                    @PortadaUrl = album.PortadaUrl
+                    album.Id,
+                    album.Nombre,
+                    album.Descripcion,
+                    album.PortadaUrl
                 });
             }
             catch (Exception err)

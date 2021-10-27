@@ -2,18 +2,11 @@
 using Antara.Model.Contracts.Services;
 using Antara.Model.Dtos;
 using Antara.Model.Entities;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Google.Apis.Upload;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Antara.API.Controllers
@@ -23,13 +16,11 @@ namespace Antara.API.Controllers
     public class PlaylistController : Controller
     {
         private readonly IGestionarPlaylistService _gestionarPlaylistService;
-        private readonly IWebHostEnvironment _hostingEnv;
-        private const string DirectoryId = "1eWGKxmVjUsvfH2PNpfO1N_CUT2A6SkM6";
+        private const string directorioId = "1eWGKxmVjUsvfH2PNpfO1N_CUT2A6SkM6";
 
-        public PlaylistController(IGestionarPlaylistService gestionarPlaylistService, IWebHostEnvironment hostingEnv)
+        public PlaylistController(IGestionarPlaylistService gestionarPlaylistService)
         {
             _gestionarPlaylistService = gestionarPlaylistService;
-            _hostingEnv = hostingEnv;
         }
 
         // url: "localhost:8080/api/grupo"
@@ -52,9 +43,7 @@ namespace Antara.API.Controllers
                 }
                 else
                 {
-                    var path = _hostingEnv.ContentRootPath;
-                    var credentialsPath = Path.Combine(path, "credentials.json");
-                    string url = await SubirArchivo(credentialsPath, imagenDePortada);
+                    string url = await Extensions.SubirArchivo(imagenDePortada, directorioId);
                     playlistNueva.PortadaUrl = url.Replace("&export=download", "");
                 }
                 await _gestionarPlaylistService.CrearPlaylist(playlistNueva);
@@ -182,48 +171,6 @@ namespace Antara.API.Controllers
             catch (Exception err)
             {
                 return StatusCode(500, err.Message);
-            }
-        }
-
-        private static async Task<string> SubirArchivo(string credencialesDirectorio, IFormFile archivo)
-        {
-            try
-            {
-                //Cargar las credenciales de la cuenta de servicio y definir el alcance
-                var credential = GoogleCredential.FromFile(credencialesDirectorio)
-                    .CreateScoped(DriveService.ScopeConstants.Drive);
-                //Crear un servicio drive
-                var service = new DriveService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential
-                });
-                //Subir metadata del archivo
-                var fileMetadata = new Google.Apis.Drive.v3.Data.File()
-                {
-                    Name = archivo.FileName,
-                    Parents = new List<String>() { DirectoryId }
-                };
-                string fileUrl;
-                //Crear nuevo archivo en Google Drive
-                await using (var fsSource = new MemoryStream())
-                {
-                    //Crear un nuevo archivo, con metadata y stream.
-                    await archivo.CopyToAsync(fsSource);
-                    var request = service.Files.Create(fileMetadata, fsSource, "image/jpeg");
-                    request.Fields = "*";
-                    var results = await request.UploadAsync(CancellationToken.None);
-                    if (results.Status == UploadStatus.Failed)
-                    {
-                        throw new ArgumentException("Argumentos invalidos", nameof(archivo));
-                    }
-                    fileUrl = request.ResponseBody?.WebContentLink;
-                }
-                return fileUrl;
-            }
-            catch (Exception err)
-            {
-                Console.Write(err.Message.ToString());
-                throw;
             }
         }
     }

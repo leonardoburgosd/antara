@@ -93,16 +93,16 @@ namespace Antara.Service
         {
             return await _playlistRepository.ObtenerPlaylist(id);
         }
-        public Task<List<Playlist>> ObtenerTodosPlaylistDeUsuario(Guid userId)
+        public Task<List<Playlist>> ObtenerTodosPlaylistDeUsuario(Guid usuarioId)
         {
 
             try
             {
-                if (userId == Guid.Empty)
+                if (usuarioId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(userId), "No se proporciono ningún valor");
+                    throw new ArgumentNullException(nameof(usuarioId), "No se proporciono ningún valor");
                 }
-                return ObtenerTodosPlaylistDeUsuarioInner(userId);
+                return ObtenerTodosPlaylistDeUsuarioInner(usuarioId);
             }
             catch (Exception err)
             {
@@ -110,9 +110,9 @@ namespace Antara.Service
                 throw;
             }
         }
-        private async Task<List<Playlist>> ObtenerTodosPlaylistDeUsuarioInner(Guid userId)
+        private async Task<List<Playlist>> ObtenerTodosPlaylistDeUsuarioInner(Guid usuarioId)
         {
-            return await _playlistRepository.ObtenerTodosPlaylistDeUsuario(userId);
+            return await _playlistRepository.ObtenerTodosPlaylistDeUsuario(usuarioId);
         }
         public Task EditarPlaylist(Playlist playlist)
         {
@@ -134,13 +134,9 @@ namespace Antara.Service
         {
             try
             {
-                if (playlistPista.PlaylistId == Guid.Empty)
+                if (playlistPista.PlaylistId == Guid.Empty || playlistPista.PistaId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(playlistPista.PlaylistId), "No se proporciono ningún valor");
-                }
-                else if (playlistPista.PistaId == Guid.Empty)
-                {
-                    throw new ArgumentNullException(nameof(playlistPista.PistaId), "No se proporciono ningún valor");
+                    throw new ArgumentNullException(nameof(playlistPista), "No se proporciono ningún valor");
                 }
                 return QuitarPistaDePlaylistInner(playlistPista);
             }

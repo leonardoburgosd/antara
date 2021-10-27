@@ -77,16 +77,16 @@ namespace Antara.Service
             return await _albumRepository.ObtenerAlbum(id);
         }
 
-        public Task<List<Album>> ObtenerTodosAlbumesDeUsuario(Guid userId)
+        public Task<List<Album>> ObtenerTodosAlbumesDeUsuario(Guid usuarioId)
         {
 
             try
             {
-                if (userId == Guid.Empty)
+                if (usuarioId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(userId), "No se proporciono ningún valor");
+                    throw new ArgumentNullException(nameof(usuarioId), "No se proporciono ningún valor");
                 }
-                return ObtenerTodosAlbumesDeUsuarioInner(userId);
+                return ObtenerTodosAlbumesDeUsuarioInner(usuarioId);
             }
             catch (Exception err)
             {
@@ -95,9 +95,9 @@ namespace Antara.Service
             }
         }
 
-        private async Task<List<Album>> ObtenerTodosAlbumesDeUsuarioInner(Guid userId)
+        private async Task<List<Album>> ObtenerTodosAlbumesDeUsuarioInner(Guid usuarioId)
         {
-            return await _albumRepository.ObtenerTodosAlbumesDeUsuario(userId);
+            return await _albumRepository.ObtenerTodosAlbumesDeUsuario(usuarioId);
         }
 
         

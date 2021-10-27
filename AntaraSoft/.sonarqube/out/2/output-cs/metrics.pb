@@ -1,8 +1,12 @@
-æ
-fD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarAgrupacionService.cs; 8r˛
- !"#$%&'()*+,-/0123456789:;<=>@ABCEFGHIJKLMNOPQRSTVWXY[\]^_`abcdefghijklmnpqstuvwxyz{|}~ÄÇÉÑÖáàâäãåçéèêëíìîïñóòôöúùûü†°¢£§•¶ß®©™´¨≠ÆØ∞±≤≥µ∂∑∏π∫ªºΩæø¿¡¬√ƒ≈∆«xÇH "&',357;<BIKMQRX_acghmuwy}~Ñãçèìîô†¢§¶®¨≠≤πªºæ¬√à
-aD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarAudioService.cs7 8r◊
- !"#$&'()*+,-./012345789:<=>?@ABCDEFGHIJKLNOPQRSTUVWXYZ[\]_`abdefghijklmnopqrsuvwxz{|}~ÄÅÇÉÑÖÜáàâãåçéëíìîïñóòôöõúùûü†¢£§•ß®©™´¨≠ÆØ∞±≤≥¥µxÇ>!"*,.239@BCEIJRTVZ[ahjlpqw~ÄÇÜáçïóôùû§´¨∞±π
-XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs 8r?	 !"#$%&'()*,-./0123456789:;<=>?@ABxÇ!#'(013469=>ÿ
-cD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\RegistrarUsuarioService.cs 8	rO
- !"#$%&'(*+,-./0123456789;<=>@ABCDEFGHIJKLMNOQRSTUVxÇ!%&.0267=DFHLMS
+ó
+aD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarAlbumService.cs& 
+8rÇ
+ !"$%&'()*+,-./01235678;<=>?@ABCDEFGHIJKLMNPQSTUVWXYZ[\]^_`bcdehijklmnopqrsuvwxyz{|}~ÄÅÇÉÑÖÜáàx
+Ç" (*,017?ACGHMUWY]^dlpqy{|}ÉÑ¨
+aD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarPistaService.cs; 8rÚ	
+ !#$%&'()*+,-./01245679:;<=>?@ABCDFGHIJKLMNOPQRSTUWXYZ\]^_`abcdefghijkopqrtuvwxyz{|}~ÄÅÇÉÑÖÜáâäãåçéèêëíìîïñóòöõúùü†°¢£§•¶ß®©™´¨≠ÆØ∞±≤≥¥µ∂∑∏π∫ªºΩæø¿¡¬xÇG')+/06=ABJLNRSY`bdhiqxz|ÄÅÜçèëïñú£§®©∞±≥µ∑πΩæ”
+dD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\GestionarPlaylistService.cs. 8rØ
+ !"#$%&'(*+,-./012345789:;<=>?@ABCDEFHIJKLMNOPQRSTUVWXYZ[\]^_`acdefghijklmnopqrstuvwxyz{|}~ÄÅÇÉÑÖÜáàâäãåçéèêëíìîïñóòôöxÇ.!"'.23;=?CDJPRTXY^egimnsy}~Éâãçëíóπ
+XD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\LoginService.cs 8r?	 !"#$%&'()*,-./0123456789:;<=>?@ABxÇ!#'(013469=>Ì
+cD:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Service\RegistrarUsuarioService.cs 8r_
+ !"#$%&'()*+,-./013456789;<=>?@ABCDEFGHIJLMNOQRSTUVWXYZ[\]^_`bcdefgxÇ!#$(*,.67?ACGHNUWY]^d

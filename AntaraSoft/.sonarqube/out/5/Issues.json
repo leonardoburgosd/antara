@@ -12,18 +12,39 @@
       },
       "results": [
         {
-          "ruleId": "S125",
+          "ruleId": "S5122",
           "level": "warning",
-          "message": "Remove this commented out code.",
+          "message": "Make sure this permissive CORS policy is safe here.",
           "locations": [
             {
               "resultFile": {
                 "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Startup.cs",
                 "region": {
-                  "startLine": 44,
-                  "startColumn": 1,
-                  "endLine": 44,
-                  "endColumn": 14
+                  "startLine": 48,
+                  "startColumn": 32,
+                  "endLine": 48,
+                  "endColumn": 90
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3928",
+          "level": "warning",
+          "message": "The parameter name 'url' is not declared in the argument list.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 60,
+                  "startColumn": 27,
+                  "endLine": 60,
+                  "endColumn": 110
                 }
               }
             }
@@ -35,78 +56,15 @@
         {
           "ruleId": "S1121",
           "level": "warning",
-          "message": "Extract the assignment of 'Name' from this expression.",
+          "message": "Extract the assignment of 'Nombre' from this expression.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AlbumController.cs",
                 "region": {
-                  "startLine": 101,
-                  "startColumn": 26,
-                  "endLine": 101,
-                  "endColumn": 27
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'CreationYear' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
-                "region": {
-                  "startLine": 102,
-                  "startColumn": 34,
-                  "endLine": 102,
-                  "endColumn": 35
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'Interpreter' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
-                "region": {
-                  "startLine": 103,
-                  "startColumn": 33,
-                  "endLine": 103,
-                  "endColumn": 34
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'Writer' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
-                "region": {
-                  "startLine": 104,
+                  "startLine": 108,
                   "startColumn": 28,
-                  "endLine": 104,
+                  "endLine": 108,
                   "endColumn": 29
                 }
               }
@@ -119,16 +77,16 @@
         {
           "ruleId": "S1121",
           "level": "warning",
-          "message": "Extract the assignment of 'Producer' from this expression.",
+          "message": "Extract the assignment of 'Descripcion' from this expression.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AlbumController.cs",
                 "region": {
-                  "startLine": 105,
-                  "startColumn": 30,
-                  "endLine": 105,
-                  "endColumn": 31
+                  "startLine": 109,
+                  "startColumn": 33,
+                  "endLine": 109,
+                  "endColumn": 34
                 }
               }
             }
@@ -140,15 +98,154 @@
         {
           "ruleId": "S1121",
           "level": "warning",
-          "message": "Extract the assignment of 'Genero_id' from this expression.",
+          "message": "Extract the assignment of 'PortadaUrl' from this expression.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AlbumController.cs",
                 "region": {
-                  "startLine": 106,
+                  "startLine": 110,
+                  "startColumn": 32,
+                  "endLine": 110,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4457",
+          "level": "warning",
+          "message": "Split this method into two, one handling parameters check and the other handling the asynchronous code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 51,
+                  "endLine": 29,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 35,
+                  "startColumn": 27,
+                  "endLine": 35,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Nombre' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 132,
+                  "startColumn": 28,
+                  "endLine": 132,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'AnoCreacion' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 133,
+                  "startColumn": 33,
+                  "endLine": 133,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Interprete' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 134,
+                  "startColumn": 32,
+                  "endLine": 134,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Compositor' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 135,
+                  "startColumn": 32,
+                  "endLine": 135,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Productor' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 136,
                   "startColumn": 31,
-                  "endLine": 106,
+                  "endLine": 136,
                   "endColumn": 32
                 }
               }
@@ -161,57 +258,57 @@
         {
           "ruleId": "S1121",
           "level": "warning",
-          "message": "Extract the assignment of 'Url' from this expression.",
+          "message": "Extract the assignment of 'GeneroId' from this expression.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AudioController.cs",
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PistaController.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 30,
+                  "endLine": 137,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Nombre' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PlaylistController.cs",
+                "region": {
+                  "startLine": 106,
+                  "startColumn": 28,
+                  "endLine": 106,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1121",
+          "level": "warning",
+          "message": "Extract the assignment of 'Descripcion' from this expression.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PlaylistController.cs",
                 "region": {
                   "startLine": 107,
-                  "startColumn": 25,
+                  "startColumn": 33,
                   "endLine": 107,
-                  "endColumn": 26
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'Name' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
-                "region": {
-                  "startLine": 98,
-                  "startColumn": 26,
-                  "endLine": 98,
-                  "endColumn": 27
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'Description' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
-                "region": {
-                  "startLine": 99,
-                  "startColumn": 33,
-                  "endLine": 99,
                   "endColumn": 34
                 }
               }
@@ -224,37 +321,16 @@
         {
           "ruleId": "S1121",
           "level": "warning",
-          "message": "Extract the assignment of 'IsPublished' from this expression.",
+          "message": "Extract the assignment of 'PortadaUrl' from this expression.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
+                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/PlaylistController.cs",
                 "region": {
-                  "startLine": 100,
-                  "startColumn": 33,
-                  "endLine": 100,
-                  "endColumn": 34
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1121",
-          "level": "warning",
-          "message": "Extract the assignment of 'Type' from this expression.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/UPN/9no/CAPSTONE/Proyecto/AntaraSoft/antara/AntaraSoft/Antara.API/Controllers/AgrupacionController.cs",
-                "region": {
-                  "startLine": 101,
-                  "startColumn": 26,
-                  "endLine": 101,
-                  "endColumn": 27
+                  "startLine": 108,
+                  "startColumn": 32,
+                  "endLine": 108,
+                  "endColumn": 33
                 }
               }
             }
@@ -282,12 +358,12 @@
             ]
           }
         },
-        "S125": {
-          "id": "S125",
-          "shortDescription": "Sections of code should not be commented out",
-          "fullDescription": "Programmers should not comment out code as it bloats programs and reduces readability.",
+        "S3928": {
+          "id": "S3928",
+          "shortDescription": "Parameter names used into ArgumentException constructors should match an existing one ",
+          "fullDescription": "Some constructors of the ArgumentException, ArgumentNullException, ArgumentOutOfRangeException and DuplicateWaitObjectException classes must be fed with a valid parameter name. This rule raises an issue in two cases:",
           "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-125",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3928",
           "properties": {
             "category": "Major Code Smell",
             "isEnabledByDefault": true,
@@ -296,6 +372,40 @@
               "SonarWay",
               "MainSourceScope",
               "TestSourceScope"
+            ]
+          }
+        },
+        "S4457": {
+          "id": "S4457",
+          "shortDescription": "Parameter validation in \"async\"/\"await\" methods should be wrapped",
+          "fullDescription": "Because of the way async/await methods are rewritten by the compiler, any exceptions thrown during the parameters check will happen only when the task is observed. That could happen far away from the source of the buggy code or never happen for fire-and-forget tasks.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-4457",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S5122": {
+          "id": "S5122",
+          "shortDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive",
+          "fullDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive. It has led in the past to the following vulnerabilities:",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-5122",
+          "properties": {
+            "category": "Minor Security Hotspot",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "NotConfigurable"
             ]
           }
         }

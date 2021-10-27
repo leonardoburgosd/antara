@@ -46,12 +46,12 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<Playlist>("CrearPlaylist", new
                 {
-                    @Id = playlist.Id,
-                    @Nombre = playlist.Nombre,
-                    @Descripcion = playlist.Descripcion,
-                    @PortadaUrl = playlist.PortadaUrl,
-                    @UsuarioId = playlist.UsuarioId,
-                    @EstaActivo = playlist.EstaActivo
+                    playlist.Id,
+                    playlist.Nombre,
+                    playlist.Descripcion,
+                    playlist.PortadaUrl,
+                    playlist.UsuarioId,
+                    playlist.EstaActivo
                 });
             }
             catch (Exception err)
@@ -134,8 +134,8 @@ namespace Antara.Repository.Repositories
             {
                 int resultado = await _dapper.QueryWithReturn<int>("QuitarPistaDePlaylist", new
                 {
-                    @PlaylistId = playlistPista.PlaylistId,
-                    @PistaId = playlistPista.PistaId
+                    playlistPista.PlaylistId,
+                    playlistPista.PistaId
                 });
                 if (resultado == 0)
                 {

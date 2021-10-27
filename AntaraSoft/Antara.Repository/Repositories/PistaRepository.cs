@@ -23,18 +23,18 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<Pista>("CrearPista", new
                 {
-                    @Id = pista.Id,
-                    @Url = pista.Url,
-                    @Nombre = pista.Nombre,
-                    @FechaRegistro = pista.FechaRegistro,
-                    @AnoCreacion = pista.AnoCreacion,
-                    @Interprete = pista.Interprete,
-                    @Compositor = pista.Compositor,
-                    @Productor = pista.Productor,
-                    @Reproducciones = pista.Reproducciones,
-                    @GeneroId = pista.GeneroId,
-                    @AlbumId = pista.AlbumId,
-                    @EstaActivo = pista.EstaActivo
+                    pista.Id,
+                    pista.Url,
+                    pista.Nombre,
+                    pista.FechaRegistro,
+                    pista.AnoCreacion,
+                    pista.Interprete,
+                    pista.Compositor,
+                    pista.Productor,
+                    pista.Reproducciones,
+                    pista.GeneroId,
+                    pista.AlbumId,
+                    pista.EstaActivo
                 });
             }
             catch (Exception err)
@@ -67,14 +67,14 @@ namespace Antara.Repository.Repositories
             {
                 await _dapper.QueryWithReturn<dynamic>("EditarPista", new
                 {
-                    @Id = pista.Id,
-                    @Url = pista.Url,
-                    @Nombre = pista.Nombre,
-                    @AnoCreacion = pista.AnoCreacion,
-                    @Interprete = pista.Interprete,
-                    @Compositor = pista.Compositor,
-                    @Productor = pista.Productor,
-                    @GeneroId = pista.GeneroId
+                    pista.Id,
+                    pista.Url,
+                    pista.Nombre,
+                    pista.AnoCreacion,
+                    pista.Interprete,
+                    pista.Compositor,
+                    pista.Productor,
+                    pista.GeneroId
                 });
             }
  
@@ -101,13 +101,13 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid AlbumId)
+        public async Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid albumId)
         {
             try
             {
                 var pistasList = await _dapper.Consulta<Pista>("ObtenerTodosPistasDeAlbum", new
                 {
-                    @AlbumId = AlbumId
+                    @AlbumId = albumId
                 });
                 return pistasList;
             }
@@ -118,13 +118,13 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid PlaylistId)
+        public async Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid playlistId)
         {
             try
             {
                 var pistasList = await _dapper.Consulta<Pista>("ObtenerTodosPistasDePlaylist", new
                 {
-                    @PlaylistId = PlaylistId
+                    @PlaylistId = playlistId
                 });
                 return pistasList;
             }
@@ -152,14 +152,14 @@ namespace Antara.Repository.Repositories
             }
         }
 
-        public async Task ReproducirPista(Guid id, int Reproducciones)
+        public async Task ReproducirPista(Guid id, int reproducciones)
         {
             try
             {
                 await _dapper.QueryWithReturn<Pista>("ReproducirPista", new
                 {
                     @Id = id,
-                    @Reproducciones = Reproducciones
+                    @Reproducciones = reproducciones
                 });
             }
             catch (Exception err)
