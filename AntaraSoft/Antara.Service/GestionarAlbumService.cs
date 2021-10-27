@@ -14,7 +14,7 @@ namespace Antara.Service
         private readonly IAlbumRepository _albumRepository;
 
 
-        public GestionarAlbumService(IAlbumRepository albumRepository, IPlaylistRepository playlistRepository)
+        public GestionarAlbumService(IAlbumRepository albumRepository)
         {
             _albumRepository = albumRepository;
         }

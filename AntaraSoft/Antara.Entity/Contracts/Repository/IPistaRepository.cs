@@ -15,7 +15,6 @@ namespace Antara.Model.Contracts
         Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid PlaylistId);
         Task EditarPista(Pista pista);
         Task EliminarPista(Guid id);
-        Task<bool> VerificarUrlUnico(string url);
         Task<List<Pista>> BuscarPistass(string cadena);
         Task ReproducirPista(Guid id, int reproducciones);
     }

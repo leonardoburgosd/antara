@@ -17,28 +17,6 @@ namespace Antara.Repository.Repositories
             _dapper = dapper;
         }
 
-
-        public async Task<bool> VerificarUrlUnico(string url)
-        {
-            try
-            {
-                Pista respuesta = await _dapper.QueryWithReturn<Pista>("VerificarUrlUnico", new
-                {
-                    @Url = url
-                });
-                if (respuesta == null)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception err)
-            {
-                Console.Write(err.Message);
-                throw;
-            }
-        }
-
         public async Task CrearPista(Pista pista)
         {
             try

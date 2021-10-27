@@ -35,7 +35,8 @@ namespace AntaraTest
                 Genero = 'M',
                 EstaActivo = true,
                 FechaRegistro = DateTime.Now,
-                Pais = "Peru"
+                Pais = "Peru",
+                Tipo = "antara"
             };
 
             var options = Options.Create(new AppSettings());

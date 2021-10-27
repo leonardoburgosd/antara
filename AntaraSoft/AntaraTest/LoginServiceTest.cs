@@ -27,10 +27,8 @@ namespace AntaraTest
             var dapper = new Antara.Repository.Dapper.Dapper(options);
             var usuarioRepo = new UsuarioRepository(dapper);
             var mockEncrypter = new Mock<IEncryptText>();
-            mockEncrypter.Setup(x => x.CompararHash(password, usuarioRepo.ObtenerUsuario(Guid.Parse("FDF9F847-DC95-45C4-9ACB-45C0DBD04D9E")).Result.Password)).Returns(true);
+            mockEncrypter.Setup(x => x.CompararHash(password, usuarioRepo.ObtenerUsuario(Guid.Parse("AE81EAAF-F99F-4980-B782-0EA359402DAF")).Result.Password)).Returns(true);
             var servicioLogin = new LoginService(usuarioRepo, mockEncrypter.Object);
-
-            
 
             if(emailLogin != null)
             {
