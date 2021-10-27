@@ -5,4 +5,5 @@ export class Usuario{
     genero:string | undefined;
     pais:string | undefined;
     password:string | undefined;
+    tipo:string | undefined;
 }

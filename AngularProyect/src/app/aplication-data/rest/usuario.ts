@@ -20,10 +20,24 @@ export class DataService {
   }
 
   login(user: Auth): any {
-    return this.httpClient.post(this.API+"/login", user,httpOptions).toPromise();
+    return this.httpClient.post(this.API + "/login", user, httpOptions).toPromise();
   }
 
-  registro(user:Usuario):any{
-    return this.httpClient.post(this.API,user,httpOptions).toPromise();
+  registro(user: Usuario): any {
+    let data: FormData = new FormData();
+    data.append('Email', user.email as string);
+    data.append('Password', user.password as string);
+    data.append('Nombre', user.nombre as string);
+    debugger
+    if (user.tipo == 'google') {
+      let fecha: string = user.fechaNacimiento?.getDate() + '/' + user.fechaNacimiento?.getMonth() + '/' + user.fechaNacimiento?.getFullYear();
+      data.append('FechaNacimiento', fecha);
+    }
+    if (user.tipo == 'antara') data.append('FechaNacimiento', user.fechaNacimiento?.toString() as string);
+    data.append('Genero', user.genero as string);
+    data.append('Pais', user.pais as string);
+    data.append('Tipo', user.tipo as string);
+    data.append('file', '');
+    return this.httpClient.post(this.API, data).toPromise();
   }
 }

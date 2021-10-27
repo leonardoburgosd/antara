@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { Usuario } from '../aplication-data/structure/Usuario';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,12 @@ export class LoginComponent implements OnInit {
       this.socialUser = user;
       this.isLoggedin = (user != null);
       localStorage.setItem('userResponse',JSON.stringify({user:'google',data:this.socialUser}));
+      this.dataService.registro(this.BypassUserGoogleToUserAntara(this.socialUser)).then((res: any) => {
+        debugger
+        console.log(res);
+      }, (err: any) => {
+        this.controlError(err);
+      });
       this.router.navigate(['/dashboard']);
     });
   }
@@ -49,8 +56,21 @@ export class LoginComponent implements OnInit {
       })
   }
 
-
+  //#region Usuario de google 
   loginWithGoogle(): void {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
+
+  BypassUserGoogleToUserAntara(userGoogle:SocialUser):Usuario{
+    let userAntara:Usuario = new Usuario();
+    userAntara.email = userGoogle.email;
+    userAntara.fechaNacimiento = new Date(1900, 1, 1);
+    userAntara.genero = 'N';
+    userAntara.nombre = userGoogle.firstName + userGoogle.lastName;
+    userAntara.pais = 'Perú';
+    userAntara.password = '000000';
+    userAntara.tipo = 'google';
+    return userAntara;
+  }
+  //#endregion
 }

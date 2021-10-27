@@ -16,8 +16,9 @@ export class RegisterComponent implements OnInit {
   constructor(private dataService: DataService,private router:Router) { }
 
   ngOnInit(): void {
-    this.usuario.pais = "Peru";
+    this.usuario.pais = "Perú";
     this.usuario.genero = 'N';
+    this.usuario.tipo = 'antara';
   }
 
   registro() {
