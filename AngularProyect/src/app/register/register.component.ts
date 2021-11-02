@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../aplication-data/rest/usuario';
+import {  DataServiceUsuario } from '../aplication-data/rest/DataServiceUsuario';
 import { Usuario } from '../aplication-data/structure/Usuario';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -13,11 +13,12 @@ export class RegisterComponent implements OnInit {
   usuario: Usuario = new Usuario();
   error: any = [];
   emailVerification: string = '';
-  constructor(private dataService: DataService,private router:Router) { }
+  constructor(private dataService: DataServiceUsuario,private router:Router) { }
 
   ngOnInit(): void {
-    this.usuario.pais = "Peru";
+    this.usuario.pais = "Perú";
     this.usuario.genero = 'N';
+    this.usuario.tipo = 'antara';
   }
 
   registro() {
