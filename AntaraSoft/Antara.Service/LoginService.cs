@@ -12,25 +12,46 @@ namespace Antara.Service
 {
     public class LoginService:ILoginService
     {
-        private readonly IUsuarioRepository usuarioRepo;
-        private readonly IEncryptText encryptText;
+        private readonly IUsuarioRepository _usuarioRepo;
+        private readonly IEncryptText _encryptText;
         public LoginService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
-            this.usuarioRepo = usuarioRepo;
-            this.encryptText = encryptText;
+            _usuarioRepo = usuarioRepo;
+            _encryptText = encryptText;
         }
 
-        public async Task<Usuario> Login(string email, string password)
+        public Task<Usuario> Login(string email, string password)
         {
             try
             {
-                Usuario user = await usuarioRepo.Login(email);
+                if (email == null)
+                {
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
+                }
+                else if(password == null)
+                {
+                    throw new ArgumentNullException(nameof(password), "No se proporciono ningún valor");
+                }
+                return LoginInner(email, password);
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+
+        private async Task<Usuario> LoginInner(string email, string password)
+        {
+            try
+            {
+                Usuario user = await _usuarioRepo.Login(email);
                 if (user != null)
                 {
-                    bool pass = encryptText.CompararHash(password, user.Password);
+                    bool pass = _encryptText.CompararHash(password, user.Password);
                     if (pass)
                     {
-                        return usuarioRepo.GetUsuario(user.Id).Result;
+                        return _usuarioRepo.ObtenerUsuario(user.Id).Result;
                     }
                 }
                 return null;

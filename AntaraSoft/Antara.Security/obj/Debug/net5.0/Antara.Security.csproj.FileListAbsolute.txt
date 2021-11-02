@@ -10,11 +10,22 @@ D:\Local\Documentos\Git\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Secur
 D:\Local\Documentos\Git\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.Security\obj\Debug\net5.0\ref\Antara.Security.dll
 D:\Local\Documentos\Git\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.pdb
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.deps.json
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\ref\Antara.Security.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.pdb
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.csproj.AssemblyReference.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.GeneratedMSBuildEditorConfig.editorconfig
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.AssemblyInfoInputs.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.AssemblyInfo.cs
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.csproj.CoreCompileInputs.cache
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\ref\Antara.Security.dll
+D:\Local\Documentos\Git hub\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.pdb
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.deps.json
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\ref\Antara.Security.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\bin\Debug\net5.0\Antara.Security.pdb
-D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.csproj.AssemblyReference.cache
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.GeneratedMSBuildEditorConfig.editorconfig
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.AssemblyInfoInputs.cache
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.AssemblyInfo.cs
@@ -22,3 +33,4 @@ D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\De
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\ref\Antara.Security.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.pdb
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Security\obj\Debug\net5.0\Antara.Security.csproj.AssemblyReference.cache

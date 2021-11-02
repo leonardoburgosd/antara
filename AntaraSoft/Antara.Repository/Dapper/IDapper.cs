@@ -8,6 +8,7 @@ namespace Antara.Repository.Dapper
 {
     public interface IDapper
     {
-        Task<T> QueryWithReturn<T>(string storedProcedure, dynamic parameters = null) where T : class;
+        Task<T> QueryWithReturn<T>(string storedProcedure, dynamic parameters = null);
+        Task<dynamic> Consulta<T>(string procedimientoAlmacenado, dynamic parametros = null) where T : class;
     }
 }

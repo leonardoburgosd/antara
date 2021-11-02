@@ -1,8 +1,9 @@
 export class Usuario{
     email:string | undefined;
-    name:string | undefined;
-    birthDate:Date | undefined;
-    gender:string | undefined;
-    country:string | undefined;
+    nombre:string | undefined;
+    fechaNacimiento:Date | undefined;
+    genero:string | undefined;
+    pais:string | undefined;
     password:string | undefined;
+    tipo:string | undefined;
 }

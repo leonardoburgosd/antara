@@ -6,10 +6,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./reproductor.component.css']
 })
 export class ReproductorComponent implements OnInit {
-  @Input() nombre:string | undefined;
+  @Input() listaCanciones: any = [];
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

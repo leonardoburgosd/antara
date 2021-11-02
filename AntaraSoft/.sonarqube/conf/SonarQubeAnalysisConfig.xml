@@ -103,7 +103,7 @@
     <Property Name="sonar.updatecenter.url">https://update.sonarsource.org/update-center.properties</Property>
     <Property Name="sonar.core.id">BF41A1F2-AXobz82ICou2SMmPFqwM</Property>
     <Property Name="sonar.junit.reportPaths">D:/UPN/CALIDAD/nominasoft _v2/target/surefire-reports/TEST-com.calidad.nominasoft.ContratoTest.xml</Property>
-    <Property Name="sonar.core.startTime">29/09/2021 12:42:38</Property>
+    <Property Name="sonar.core.startTime">26/10/2021 19:08:02</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://localhost:9000</Property>
@@ -116,17 +116,17 @@
       <AnalyzerPlugins>
         <AnalyzerPlugin Key="csharp" Version="8.22.0.31243" StaticResourceName="SonarAnalyzer-8.22.0.31243.zip">
           <AssemblyPaths>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\Google.Protobuf.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CFG.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CSharp.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\Google.Protobuf.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.CFG.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.CSharp.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.dll</Path>
           </AssemblyPaths>
         </AnalyzerPlugin>
         <AnalyzerPlugin Key="vbnet" Version="8.22.0.31243" StaticResourceName="SonarAnalyzer-8.22.0.31243.zip">
           <AssemblyPaths>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\Google.Protobuf.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\SonarAnalyzer.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\SonarAnalyzer.VisualBasic.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\Google.Protobuf.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\SonarAnalyzer.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\SonarAnalyzer.VisualBasic.dll</Path>
           </AssemblyPaths>
         </AnalyzerPlugin>
       </AnalyzerPlugins>
@@ -141,17 +141,17 @@
       <AnalyzerPlugins>
         <AnalyzerPlugin Key="csharp" Version="8.22.0.31243" StaticResourceName="SonarAnalyzer-8.22.0.31243.zip">
           <AssemblyPaths>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\Google.Protobuf.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CFG.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CSharp.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\Google.Protobuf.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.CFG.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.CSharp.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\4\SonarAnalyzer.dll</Path>
           </AssemblyPaths>
         </AnalyzerPlugin>
         <AnalyzerPlugin Key="vbnet" Version="8.22.0.31243" StaticResourceName="SonarAnalyzer-8.22.0.31243.zip">
           <AssemblyPaths>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\Google.Protobuf.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\SonarAnalyzer.dll</Path>
-            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\1\SonarAnalyzer.VisualBasic.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\Google.Protobuf.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\SonarAnalyzer.dll</Path>
+            <Path>C:\Users\Diego\AppData\Local\Temp\.sonarqube\resources\5\SonarAnalyzer.VisualBasic.dll</Path>
           </AssemblyPaths>
         </AnalyzerPlugin>
       </AnalyzerPlugins>

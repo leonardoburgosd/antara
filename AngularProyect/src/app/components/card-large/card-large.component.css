@@ -1,0 +1,17 @@
+.card-black{
+    background: rgb(17, 17, 17);
+    color: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: .25rem;
+}
+
+@media (max-width: 1326px) { 
+    .card-body{
+        padding: 8px;
+    }
+}

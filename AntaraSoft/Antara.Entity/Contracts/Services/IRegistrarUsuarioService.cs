@@ -9,7 +9,7 @@ namespace Antara.Model.Contracts
 {
     public interface IRegistrarUsuarioService
     {
-        Task<Usuario> CreateUsuario(Usuario usuario);
-        Task<Usuario> GetUsuario(long id);
+        Task CrearUsuario(Usuario usuario);
+        Task<Usuario> ObtenerUsuario(Guid id);
     }
 }

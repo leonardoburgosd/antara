@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../aplication-data/rest/usuario';
+import {  DataServiceUsuario } from '../aplication-data/rest/DataServiceUsuario';
 import { Usuario } from '../aplication-data/structure/Usuario';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,17 +13,19 @@ export class RegisterComponent implements OnInit {
   usuario: Usuario = new Usuario();
   error: any = [];
   emailVerification: string = '';
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataServiceUsuario,private router:Router) { }
 
   ngOnInit(): void {
-    this.usuario.country = "Peru";
-    this.usuario.gender = 'N';
+    this.usuario.pais = "Perú";
+    this.usuario.genero = 'N';
+    this.usuario.tipo = 'antara';
   }
 
   registro() {
     if (this.validacionForm()) {
       this.dataService.registro(this.usuario).then((res: any) => {
         console.log(res);
+        this.router.navigate(['/login']);
       }, (err: any) => {
         this.controlError(err);
       });
@@ -44,12 +47,12 @@ export class RegisterComponent implements OnInit {
     let validacion: Boolean[] = [false, false];
 
     //Valida cumpleaños
-    if (this.usuario.birthDate == undefined) {
-      this.error.BirthDate = ['Debe ingresar su fecha de nacimiento.']
+    if (this.usuario.fechaNacimiento == undefined) {
+      this.error.fechaNacimiento = ['Debe ingresar su fecha de nacimiento.']
       validacion[0] = false;
     }
     else {
-      this.error.BirthDate = [];
+      this.error.fechaNacimiento = [];
       validacion[0] = true;
     }
 

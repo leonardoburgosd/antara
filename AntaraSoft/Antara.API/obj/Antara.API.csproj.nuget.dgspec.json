@@ -57,9 +57,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication.Google": {
+            "Google.Apis.Drive.v3": {
               "target": "Package",
-              "version": "[5.0.10, )"
+              "version": "[1.55.0.2453, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",

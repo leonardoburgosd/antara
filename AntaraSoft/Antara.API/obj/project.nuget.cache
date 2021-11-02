@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "dkvvYfjeZ1tKtk4u6TKCMyxUJ/cD7yU+GvrO76EqX3N7orHVfkxlVWf6BLG47NiXJ918u6vwQOwYbwBn16vV4Q==",
+  "dgSpecHash": "i7K28n1b+PY74D772MDSKWmmzl+ylMWFb994judP6511eqQTxAtkERm/RYEdDKCkIKBI974u6ZfZVKl0R+MtYQ==",
   "success": true,
   "projectFilePath": "D:\\UPN\\9no\\CAPSTONE\\Proyecto\\AntaraSoft\\antara\\AntaraSoft\\Antara.API\\Antara.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Diego\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\Diego\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
-    "C:\\Users\\Diego\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.10\\microsoft.aspnetcore.authentication.google.5.0.10.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis\\1.55.0\\google.apis.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.auth\\1.55.0\\google.apis.auth.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.core\\1.55.0\\google.apis.core.1.55.0.nupkg.sha512",
+    "C:\\Users\\Diego\\.nuget\\packages\\google.apis.drive.v3\\1.55.0.2453\\google.apis.drive.v3.1.55.0.2453.nupkg.sha512",
     "C:\\Users\\Diego\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Diego\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Diego\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",

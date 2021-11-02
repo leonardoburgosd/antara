@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>d69bf797-5abd-4184-aeea-79111013f843</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.10" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.55.0.2453" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
   </ItemGroup>
@@ -16,6 +15,12 @@
     <ProjectReference Include="..\Antara.Repository\Antara.Repository.csproj" />
     <ProjectReference Include="..\Antara.Security\Antara.Security.csproj" />
     <ProjectReference Include="..\Antara.Service\Antara.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

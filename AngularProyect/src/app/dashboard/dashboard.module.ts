@@ -9,6 +9,9 @@ import { ReproductorComponent } from "../components/reproductor/reproductor.comp
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { CardAlbumComponent } from "../components/card-album/card-album.component";
 import { CardReproduccionComponent } from "../components/card-reproduccion/card-reproduccion.component";
+import { CardLargeComponent } from "../components/card-large/card-large.component";
+import { AccountComponent } from './account/account.component';
+import { PlaylistNewComponent } from './playlist/playlist-new/playlist-new.component';
 
 @NgModule({
     declarations:[
@@ -19,7 +22,10 @@ import { CardReproduccionComponent } from "../components/card-reproduccion/card-
         ReproductorComponent, 
         BibliotecaComponent,
         CardAlbumComponent,
-        CardReproduccionComponent
+        CardReproduccionComponent,
+        CardLargeComponent,
+        AccountComponent,
+        PlaylistNewComponent
     ],
     imports:[
         CommonModule,

@@ -11,25 +11,43 @@ namespace Antara.Service
 {
     public class RegistrarUsuarioService : IRegistrarUsuarioService
     {
-        private readonly IUsuarioRepository usuarioRepo;
-        private readonly IEncryptText encryptText;
+        private readonly IUsuarioRepository _usuarioRepo;
+        private readonly IEncryptText _encryptText;
 
         public RegistrarUsuarioService(IUsuarioRepository usuarioRepo, IEncryptText encryptText)
         {
-            this.usuarioRepo = usuarioRepo;
-            this.encryptText = encryptText;
+            _usuarioRepo = usuarioRepo;
+            _encryptText = encryptText;
         }
 
-        public async Task<Usuario> CreateUsuario(Usuario usuario)
+        public async Task CrearUsuario(Usuario usuario)
         {
             try
             {
-                if(IsEmailValid(usuario.Email).Result)
+                if (usuario.Tipo.ToLower() == "antara" || usuario.Tipo.ToLower() == "google")
                 {
-                    usuario.Password = encryptText.GeneratePasswordHash(usuario.Password);
-                    return await usuarioRepo.CreateUsuario(usuario);
+                    if (EsEmailValido(usuario.Email).Result)
+                    {
+                        if (usuario.Tipo.ToLower() == "antara")
+                        {
+                            usuario.Password = _encryptText.GeneratePasswordHash(usuario.Password);
+                        }
+                        await _usuarioRepo.CrearUsuario(usuario);
+                        return;
+                    }
+                    else
+                    {
+                        if (usuario.Tipo.ToLower() == "antara")
+                        {
+                            throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
+                        }
+                        else if (usuario.Tipo.ToLower() == "google")
+                        {
+                            return;
+                        }
+                    }
                 }
-                throw new ArgumentException("Este correo electrónico ya se encuentra registrado.");
+                
             }
             catch (Exception err)
             {
@@ -38,11 +56,15 @@ namespace Antara.Service
             }
         }
 
-        public async Task<Usuario> GetUsuario(long id)
+        public Task<Usuario> ObtenerUsuario(Guid id)
         {
             try
             {
-                return await usuarioRepo.GetUsuario(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id), "No se proporciono ningún valor");
+                }
+                return ObtenerUsuarioInner(id);
             }
             catch (Exception err)
             {
@@ -51,17 +73,31 @@ namespace Antara.Service
             }
         }
 
-        private async Task<Boolean> IsEmailValid(string email)
+        private async Task<Usuario> ObtenerUsuarioInner(Guid id)
+        {
+            return await _usuarioRepo.ObtenerUsuario(id);
+        }
+
+        public Task<bool> EsEmailValido(string email)
         {
             try
             {
-                return await usuarioRepo.CheckUniqueEmail(email);
+                if (email == null)
+                {
+                    throw new ArgumentNullException(nameof(email), "No se proporciono ningún valor");
+                }
+                return EsEmailValidoInner(email);
             }
             catch (Exception err)
             {
                 Console.Write(err);
                 throw;
             }
+        }
+
+        private async Task<Boolean> EsEmailValidoInner(string email)
+        {
+            return await _usuarioRepo.VerificarEmailUnico(email);
         }
     }
 }

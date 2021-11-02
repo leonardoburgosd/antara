@@ -9,35 +9,18 @@ namespace Antara.Model.Entities
 {
     public record Usuario
     {
-        public long Id { get; set; }
-        [Required(ErrorMessage = "Ingrese un correo electrónico")]
-        [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
-        [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
+        public Guid Id { get; set; }
         public string Email { get; set; }
-        [Required(ErrorMessage = "Ingrese una contraseña")]
-        [StringLength(18, ErrorMessage = "Debe tener entre 6 y 18 caracteres", MinimumLength = 6)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Ingrese una nombre de perfil")]
-        [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
-        public string Name { get; set; }
-        public DateTime BirthDate { get; set; }
-        public char Gender { get; set; }
-        [Required]
-        public bool Active { get; set; }
-        [Required]
-        public DateTime RegistrationDate { get; set; }
-        [Required(ErrorMessage = "Ingrese un país")]
-        public string Country { get; set; }
-
-        public Usuario(string email, string password, string name, DateTime birthDate, char gender, string country)
-        {
-            Email = email;
-            Password = password;
-            Name = name;
-            BirthDate = birthDate;
-            Gender = gender;
-            Country = country;
-        }
+        public string Nombre { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public char Genero { get; set; }
+        public bool EstaActivo { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string Pais { get; set; }
+        public string FotoPerfil { get; set; }
+        public string Tipo { get; set; }
         public Usuario() { }
+
     }
 }
