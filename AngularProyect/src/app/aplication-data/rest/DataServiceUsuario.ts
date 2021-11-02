@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Auth } from '../structure/Auth';
 import { Usuario } from '../structure/Usuario';
 
@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class DataServiceUsuario {
   private API: string;
   constructor(
     private httpClient: HttpClient) {

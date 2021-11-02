@@ -95,7 +95,7 @@ namespace Antara.API.Controllers
                 {
                     return NotFound();
                 }
-                return Json(new { usuario.Email, usuario.Nombre, usuario.FechaNacimiento, usuario.Genero, usuario.FechaRegistro, usuario.Pais });
+                return Json(new { usuario.Id, usuario.Email, usuario.Nombre, usuario.FechaNacimiento, usuario.Genero, usuario.FechaRegistro, usuario.Pais });
             }
             catch (Exception err)
             {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../aplication-data/rest/usuario';
+import {  DataServiceUsuario } from '../../aplication-data/rest/DataServiceUsuario';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class AccountComponent implements OnInit {
   usuario:any={};
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataServiceUsuario) { }
 
   ngOnInit(): void {
     this.usuario=JSON.parse(localStorage.getItem('userResponse') as string);

@@ -1,11 +1,12 @@
 <div class="row">
     <div class="col-lg-3">
-        <img src="../../../../assets/images/musica.png" class="imagen-playlist">
+        <img src="{{album.portadaUrl}}" class="imagen-playlist">
     </div>
     <div class="col-lg-9">
-        <h6>New playlist</h6>
-        <h1>Mi playlist</h1>
-        <button class="btn btn-dark">Editar</button>
+        <h6>{{album.descripcion}}</h6>
+        <h1>{{album.nombre}}</h1>
+        <button class="btn btn-dark">Editar</button> |
+        <button class="btn btn-success" (click)="registrarPlaylistBorrador()" >Guardar borrador</button>
     </div>
     <hr>
     <div class="col-lg-12">

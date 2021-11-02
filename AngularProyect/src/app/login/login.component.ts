@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../aplication-data/rest/usuario';
+import { DataServiceUsuario } from '../aplication-data/rest/DataServiceUsuario';
 import { Auth } from '../aplication-data/structure/Auth';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean | undefined;
 
-  constructor(private dataService: DataService, private socialAuthService: SocialAuthService, private router: Router) { }
+  constructor(private dataService: DataServiceUsuario, private socialAuthService: SocialAuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
@@ -52,7 +52,13 @@ export class LoginComponent implements OnInit {
         icon: 'error',
         title: 'Oops...',
         text: 'Usuario o password incorrectos.'
-      })
+      });
+    else if (err.status == 500)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'Por favor revise su conexión de internet.'
+      });
   }
 
   //#region Usuario de google 

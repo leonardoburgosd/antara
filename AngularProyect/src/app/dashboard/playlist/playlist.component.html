@@ -1,18 +1,6 @@
 <h3>Playlists <a [routerLink]="['new']" class="btn btn-playlist"><i class="fas fa-plus"></i> Crear playlist</a></h3>
 <hr>
-<div class="row">
-    <div class="col-3 p-2">
-        <app-card-album></app-card-album>
-    </div>
-    <div class="col-3 p-2">
-        <app-card-album></app-card-album>
-    </div>
-    <div class="col-3 p-2">
-        <app-card-album></app-card-album>
-    </div>
-    <div class="col-3 p-2">
-        <app-card-album></app-card-album>
-    </div>
+<div class="row" *ngFor="let album of albums">
     <div class="col-3 p-2">
         <app-card-album></app-card-album>
     </div>
