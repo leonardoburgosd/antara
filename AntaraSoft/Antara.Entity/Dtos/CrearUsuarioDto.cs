@@ -9,6 +9,7 @@ namespace Antara.Model.Dtos
 {
     public class CrearUsuarioDto
     {
+        public string Id { get; set; }
         [Required(ErrorMessage = "Ingrese un correo electrónico")]
         [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Correo electrónico no cumple con el formato")]
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]

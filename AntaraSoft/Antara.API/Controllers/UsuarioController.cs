@@ -30,9 +30,14 @@ namespace Antara.API.Controllers
         {
             try
             {
+                var id = Guid.NewGuid();
+                if(usuarioDto.Tipo == "google")
+                {
+                    id = Guid.Parse(usuarioDto.Id);
+                }
                 Usuario usuarioNuevo = new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = id,
                     Email = usuarioDto.Email,
                     Password = usuarioDto.Password,
                     Nombre = usuarioDto.Nombre,
