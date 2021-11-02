@@ -24,6 +24,7 @@ export class DataServiceAlbum {
         data.append('Nombre', album.nombre);
         data.append('Descripcion', album.descripcion);
         data.append('UsuarioId', album.usuarioId);
+        data.append('file', album.usuarioId);
         return this.httpClient.post(this.API, data).toPromise();
     }
 
@@ -32,7 +33,6 @@ export class DataServiceAlbum {
     }
 
     obtenerPorUsuario(usuarioId: number): any {
-        debugger
         return this.httpClient.get(this.API + "/todos/" + usuarioId, httpOptions).toPromise();
     }
 

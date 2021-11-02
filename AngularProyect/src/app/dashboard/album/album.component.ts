@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
 import { Album } from 'src/app/aplication-data/structure/Album';
-import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-playlist',
-  templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.css']
+  selector: 'app-album',
+  templateUrl: './album.component.html',
+  styleUrls: ['./album.component.css']
 })
-export class PlaylistComponent implements OnInit {
+export class AlbumComponent implements OnInit {
+
   usuario: any = {};
   albums: Album[] = [];
   constructor(private dataService: DataServiceAlbum) { }

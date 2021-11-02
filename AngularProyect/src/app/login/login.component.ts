@@ -24,9 +24,8 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
-      localStorage.setItem('userResponse', JSON.stringify({ user: 'google', data: this.socialUser }));
       this.dataService.registro(this.BypassUserGoogleToUserAntara(this.socialUser)).then((res: any) => {
-        console.log(res);
+        localStorage.setItem('userResponse', JSON.stringify({ user: 'google', data: [this.socialUser, res] }));
       }, (err: any) => {
         this.controlError(err);
       });

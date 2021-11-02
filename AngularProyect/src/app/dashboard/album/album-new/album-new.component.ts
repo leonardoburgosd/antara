@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
 import { Album } from 'src/app/aplication-data/structure/Album';
 import { Pista } from 'src/app/aplication-data/structure/Pista';
-import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-playlist-new',
-  templateUrl: './playlist-new.component.html',
-  styleUrls: ['./playlist-new.component.css']
+  selector: 'app-album-new',
+  templateUrl: './album-new.component.html',
+  styleUrls: ['./album-new.component.css']
 })
-export class PlaylistNewComponent implements OnInit {
+export class AlbumNewComponent implements OnInit {
   usuario: any = {};
   album: Album = new Album();
   pistas: Pista[] = [];
@@ -27,12 +28,22 @@ export class PlaylistNewComponent implements OnInit {
     newAlbum.portadaUrl = "../../../../assets/images/musica.png";
     newAlbum.estaActivo = true;
     newAlbum.usuarioId = this.usuario.data.id;
-    debugger
     return newAlbum;
   }
 
   registrarPlaylistBorrador() {
-    this.dataService.registro(this.album).then((response: any) => { console.log(response); }, (error: any) => { console.log(error); });
+    this.dataService.registro(this.album).then(
+      (response: any) => { this.album = response; },
+      (error: any) => { this.controlError(error); }
+    );
   }
 
+  controlError(err: any) {
+    if (err.status == 500)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'Por favor revise su conexión de internet.'
+      });
+  }
 }

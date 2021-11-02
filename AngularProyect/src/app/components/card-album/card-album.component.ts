@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Album } from 'src/app/aplication-data/structure/Album';
 
 @Component({
   selector: 'app-card-album',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card-album.component.css']
 })
 export class CardAlbumComponent implements OnInit {
-
+  @Input() album: Album = new Album;
   constructor() { }
 
   ngOnInit(): void {

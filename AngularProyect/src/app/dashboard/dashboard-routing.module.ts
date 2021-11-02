@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from '@angular/router';
 import { AccountComponent } from "./account/account.component";
+import { AlbumNewComponent } from "./album/album-new/album-new.component";
+import { AlbumComponent } from "./album/album.component";
 import { BibliotecaComponent } from "./biblioteca/biblioteca.component";
 import { DashboardComponent } from "./dashboard.component";
 import { ExploraComponent } from "./explora/explora.component";
-import { PlaylistNewComponent } from "./playlist/playlist-new/playlist-new.component";
-import { PlaylistComponent } from "./playlist/playlist.component";
 
 const routes: Routes = [
 
@@ -13,8 +13,8 @@ const routes: Routes = [
     {
         path: '', component: DashboardComponent, children: [
             { path: '', component: ExploraComponent },
-            { path: 'playlist', component: PlaylistComponent },
-            { path: 'playlist/new', component: PlaylistNewComponent },
+            { path: 'album', component: AlbumComponent },
+            { path: 'album/new', component: AlbumNewComponent },
             { path: 'library', component: BibliotecaComponent },
             { path: 'account', component: AccountComponent },
             { path: '**', redirectTo: '' }
