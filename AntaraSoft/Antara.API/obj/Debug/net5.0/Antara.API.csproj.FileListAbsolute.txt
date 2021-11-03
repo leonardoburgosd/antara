@@ -44,7 +44,6 @@ D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\n
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\staticwebassets\Antara.API.StaticWebAssets.xml
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\scopedcss\bundle\Antara.API.styles.css
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.RazorTargetAssemblyInfo.cache
-D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.csproj.CopyComplete
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\ref\Antara.API.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.pdb

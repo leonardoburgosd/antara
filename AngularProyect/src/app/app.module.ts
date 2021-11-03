@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ErrorComponent } from './error/error.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ErrorComponent } from './error/error.component';
     AppRoutingModule,
     FormsModule,
     DashboardModule,
-    SocialLoginModule
+    SocialLoginModule,
+    FontAwesomeModule
   ],
   providers: [
     {
