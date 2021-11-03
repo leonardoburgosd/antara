@@ -19,11 +19,12 @@ export class DataServiceAlbum {
         this.API = 'https://localhost:44392/api/album';
     }
 
-    registro(album: Album): any {
+    registro(album: Album, portada:File): any {
         let data:FormData = new FormData();
         data.append('Nombre', album.nombre);
         data.append('Descripcion', album.descripcion);
         data.append('UsuarioId', album.usuarioId);
+        data.append('File', portada);
         return this.httpClient.post(this.API, data).toPromise();
     }
 

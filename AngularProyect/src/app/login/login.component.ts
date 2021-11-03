@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
+      localStorage.setItem('userResponse', JSON.stringify({ user: 'google', data: [this.socialUser] }));
       this.dataService.registro(this.BypassUserGoogleToUserAntara(this.socialUser)).then((res: any) => {
         localStorage.setItem('userResponse', JSON.stringify({ user: 'google', data: [this.socialUser, res] }));
       }, (err: any) => {
@@ -60,13 +61,14 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  //#region Usuario de google 
+  //#region Usuario de google
   loginWithGoogle(): void {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   BypassUserGoogleToUserAntara(userGoogle: SocialUser): Usuario {
     let userAntara: Usuario = new Usuario();
+    userAntara.id = userAntara.convertToUUID(userGoogle.id);
     userAntara.email = userGoogle.email;
     userAntara.fechaNacimiento = new Date(1900, 1, 1);
     userAntara.genero = 'N';

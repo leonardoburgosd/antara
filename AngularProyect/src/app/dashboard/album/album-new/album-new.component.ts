@@ -14,7 +14,7 @@ export class AlbumNewComponent implements OnInit {
   usuario: any = {};
   album: Album = new Album();
   pistas: Pista[] = [];
-  file: File | null = null;
+  file!: File;
   imagenUrl: string | ArrayBuffer | null | undefined;
   constructor(private dataService: DataServiceAlbum) { }
 
@@ -35,7 +35,7 @@ export class AlbumNewComponent implements OnInit {
   }
 
   registrarPlaylistBorrador() {
-    this.dataService.registro(this.album).then(
+    this.dataService.registro(this.album, this.file).then(
       (response: any) => { this.album = response; },
       (error: any) => { this.controlError(error); }
     );
@@ -43,8 +43,6 @@ export class AlbumNewComponent implements OnInit {
 
   //#region Complementos
   controlError(err: any) {
-    debugger
-    console.log(err);
     if (err.status == 1) {
       Swal.fire({
         icon: 'error',
@@ -62,26 +60,26 @@ export class AlbumNewComponent implements OnInit {
   }
 
   obtieneUsuarioLog(): any {
+    debugger
     let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
     if (usuario.user == 'google') return usuario.data[1];
-    else return usuario.data[0];
+    else return usuario.data;
   }
 
   seleccionaImagen(evento: any) {
+    console.log(evento);
     this.file = <File>evento.target.files[0];
-
   }
 
   mostrarImagen() {
     if (this.file != null) {
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
-      reader.onload = (event) => { this.imagenUrl = (<FileReader>event.target).result; }
+      reader.onload = (event) => this.imagenUrl = (<FileReader>event.target).result;
     } else {
       this.controlError({ error: { status: 1, mensaje: 'No se ah seleccionado ninguna imagen.' } });
     }
   }
-
 
   //#endregion
 }

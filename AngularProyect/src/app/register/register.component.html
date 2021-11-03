@@ -1,22 +1,22 @@
 <div class="non-padding">
     <div class="col-lg-6 register-part">
-        <div class="full-screen 
-                d-flex align-items-center 
-                justify-content-center 
-                align-content-left 
+        <div class="full-screen
+                d-flex align-items-center
+                justify-content-center
+                align-content-left
                  flex-column">
             <div class="col-8 antara-font">
                 <div class="mb-3 row">
                     <label class="form-label ">¿Cual es tu correo electrónico?</label>
-                    <input type="email" class="form-antara" [(ngModel)]="usuario.email"
-                        aria-describedby="emailHelp">
+                    <input type="email" class="form-antara" [(ngModel)]="usuario.email" aria-describedby="emailHelp">
                     <div *ngIf="error.Email">
                         <div *ngFor="let error of error.Email" class="message-error">{{error}}</div>
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="form-label">Confirma el correo electrónico</label>
-                    <input type="email" class="form-antara" [(ngModel)]="emailVerification" aria-describedby="emailHelp">
+                    <input type="email" class="form-antara" [(ngModel)]="emailVerification"
+                        aria-describedby="emailHelp">
                     <div *ngIf="error.EmailVerification">
                         <div *ngFor="let error of error.EmailVerification" class="message-error">{{error}}</div>
                     </div>
@@ -30,8 +30,7 @@
                 </div>
                 <div class="mb-3 row">
                     <label class="form-label">¿Cómo quieres que te llamemos?</label>
-                    <input type="text" class="form-antara" [(ngModel)]="usuario.nombre"
-                        aria-describedby="emailHelp">
+                    <input type="text" class="form-antara" [(ngModel)]="usuario.nombre" aria-describedby="emailHelp">
                     <div *ngIf="error.Name">
                         <div *ngFor="let error of error.nombre" class="message-error">{{error}}</div>
                     </div>
@@ -48,18 +47,18 @@
                     <label class="form-label">¿Cuál es tu sexo?</label>
                     <div class="col-12">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                value="M" name="usuario.gender" [(ngModel)]="usuario.genero">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="M"
+                                name="usuario.gender" [(ngModel)]="usuario.genero">
                             <label class="form-check-label" for="inlineRadio1">Masculino</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" 
-                                value="F" name="usuario.gender" [(ngModel)]="usuario.genero">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="F"
+                                name="usuario.gender" [(ngModel)]="usuario.genero">
                             <label class="form-check-label" for="inlineRadio2">Femenino</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" 
-                                value="N" name="usuario.gender" [(ngModel)]="usuario.genero">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="N"
+                                name="usuario.gender" [(ngModel)]="usuario.genero">
                             <label class="form-check-label" for="inlineRadio3">No indica</label>
                         </div>
                     </div>
@@ -83,10 +82,10 @@
         </div>
     </div>
     <div class="col-lg-6 logo-part antara-font image-music">
-        <div class="full-screen 
-                    d-flex align-items-center 
-                    justify-content-center 
-                    align-content-center 
+        <div class="full-screen
+                    d-flex align-items-center
+                    justify-content-center
+                    align-content-center
                     text-center flex-column">
             <img src="../../assets/images/logo_white_large.png" class="logo-antara" alt="antara_logo" />
             <div class="division"></div>

@@ -25,6 +25,7 @@ export class DataServiceUsuario {
 
   registro(user: Usuario): any {
     let data: FormData = new FormData();
+    data.append('Id', user.id as string);
     data.append('Email', user.email as string);
     data.append('Password', user.password as string);
     data.append('Nombre', user.nombre as string);

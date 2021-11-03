@@ -33,7 +33,7 @@ export class AlbumComponent implements OnInit {
   obtieneUsuarioLog(): any {
     let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
     if (usuario.user == 'google') return usuario.data[1];
-    else return usuario.data[0];
+    else return usuario.data;
   }
 
   controlErrores(error: any) {

@@ -1,4 +1,5 @@
 export class Usuario{
+    id:string|undefined;
     email:string | undefined;
     nombre:string | undefined;
     fechaNacimiento:Date | undefined;
