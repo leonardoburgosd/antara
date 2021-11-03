@@ -16,7 +16,8 @@ export class DataServiceUsuario {
   private API: string;
   constructor(
     private httpClient: HttpClient) {
-    this.API = 'https://localhost:44392/api/usuario';
+    //this.API = 'https://localhost:44392/api/usuario';
+    this.API ='https://apislatch.azurewebsites.net/api/usuario';
   }
 
   login(user: Auth): any {
