@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+
 import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
 import { Album } from 'src/app/aplication-data/structure/Album';
 import { Pista } from 'src/app/aplication-data/structure/Pista';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-album-new',
@@ -13,10 +14,12 @@ export class AlbumNewComponent implements OnInit {
   usuario: any = {};
   album: Album = new Album();
   pistas: Pista[] = [];
+  file: File | null = null;
+  imagenUrl: string | ArrayBuffer | null | undefined;
   constructor(private dataService: DataServiceAlbum) { }
 
   ngOnInit(): void {
-    this.usuario = JSON.parse(localStorage.getItem('userResponse') as string);
+    this.usuario = this.obtieneUsuarioLog();
     this.album = this.inicializaNuevoAlbum();
   }
 
@@ -27,7 +30,7 @@ export class AlbumNewComponent implements OnInit {
     newAlbum.descripcion = "Descripcion de la playlist.";
     newAlbum.portadaUrl = "../../../../assets/images/musica.png";
     newAlbum.estaActivo = true;
-    newAlbum.usuarioId = this.usuario.data.id;
+    newAlbum.usuarioId = this.usuario.id;
     return newAlbum;
   }
 
@@ -38,12 +41,47 @@ export class AlbumNewComponent implements OnInit {
     );
   }
 
+  //#region Complementos
   controlError(err: any) {
-    if (err.status == 500)
+    debugger
+    console.log(err);
+    if (err.status == 1) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: err.mensaje
+      });
+    }
+    else if (err.status == 500) {
       Swal.fire({
         icon: 'error',
         title: 'Error de conexión',
         text: 'Por favor revise su conexión de internet.'
       });
+    }
   }
+
+  obtieneUsuarioLog(): any {
+    let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
+    if (usuario.user == 'google') return usuario.data[1];
+    else return usuario.data[0];
+  }
+
+  seleccionaImagen(evento: any) {
+    this.file = <File>evento.target.files[0];
+
+  }
+
+  mostrarImagen() {
+    if (this.file != null) {
+      var reader = new FileReader();
+      reader.readAsDataURL(this.file);
+      reader.onload = (event) => { this.imagenUrl = (<FileReader>event.target).result; }
+    } else {
+      this.controlError({ error: { status: 1, mensaje: 'No se ah seleccionado ninguna imagen.' } });
+    }
+  }
+
+
+  //#endregion
 }

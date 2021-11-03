@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
 import { Album } from 'src/app/aplication-data/structure/Album';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-album',
@@ -15,7 +16,7 @@ export class AlbumComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
-    this.listaMisAlbums(this.usuario.data.id);
+    this.listaMisAlbums(this.usuario.id);
   }
 
   listaMisAlbums(usuarioId: number) {
@@ -30,11 +31,17 @@ export class AlbumComponent implements OnInit {
   //#region Complementos
 
   obtieneUsuarioLog(): any {
-    return JSON.parse(localStorage.getItem('userResponse') as string);
+    let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
+    if (usuario.user == 'google') return usuario.data[1];
+    else return usuario.data[0];
   }
 
   controlErrores(error: any) {
-
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al guardar los datos.',
+      text: error
+    });
   }
 
   //#endregion

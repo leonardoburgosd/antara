@@ -24,7 +24,6 @@ export class DataServiceAlbum {
         data.append('Nombre', album.nombre);
         data.append('Descripcion', album.descripcion);
         data.append('UsuarioId', album.usuarioId);
-        data.append('file', album.usuarioId);
         return this.httpClient.post(this.API, data).toPromise();
     }
 
@@ -48,4 +47,3 @@ export class DataServiceAlbum {
         this.httpClient.put('https://localhost:44392/api/publicar', null, httpOptions).toPromise();
     }
 }
-

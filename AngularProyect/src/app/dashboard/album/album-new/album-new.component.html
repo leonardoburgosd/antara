@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-3">
-        <img src="{{album.portadaUrl}}" class="imagen-playlist">
+        <img [src]="imagenUrl" class="imagen-playlist" *ngIf="album.portadaUrl!=''" >
     </div>
     <div class="col-lg-9">
         <h6>{{album.descripcion}}</h6>
@@ -39,24 +39,27 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title etiqueta">Nuevo album</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <label class="col-form-label etiqueta">Titulo del album:</label>
+                        <input type="text" [(ngModel)]="album.nombre" name="nombre" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <label class="col-form-label etiqueta">Descripcion del album:</label>
+                        <textarea class="form-control" [(ngModel)]="album.descripcion" name="descripcion"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Imagen de portada:</label>
+                        <input type="file" accept="image/*" (change)="seleccionaImagen($event)"/>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button type="button" class="btn btn-primary" (click)="mostrarImagen()">Guardar localmente</button>
             </div>
         </div>
     </div>

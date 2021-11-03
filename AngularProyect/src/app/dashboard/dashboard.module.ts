@@ -1,5 +1,7 @@
 import { NgModule } from "@angular/core";
 import {CommonModule} from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { MenuComponent } from "./menu/menu.component";
 import { ExploraComponent } from './explora/explora.component';
@@ -17,8 +19,8 @@ import { AlbumNewComponent } from './album/album-new/album-new.component';
     declarations:[
         DashboardComponent,
         MenuComponent,
-        ExploraComponent, 
-        ReproductorComponent, 
+        ExploraComponent,
+        ReproductorComponent,
         BibliotecaComponent,
         CardAlbumComponent,
         CardReproduccionComponent,
@@ -29,7 +31,8 @@ import { AlbumNewComponent } from './album/album-new/album-new.component';
     ],
     imports:[
         CommonModule,
-        DashboardRoutingModule
+        DashboardRoutingModule,
+        FormsModule
     ]
 })
 export class DashboardModule{}
