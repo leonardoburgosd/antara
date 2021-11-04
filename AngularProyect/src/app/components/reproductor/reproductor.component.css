@@ -1,11 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Quicksand", sans-serif;
-}
-
 .container {
   display: flex;
   height: 100vh;
@@ -31,7 +23,7 @@
 .background {
   width: 100%;
   height: 100%;
-  background: url("/img/bg-pattern2.png") no-repeat bottom;
+  background: url("../../../assets/images/bg-pattern2.png") no-repeat bottom;
   background-size: cover;
   position: absolute;
   z-index: 1;
@@ -77,7 +69,12 @@
   z-index: 2;
 }
 
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+}
 .interpreter {
+  font-size: 0.8rem;
   font-weight: 300;
 }
 .pista-progress {
@@ -92,19 +89,19 @@
   font-weight: 300;
 }
 
-.progress-bar {
+.progresss-bar {
   height: 1px;
   width: 120px;
   display: flex;
   align-items: center;
-  margin: 0 10px;
+  margin: 0 10px 0.5rem 10px;
   border-radius: 15px;
   border: 1px solid #aaa;
   background-color: #aaa;
   cursor: pointer;
   position: relative;
 }
-.progress-bar:hover {
+.progresss-bar:hover {
   height: 10px;
   overflow: hidden;
 }
@@ -112,13 +109,14 @@
 #progress-time {
   width: 28px;
 }
-.progress {
+.progresss {
   width: 0%;
   height: 1px;
   background-color: rgb(1, 122, 255);
   border: 1px solid rgb(1, 122, 255);
+  pointer-events: none;
 }
-.progress-bar:hover .progress {
+.progresss-bar:hover .progresss {
   height: 10px;
 }
 .progress-circle {
@@ -141,7 +139,7 @@
   padding: 0 10px;
 }
 
-i{
+i {
   cursor: pointer;
   color: white;
   background-color: transparent;
