@@ -26,7 +26,7 @@ export class ReproductorComponent implements OnInit {
 
   songsList: any[] = [];
 
-  constructor(private oPistasService: PistasService) {}
+  constructor(private oPistasService: PistasService) { }
 
   ngOnInit(): void {
     this.loadElements();

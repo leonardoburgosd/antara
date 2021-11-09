@@ -17,7 +17,7 @@ export class DataServiceAlbum {
     private API: string;
     constructor(private httpClient: HttpClient) {
         //this.API = 'https://localhost:44392/api/album';
-        this.API ='https://apislatch.azurewebsites.net/api/usuario';
+        this.API ='https://apislatch.azurewebsites.net/api/album';
     }
 
     registro(album: Album, portada:File): any {

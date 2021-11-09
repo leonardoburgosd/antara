@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
 import { DataServiceAlbum } from 'src/app/aplication-data/rest/DataServiceAlbum';
+import { DataServicePistas } from 'src/app/aplication-data/rest/DataServicePistas';
 import { Album } from 'src/app/aplication-data/structure/Album';
 import { Pista } from 'src/app/aplication-data/structure/Pista';
 
@@ -13,16 +14,17 @@ import { Pista } from 'src/app/aplication-data/structure/Pista';
 export class AlbumNewComponent implements OnInit {
   usuario: any = {};
   album: Album = new Album();
+  pista: Pista = new Pista();
   pistas: Pista[] = [];
-  file!: File;
+  portada!: File;
+  audio!: File;
   imagenUrl: string | ArrayBuffer | null | undefined;
-  constructor(private dataService: DataServiceAlbum) { }
+  constructor(private dataServiceAlbum: DataServiceAlbum, private dataServicePista: DataServicePistas) { }
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.album = this.inicializaNuevoAlbum();
   }
-
 
   inicializaNuevoAlbum(): Album {
     let newAlbum: Album = new Album();
@@ -35,12 +37,18 @@ export class AlbumNewComponent implements OnInit {
   }
 
   registrarPlaylistBorrador() {
-    this.dataService.registro(this.album, this.file).then(
+    this.dataServiceAlbum.registro(this.album, this.portada).then(
       (response: any) => { this.album = response; },
       (error: any) => { this.controlError(error); }
     );
   }
 
+  guardarAudio() {
+    this.dataServicePista.registro(this.pista, this.audio).then(
+      (response: any) => console.log(response),
+      (error: any) => this.controlError(error)
+    );
+  }
   //#region Complementos
   controlError(err: any) {
     if (err.status == 1) {
@@ -60,26 +68,25 @@ export class AlbumNewComponent implements OnInit {
   }
 
   obtieneUsuarioLog(): any {
-    debugger
     let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
     if (usuario.user == 'google') return usuario.data[1];
     else return usuario.data;
   }
 
   seleccionaImagen(evento: any) {
-    console.log(evento);
-    this.file = <File>evento.target.files[0];
+    this.portada = <File>evento.target.files[0];
   }
 
   mostrarImagen() {
-    if (this.file != null) {
+    if (this.portada != null) {
       var reader = new FileReader();
-      reader.readAsDataURL(this.file);
+      reader.readAsDataURL(this.portada);
       reader.onload = (event) => this.imagenUrl = (<FileReader>event.target).result;
-    } else {
-      this.controlError({ error: { status: 1, mensaje: 'No se ah seleccionado ninguna imagen.' } });
     }
   }
 
+  seleccionaAudio(evento: any) {
+    this.audio = <File>evento.target.files[0];
+  }
   //#endregion
 }

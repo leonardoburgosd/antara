@@ -8,7 +8,7 @@
         <h1>{{album.nombre}}</h1>
         <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editar-playlist">
             <i class="fas fa-pencil-alt"></i>
-            </button> |
+        </button> |
         <button class="btn btn-success" (click)="registrarPlaylistBorrador()"><i class="far fa-save"></i></button> |
         <button class="btn btn-danger"><i class="fas fa-satellite"></i> Publicar</button>
     </div>
@@ -32,6 +32,7 @@
                 </tr>
             </tbody>
         </table>
+        <button class="btn agregar-pista" data-bs-toggle="modal" data-bs-target="#agregarPista">Registrar pista</button>
     </div>
 </div>
 
@@ -62,6 +63,60 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" (click)="mostrarImagen()">Guardar localmente</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="agregarPista" tabindex="-1" aria-labelledby="editar-playlist" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title etiqueta">Nueva pista</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Titulo del pista:</label>
+                        <input type="text" [(ngModel)]="pista.nombre" name="nombre" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Fecha de registro:</label>
+                        <input type="date" [(ngModel)]="pista.fechaRegistro" name="fechaRegistro" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Año de creacion:</label>
+                        <input type="date" [(ngModel)]="pista.anoCreacion" name="anoCreacion" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Interprete:</label>
+                        <input type="text" [(ngModel)]="pista.interprete" name="interprete" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Compositor:</label>
+                        <input type="text" [(ngModel)]="pista.compositor" name="compositor" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Producto:</label>
+                        <input type="text" [(ngModel)]="pista.productor" name="productor" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Genero:</label>
+                        <input type="text" [(ngModel)]="pista.generoId" name="generoId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Audio de portada:</label>
+                        <input id="fichero" type="file" accept="audio/*" (change)="seleccionaAudio($event)">
+                        <label for="fichero" style="width: 100%;" class="btn btn-primary">
+                            Agregar audio
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="guardarAudio()">Guardar</button>
             </div>
         </div>
     </div>
