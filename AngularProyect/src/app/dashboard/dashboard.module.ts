@@ -14,6 +14,7 @@ import { CardLargeComponent } from "../components/card-large/card-large.componen
 import { AccountComponent } from './account/account.component';
 import { AlbumComponent } from './album/album.component';
 import { AlbumNewComponent } from './album/album-new/album-new.component';
+import { AlbumUpdateComponent } from './album/album-update/album-update.component';
 
 @NgModule({
     declarations:[
@@ -27,7 +28,8 @@ import { AlbumNewComponent } from './album/album-new/album-new.component';
         CardLargeComponent,
         AccountComponent,
         AlbumComponent,
-        AlbumNewComponent
+        AlbumNewComponent,
+        AlbumUpdateComponent
     ],
     imports:[
         CommonModule,

@@ -32,4 +32,7 @@ export class DataServicePistas {
         return this.httpClient.post(this.API, data).toPromise();
     }
 
+    listaPorAlbum(albumId:string):any{
+        return this.httpClient.get(this.API+'/todos/album/'+albumId,httpOptions).toPromise();
+    }
 }

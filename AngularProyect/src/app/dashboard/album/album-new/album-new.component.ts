@@ -26,16 +26,6 @@ export class AlbumNewComponent implements OnInit {
     this.album = this.inicializaNuevoAlbum();
   }
 
-  inicializaNuevoAlbum(): Album {
-    let newAlbum: Album = new Album();
-    newAlbum.nombre = "Mi playlist";
-    newAlbum.descripcion = "Descripcion de la playlist.";
-    newAlbum.portadaUrl = "../../../../assets/images/musica.png";
-    newAlbum.estaActivo = true;
-    newAlbum.usuarioId = this.usuario.id;
-    return newAlbum;
-  }
-
   registrarPlaylistBorrador() {
     this.dataServiceAlbum.registro(this.album, this.portada).then(
       (response: any) => { this.album = response; },
@@ -52,6 +42,17 @@ export class AlbumNewComponent implements OnInit {
   }
 
   //#region Complementos
+
+  inicializaNuevoAlbum(): Album {
+    let newAlbum: Album = new Album();
+    newAlbum.nombre = "Mi playlist";
+    newAlbum.descripcion = "Descripcion de la playlist.";
+    newAlbum.portadaUrl = "../../../../assets/images/musica.png";
+    newAlbum.estaActivo = true;
+    newAlbum.usuarioId = this.usuario.id;
+    return newAlbum;
+  }
+
   controlError(err: any) {
     if (err.status == 1) {
       Swal.fire({
