@@ -44,11 +44,13 @@ export class AlbumNewComponent implements OnInit {
   }
 
   guardarAudio() {
+    this.pista.albumId = this.album.id;
     this.dataServicePista.registro(this.pista, this.audio).then(
       (response: any) => console.log(response),
       (error: any) => this.controlError(error)
     );
   }
+
   //#region Complementos
   controlError(err: any) {
     if (err.status == 1) {
@@ -89,4 +91,5 @@ export class AlbumNewComponent implements OnInit {
     this.audio = <File>evento.target.files[0];
   }
   //#endregion
+
 }

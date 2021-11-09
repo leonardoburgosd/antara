@@ -1,6 +1,6 @@
 
 export class Album{
-    id!:number;
+    id!:string;
     nombre!:string;
     descripcion!:string;
     fechaPublicacion!:Date;
