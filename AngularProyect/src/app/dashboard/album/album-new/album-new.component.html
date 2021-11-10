@@ -32,7 +32,7 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn agregar-pista" data-bs-toggle="modal" data-bs-target="#agregarPista">Registrar pista</button>
+        <button class="btn agregar-pista" *ngIf="album.id==''" data-bs-toggle="modal" data-bs-target="#agregarPista">Registrar pista</button>
     </div>
 </div>
 
