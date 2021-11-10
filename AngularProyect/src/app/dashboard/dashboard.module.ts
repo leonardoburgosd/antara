@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MenuComponent } from './menu/menu.component';
@@ -33,6 +35,6 @@ import { ExploraSectionComponent } from './explora/explora-section/explora-secti
     AlbumUpdateComponent,
     ExploraSectionComponent,
   ],
-  imports: [CommonModule, DashboardRoutingModule, FormsModule],
+  imports: [CommonModule, DashboardRoutingModule, FormsModule, NgxSpinnerModule],
 })
-export class DashboardModule {}
+export class DashboardModule { }

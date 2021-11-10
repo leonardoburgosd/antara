@@ -4,7 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,12 +26,14 @@ import { PistaDisplayedComponent } from './components/pista-displayed/pista-disp
     PistaDisplayedComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
     DashboardModule,
     SocialLoginModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
