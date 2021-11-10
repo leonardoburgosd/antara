@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [
       { path: '', component: ExploraComponent },
       { path: 'album', component: AlbumComponent },
-      { path: 'album/:id', component: PistaDisplayedComponent },
+      { path: 'play/:id', component: PistaDisplayedComponent },
       { path: 'album/new', component: AlbumNewComponent },
       { path: 'album/edit/:albumId', component: AlbumUpdateComponent },
       { path: 'library', component: BibliotecaComponent },
