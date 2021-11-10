@@ -29,7 +29,8 @@ namespace Antara.Repository.Repositories
                     album.FechaPublicacion,
                     album.PortadaUrl,
                     album.UsuarioId,
-                    album.EstaActivo
+                    album.EstaActivo,
+                    album.FechaRegistro
                 });
             }
             catch (Exception err)

@@ -37,7 +37,8 @@ namespace Antara.API.Controllers
                     FechaPublicacion = DateTime.Parse("1900-01-01"),
                     EstaPublicado = false,
                     UsuarioId = crearAlbumDto.UsuarioId,
-                    EstaActivo = true
+                    EstaActivo = true,
+                    FechaRegistro = DateTime.Now
                 };
                 if (imagenDePortada == null)
                 {

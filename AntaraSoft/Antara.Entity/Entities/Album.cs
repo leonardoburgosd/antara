@@ -16,6 +16,7 @@ namespace Antara.Model.Entities
         public string PortadaUrl { get; set; }
         public Guid UsuarioId { get; set; }
         public bool EstaActivo { get; set; }
+        public DateTime FechaRegistro { get; set; }
 
     }
 }

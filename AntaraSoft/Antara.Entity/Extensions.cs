@@ -54,7 +54,8 @@ namespace Antara.Model
                 EstaPublicado = album.EstaPublicado,
                 UsuarioId = album.UsuarioId,
                 PortadaUrl = album.PortadaUrl,
-                EstaActivo = album.EstaActivo
+                EstaActivo = album.EstaActivo,
+                FechaRegistro = album.FechaRegistro
             };
         }
 
@@ -67,7 +68,8 @@ namespace Antara.Model
                 Descripcion = playlist.Descripcion,
                 UsuarioId = playlist.UsuarioId,
                 PortadaUrl = playlist.PortadaUrl,
-                EstaActivo = playlist.EstaActivo
+                EstaActivo = playlist.EstaActivo,
+                FechaRegistro = playlist.FechaRegistro
             };
         }
     }

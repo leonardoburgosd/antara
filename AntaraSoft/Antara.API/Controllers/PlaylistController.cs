@@ -35,7 +35,8 @@ namespace Antara.API.Controllers
                     Nombre = crearPlaylistDto.Nombre,
                     Descripcion = crearPlaylistDto.Descripcion,
                     UsuarioId = crearPlaylistDto.UsuarioId,
-                    EstaActivo = true
+                    EstaActivo = true,
+                    FechaRegistro = DateTime.Now
                 };
                 if (imagenDePortada == null)
                 {

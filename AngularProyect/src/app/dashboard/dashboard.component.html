@@ -92,7 +92,7 @@
         pb-4
       "
     >
-      <router-outlet></router-outlet>
+      <router-outlet (playAlbum)="playAlbum($event)"></router-outlet>
     </div>
     <div class="col-md-3 order-3 menu-color contenido-claro left-panel">
       <app-reproductor [listaCanciones]="'algo'"></app-reproductor>

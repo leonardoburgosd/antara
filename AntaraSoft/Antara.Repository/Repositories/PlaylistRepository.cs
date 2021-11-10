@@ -51,7 +51,8 @@ namespace Antara.Repository.Repositories
                     playlist.Descripcion,
                     playlist.PortadaUrl,
                     playlist.UsuarioId,
-                    playlist.EstaActivo
+                    playlist.EstaActivo,
+                    playlist.FechaRegistro
                 });
             }
             catch (Exception err)

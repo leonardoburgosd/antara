@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Album } from 'src/app/aplication-data/structure/Album';
 
 @Component({
   selector: 'app-pista-displayed',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pista-displayed.component.css'],
 })
 export class PistaDisplayedComponent implements OnInit {
+  @Input()
+  album: string = 'album123'; //cambiar a type album
+  @Output()
+  playAlbum: EventEmitter<String> = new EventEmitter<String>(); //cambiar a type album
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -25,7 +31,8 @@ export class PistaDisplayedComponent implements OnInit {
     }
   }
 
-  playSong() {
-    console.log('playing');
+  play() {
+    this.playAlbum.emit(this.album);
+    console.log(`Album from pista-displayed: ${this.album}`);
   }
 }
