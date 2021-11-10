@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ErrorComponent } from './error/error.component';
+import { PistaDisplayedComponent } from './components/pista-displayed/pista-displayed.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ErrorComponent } from './error/error.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    ErrorComponent
+    ErrorComponent,
+    PistaDisplayedComponent
   ],
   imports: [
     BrowserModule,

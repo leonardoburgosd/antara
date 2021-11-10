@@ -80,13 +80,21 @@
         </div>
       </div>
     </nav>
-    <div class="col-2 order-1 menu-color contenido-claro">
+    <div class="col-md-2 order-1 menu-color contenido-claro">
       <app-menu></app-menu>
     </div>
-    <div class="col-8 order-2 contenido-color contenido-claro overflow-auto">
+    <div
+      class="
+        col-md-7
+        order-2
+        contenido-color contenido-claro
+        overflow-auto
+        pb-4
+      "
+    >
       <router-outlet></router-outlet>
     </div>
-    <div class="col-2 order-3 menu-color contenido-claro left-panel">
+    <div class="col-md-3 order-3 menu-color contenido-claro left-panel">
       <app-reproductor [listaCanciones]="'algo'"></app-reproductor>
     </div>
   </div>

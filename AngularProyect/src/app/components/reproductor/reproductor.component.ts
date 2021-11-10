@@ -22,11 +22,11 @@ export class ReproductorComponent implements OnInit {
   portada: HTMLElement | null = null;
   title: HTMLElement | null = null;
   interpreter: HTMLElement | null = null;
-  songIndex: number = 2;
+  songIndex: number = 1;
 
   songsList: any[] = [];
 
-  constructor(private oPistasService: PistasService) { }
+  constructor(private oPistasService: PistasService) {}
 
   ngOnInit(): void {
     this.loadElements();

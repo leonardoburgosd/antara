@@ -1,8 +1,24 @@
+.card-reproducction {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
 .btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
-    border-radius: 35px;
-    font-size: 24px;
-    line-height: 1.33;
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  font-size: 24px;
+  position: absolute;
+  transform: translateY(25%);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.6s;
+}
+
+.card-reproducction:hover .btn-circle.btn-xl {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
