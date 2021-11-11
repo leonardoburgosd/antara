@@ -1,0 +1,29 @@
+<div class="card card-album">
+  <div class="card-img">
+    <img
+      src="{{ album.portadaUrl }}"
+      class="card-img-top"
+      alt="..."
+      *ngIf="album.portadaUrl != null"
+    />
+    <img
+      src="../../../../assets/images/musica.png"
+      class="imagen-playlist"
+      *ngIf="album.portadaUrl == null"
+    />
+    <div class="opciones">
+      <div class="circle"></div>
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+  </div>
+  <div class="card-body">
+    <div style="text-align: center">
+      <a [routerLink]="['/dashboard/album/edit/', album.id]" class="ir-album">{{
+        album.nombre
+      }}</a>
+    </div>
+    <span class="artist-antara">
+      <label>{{ album.fechaPublicacion | date: "yyyy" }} * Album</label>
+    </span>
+  </div>
+</div>

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ErrorComponent } from './error/error.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { NotFoundErrorComponent } from './shared/not-found-error/not-found-error.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -12,9 +12,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./components/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
   },
-  { path: 'error', component: ErrorComponent },
+  { path: 'error', component: NotFoundErrorComponent },
   { path: '**', redirectTo: 'error' },
 ];
 

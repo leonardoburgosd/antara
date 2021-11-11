@@ -1,0 +1,14 @@
+.dropdown-name {
+  background: none;
+  color: var(--bs-gray-200);
+  border: 0;
+}
+
+.miniatura {
+  border-radius: 100%;
+}
+
+.navbar-propery {
+  background: #15181f;
+  color: var(--bs-gray-200);
+}

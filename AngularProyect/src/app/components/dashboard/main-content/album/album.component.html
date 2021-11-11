@@ -1,0 +1,12 @@
+<div class="album-header">
+  <h3>Album</h3>
+  <a [routerLink]="['new']" class="btn btn-playlist"
+    ><i class="fas fa-plus"></i> Crear album</a
+  >
+</div>
+<hr />
+<div class="grid-container">
+  <div class="grid-item" *ngFor="let album of albums">
+    <app-card-album [album]="album"></app-card-album>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.album-header {
+  display: flex;
+  align-items: center;
+}
+.album-header h3 {
+  margin: 0;
+}
+.album-header a {
+  margin-left: 20px;
+}
+.btn-playlist {
+  background: #1d242e;
+  color: #2169b6;
+}
+.btn-playlist:hover {
+  color: #1d242e;
+  background: #2169b6;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-template-rows: repeat(auto-fill, 250px);
+  gap: 20px 25px;
+  justify-content: space-evenly;
+}

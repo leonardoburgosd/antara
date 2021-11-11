@@ -1,0 +1,12 @@
+<h1>Explora</h1>
+<div class="container-fluid">
+  <div class="container">
+    <app-home-banner></app-home-banner>
+  </div>
+</div>
+<hr />
+
+<app-home-section
+  *ngFor="let item of sections"
+  [section]="item"
+></app-home-section>
