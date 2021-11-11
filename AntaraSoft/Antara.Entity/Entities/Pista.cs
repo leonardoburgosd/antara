@@ -27,7 +27,7 @@ namespace Antara.Model.Entities
         }
         public bool EsValidoAnoCreacion()
         {
-            return (AnoCreacion > 1900 && AnoCreacion < DateTime.Now.Year);
+            return (AnoCreacion > 1900 && AnoCreacion <= DateTime.Now.Year);
         }
     }
 }

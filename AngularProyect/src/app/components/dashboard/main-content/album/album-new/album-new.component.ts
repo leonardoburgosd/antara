@@ -5,6 +5,7 @@ import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
 import { AlbumService } from 'src/app/services/album.service';
 import { PistasService } from 'src/app/services/pistas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-album-new',
@@ -21,7 +22,8 @@ export class AlbumNewComponent implements OnInit {
   imagenUrl: string | ArrayBuffer | null | undefined;
   constructor(
     private albumService: AlbumService,
-    private pistaService: PistasService
+    private pistaService: PistasService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,9 +32,10 @@ export class AlbumNewComponent implements OnInit {
   }
 
   registrarPlaylistBorrador() {
-    this.albumService.registro(this.album, this.portada).then(
+    this.albumService.registro(this.album, this.portada).subscribe(
       (response: any) => {
         this.album = response;
+        this.router.navigate(['/dashboard/album']);
       },
       (error: any) => {
         this.controlError(error);

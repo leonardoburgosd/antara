@@ -7,6 +7,11 @@
 <hr />
 <div class="grid-container">
   <div class="grid-item" *ngFor="let album of albums">
-    <app-card-album [album]="album"></app-card-album>
+    <app-card-album
+      [album]="album"
+      (showOpciones)="showOpciones($event)"
+      (deleteAlbum)="deleteAlbum($event)"
+      #cards
+    ></app-card-album>
   </div>
 </div>

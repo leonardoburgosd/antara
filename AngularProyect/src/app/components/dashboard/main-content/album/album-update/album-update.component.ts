@@ -63,7 +63,7 @@ export class AlbumUpdateComponent implements OnInit {
   //#region Complementos
 
   registrarPlaylistBorrador() {
-    this.albumService.registro(this.album, this.portada).then(
+    this.albumService.registro(this.album, this.portada).subscribe(
       (response: any) => {
         this.album = response;
       },
