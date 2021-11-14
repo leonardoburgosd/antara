@@ -10,11 +10,11 @@
       <i class="fas fa-pencil-alt"></i>
     </button>
     |
-    <button class="btn btn-success" (click)="registrarPlaylistBorrador()">
+    <button class="btn btn-success" (click)="actualizarPlaylistBorrador()">
       <i class="far fa-save"></i>
     </button>
     |
-    <button class="btn btn-danger">
+    <button class="btn btn-danger" *ngIf="album.estaPublicado==false" (click)="publicarPlaylist(album)">
       <i class="fas fa-satellite"></i> Publicar
     </button>
   </div>
@@ -29,6 +29,7 @@
           <th scope="col">Titulo</th>
           <th scope="col"><i class="far fa-calendar-alt"></i></th>
           <th scope="col"><i class="fas fa-clock"></i></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +38,7 @@
           <td>{{ pista.nombre }}</td>
           <td>{{ pista.fechaRegistro | date: "dd/MM/yyyy" }}</td>
           <td>{{ pista.reproducciones }}</td>
+          <td><button class="btn btn-danger" (click)="eliminarPista(pista)"><i class="fa fa-trash"></i></button></td>
         </tr>
       </tbody>
     </table>
@@ -98,11 +100,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label class="col-form-label etiqueta">Fecha de registro:</label>
-            <input type="date" [(ngModel)]="pista.fechaRegistro" name="fechaRegistro" class="form-control" />
-          </div>
           <div class="mb-3">
             <label class="col-form-label etiqueta">Año de creacion:</label>
             <input type="number" [(ngModel)]="pista.anoCreacion" name="anoCreacion" class="form-control" />
@@ -130,7 +127,6 @@
               Agregar audio
             </label>
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="guardarAudio()" data-bs-dismiss="modal">

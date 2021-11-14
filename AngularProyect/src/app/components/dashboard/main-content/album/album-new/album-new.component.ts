@@ -21,6 +21,7 @@ export class AlbumNewComponent implements OnInit {
   portada!: File;
   audio!: File;
   imagenUrl: string | ArrayBuffer | null | undefined;
+
   constructor(
     private albumService: AlbumService,
     private pistaService: PistasService,
@@ -40,7 +41,6 @@ export class AlbumNewComponent implements OnInit {
       (response: any) => {
         this.album = response;
         setTimeout(() => {
-          /** spinner ends after 5 seconds */
           this.spinner.hide();
         }, 500);
         this.spinner.hide();
@@ -49,7 +49,6 @@ export class AlbumNewComponent implements OnInit {
           title: 'Album registrado',
           text: 'Se ah registrado el album exitosamente',
         });
-        //this.router.navigate(['/dashboard/album']);
       },
       (error: any) => {
         this.spinner.hide();

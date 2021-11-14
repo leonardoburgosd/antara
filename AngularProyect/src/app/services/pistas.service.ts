@@ -62,4 +62,8 @@ export class PistasService {
   getAll(): Observable<any[]> {
     return of(this.data);
   }
+
+  eliminar(pistaId:string):any{
+    return this.httpClient.delete(this.API+'/'+pistaId).toPromise();
+  }
 }

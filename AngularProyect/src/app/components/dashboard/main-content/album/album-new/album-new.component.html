@@ -9,8 +9,7 @@
         <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editar-playlist">
             <i class="fas fa-pencil-alt"></i>
         </button> |
-        <button class="btn btn-success" (click)="registrarPlaylistBorrador()"><i class="far fa-save"></i></button> |
-        <button class="btn btn-danger"><i class="fas fa-satellite"></i> Publicar</button>
+        <button class="btn btn-success" (click)="registrarPlaylistBorrador()"><i class="far fa-save"></i></button>
     </div>
     <hr>
     <div class="col-lg-12">
@@ -64,7 +63,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="mostrarImagen()">Guardar localmente</button>
+                <button type="button" class="btn btn-primary" (click)="mostrarImagen()" data-bs-dismiss="modal">Guardar localmente</button>
             </div>
         </div>
     </div>

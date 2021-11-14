@@ -57,6 +57,7 @@
   z-index: 9999;
   display: none;
   box-shadow: 7px 4px 12px -5px rgba(0, 0, 0, 0.49);
+  border-radius: 5px;
 }
 
 .opciones > ul {
@@ -65,8 +66,9 @@
 }
 .opciones li {
   list-style: none;
-  padding: 5px;
+  padding: 8px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .opciones.active {

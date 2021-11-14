@@ -7,10 +7,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 import { Album } from 'src/app/classes/Album';
 import { AlbumService } from 'src/app/services/album.service';
-import Swal from 'sweetalert2';
 import { CardAlbumComponent } from './card-album/card-album.component';
 
 @Component({
@@ -23,14 +24,14 @@ export class AlbumComponent implements OnInit {
   usuario: any = {};
   albums: Album[] = [];
   subscription!: Subscription;
-  constructor(private albumService: AlbumService) {}
+  constructor(private albumService: AlbumService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.listaMisAlbums(this.usuario.id);
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -50,15 +51,29 @@ export class AlbumComponent implements OnInit {
   }
 
   deleteAlbum(albumId: string) {
-    this.subscription = this.albumService.eliminar(albumId).subscribe(
-      () => {
-        this.listaMisAlbums(this.usuario.id);
-        console.log('Eliminado correctamente');
-      },
-      (err: any) => {
-        this.controlErrores(err);
+    Swal.fire({
+      title: '¿Seguro que desea eliminar este album?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#017AFF',
+      cancelButtonColor: '#1d242e',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.subscription = this.albumService.eliminar(albumId).subscribe(
+          () => {
+            this.listaMisAlbums(this.usuario.id);
+            console.log('Eliminado correctamente');
+            this.spinner.hide();
+          },
+          (err: any) => {
+            this.controlErrores(err);
+            this.spinner.hide();
+          }
+        );
       }
-    );
+    })
   }
 
   //#region Complementos

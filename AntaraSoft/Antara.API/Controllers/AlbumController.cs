@@ -138,7 +138,7 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpPut("/publicar/{id}")]
+        [HttpPut("publicar/{id}")]
         public async Task<ActionResult> PublicarAlbum(Guid id)
         {
             try

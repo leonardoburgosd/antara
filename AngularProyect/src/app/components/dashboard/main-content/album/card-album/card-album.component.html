@@ -17,7 +17,7 @@
     <nav class="opciones" #opciones>
       <ul>
         <li (click)="eliminarAlbum()">Eliminar</li>
-        <li>Publicar</li>
+        <li *ngIf="album.estaPublicado==false" (click)="publicarPlaylist(album)">Publicar</li>
       </ul>
     </nav>
   </div>

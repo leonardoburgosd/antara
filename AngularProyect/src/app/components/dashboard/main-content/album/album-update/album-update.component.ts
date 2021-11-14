@@ -48,30 +48,91 @@ export class AlbumUpdateComponent implements OnInit {
     this.pista.albumId = this.album.id;
     this.pistaService.registro(this.pista, this.audio).then(
       (response: any) => {
-        this.pistaService.listaPorAlbum(this.albumId).then(
-          (response: Pista[]) => {
-            this.pistas = response;
-          },
-          (error: any) => this.controlError(error)
-        );
+        this.listarPistasPorAlbum();
         this.spinner.hide();
       },
       (error: any) => this.controlError(error)
     );
   }
 
-  //#region Complementos
-
-  registrarPlaylistBorrador() {
-    this.albumService.registro(this.album, this.portada).subscribe(
+  actualizarPlaylistBorrador() {
+    this.spinner.show();
+    this.albumService.actualizar(this.album).then(
       (response: any) => {
-        this.album = response;
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'Album actualizado',
+          text: 'Se ah actualizo el album correctamente.',
+        });
       },
       (error: any) => {
+        this.spinner.hide();
         this.controlError(error);
       }
     );
   }
+
+  publicarPlaylist(album: Album) {
+    Swal.fire({
+      title: '¿Seguro que desea publicar este album?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#017AFF',
+      cancelButtonColor: '#1d242e',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.albumService.publicar(album.id).subscribe(
+          (response: any) => {
+            this.album.estaPublicado = true;
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'Album publicado.',
+              text: 'Se ah publicado el album correctamente.',
+            });
+          },
+          (error: any) => {
+            this.spinner.hide();
+            this.controlError(error);
+          }
+        );
+      }
+    })
+  }
+
+  eliminarPista(pista: Pista){
+    Swal.fire({
+      title: '¿Seguro que desea eliminar esta pista?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#017AFF',
+      cancelButtonColor: '#1d242e',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.pistaService.eliminar(pista.id).then(
+          (response: any) => {
+            this.listarPistasPorAlbum();
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'Pista eliminada.',
+              text: 'Se ah eliminado la pista correctamente.',
+            });
+          },
+          (error: any) => {
+            this.spinner.hide();
+            this.controlError(error);
+          }
+        );
+      }
+    })
+  }
+  //#region Complementos
 
   controlError(err: any) {
     if (err.status == 1) {
@@ -107,7 +168,6 @@ export class AlbumUpdateComponent implements OnInit {
   }
 
   detalleAlbum(albumId: string) {
-    this.spinner.show();
     forkJoin([
       this.albumService.detalle(albumId),
       this.pistaService.listaPorAlbum(albumId),
@@ -124,5 +184,13 @@ export class AlbumUpdateComponent implements OnInit {
     else return usuario.data;
   }
 
+  listarPistasPorAlbum(){
+    this.pistaService.listaPorAlbum(this.albumId).then(
+      (response: Pista[]) => {
+        this.pistas = response;
+      },
+      (error: any) => this.controlError(error)
+    );
+  }
   //#endregion
 }

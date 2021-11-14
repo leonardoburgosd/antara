@@ -10,6 +10,14 @@ const httpOptions = {
   Authorization: 'Bearer ',
 };
 
+const httpTextPlain = {
+  headers: new HttpHeaders({
+    'Content-Type': 'text/plain',
+  }),
+  Authorization: 'Bearer ',
+};
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,12 +34,11 @@ export class AlbumService {
     data.append('Descripcion', album.descripcion);
     data.append('UsuarioId', album.usuarioId);
     data.append('imagenDePortada', portada);
-    console.log(portada);
     return this.httpClient.post(this.API, data);
   }
 
   actualizar(album: Album): any {
-    return this.httpClient.put(this.API, album, httpOptions).toPromise();
+    return this.httpClient.put(this.API + '?id=' + album.id, album);
   }
 
   obtenerPorUsuario(usuarioId: number): Observable<any> {
@@ -46,7 +53,8 @@ export class AlbumService {
     return this.httpClient.delete(`${this.API}/${albumId}`, httpOptions);
   }
 
-  publicar(albumId: string): any {
-    this.httpClient.put(`${this.API}/publicar/${albumId}`, null, httpOptions);
+  publicar(albumId: string): Observable<any> {
+    return this.httpClient.put(`${this.API}/publicar/${albumId}`, null);
   }
+
 }
