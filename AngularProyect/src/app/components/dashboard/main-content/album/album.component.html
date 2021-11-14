@@ -1,17 +1,13 @@
 <div class="album-header">
   <h3>Album</h3>
-  <a [routerLink]="['new']" class="btn btn-playlist"
-    ><i class="fas fa-plus"></i> Crear album</a
-  >
+  <a [routerLink]="['new']" class="btn btn-playlist"><i class="fas fa-plus"></i> Crear album</a>
 </div>
 <hr />
-<div class="grid-container">
+
+<div class="grid-container" *ngIf="albums.length>0">
   <div class="grid-item" *ngFor="let album of albums">
-    <app-card-album
-      [album]="album"
-      (showOpciones)="showOpciones($event)"
-      (deleteAlbum)="deleteAlbum($event)"
-      #cards
-    ></app-card-album>
+    <app-card-album [album]="album" (showOpciones)="showOpciones($event)" (deleteAlbum)="deleteAlbum($event)" #cards>
+    </app-card-album>
   </div>
 </div>
+<h5 *ngIf="albums.length==0" class="text-center"><i class="fas fa-headphones"></i> Aún no tiene albums registrados.</h5>

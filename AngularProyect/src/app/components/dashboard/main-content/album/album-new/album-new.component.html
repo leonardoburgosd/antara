@@ -19,21 +19,23 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Titulo</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Minutos</th>
+                    <th scope="col"><i class="far fa-calendar-alt"></i></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let pista of pistas">
-                    <th scope="row">{{pista.id}}</th>
+                <tr *ngFor="let pista of pistas; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
                     <td>{{pista.nombre}}</td>
-                    <td>{{pista.fechaRegistro}}</td>
-                    <td>{{pista.reproducciones}}</td>
+                    <td>{{pista.fechaRegistro | date: "dd/MM/yyyy" }}</td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn agregar-pista" *ngIf="album.id==''" data-bs-toggle="modal" data-bs-target="#agregarPista">Registrar pista</button>
+        <button class="btn agregar-pista" *ngIf="album.id" data-bs-toggle="modal"
+            data-bs-target="#agregarPista">Registrar pista</button>
     </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+        <p style="color: white">Subiendo pista...</p>
+    </ngx-spinner>
 </div>
 
 
@@ -79,14 +81,6 @@
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label class="col-form-label etiqueta">Titulo del pista:</label>
-                        <input type="text" [(ngModel)]="pista.nombre" name="nombre" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label etiqueta">Fecha de registro:</label>
-                        <input type="date" [(ngModel)]="pista.fechaRegistro" name="fechaRegistro" class="form-control">
-                    </div>
-                    <div class="mb-3">
                         <label class="col-form-label etiqueta">Año de creacion:</label>
                         <input type="number" [(ngModel)]="pista.anoCreacion" name="anoCreacion" class="form-control">
                     </div>
@@ -99,12 +93,12 @@
                         <input type="text" [(ngModel)]="pista.compositor" name="compositor" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="col-form-label etiqueta">Producto:</label>
+                        <label class="col-form-label etiqueta">Productor:</label>
                         <input type="text" [(ngModel)]="pista.productor" name="productor" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label etiqueta">Genero:</label>
-                        <input type="text" [(ngModel)]="pista.generoId" name="generoId" class="form-control">
+                        <input type="number" [(ngModel)]="pista.generoId" name="generoId" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label etiqueta">Audio de portada:</label>
@@ -116,7 +110,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="guardarAudio()">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="guardarAudio()"
+                    data-bs-dismiss="modal">Guardar</button>
             </div>
         </div>
     </div>

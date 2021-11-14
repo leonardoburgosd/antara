@@ -37,8 +37,8 @@ export class PistasService {
 
   private API: string;
   constructor(private httpClient: HttpClient) {
-    this.API = 'https://localhost:44392/api/pista';
-    //this.API = 'https://apislatch.azurewebsites.net/api/pista';
+    //this.API = 'https://localhost:44392/api/pista';
+    this.API = 'https://apislatch.azurewebsites.net/api/pista';
   }
 
   registro(pista: Pista, audio: File): any {

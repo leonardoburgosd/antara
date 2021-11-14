@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Album } from 'src/app/classes/Album';
-
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+
+import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
 import { PistasService } from 'src/app/services/pistas.service';
 import { AlbumService } from 'src/app/services/album.service';

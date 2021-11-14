@@ -93,8 +93,8 @@ export class AlbumComponent implements OnInit {
     Si la ventana de opciones de las cards esta abierta se debe cerrar
     al hacer click fuera de esta
     La forma de detectar donde se esta haciendo click es revisando los padres
-    del target, si dentro de sus padres entre la posicion 3 y 6 de 
-    se encuentra un app-card-album, entonces se está haciendo click en los 3 
+    del target, si dentro de sus padres entre la posicion 3 y 6 de
+    se encuentra un app-card-album, entonces se está haciendo click en los 3
     puntos (...) o en sus opciones por lo tanto no se cierra la ventana
   */
   @HostListener('click', ['$event'])

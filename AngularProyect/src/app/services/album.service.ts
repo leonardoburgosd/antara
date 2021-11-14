@@ -16,8 +16,8 @@ const httpOptions = {
 export class AlbumService {
   private API: string;
   constructor(private httpClient: HttpClient) {
-    this.API = 'https://localhost:44392/api/album';
-    //this.API = 'https://apislatch.azurewebsites.net/api/album';
+    //this.API = 'https://localhost:44392/api/album';
+    this.API = 'https://apislatch.azurewebsites.net/api/album';
   }
 
   registro(album: Album, portada: File): Observable<any> {

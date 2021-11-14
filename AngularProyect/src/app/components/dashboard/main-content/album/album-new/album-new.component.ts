@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
@@ -23,31 +24,53 @@ export class AlbumNewComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private pistaService: PistasService,
-    private router: Router
-  ) {}
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.usuario = this.obtieneUsuarioLog();
     this.album = this.inicializaNuevoAlbum();
+    this.spinner.hide();
   }
 
   registrarPlaylistBorrador() {
+    this.spinner.show();
     this.albumService.registro(this.album, this.portada).subscribe(
       (response: any) => {
         this.album = response;
-        this.router.navigate(['/dashboard/album']);
+        setTimeout(() => {
+          /** spinner ends after 5 seconds */
+          this.spinner.hide();
+        }, 500);
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'Album registrado',
+          text: 'Se ah registrado el album exitosamente',
+        });
+        //this.router.navigate(['/dashboard/album']);
       },
       (error: any) => {
+        this.spinner.hide();
         this.controlError(error);
       }
     );
   }
 
   guardarAudio() {
+    this.spinner.show();
     this.pista.albumId = this.album.id;
     this.pistaService.registro(this.pista, this.audio).then(
-      (response: any) => console.log(response),
-      (error: any) => this.controlError(error)
+      (response: any) => this.listaPistas(),
+      (error: any) => { this.controlError(error); this.spinner.hide(); }
+    );
+  }
+
+  listaPistas() {
+    this.pistaService.listaPorAlbum(this.album.id).then(
+      (response: any) => { this.pistas = response; this.spinner.hide(); },
+      (error: any) => { this.controlError(error); this.spinner.hide(); }
     );
   }
 
