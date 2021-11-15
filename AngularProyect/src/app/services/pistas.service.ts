@@ -66,4 +66,8 @@ export class PistasService {
   eliminar(pistaId:string):any{
     return this.httpClient.delete(this.API+'/'+pistaId).toPromise();
   }
+
+  buscar(cadena:string):any{
+    return this.httpClient.get(this.API+'/buscar?cadena='+cadena).toPromise();
+  }
 }

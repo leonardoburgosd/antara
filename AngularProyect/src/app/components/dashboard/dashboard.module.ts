@@ -20,6 +20,7 @@ import { BannerAlbumCardComponent } from './main-content/home/home-banner/banner
 import { SongsListComponent } from './main-content/songs-list/songs-list.component';
 import { ReproductorComponent } from './layout/reproductor/reproductor.component';
 import { UserBarComponent } from './layout/user-bar/user-bar.component';
+import { SearchComponent } from './main-content/search/search.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { UserBarComponent } from './layout/user-bar/user-bar.component';
     HomeBannerComponent,
     SongsListComponent,
     UserBarComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,

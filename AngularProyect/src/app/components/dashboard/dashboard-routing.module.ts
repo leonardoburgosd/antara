@@ -8,6 +8,7 @@ import { AlbumComponent } from './main-content/album/album.component';
 import { BibliotecaComponent } from './main-content/biblioteca/biblioteca.component';
 import { DashboardComponent } from './dashboard.component';
 import { MainContentComponent } from './main-content/main-content.component';
+import { SearchComponent } from './main-content/search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'album/edit/:albumId', component: AlbumUpdateComponent },
       { path: 'library', component: BibliotecaComponent },
       { path: 'account', component: UsuarioComponent },
+      { path: 'search/:stringSearch', component: SearchComponent },
       { path: '**', redirectTo: '' },
     ],
   },

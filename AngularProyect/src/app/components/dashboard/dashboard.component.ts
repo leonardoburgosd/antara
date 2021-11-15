@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   usuario: any = {};
-  constructor() {}
+  cadenaString: string = '';
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.usuario = JSON.parse(localStorage.getItem('userResponse') as string);
@@ -16,5 +18,9 @@ export class DashboardComponent implements OnInit {
   playAlbum(event: Event) {
     console.log(event.target);
     console.log('hi from dashboard');
+  }
+
+  buscar(cadena:string) {
+    this.router.navigate(['/dashboard/search/' + cadena]);
   }
 }

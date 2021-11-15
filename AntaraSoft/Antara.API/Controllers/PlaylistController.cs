@@ -136,7 +136,7 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpPost("/agregar")]
+        [HttpPost("agregar")]
         public async Task<ActionResult> AgregarPistaAPlaylistAsync(PlaylistPista playlistPista)
         {
             try
@@ -156,7 +156,7 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpDelete("/quitar")]
+        [HttpDelete("quitar")]
         public async Task<ActionResult> QuitarPistaDePlaylistAsync(PlaylistPista playlistPista)
         {
             try

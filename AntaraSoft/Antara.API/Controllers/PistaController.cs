@@ -164,7 +164,7 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet("/buscar")]
+        [HttpGet("buscar")]
         public async Task<ActionResult<List<PistaDto>>> SearchpistaAsync([Bind(Prefix = "cadena")] string cadena)
         {
             try
@@ -177,7 +177,7 @@ namespace Antara.API.Controllers
                 return StatusCode(500, err);
             }
         }
-        [HttpPut("/reproducir/{id}")]
+        [HttpPut("reproducir/{id}")]
         public async Task<ActionResult> ReproducirPista(Guid id)
         {
             try
