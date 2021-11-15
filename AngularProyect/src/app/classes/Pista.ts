@@ -8,7 +8,7 @@ export class Pista{
     productor!:string;
     reproducciones!:number;
     generoId!:number;
-    ulr!:string;
+    url!:string;
     albumId!:string;
     estaActivo!:boolean;
 }
