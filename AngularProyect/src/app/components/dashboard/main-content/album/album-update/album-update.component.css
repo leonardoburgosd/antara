@@ -1,27 +1,51 @@
-.imagen-playlist{
-    width: 100%;
-    height: auto;
-    max-width: 250px;
+.imagen-playlist {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
 }
-.table-antara{
-    background: transparent;
-    color: #fff;
-}
-
-.etiqueta{
-    color: rgb(19, 19, 19);
+.table-antara {
+  background: transparent;
+  color: #fff;
 }
 
-#fichero{
-    display: none;
+.etiqueta {
+  color: rgb(19, 19, 19);
 }
 
-.agregar-pista{
-    width: 100%;
-    background: #212529;
-    color: #fff;
+#fichero {
+  display: none;
 }
 
-.agregar-pista:hover{
-    background: #2c3136;
+.agregar-pista {
+  width: 100%;
+  background: #212529;
+  color: #fff;
+}
+
+.agregar-pista:hover {
+  background: #2c3136;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+tr:hover .icono-play {
+  display: block;
+}
+tr:hover .id {
+  display: none;
+}
+.icono-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  cursor: pointer;
+  display: none;
+}
+
+.playing .pista-nombre {
+  color: rgb(1, 122, 255);
 }

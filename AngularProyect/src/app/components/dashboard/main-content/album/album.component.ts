@@ -24,25 +24,30 @@ export class AlbumComponent implements OnInit {
   usuario: any = {};
   albums: Album[] = [];
   subscription!: Subscription;
-  constructor(private albumService: AlbumService, private spinner: NgxSpinnerService) { }
+  constructor(
+    private albumService: AlbumService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.listaMisAlbums(this.usuario.id);
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {}
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
   listaMisAlbums(usuarioId: number) {
+    this.spinner.show();
     this.subscription = this.albumService
       .obtenerPorUsuario(usuarioId)
       .subscribe(
         (response: any) => {
           this.albums = response;
+          this.spinner.hide();
         },
         (err: any) => {
           this.controlErrores(err);
@@ -57,7 +62,7 @@ export class AlbumComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#017AFF',
       cancelButtonColor: '#1d242e',
-      confirmButtonText: 'Si, eliminar'
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.spinner.show();
@@ -73,7 +78,7 @@ export class AlbumComponent implements OnInit {
           }
         );
       }
-    })
+    });
   }
 
   //#region Complementos

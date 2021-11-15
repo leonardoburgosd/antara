@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Pista } from 'src/app/classes/Pista';
 import { PistasService } from 'src/app/services/pistas.service';
+import { ReproductorInteractionService } from 'src/app/services/reproductor-interaction.service';
 
 @Component({
   selector: 'app-reproductor',
@@ -22,16 +24,23 @@ export class ReproductorComponent implements OnInit {
   portada: HTMLElement | null = null;
   title: HTMLElement | null = null;
   interpreter: HTMLElement | null = null;
-  songIndex: number = 1;
+  songIndex: number = 0;
+  songsList: Pista[] = [];
+  portadaAlbum: string = '';
 
-  songsList: any[] = [];
-
-  constructor(private oPistasService: PistasService) {}
+  constructor(private reproductorInteraction: ReproductorInteractionService) {}
 
   ngOnInit(): void {
     this.loadElements();
-    this.getAll();
-    this.loadSong(this.songsList[this.songIndex]);
+    this.reproductorInteraction.pistas$.subscribe(
+      (data: any) => {
+        this.songsList = data.pistas;
+        this.portadaAlbum = data.portadaAlbum;
+        this.songIndex = data.songIndex;
+        this.playSong();
+      },
+      (err) => {}
+    );
   }
 
   loadElements() {
@@ -48,16 +57,11 @@ export class ReproductorComponent implements OnInit {
     this.title = document.getElementById('title');
     this.interpreter = document.getElementById('interpreter');
   }
-  getAll() {
-    this.oPistasService.getAll().subscribe(
-      (data: any[]) => (this.songsList = data),
-      (error) => console.log(error),
-      () => console.log('Complete')
-    );
-  }
 
-  loadSong(song: any) {
-    this.portada?.setAttribute('src', song.portadaAlbum);
+  loadSong(song: Pista) {
+    if (this.portadaAlbum != null) {
+      this.portada?.setAttribute('src', this.portadaAlbum);
+    }
     this.pistaFile?.setAttribute('src', song.url);
     if (this.title) this.title.innerText = song.nombre;
     if (this.interpreter) this.interpreter.innerText = song.interprete;
@@ -82,6 +86,7 @@ export class ReproductorComponent implements OnInit {
   }
 
   playSong() {
+    this.loadSong(this.songsList[this.songIndex]);
     this.musicContainer?.classList.add('play');
     this.pistaFile?.play();
     if (this.playButton) this.playButton.style.display = 'none';

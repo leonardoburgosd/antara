@@ -41,7 +41,7 @@ export class PistasService {
     this.API = 'https://apislatch.azurewebsites.net/api/pista';
   }
 
-  registro(pista: Pista, audio: File): any {
+  registro(pista: Pista, audio: File): Observable<any> {
     let data: FormData = new FormData();
     data.append('AnoCreacion', pista.anoCreacion.toString());
     data.append('Interprete', pista.interprete);
@@ -50,7 +50,7 @@ export class PistasService {
     data.append('GeneroId', pista.generoId.toString());
     data.append('AlbumId', pista.albumId);
     data.append('archivo', audio);
-    return this.httpClient.post(this.API, data).toPromise();
+    return this.httpClient.post(this.API, data);
   }
 
   listaPorAlbum(albumId: string): any {
@@ -63,8 +63,8 @@ export class PistasService {
     return of(this.data);
   }
 
-  eliminar(pistaId:string):any{
-    return this.httpClient.delete(this.API+'/'+pistaId).toPromise();
+  eliminar(pistaId: string): any {
+    return this.httpClient.delete(this.API + '/' + pistaId).toPromise();
   }
 
   buscar(cadena:string):any{

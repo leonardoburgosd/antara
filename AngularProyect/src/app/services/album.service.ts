@@ -17,7 +17,6 @@ const httpTextPlain = {
   Authorization: 'Bearer ',
 };
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -37,7 +36,7 @@ export class AlbumService {
     return this.httpClient.post(this.API, data);
   }
 
-  actualizar(album: Album): any {
+  actualizar(album: Album): Observable<any> {
     return this.httpClient.put(this.API + '?id=' + album.id, album);
   }
 
@@ -56,5 +55,4 @@ export class AlbumService {
   publicar(albumId: string): Observable<any> {
     return this.httpClient.put(`${this.API}/publicar/${albumId}`, null);
   }
-
 }

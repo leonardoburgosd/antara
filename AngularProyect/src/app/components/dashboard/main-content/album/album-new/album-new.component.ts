@@ -26,7 +26,7 @@ export class AlbumNewComponent implements OnInit {
     private albumService: AlbumService,
     private pistaService: PistasService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.spinner.show();
@@ -60,16 +60,28 @@ export class AlbumNewComponent implements OnInit {
   guardarAudio() {
     this.spinner.show();
     this.pista.albumId = this.album.id;
-    this.pistaService.registro(this.pista, this.audio).then(
-      (response: any) => this.listaPistas(),
-      (error: any) => { this.controlError(error); this.spinner.hide(); }
+    this.pistaService.registro(this.pista, this.audio).subscribe(
+      (response: any) => {
+        this.listaPistas();
+        this.spinner.hide();
+      },
+      (error: any) => {
+        this.controlError(error);
+        this.spinner.hide();
+      }
     );
   }
 
   listaPistas() {
     this.pistaService.listaPorAlbum(this.album.id).then(
-      (response: any) => { this.pistas = response; this.spinner.hide(); },
-      (error: any) => { this.controlError(error); this.spinner.hide(); }
+      (response: any) => {
+        this.pistas = response;
+        this.spinner.hide();
+      },
+      (error: any) => {
+        this.controlError(error);
+        this.spinner.hide();
+      }
     );
   }
 

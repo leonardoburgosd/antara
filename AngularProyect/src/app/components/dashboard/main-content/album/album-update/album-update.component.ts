@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
 import { PistasService } from 'src/app/services/pistas.service';
 import { AlbumService } from 'src/app/services/album.service';
+import { ReproductorInteractionService } from 'src/app/services/reproductor-interaction.service';
 
 @Component({
   selector: 'app-album-update',
@@ -28,7 +29,8 @@ export class AlbumUpdateComponent implements OnInit {
     private pistaService: PistasService,
     private albumService: AlbumService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private reproductorInteractionService: ReproductorInteractionService
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let parametro = params.get('albumId');
@@ -43,21 +45,34 @@ export class AlbumUpdateComponent implements OnInit {
     this.detalleAlbum(this.albumId);
   }
 
+  playSong(event: Event, index: number) {
+    this.reproductorInteractionService.playAlbum({
+      pistas: this.pistas,
+      portadaAlbum: this.album.portadaUrl,
+      songIndex: index,
+    });
+    var row = event.composedPath()[2] as HTMLTableRowElement;
+    row.classList.add('playing');
+  }
+
   guardarAudio() {
     this.spinner.show();
     this.pista.albumId = this.album.id;
-    this.pistaService.registro(this.pista, this.audio).then(
+    this.pistaService.registro(this.pista, this.audio).subscribe(
       (response: any) => {
         this.listarPistasPorAlbum();
         this.spinner.hide();
       },
-      (error: any) => this.controlError(error)
+      (error: any) => {
+        this.controlError(error);
+        this.spinner.hide();
+      }
     );
   }
 
   actualizarPlaylistBorrador() {
     this.spinner.show();
-    this.albumService.actualizar(this.album).then(
+    this.albumService.actualizar(this.album).subscribe(
       (response: any) => {
         this.spinner.hide();
         Swal.fire({
@@ -80,7 +95,7 @@ export class AlbumUpdateComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#017AFF',
       cancelButtonColor: '#1d242e',
-      confirmButtonText: 'Si, eliminar'
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.spinner.show();
@@ -91,7 +106,7 @@ export class AlbumUpdateComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Album publicado.',
-              text: 'Se ah publicado el album correctamente.',
+              text: 'Se ha publicado el album correctamente.',
             });
           },
           (error: any) => {
@@ -100,17 +115,17 @@ export class AlbumUpdateComponent implements OnInit {
           }
         );
       }
-    })
+    });
   }
 
-  eliminarPista(pista: Pista){
+  eliminarPista(pista: Pista) {
     Swal.fire({
       title: '¿Seguro que desea eliminar esta pista?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#017AFF',
       cancelButtonColor: '#1d242e',
-      confirmButtonText: 'Si, eliminar'
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.spinner.show();
@@ -121,7 +136,7 @@ export class AlbumUpdateComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Pista eliminada.',
-              text: 'Se ah eliminado la pista correctamente.',
+              text: 'Se ha eliminado la pista correctamente.',
             });
           },
           (error: any) => {
@@ -130,7 +145,7 @@ export class AlbumUpdateComponent implements OnInit {
           }
         );
       }
-    })
+    });
   }
   //#region Complementos
 
@@ -184,7 +199,7 @@ export class AlbumUpdateComponent implements OnInit {
     else return usuario.data;
   }
 
-  listarPistasPorAlbum(){
+  listarPistasPorAlbum() {
     this.pistaService.listaPorAlbum(this.albumId).then(
       (response: Pista[]) => {
         this.pistas = response;
