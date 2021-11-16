@@ -6,6 +6,15 @@
 .table-antara {
   background: transparent;
   color: #fff;
+  border-style: none;
+}
+.table-antara td {
+  border-style: none;
+}
+
+.table-antara tr:hover {
+  background-color: #555;
+  border-radius: 15px;
 }
 
 .etiqueta {
@@ -30,13 +39,21 @@ hr {
   margin: 10px 0;
 }
 
-tr:hover .icono-play {
+tr:hover .iconos.play {
   display: block;
 }
-tr:hover .id {
+
+tr.playing:hover .iconos.pause {
+  display: block;
+}
+tr.playing:hover .iconos.play {
   display: none;
 }
-.icono-play {
+
+tr:hover .pista-id {
+  display: none;
+}
+.iconos {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -46,6 +63,25 @@ tr:hover .id {
   display: none;
 }
 
-.playing .pista-nombre {
+.playing .pista-nombre,
+.playing .pista-id {
   color: rgb(1, 122, 255);
+}
+
+.paused .pista-nombre,
+.paused .pista-id {
+  color: rgb(1, 122, 255);
+}
+
+tr.paused:hover .iconos.pause {
+  display: none;
+}
+tr.paused:hover .iconos.play {
+  display: block;
+}
+
+.publicado {
+  display: block;
+  width: 150px;
+  margin-bottom: 15px;
 }

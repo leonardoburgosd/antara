@@ -11,7 +11,8 @@
 .contenido-color {
   background: #15181f;
   height: calc(100vh - var(--heigh-nav));
-  overflow: auto;
+  overflow-x: visible;
+  overflow-y: scroll;
 }
 
 .contenido-claro {

@@ -1,15 +1,22 @@
 <div class="row">
   <div class="col-lg-3">
-    <img [src]="imagenUrl" class="imagen-playlist" *ngIf="imagenUrl != null" />
+    <img
+      [src]="album.portadaUrl"
+      class="imagen-playlist"
+      *ngIf="album.portadaUrl != null"
+    />
     <img
       src="../../../../assets/images/musica.png"
       class="imagen-playlist"
-      *ngIf="imagenUrl == null"
+      *ngIf="album.portadaUrl == null"
     />
   </div>
   <div class="col-lg-9">
     <h6>{{ album.descripcion }}</h6>
     <h1>{{ album.nombre }}</h1>
+    <div class="badge bg-primary publicado" *ngIf="album.estaPublicado == true">
+      Publicado el {{ album.fechaPublicacion | date: "M/d/yy" }}
+    </div>
     <button
       class="btn btn-dark"
       data-bs-toggle="modal"
@@ -17,21 +24,18 @@
     >
       <i class="fas fa-pencil-alt"></i>
     </button>
-    |
-    <button class="btn btn-success" (click)="actualizarPlaylistBorrador()">
+    <span class="mx-2">|</span>
+    <button class="btn btn-success" (click)="actualizarAlbumBorrador()">
       <i class="far fa-save"></i>
     </button>
-    |
+    <span *ngIf="album.estaPublicado == false" class="mx-2">|</span>
     <button
       class="btn btn-danger"
       *ngIf="album.estaPublicado == false"
-      (click)="publicarPlaylist(album)"
+      (click)="publicarAlbum(album)"
     >
       <i class="fas fa-satellite"></i> Publicar
     </button>
-    <span class="badge bg-primary" *ngIf="album.estaPublicado == true"
-      >Publicado</span
-    >
   </div>
   <hr />
   <div class="col-lg-12">
@@ -51,10 +55,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let pista of pistas; let i = index" #pistaRow>
-          <th scope="row" class="text-center align-middle position-relative">
-            <div class="id">{{ i + 1 }}</div>
-            <i class="fas fa-play icono-play" (click)="playSong($event, i)"></i>
-          </th>
+          <td scope="row" class="text-center align-middle position-relative">
+            <div class="pista-id">{{ i + 1 }}</div>
+            <i class="fas fa-play iconos play" (click)="playSong(i)"></i>
+            <i class="fas fa-pause iconos pause" (click)="pauseSong(i)"></i>
+          </td>
           <td class="align-middle pista-nombre">{{ pista.nombre }}</td>
           <td class="text-center align-middle">{{ pista.reproducciones }}</td>
           <td class="text-center align-middle">
@@ -75,6 +80,7 @@
       class="btn agregar-pista"
       data-bs-toggle="modal"
       data-bs-target="#agregarPista"
+      *ngIf="album.estaPublicado == false"
     >
       Registrar pista
     </button>

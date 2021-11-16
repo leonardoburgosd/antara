@@ -26,11 +26,13 @@
   </div>
 
   <audio
-    src="../../../assets/audio/shake_it_off.mp3"
+    src=""
     id="pista"
     type="audio/mpeg"
     preload="metadata"
     (timeupdate)="updateProgress($event)"
+    (play)="paintRow()"
+    (ended)="nextSong()"
   ></audio>
 
   <div class="navigation">

@@ -1,4 +1,6 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Pista } from 'src/app/classes/Pista';
 import { PistasService } from 'src/app/services/pistas.service';
 import { ReproductorInteractionService } from 'src/app/services/reproductor-interaction.service';
@@ -24,7 +26,7 @@ export class ReproductorComponent implements OnInit {
   portada: HTMLElement | null = null;
   title: HTMLElement | null = null;
   interpreter: HTMLElement | null = null;
-  songIndex: number = 0;
+  songIndex: number = -1;
   songsList: Pista[] = [];
   portadaAlbum: string = '';
 
@@ -32,15 +34,32 @@ export class ReproductorComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadElements();
+
     this.reproductorInteraction.pistas$.subscribe(
       (data: any) => {
         this.songsList = data.pistas;
         this.portadaAlbum = data.portadaAlbum;
-        this.songIndex = data.songIndex;
+        if (this.songIndex !== data.songIndex) {
+          this.songIndex = data.songIndex;
+          this.loadSong(this.songsList[this.songIndex]);
+        }
         this.playSong();
+      },
+      (err) => {},
+      () => {}
+    );
+
+    this.reproductorInteraction.pause$.subscribe(
+      () => {
+        this.pauseSong();
+        console.log('pause song');
       },
       (err) => {}
     );
+  }
+
+  paintRow() {
+    this.reproductorInteraction.paintRow(this.songIndex);
   }
 
   loadElements() {
@@ -86,7 +105,9 @@ export class ReproductorComponent implements OnInit {
   }
 
   playSong() {
-    this.loadSong(this.songsList[this.songIndex]);
+    if (this.pistaFile?.getAttribute('src') === '') {
+      return;
+    }
     this.musicContainer?.classList.add('play');
     this.pistaFile?.play();
     if (this.playButton) this.playButton.style.display = 'none';
@@ -114,12 +135,14 @@ export class ReproductorComponent implements OnInit {
   setProgress(event: Event) {
     const width = (<HTMLDivElement>event.target).clientWidth;
     const clickX = (<MouseEvent>event).offsetX;
-    console.log(event.target);
     const duration = this.pistaFile!.duration;
     this.pistaFile!.currentTime = (clickX / width) * duration;
   }
 
   prevSong() {
+    if (this.pistaFile?.getAttribute('src') === '') {
+      return;
+    }
     this.songIndex--;
     console.log(this.songIndex);
     if (this.songIndex < 0) {
@@ -129,6 +152,9 @@ export class ReproductorComponent implements OnInit {
     this.playSong();
   }
   nextSong() {
+    if (this.pistaFile?.getAttribute('src') === '') {
+      return;
+    }
     this.songIndex++;
     console.log(this.songIndex);
 

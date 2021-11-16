@@ -25,7 +25,8 @@ export class AlbumNewComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private pistaService: PistasService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +36,7 @@ export class AlbumNewComponent implements OnInit {
     this.spinner.hide();
   }
 
-  registrarPlaylistBorrador() {
+  registrarAlbumBorrador() {
     this.spinner.show();
     this.albumService.registro(this.album, this.portada).subscribe(
       (response: any) => {
@@ -49,6 +50,7 @@ export class AlbumNewComponent implements OnInit {
           title: 'Album registrado',
           text: 'Se ah registrado el album exitosamente',
         });
+        this._router.navigate(['/dashboard/album']);
       },
       (error: any) => {
         this.spinner.hide();
@@ -89,8 +91,8 @@ export class AlbumNewComponent implements OnInit {
 
   inicializaNuevoAlbum(): Album {
     let newAlbum: Album = new Album();
-    newAlbum.nombre = 'Mi playlist';
-    newAlbum.descripcion = 'Descripcion de la playlist.';
+    newAlbum.nombre = 'Mi álbum';
+    newAlbum.descripcion = 'Descripción del álbum.';
     newAlbum.portadaUrl = '../../../../assets/images/musica.png';
     newAlbum.estaActivo = true;
     newAlbum.usuarioId = this.usuario.id;
@@ -107,8 +109,8 @@ export class AlbumNewComponent implements OnInit {
     } else if (err.status == 500) {
       Swal.fire({
         icon: 'error',
-        title: 'Error de conexión',
-        text: 'Por favor revise su conexión de internet.',
+        title: 'Error del sistema',
+        text: 'Parece que algo salio mal.',
       });
     }
   }

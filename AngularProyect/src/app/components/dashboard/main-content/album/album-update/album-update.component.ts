@@ -1,9 +1,14 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
-
 import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
 import { PistasService } from 'src/app/services/pistas.service';
@@ -16,6 +21,7 @@ import { ReproductorInteractionService } from 'src/app/services/reproductor-inte
   styleUrls: ['./album-update.component.css'],
 })
 export class AlbumUpdateComponent implements OnInit {
+  @ViewChildren('pistaRow') pistasRow: QueryList<ElementRef> = new QueryList();
   usuario: any = {};
   albumId: string = '';
   imagenUrl: string | ArrayBuffer | null | undefined;
@@ -30,7 +36,8 @@ export class AlbumUpdateComponent implements OnInit {
     private albumService: AlbumService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private reproductorInteractionService: ReproductorInteractionService
+    private reproductorInteractionService: ReproductorInteractionService,
+    private _router: Router
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let parametro = params.get('albumId');
@@ -43,18 +50,38 @@ export class AlbumUpdateComponent implements OnInit {
     this.spinner.show();
     this.usuario = this.obtieneUsuarioLog();
     this.detalleAlbum(this.albumId);
+    this.reproductorInteractionService.tableIndex$.subscribe(
+      (data: number) => this.paintRow(data),
+      (err) => {}
+    );
   }
 
-  playSong(event: Event, index: number) {
+  ngOnViewInit() {}
+
+  paintRow(index: number) {
+    this.pistasRow.forEach((item: ElementRef) => {
+      item.nativeElement.classList.remove('playing');
+      item.nativeElement.classList.remove('paused');
+    });
+    this.pistasRow.toArray()[index].nativeElement.classList.add('playing');
+  }
+
+  playSong(index: number) {
     this.reproductorInteractionService.playAlbum({
       pistas: this.pistas,
       portadaAlbum: this.album.portadaUrl,
       songIndex: index,
     });
-    var row = event.composedPath()[2] as HTMLTableRowElement;
-    row.classList.add('playing');
   }
 
+  pauseSong(index: number) {
+    this.pistasRow.forEach((item: ElementRef) => {
+      item.nativeElement.classList.remove('playing');
+      item.nativeElement.classList.remove('paused');
+    });
+    this.pistasRow.toArray()[index].nativeElement.classList.add('paused');
+    this.reproductorInteractionService.pauseSong();
+  }
   guardarAudio() {
     this.spinner.show();
     this.pista.albumId = this.album.id;
@@ -70,7 +97,7 @@ export class AlbumUpdateComponent implements OnInit {
     );
   }
 
-  actualizarPlaylistBorrador() {
+  actualizarAlbumBorrador() {
     this.spinner.show();
     this.albumService.actualizar(this.album).subscribe(
       (response: any) => {
@@ -88,14 +115,14 @@ export class AlbumUpdateComponent implements OnInit {
     );
   }
 
-  publicarPlaylist(album: Album) {
+  publicarAlbum(album: Album) {
     Swal.fire({
       title: '¿Seguro que desea publicar este album?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#017AFF',
       cancelButtonColor: '#1d242e',
-      confirmButtonText: 'Si, eliminar',
+      confirmButtonText: 'Si, publicar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.spinner.show();
@@ -108,6 +135,7 @@ export class AlbumUpdateComponent implements OnInit {
               title: 'Album publicado.',
               text: 'Se ha publicado el album correctamente.',
             });
+            this.detalleAlbum(this.albumId);
           },
           (error: any) => {
             this.spinner.hide();
