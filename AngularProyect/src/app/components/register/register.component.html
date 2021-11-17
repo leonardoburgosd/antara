@@ -1,99 +1,219 @@
-<div class="non-padding">
-    <div class="col-lg-6 register-part">
-        <div class="full-screen
-                d-flex align-items-center
-                justify-content-center
-                align-content-left
-                 flex-column">
-            <div class="col-8 antara-font">
-                <div class="mb-3 row">
-                    <label class="form-label ">¿Cual es tu correo electrónico?</label>
-                    <input type="email" class="form-antara" [(ngModel)]="usuario.email" aria-describedby="emailHelp">
-                    <div *ngIf="error.Email">
-                        <div *ngFor="let error of error.Email" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label">Confirma el correo electrónico</label>
-                    <input type="email" class="form-antara" [(ngModel)]="emailVerification"
-                        aria-describedby="emailHelp">
-                    <div *ngIf="error.EmailVerification">
-                        <div *ngFor="let error of error.EmailVerification" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label">Crea una contraseña</label>
-                    <input type="password" class="form-antara" [(ngModel)]="usuario.password">
-                    <div *ngIf="error.Password">
-                        <div *ngFor="let error of error.Password" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label">¿Cómo quieres que te llamemos?</label>
-                    <input type="text" class="form-antara" [(ngModel)]="usuario.nombre" aria-describedby="emailHelp">
-                    <div *ngIf="error.Name">
-                        <div *ngFor="let error of error.nombre" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label">¿Cuál es tu fecha de nacimiento?</label>
-                    <input type="date" class="form-antara" [(ngModel)]="usuario.fechaNacimiento"
-                        aria-describedby="emailHelp">
-                    <div *ngIf="error.BirthDate">
-                        <div *ngFor="let error of error.fechaNacimiento" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label">¿Cuál es tu sexo?</label>
-                    <div class="col-12">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="M"
-                                name="usuario.gender" [(ngModel)]="usuario.genero">
-                            <label class="form-check-label" for="inlineRadio1">Masculino</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="F"
-                                name="usuario.gender" [(ngModel)]="usuario.genero">
-                            <label class="form-check-label" for="inlineRadio2">Femenino</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="N"
-                                name="usuario.gender" [(ngModel)]="usuario.genero">
-                            <label class="form-check-label" for="inlineRadio3">No indica</label>
-                        </div>
-                    </div>
-                    <div *ngIf="error.password">
-                        <div *ngFor="let error of error.genero" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <p class="terminos">Al registrarte, aceptas los <a href="#">Terminos y Condiciones de Uso</a> de
-                        Antara.</p>
-                    <div *ngIf="error.password">
-                        <div *ngFor="let error of error.password" class="message-error">{{error}}</div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <button class="btn btn-primary" (click)="registro()">
-                        Registrarme
-                    </button>
-                </div>
-            </div>
+<div class="non-padding main-container">
+  <div class="col-lg-6 registro-container">
+    <form class="form-container">
+      <div class="mb-3 row form-group">
+        <label class="form-label">¿Cual es tu correo electrónico?</label>
+        <input
+          type="email"
+          class="form-antara"
+          [(ngModel)]="usuario.email"
+          name="email"
+          ngModel
+          email="true"
+          #email="ngModel"
+          required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        />
+        <div *ngIf="email.invalid && email.touched">
+          <div *ngIf="email.errors?.required" class="text-danger">
+            * Email es obligatorio.
+          </div>
+          <div *ngIf="email.errors?.pattern" class="text-danger">
+            * Formato de email invalido.
+          </div>
         </div>
-    </div>
-    <div class="col-lg-6 logo-part antara-font image-music">
-        <div class="full-screen
-                    d-flex align-items-center
-                    justify-content-center
-                    align-content-center
-                    text-center flex-column">
-            <img src="../../assets/images/logo_white_large.png" class="logo-antara" alt="antara_logo" />
-            <div class="division"></div>
-            <div class="titulo">
-                <h1>Registrate</h1>
-            </div>
-            <p>¿Ya tienes cuenta? <a href="/login" class="inicio-sesion"> Inicia sesion</a></p>
-
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">Confirma el correo electrónico</label>
+        <input
+          type="email"
+          class="form-antara"
+          [(ngModel)]="emailVerification"
+          name="emailConfirmation"
+          ngModel
+          #emailConfirmation="ngModel"
+          required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        />
+        <div *ngIf="emailConfirmation.invalid && emailConfirmation.touched">
+          <div *ngIf="emailConfirmation.errors?.required" class="text-danger">
+            * Confirmacion de email es obligatoria.
+          </div>
+          <div *ngIf="emailConfirmation.errors?.pattern" class="text-danger">
+            * Formato de email invalido.
+          </div>
         </div>
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">Crea una contraseña</label>
+        <input
+          type="password"
+          class="form-antara"
+          [(ngModel)]="usuario.password"
+          ngModel
+          name="password"
+          #password="ngModel"
+          required
+          minlength="6"
+          max="16"
+        />
+        <div *ngIf="password.invalid && password.touched">
+          <div *ngIf="password.errors?.required" class="text-danger">
+            * Contraseña es obligatoria.
+          </div>
+          <div
+            *ngIf="
+              emailConfirmation.errors?.minlength ||
+              emailConfirmation.errors?.maxlength
+            "
+            class="text-danger"
+          >
+            * La contraseña debe tener entre 6 y 16 carácteres.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">¿Cómo quieres que te llamemos?</label>
+        <input
+          type="text"
+          class="form-antara"
+          [(ngModel)]="usuario.nombre"
+          required
+          ngModel
+          name="nombres"
+          #nombres="ngModel"
+          minlength="3"
+          pattern="^[a-zA-Z\s]+$"
+        />
+        <div *ngIf="nombres.invalid && nombres.touched">
+          <div *ngIf="nombres.errors?.required" class="text-danger">
+            * Nombre es obligatorio.
+          </div>
+          <div *ngIf="nombres.errors?.minlength" class="text-danger">
+            * Mínimo 3 caracteres.
+          </div>
+          <div *ngIf="nombres.errors?.pattern" class="text-danger">
+            * Solo letras en mayúscula o minúscula.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">¿De que parte del mundo eres?</label>
+        <select
+          required
+          ngModel
+          name="pais"
+          #pais="ngModel"
+          [(ngModel)]="usuario.pais"
+          *ngIf="paises | async as options"
+          class="form-antara"
+        >
+          <option
+            [value]="item.country_short_name"
+            *ngFor="let item of options"
+          >
+            {{ item.country_name }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">¿Cuál es tu fecha de nacimiento?</label>
+        <input
+          type="date"
+          class="form-antara"
+          [(ngModel)]="usuario.fechaNacimiento"
+          max="2011-12-31"
+          name="fechaNacimiento"
+          ngModel
+          #fechaNacimiento="ngModel"
+        />
+        <div *ngIf="fechaNacimiento.invalid && fechaNacimiento.touched">
+          <div *ngIf="fechaNacimiento.errors?.max" class="text-danger">
+            * Debe ser mayor de 10 años.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row form-group">
+        <label class="form-label">¿Cuál es tu sexo?</label>
+        <div class="col-12">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              value="M"
+              name="usuario.gender"
+              [(ngModel)]="usuario.genero"
+            />
+            <label class="form-check-label" for="inlineRadio1">Masculino</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              value="F"
+              name="usuario.gender"
+              [(ngModel)]="usuario.genero"
+            />
+            <label class="form-check-label" for="inlineRadio2">Femenino</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              value="N"
+              name="usuario.gender"
+              [(ngModel)]="usuario.genero"
+            />
+            <label class="form-check-label" for="inlineRadio3">No indica</label>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <p class="terminos">
+          Al registrarte, aceptas los
+          <a href="#">Terminos y Condiciones de Uso</a> de Antara.
+        </p>
+      </div>
+      <div class="mb-3 row">
+        <button class="btn btn-primary" (click)="registro()">
+          Registrarme
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-6 logo-part antara-font image-music">
+    <div
+      class="
+        full-screen
+        d-flex
+        align-items-center
+        justify-content-center
+        align-content-center
+        text-center
+        flex-column
+      "
+    >
+      <img
+        src="../../assets/images/logo_white_large.png"
+        class="logo-antara"
+        alt="antara_logo"
+      />
+      <!-- <div class="division"></div> -->
+      <div class="titulo">
+        <h1>Registrate</h1>
+      </div>
+      <p>
+        ¿Ya tienes cuenta?
+        <a href="/login" class="inicio-sesion"> Inicia sesion</a>
+      </p>
+      <img
+        src="../../../assets/images/music-image.svg"
+        class="logo-antara"
+        alt="antara_logo"
+      />
     </div>
+  </div>
 </div>

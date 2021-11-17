@@ -3,6 +3,9 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/classes/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { PaisesService } from 'src/app/services/paises.service';
+import { faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -13,10 +16,25 @@ export class RegisterComponent implements OnInit {
   usuario: Usuario = new Usuario();
   error: any = [];
   emailVerification: string = '';
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  paises: Observable<any> = new Observable();
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router,
+    private _paisesService: PaisesService
+  ) {}
 
   ngOnInit(): void {
-    this.usuario.pais = 'Perú';
+    this._paisesService.getToken().subscribe(
+      (data: any) => {
+        if (data.auth_token) {
+          let token = data.auth_token;
+          this.paises = this._paisesService.getPaises(token);
+          //.subscribe((data: any) => console.log(data));
+        }
+      },
+      (err) => console.log(err)
+    );
+    this.usuario.pais = 'PE';
     this.usuario.genero = 'N';
     this.usuario.tipo = 'antara';
   }

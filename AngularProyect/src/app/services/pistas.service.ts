@@ -14,27 +14,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class PistasService {
-  data = [
-    {
-      nombre: 'The Leyend of Zelda Theme',
-      interprete: 'Kōji Kondō',
-      portadaAlbum: '../../../assets/images/zelda.jpg',
-      url: 'assets/audio/zelda_main_theme.mp3',
-    },
-    {
-      nombre: 'Welcome to the jungle',
-      interprete: "Guns N' Roses",
-      portadaAlbum: '../../../assets/images/apettite_for_destruction.jpg',
-      url: 'assets/audio/welcome_to_the_jungle.mp3',
-    },
-    {
-      nombre: 'Shake it off',
-      interprete: 'Taylor Swift',
-      portadaAlbum: '../../../assets/images/1989.jpg',
-      url: 'assets/audio/shake_it_off.mp3',
-    },
-  ];
-
   private API: string;
   constructor(private httpClient: HttpClient) {
     //this.API = 'https://localhost:44392/api/pista';
@@ -59,15 +38,13 @@ export class PistasService {
       .toPromise();
   }
 
-  getAll(): Observable<any[]> {
-    return of(this.data);
-  }
-
   eliminar(pistaId: string): any {
     return this.httpClient.delete(this.API + '/' + pistaId).toPromise();
   }
 
-  buscar(cadena:string):any{
-    return this.httpClient.get(this.API+'/buscar?cadena='+cadena).toPromise();
+  buscar(cadena: string): any {
+    return this.httpClient
+      .get(this.API + '/buscar?cadena=' + cadena)
+      .toPromise();
   }
 }
