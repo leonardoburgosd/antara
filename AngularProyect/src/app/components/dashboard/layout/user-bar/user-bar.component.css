@@ -11,4 +11,6 @@
 .navbar-propery {
   background: #15181f;
   color: var(--bs-gray-200);
+  border-bottom: 1px solid rgb(29, 36, 46);
+  z-index: 999;
 }

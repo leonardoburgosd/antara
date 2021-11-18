@@ -1,38 +1,46 @@
 <div class="container-fluid antara-font">
-  <div class="row">
-    <app-user-bar [usuario]="usuario" class="p-0"></app-user-bar>
-    <div class="col-md-2 order-1 menu-color contenido-claro">
+  <div class="row h-100">
+    <div class="col-md-2 order-1 menu-color contenido-claro h-100">
       <app-navbar></app-navbar>
     </div>
-    <div class="col-md-7 order-2 contenido-color contenido-claro p-4">
-      <router-outlet></router-outlet>
-    </div>
-    <div class="col-md-3 order-3 menu-color contenido-claro">
-      <div class="row">
-        <div class="col-12">
-          <hr />
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="cadenaString"
-              placeholder="Buscar..."
-              aria-describedby="button-addon2"
-            />
-            <button
-              class="btn btn-primary"
-              type="button"
-              id="button-addon2"
-              (click)="buscar(cadenaString)"
-            >
-              <i class="fa fa-search"></i>
-            </button>
+    <div class="col-md-10 order-2 h-100">
+      <div class="row" style="height: 8.5%">
+        <app-user-bar [usuario]="usuario" class="p-0"></app-user-bar>
+      </div>
+      <div class="row" style="height: 91.5%">
+        <div class="col-md-8 order-2 contenido-color contenido-claro p-4 h-100">
+          <router-outlet></router-outlet>
+        </div>
+        <div class="col-md-4 order-3 menu-color contenido-claro">
+          <div class="row">
+            <div class="col-12">
+              <hr />
+              <div class="mb-3 search-container">
+                <div class="input-container">
+                  <input
+                    type="text"
+                    class="search-input"
+                    [(ngModel)]="cadenaString"
+                    placeholder="Escribe aqui para buscar"
+                    aria-describedby="button-addon2"
+                  />
+                  <button
+                    class="search-button"
+                    type="button"
+                    id="button-addon2"
+                    (click)="buscar(cadenaString)"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <app-reproductor
+              class="col-12 left-panel"
+              [listaCanciones]="'algo'"
+            ></app-reproductor>
           </div>
         </div>
-        <app-reproductor
-          class="col-12 left-panel"
-          [listaCanciones]="'algo'"
-        ></app-reproductor>
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@
 }
 .menu-color {
   background: #1d242e;
-  height: calc(100vh - var(--heigh-nav));
+  height: 100%;
   overflow: auto;
 }
 
@@ -35,6 +35,7 @@
 
 .antara-font {
   font-family: "Quicksand", sans-serif;
+  height: 100vh;
 }
 
 .left-panel {
@@ -42,4 +43,43 @@
   justify-content: center;
   align-items: flex-end;
   padding: 20px;
+}
+/* SEARCH */
+.search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+.input-container {
+  width: 80%;
+  height: 40px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  /* max-width: 250px; */
+  height: 40px;
+  border-radius: 25px;
+  font-size: 0.8rem;
+  padding: 10px 20px;
+  background-color: rgb(21, 24, 31);
+  outline: none;
+  border: 2px solid #666;
+  color: #ccc;
+}
+
+.search-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(-25%, -20%);
+  background-color: rgb(1, 122, 255);
+  border: none;
 }

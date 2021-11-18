@@ -1,6 +1,11 @@
 .elements {
   padding: 0;
 }
+.navbar-brand {
+  padding: 0;
+  margin-top: 20px;
+  text-align: center;
+}
 .elements > li.title-secction {
   font-size: 13px;
   text-align: left;
@@ -24,11 +29,21 @@ li > span {
 .elements > li > a {
   text-decoration: none;
   color: #fff;
+  font-size: 0.8rem;
+  padding-left: 20px;
 }
-.elements > li > a:hover {
+.elements > li:hover > a {
   color: #2a77c7;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 .elements > li > a > i {
   padding: 0 4px;
   margin-right: 10px;
+}
+.elements > h5 {
+  padding-left: 30px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  margin-top: 20px;
 }
