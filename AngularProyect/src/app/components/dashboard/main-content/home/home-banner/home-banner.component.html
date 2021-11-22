@@ -1,26 +1,11 @@
-<div class="row card-publicidad">
-  <div class="col-12 p2">
-    <h5>
-      Top de la semana
-      <img
-        src="../../../assets/images/logo_small_icon_only.png"
-        alt=""
-        width="30"
-        height="30"
-        class="d-inline-block align-text-top"
-      />
-    </h5>
-  </div>
-  <div class="col-3 p-2">
+<owl-carousel-o [options]="customOptions" style="height: 100%">
+  <ng-template carouselSlide>
     <app-banner-album-card></app-banner-album-card>
-  </div>
-  <div class="col-3 p-2">
+  </ng-template>
+  <ng-template carouselSlide>
     <app-banner-album-card></app-banner-album-card>
-  </div>
-  <div class="col-3 p-2">
+  </ng-template>
+  <ng-template carouselSlide>
     <app-banner-album-card></app-banner-album-card>
-  </div>
-  <div class="col-3 p-2">
-    <app-banner-album-card></app-banner-album-card>
-  </div>
-</div>
+  </ng-template>
+</owl-carousel-o>

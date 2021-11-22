@@ -21,6 +21,7 @@ import { SongsListComponent } from './main-content/songs-list/songs-list.compone
 import { ReproductorComponent } from './layout/reproductor/reproductor.component';
 import { UserBarComponent } from './layout/user-bar/user-bar.component';
 import { SearchComponent } from './main-content/search/search.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SearchComponent } from './main-content/search/search.component';
     DashboardRoutingModule,
     FormsModule,
     NgxSpinnerModule,
+    CarouselModule,
   ],
 })
 export class DashboardModule {}

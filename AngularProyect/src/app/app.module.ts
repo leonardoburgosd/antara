@@ -18,6 +18,7 @@ import { DashboardModule } from './components/dashboard/dashboard.module';
 import { ErrorComponent } from './shared/error/error.component';
 import { NotFoundErrorComponent } from './shared/not-found-error/not-found-error.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CommonModule } from '@angular/common';
     DashboardModule,
     SocialLoginModule,
     NgxSpinnerModule,
+    RouterModule,
   ],
   providers: [
     {
