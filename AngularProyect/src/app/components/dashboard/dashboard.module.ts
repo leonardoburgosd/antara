@@ -22,6 +22,9 @@ import { ReproductorComponent } from './layout/reproductor/reproductor.component
 import { UserBarComponent } from './layout/user-bar/user-bar.component';
 import { SearchComponent } from './main-content/search/search.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { PlaylistComponent } from './main-content/playlist/playlist.component';
+import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playlist-new.component';
+import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     SongsListComponent,
     UserBarComponent,
     SearchComponent,
+    PlaylistComponent,
+    PlaylistNewComponent,
+    PlaylistUpdateComponent,
   ],
   imports: [
     CommonModule,

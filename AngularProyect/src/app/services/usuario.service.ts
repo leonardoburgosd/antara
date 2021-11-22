@@ -51,4 +51,8 @@ export class UsuarioService {
     data.append('file', '');
     return this.httpClient.post(this.API, data).toPromise();
   }
+
+  obtenerUsuario(usuarioId:string):any{
+    return this.httpClient.get(this.API+'/'+usuarioId).toPromise();
+  }
 }
