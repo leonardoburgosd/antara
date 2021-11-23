@@ -25,6 +25,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { PlaylistComponent } from './main-content/playlist/playlist.component';
 import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playlist-new.component';
 import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
+import { CardPistaComponent } from './main-content/playlist/card-pista/card-pista.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update
     PlaylistComponent,
     PlaylistNewComponent,
     PlaylistUpdateComponent,
+    CardPistaComponent,
   ],
   imports: [
     CommonModule,

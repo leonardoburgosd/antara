@@ -1,15 +1,7 @@
 <div class="card card-album">
   <div class="card-img">
-    <img
-      src="{{ album.portadaUrl }}"
-      alt="album-cover"
-      *ngIf="album.portadaUrl != null"
-    />
-    <img
-      src="../../../../assets/images/musica.png"
-      alt="album-cover"
-      *ngIf="album.portadaUrl == null"
-    />
+    <img src="{{ album.portadaUrl }}" alt="album-cover" *ngIf="album.portadaUrl != null" />
+    <img src="../../../../assets/images/musica.png" alt="album-cover" *ngIf="album.portadaUrl == null" />
     <div class="opciones-icon" (click)="mostrarOpciones()">
       <div class="circle"></div>
       <i class="fas fa-ellipsis-v"></i>
@@ -23,11 +15,7 @@
   </div>
   <div class="card-body">
     <div class="datos">
-      <a
-        [routerLink]="['/dashboard/album/edit/', album.id]"
-        class="nombre-album"
-        >{{ album.nombre }}</a
-      >
+      <a [routerLink]="['/dashboard/album/edit/', album.id]" class="nombre-album">{{ album.nombre }}</a>
       <h6 class="otros-datos">
         {{ album.fechaPublicacion | date: "yyyy" }} * Album
       </h6>

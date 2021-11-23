@@ -1,0 +1,97 @@
+.card-album {
+  background: #232c38;
+  width: 100%;
+  height: 100%;
+}
+.card-img {
+  position: relative;
+  height: 60%;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.opciones-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-25%, 25%);
+  cursor: pointer;
+}
+.opciones-icon i {
+  z-index: 1;
+}
+.opciones-icon::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-color: #444;
+  opacity: 0.5;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+}
+
+.opciones-icon:hover::after {
+  visibility: visible;
+}
+
+.opciones {
+  position: absolute;
+  background-color: #444;
+  width: 90px;
+  right: -50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: none;
+  box-shadow: 7px 4px 12px -5px rgba(0, 0, 0, 0.49);
+  border-radius: 5px;
+}
+
+.opciones > ul {
+  margin: 0;
+  padding: 0;
+}
+.opciones li {
+  list-style: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.opciones.active {
+  display: block;
+}
+
+.opciones li:hover {
+  background-color: #666;
+}
+.datos {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.nombre-album {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.datos h6 {
+  margin: 5px 0;
+}
