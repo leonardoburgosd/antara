@@ -8,7 +8,7 @@ import { Album } from 'src/app/classes/Album';
 })
 export class HomeSectionComponent implements OnInit {
   @Input()
-  section: { title: string; albumes: string } = { title: '', albumes: '' };
+  section: { title: string; albumes: Album[] } = { title: '', albumes: [] };
 
   constructor() {}
 

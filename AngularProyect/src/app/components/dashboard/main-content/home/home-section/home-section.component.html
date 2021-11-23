@@ -1,17 +1,10 @@
-<div class="section-title">{{ section.title }}</div>
+<div class="section-title" *ngIf="section.albumes.length > 0">
+  {{ section.title }}
+</div>
 <div class="container-fluid">
   <div class="row grid-container">
-    <div class="grid-item">
-      <app-section-album-card></app-section-album-card>
-    </div>
-    <div class="grid-item">
-      <app-section-album-card></app-section-album-card>
-    </div>
-    <div class="grid-item">
-      <app-section-album-card></app-section-album-card>
-    </div>
-    <div class="grid-item">
-      <app-section-album-card></app-section-album-card>
+    <div class="grid-item" *ngFor="let item of section.albumes">
+      <app-section-album-card [album]="item"></app-section-album-card>
     </div>
   </div>
 </div>

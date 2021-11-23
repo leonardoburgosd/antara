@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Auth } from '../classes/Auth';
 import { Usuario } from '../classes/Usuario';
+import { Utilities } from '../shared/utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,10 +14,9 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UsuarioService {
-  private API: string;
+  private API: string = new Utilities().apiUrl;
   constructor(private httpClient: HttpClient) {
-    //this.API = 'https://localhost:44392/api/usuario';
-    this.API = 'https://apislatch.azurewebsites.net/api/usuario';
+    this.API = `${this.API}/api/usuario`;
   }
 
   login(user: Auth): any {
@@ -52,7 +52,7 @@ export class UsuarioService {
     return this.httpClient.post(this.API, data).toPromise();
   }
 
-  obtenerUsuario(usuarioId:string):any{
-    return this.httpClient.get(this.API+'/'+usuarioId).toPromise();
+  obtenerUsuario(usuarioId: string): any {
+    return this.httpClient.get(this.API + '/' + usuarioId).toPromise();
   }
 }

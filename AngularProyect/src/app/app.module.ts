@@ -19,6 +19,7 @@ import { ErrorComponent } from './shared/error/error.component';
 import { NotFoundErrorComponent } from './shared/not-found-error/not-found-error.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { WorkingPageComponent } from './shared/working-page/working-page.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { RouterModule } from '@angular/router';
     RegisterComponent,
     ErrorComponent,
     NotFoundErrorComponent,
+    WorkingPageComponent,
   ],
   imports: [
     BrowserAnimationsModule,

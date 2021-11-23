@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Usuario } from 'src/app/classes/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PaisesService } from 'src/app/services/paises.service';
-import { faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { Observable } from 'rxjs';
 
 @Component({

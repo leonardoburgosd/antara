@@ -169,7 +169,7 @@
 >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title etiqueta">Nueva pista</h5>
         <button
           type="button"
@@ -179,63 +179,74 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Año de creacion:</label>
-          <input
-            type="number"
-            [(ngModel)]="pista.anoCreacion"
-            name="anoCreacion"
-            class="form-control"
-          />
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Año de creacion:</label>
+            <input
+              type="number"
+              [(ngModel)]="pista.anoCreacion"
+              name="anoCreacion"
+              class="form-control"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Genero:</label>
+            <select
+              [(ngModel)]="pista.generoId"
+              name="generoId"
+              class="form-select"
+            >
+              <option [value]="1">Pop</option>
+            </select>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Interprete:</label>
-          <input
-            type="text"
-            [(ngModel)]="pista.interprete"
-            name="interprete"
-            class="form-control"
-          />
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Interprete:</label>
+            <input
+              type="text"
+              [(ngModel)]="pista.interprete"
+              name="interprete"
+              class="form-control"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Compositor:</label>
+            <input
+              type="text"
+              [(ngModel)]="pista.compositor"
+              name="compositor"
+              class="form-control"
+            />
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Compositor:</label>
-          <input
-            type="text"
-            [(ngModel)]="pista.compositor"
-            name="compositor"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Productor:</label>
-          <input
-            type="text"
-            [(ngModel)]="pista.productor"
-            name="productor"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Genero:</label>
-          <select
-            [(ngModel)]="pista.generoId"
-            name="generoId"
-            class="form-select"
-          >
-            <option [value]="1">Pop</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="col-form-label etiqueta">Audio de portada:</label>
-          <input
-            id="fichero"
-            type="file"
-            accept="audio/*"
-            (change)="seleccionaAudio($event)"
-          />
-          <label for="fichero" style="width: 100%" class="btn btn-primary">
-            Agregar audio
-          </label>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Productor:</label>
+            <input
+              type="text"
+              [(ngModel)]="pista.productor"
+              name="productor"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="col-form-label etiqueta">Archivo de audio:</label>
+            <input
+              id="fichero"
+              type="file"
+              accept="audio/*"
+              (change)="seleccionaAudio($event)"
+            />
+            <label
+              for="fichero"
+              style="width: 100%; font-size: 0.8rem"
+              class="btn btn-secondary"
+            >
+              Buscar en archivos locales...
+            </label>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

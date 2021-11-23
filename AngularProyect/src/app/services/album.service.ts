@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Album } from '../classes/Album';
 import { Observable } from 'rxjs';
+import { Utilities } from '../shared/utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -10,21 +11,13 @@ const httpOptions = {
   Authorization: 'Bearer ',
 };
 
-const httpTextPlain = {
-  headers: new HttpHeaders({
-    'Content-Type': 'text/plain',
-  }),
-  Authorization: 'Bearer ',
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class AlbumService {
-  private API: string;
+  private API: string = new Utilities().apiUrl;
   constructor(private httpClient: HttpClient) {
-    //this.API = 'https://localhost:44392/api/album';
-    this.API = 'https://apislatch.azurewebsites.net/api/album';
+    this.API = `${this.API}/api/album`;
   }
 
   registro(album: Album, portada: File): Observable<any> {
@@ -32,6 +25,7 @@ export class AlbumService {
     data.append('Nombre', album.nombre);
     data.append('Descripcion', album.descripcion);
     data.append('UsuarioId', album.usuarioId);
+    data.append('Interprete', album.interprete);
     data.append('imagenDePortada', portada);
     return this.httpClient.post(this.API, data);
   }
@@ -54,5 +48,9 @@ export class AlbumService {
 
   publicar(albumId: string): Observable<any> {
     return this.httpClient.put(`${this.API}/publicar/${albumId}`, null);
+  }
+
+  obtenerHechoEnPeru(): Observable<any> {
+    return this.httpClient.get(`${this.API}/todos/hecho_en_peru`, httpOptions);
   }
 }

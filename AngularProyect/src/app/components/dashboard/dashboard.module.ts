@@ -5,7 +5,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainContentComponent } from './main-content/main-content.component';
 import { DashboardComponent } from './dashboard.component';
-import { BibliotecaComponent } from './main-content/biblioteca/biblioteca.component';
 import { CardAlbumComponent } from './main-content/album/card-album/card-album.component';
 import { UsuarioComponent } from './main-content/usuario/usuario.component';
 import { AlbumComponent } from './main-content/album/album.component';
@@ -17,7 +16,6 @@ import { HomeComponent } from './main-content/home/home.component';
 import { SectionAlbumCardComponent } from './main-content/home/home-section/section-album-card/section-album-card.component';
 import { HomeBannerComponent } from './main-content/home/home-banner/home-banner.component';
 import { BannerAlbumCardComponent } from './main-content/home/home-banner/banner-album-card/banner-album-card.component';
-import { SongsListComponent } from './main-content/songs-list/songs-list.component';
 import { ReproductorComponent } from './layout/reproductor/reproductor.component';
 import { UserBarComponent } from './layout/user-bar/user-bar.component';
 import { SearchComponent } from './main-content/search/search.component';
@@ -25,7 +23,11 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { PlaylistComponent } from './main-content/playlist/playlist.component';
 import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playlist-new.component';
 import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
+<<<<<<< Updated upstream
 import { CardPistaComponent } from './main-content/playlist/card-pista/card-pista.component';
+=======
+import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/show-playlist.component';
+>>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -33,7 +35,6 @@ import { CardPistaComponent } from './main-content/playlist/card-pista/card-pist
     NavbarComponent,
     MainContentComponent,
     ReproductorComponent,
-    BibliotecaComponent,
     CardAlbumComponent,
     BannerAlbumCardComponent,
     SectionAlbumCardComponent,
@@ -44,13 +45,16 @@ import { CardPistaComponent } from './main-content/playlist/card-pista/card-pist
     HomeSectionComponent,
     HomeComponent,
     HomeBannerComponent,
-    SongsListComponent,
     UserBarComponent,
     SearchComponent,
     PlaylistComponent,
     PlaylistNewComponent,
     PlaylistUpdateComponent,
+<<<<<<< Updated upstream
     CardPistaComponent,
+=======
+    ShowPlaylistComponent,
+>>>>>>> Stashed changes
   ],
   imports: [
     CommonModule,

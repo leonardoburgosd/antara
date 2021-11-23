@@ -14,7 +14,5 @@ namespace Antara.Model.Dtos
         public string Nombre { get; set; }
         [StringLength(150, ErrorMessage = "Debe ser menor de 150 caracteres")]
         public string Descripcion { get; set; }
-        [StringLength(150)]
-        public string PortadaUrl { get; set; }
     }
 }

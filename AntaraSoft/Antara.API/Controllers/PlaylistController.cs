@@ -93,20 +93,26 @@ namespace Antara.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> EditarPlaylistAsync(Guid id, EditarAgrupacionDto editarPlaylistDto)
+        public async Task<ActionResult> EditarPlaylistAsync(Guid id, EditarAgrupacionDto editarPlaylistDto, [FromForm] IFormFile imagenDePortada)
         {
             try
             {
                 Playlist playlist = await _gestionarPlaylistService.ObtenerPlaylist(id);
+                string url = playlist.PortadaUrl;
                 if (playlist == null)
                 {
                     return NotFound();
+                }
+                if (imagenDePortada != null)
+                {
+                    url = await Extensions.SubirArchivo(imagenDePortada, directorioId);
+                    url = url.Replace("&export=download", "");
                 }
                 Playlist playlistEditada = playlist with
                 {
                     Nombre = editarPlaylistDto.Nombre,
                     Descripcion = editarPlaylistDto.Descripcion,
-                    PortadaUrl = editarPlaylistDto.PortadaUrl
+                    PortadaUrl = url
                 };
                 await _gestionarPlaylistService.EditarPlaylist(playlistEditada);
                 return StatusCode(200);

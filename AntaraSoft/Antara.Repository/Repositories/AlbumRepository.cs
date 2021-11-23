@@ -29,6 +29,7 @@ namespace Antara.Repository.Repositories
                     album.FechaPublicacion,
                     album.PortadaUrl,
                     album.UsuarioId,
+                    album.Interprete,
                     album.EstaActivo,
                     album.FechaRegistro
                 });
@@ -122,6 +123,19 @@ namespace Antara.Repository.Repositories
                     return true;
                 }
                 return false;
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
+
+        public async Task<List<Album>> ObtenerHechoEnPeru()
+        {
+            try
+            {
+                return await _dapper.Consulta<Album>("ObtenerHechoEnPeru");
             }
             catch (Exception err)
             {

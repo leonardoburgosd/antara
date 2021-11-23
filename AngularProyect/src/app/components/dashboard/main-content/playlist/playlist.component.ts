@@ -7,9 +7,10 @@ import { Playlist } from 'src/app/classes/Playlist';
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.css']
+  styleUrls: ['./playlist.component.css'],
 })
 export class PlaylistComponent implements OnInit {
+<<<<<<< Updated upstream
   usuario: any = {};
   playlists: Playlist[] = [];
   @ViewChildren('cards') cards: QueryList<CardPistaComponent> = new QueryList();
@@ -107,4 +108,9 @@ export class PlaylistComponent implements OnInit {
 
   //#endregion
 
+=======
+  constructor() {}
+
+  ngOnInit(): void {}
+>>>>>>> Stashed changes
 }

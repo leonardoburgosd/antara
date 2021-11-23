@@ -15,6 +15,7 @@ namespace Antara.Model.Dtos
         public DateTime FechaPublicacion { get; set; }
         public bool EstaPublicado { get; set; }
         public Guid UsuarioId { get; set; }
+        public string Interprete { get; set; }
         public string PortadaUrl { get; set; }
         public bool EstaActivo { get; set; }
         public DateTime FechaRegistro { get; set; }

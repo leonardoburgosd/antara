@@ -13,5 +13,6 @@ namespace Antara.Model.Contracts.Services
         Task EditarAlbum(Album album);
         Task EliminarAlbum(Guid id);
         Task<bool> PublicarAlbum(Album album);
+        Task<List<Album>> ObtenerHechoEnPeru();
     }
 }

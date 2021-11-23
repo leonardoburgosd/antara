@@ -16,5 +16,6 @@ namespace Antara.Model.Dtos
         public string Descripcion { get; set; }
         [Required]
         public Guid UsuarioId { get; set; }
+        public string Interprete { get; set; }
     }
 }

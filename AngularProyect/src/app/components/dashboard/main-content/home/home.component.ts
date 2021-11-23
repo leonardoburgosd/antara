@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Album } from 'src/app/classes/Album';
+import { AlbumService } from 'src/app/services/album.service';
 
 @Component({
   selector: 'app-home',
@@ -6,26 +8,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  sections: { title: string; albumes: string }[] = [
+  sections: { title: string; albumes: Album[] }[] = [
     {
       title: 'Hecho en Perú',
-      albumes: '',
+      albumes: [],
     },
     {
       title: 'Lo ultimo que eschaste',
-      albumes: '',
+      albumes: [],
     },
     {
       title: 'Energia positiva para tu hogar',
-      albumes: '',
+      albumes: [],
     },
     {
       title: 'Nuevos lanzamientos populares',
-      albumes: '',
+      albumes: [],
     },
   ];
 
-  constructor() {}
+  constructor(private _albumService: AlbumService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._albumService.obtenerHechoEnPeru().subscribe((data: Album[]) => {
+      this.sections[0].albumes = data;
+    });
+  }
 }

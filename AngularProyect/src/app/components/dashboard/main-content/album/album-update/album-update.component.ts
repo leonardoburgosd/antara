@@ -204,6 +204,20 @@ export class AlbumUpdateComponent implements OnInit {
 
   seleccionaAudio(evento: any) {
     this.audio = <File>evento.target.files[0];
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(this.audio);
+    reader.onload = function (event) {
+      var audioContext = new window.AudioContext();
+      audioContext.decodeAudioData(
+        <ArrayBuffer>event.target!.result,
+        function (buffer) {
+          var duration = buffer.duration;
+          console.log(
+            'The duration of the song is of: ' + duration + ' seconds'
+          );
+        }
+      );
+    };
   }
 
   seleccionaImagen(evento: any) {
@@ -228,7 +242,7 @@ export class AlbumUpdateComponent implements OnInit {
   }
 
   listarPistasPorAlbum() {
-    this.pistaService.listaPorAlbum(this.albumId).then(
+    this.pistaService.listaPorAlbum(this.albumId).subscribe(
       (response: Pista[]) => {
         this.pistas = response;
       },

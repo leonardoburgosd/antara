@@ -75,7 +75,7 @@ export class AlbumNewComponent implements OnInit {
   }
 
   listaPistas() {
-    this.pistaService.listaPorAlbum(this.album.id).then(
+    this.pistaService.listaPorAlbum(this.album.id).subscribe(
       (response: any) => {
         this.pistas = response;
         this.spinner.hide();
@@ -96,6 +96,7 @@ export class AlbumNewComponent implements OnInit {
     newAlbum.portadaUrl = '../../../../assets/images/musica.png';
     newAlbum.estaActivo = true;
     newAlbum.usuarioId = this.usuario.id;
+    newAlbum.interprete = this.usuario.nombre;
     return newAlbum;
   }
 

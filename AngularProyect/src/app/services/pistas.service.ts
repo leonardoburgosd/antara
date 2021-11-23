@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pista } from '../classes/Pista';
 import { Observable, of } from 'rxjs';
+import { Utilities } from '../shared/utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,10 +15,9 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class PistasService {
-  private API: string;
+  private API: string = new Utilities().apiUrl;
   constructor(private httpClient: HttpClient) {
-    //this.API = 'https://localhost:44392/api/pista';
-    this.API = 'https://apislatch.azurewebsites.net/api/pista';
+    this.API = `${this.API}/api/pista`;
   }
 
   registro(pista: Pista, audio: File): Observable<any> {
@@ -32,10 +32,18 @@ export class PistasService {
     return this.httpClient.post(this.API, data);
   }
 
-  listaPorAlbum(albumId: string): any {
-    return this.httpClient
-      .get(this.API + '/todos/album/' + albumId, httpOptions)
-      .toPromise();
+  listaPorAlbum(albumId: string): Observable<any> {
+    return this.httpClient.get(
+      this.API + '/todos/album/' + albumId,
+      httpOptions
+    );
+  }
+
+  listaPorPlaylist(playlistId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.API}/todos/playlist/${playlistId}`,
+      httpOptions
+    );
   }
 
   eliminar(pistaId: string): any {

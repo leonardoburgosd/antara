@@ -73,3 +73,9 @@ td {
 .td-id:hover .id-value {
   display: none;
 }
+
+.table-antara {
+  background: transparent;
+  color: #fff;
+  border-style: none;
+}

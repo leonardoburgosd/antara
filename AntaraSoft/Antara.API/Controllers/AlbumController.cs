@@ -37,6 +37,7 @@ namespace Antara.API.Controllers
                     FechaPublicacion = DateTime.Parse("1900-01-01"),
                     EstaPublicado = false,
                     UsuarioId = crearAlbumDto.UsuarioId,
+                    Interprete = crearAlbumDto.Interprete,
                     EstaActivo = true,
                     FechaRegistro = DateTime.Now
                 };
@@ -94,21 +95,42 @@ namespace Antara.API.Controllers
             }
         }
 
+        [HttpGet("todos/hecho_en_peru")]
+        public async Task<ActionResult<List<AlbumDto>>> ObtenerHechoEnPeru()
+        {
+            try
+            {
+                var albumList = (await _gestionarAlbumService.ObtenerHechoEnPeru()).Select(item => item.AsDto());
+                return StatusCode(200, albumList);
+            }
+            catch (Exception err)
+            {
+                return StatusCode(500, err.Message);
+            }
+        }
+
         [HttpPut]
-        public async Task<ActionResult> EditarAlbumAsync(Guid id, EditarAgrupacionDto editarAlbumDto)
+        public async Task<ActionResult> EditarAlbumAsync(Guid id, EditarAgrupacionDto editarAlbumDto, [FromForm] IFormFile imagenDePortada)
         {
             try
             {
                 Album album = await _gestionarAlbumService.ObtenerAlbum(id);
+                string url = album.PortadaUrl;
                 if (album == null)
                 {
                     return NotFound();
                 }
+                if (imagenDePortada != null)
+                {
+                    url = await Extensions.SubirArchivo(imagenDePortada, directorioId);
+                    url = url.Replace("&export=download", "");
+                }
+
                 Album albumEditado = album with
                 {
                     Nombre = editarAlbumDto.Nombre,
                     Descripcion = editarAlbumDto.Descripcion,
-                    PortadaUrl = editarAlbumDto.PortadaUrl
+                    PortadaUrl = url
                 };
                 await _gestionarAlbumService.EditarAlbum(albumEditado);
                 return StatusCode(200);

@@ -49,4 +49,3 @@ D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\n
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.pdb
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.genruntimeconfig.cache
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\bin\Debug\net5.0\credentials.json
-D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.API\obj\Debug\net5.0\Antara.API.csproj.CopyComplete

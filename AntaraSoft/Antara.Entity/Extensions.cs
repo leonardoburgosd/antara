@@ -53,6 +53,7 @@ namespace Antara.Model
                 FechaPublicacion = album.FechaPublicacion,
                 EstaPublicado = album.EstaPublicado,
                 UsuarioId = album.UsuarioId,
+                Interprete = album.Interprete,
                 PortadaUrl = album.PortadaUrl,
                 EstaActivo = album.EstaActivo,
                 FechaRegistro = album.FechaRegistro

@@ -132,5 +132,18 @@ namespace Antara.Service
                 throw;
             }
         }
+
+        public Task<List<Album>> ObtenerHechoEnPeru()
+        {
+            try
+            {
+                return _albumRepository.ObtenerHechoEnPeru();
+            }
+            catch (Exception err)
+            {
+                Console.Write(err);
+                throw;
+            }
+        }
     }
 }
