@@ -4,8 +4,8 @@
         <img src="../../../../assets/images/musica.png" class="imagen-playlist" *ngIf="imagenUrl == null" />
     </div>
     <div class="col-lg-9">
-        <h6>ASDASD</h6>
-        <h1>ASDASD</h1>
+        <h6>{{playlist.descripcion}}</h6>
+        <h1>{{playlist.nombre}}</h1>
         <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editar-playlist">
             <i class="fas fa-pencil-alt"></i>
         </button>
@@ -25,7 +25,12 @@
                 </tr>
             </thead>
             <tbody>
-
+            <tbody>
+                <tr *ngFor="let pista of pistas; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ pista.nombre }}</td>
+                    <td>{{ pista.fechaRegistro | date: "dd/MM/yyyy" }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -38,27 +43,27 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title etiqueta">Nuevo album</h5>
+                <h5 class="modal-title etiqueta">Nueva pista</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
                         <label class="col-form-label etiqueta">Titulo del album:</label>
-                        <input type="text"  name="nombre" class="form-control" />
+                        <input type="text" name="nombre" [(ngModel)]="playlist.nombre" class="form-control" />
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label etiqueta">Descripcion del album:</label>
-                        <textarea class="form-control"  name="descripcion"></textarea>
+                        <textarea class="form-control" [(ngModel)]="playlist.descripcion" name="descripcion"></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label etiqueta">Imagen de portada:</label>
-                        <input type="file" accept="image/*"  />
+                        <input type="file" accept="image/*" />
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">
+                <button type="button" class="btn btn-primary" (click)="agregarPlaylist()" data-bs-dismiss="modal">
                     Guardar localmente
                 </button>
             </div>

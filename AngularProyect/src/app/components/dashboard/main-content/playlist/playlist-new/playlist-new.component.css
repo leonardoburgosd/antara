@@ -1,0 +1,28 @@
+.imagen-playlist{
+    width: 100%;
+    height: auto;
+    max-width: 250px;
+    padding-bottom: 10px;
+}
+.table-antara{
+    background: transparent;
+    color: #fff;
+}
+
+.etiqueta{
+    color: rgb(19, 19, 19);
+}
+
+#fichero{
+    display: none;
+}
+
+.agregar-pista{
+    width: 100%;
+    background: #212529;
+    color: #fff;
+}
+
+.agregar-pista:hover{
+    background: #2c3136;
+}
