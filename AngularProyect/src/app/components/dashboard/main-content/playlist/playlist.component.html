@@ -1,1 +1,19 @@
-<p>playlist works!</p>
+<div class="album-header">
+    <h3>Playlist</h3>
+    <a [routerLink]="['new']" class="btn btn-playlist"><i class="fas fa-plus"></i> Crear playlist</a>
+</div>
+<hr />
+
+<div class="grid-container" *ngIf="playlists.length>0">
+    <div class="grid-item" *ngFor="let playlist of playlists">
+        <app-card-pista [playlist]="playlist" (showOpciones)="showOpciones($event)" (deletePista)="deletePlaylist($event)"
+            #cards>
+        </app-card-pista>
+    </div>
+</div>
+
+<h5 *ngIf="playlists.length==0" class="text-center"><i class="fas fa-headphones"></i> Aún no tiene playlists registradas.</h5>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+    <p style="color: white">Cargando...</p>
+</ngx-spinner>

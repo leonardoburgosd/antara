@@ -21,11 +21,12 @@ export class PlaylistService {
         this.API = 'https://apislatch.azurewebsites.net/api/playlist';
     }
 
-    registro(playlist: Playlist): any {
+    registro(playlist: Playlist, portada:File): any {
         let data: FormData = new FormData();
         data.append('Nombre', playlist.nombre);
         data.append('Descripcion', playlist.descripcion);
         data.append('UsuarioId', playlist.usuarioId);
+        data.append('imagenDePortada', portada);
         return this.httpClient.post(this.API, data).toPromise();
     }
 

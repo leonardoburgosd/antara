@@ -3,6 +3,8 @@ import { Playlist } from 'src/app/classes/Playlist';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Pista } from 'src/app/classes/Pista';
+import { PlaylistService } from 'src/app/services/playlist.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-new',
@@ -15,7 +17,10 @@ export class PlaylistNewComponent implements OnInit {
   pistas: Pista[] = [];
   usuario: any = {};
   portada!: File;
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(
+    private playlistService: PlaylistService,
+    private spinner: NgxSpinnerService,
+    private _router: Router) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -25,11 +30,28 @@ export class PlaylistNewComponent implements OnInit {
   }
 
   agregarPlaylist() {
-
+    this.spinner.show();
+    this.playlistService.registro(this.playlist, this.portada).then(
+      (response: any) => {
+        this.playlist = response;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 500);
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'Playlist registrada',
+          text: 'Se ah registrado la playlist exitosamente.',
+        });
+        this._router.navigate(['/dashboard/playlist']);
+      },
+      (error: any) => this.controlError(error)
+    );
   }
 
 
   //#region complementos
+
   obtieneUsuarioLog(): any {
     let usuario = JSON.parse(localStorage.getItem('userResponse') as string);
     if (usuario.user == 'google') return usuario.data[1];
@@ -58,5 +80,22 @@ export class PlaylistNewComponent implements OnInit {
         (this.imagenUrl = (<FileReader>event.target).result);
     }
   }
+
+  controlError(err: any) {
+    if (err.status == 1) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: err.mensaje,
+      });
+    } else if (err.status == 500) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'Por favor revise su conexión de internet.',
+      });
+    }
+  }
+
   //#endregion
 }
