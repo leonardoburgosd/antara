@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-playlist-new',
   templateUrl: './playlist-new.component.html',
-  styleUrls: ['./playlist-new.component.css']
+  styleUrls: ['./playlist-new.component.css'],
 })
 export class PlaylistNewComponent implements OnInit {
   imagenUrl: string | ArrayBuffer | null | undefined;
@@ -20,7 +20,8 @@ export class PlaylistNewComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
     private spinner: NgxSpinnerService,
-    private _router: Router) { }
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {
     this.spinner.show();
@@ -31,7 +32,7 @@ export class PlaylistNewComponent implements OnInit {
 
   agregarPlaylist() {
     this.spinner.show();
-    this.playlistService.registro(this.playlist, this.portada).then(
+    this.playlistService.registro(this.playlist, this.portada).subscribe(
       (response: any) => {
         this.playlist = response;
         setTimeout(() => {
@@ -49,7 +50,6 @@ export class PlaylistNewComponent implements OnInit {
     );
   }
 
-
   //#region complementos
 
   obtieneUsuarioLog(): any {
@@ -60,8 +60,8 @@ export class PlaylistNewComponent implements OnInit {
 
   inicializarPlaylist(): Playlist {
     let newPlaylist: Playlist = new Playlist();
-    newPlaylist.nombre = "Nuevo playist";
-    newPlaylist.descripcion = "Desripcion de la playlist.";
+    newPlaylist.nombre = 'Nuevo playist';
+    newPlaylist.descripcion = 'Desripcion de la playlist.';
     newPlaylist.portadaUrl = '../../../../assets/images/musica.png';
     newPlaylist.estaActivo = true;
     newPlaylist.usuarioId = this.usuario.id;

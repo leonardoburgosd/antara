@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { CardPistaComponent } from './card-pista/card-pista.component';
 import Swal from 'sweetalert2';
@@ -10,24 +17,21 @@ import { Playlist } from 'src/app/classes/Playlist';
   styleUrls: ['./playlist.component.css'],
 })
 export class PlaylistComponent implements OnInit {
-<<<<<<< Updated upstream
   usuario: any = {};
   playlists: Playlist[] = [];
   @ViewChildren('cards') cards: QueryList<CardPistaComponent> = new QueryList();
-  constructor(private playlistService: PlaylistService) { }
+  constructor(private playlistService: PlaylistService) {}
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.listaPlaylists(this.usuario.id);
   }
 
-  deletePlaylist(event:any) {
-
-  }
+  deletePlaylist(event: any) {}
 
   listaPlaylists(usuarioId: string) {
-    this.playlistService.listaPorUsuario(usuarioId).then(
-      (response: any) => this.playlists = response,
+    this.playlistService.listaPorUsuario(usuarioId).subscribe(
+      (response: any) => (this.playlists = response),
       (error: any) => this.controlErrores(error)
     );
   }
@@ -49,7 +53,6 @@ export class PlaylistComponent implements OnInit {
   }
 
   //#endregion
-
 
   //#region metodosDOMControl
 
@@ -107,10 +110,4 @@ export class PlaylistComponent implements OnInit {
   }
 
   //#endregion
-
-=======
-  constructor() {}
-
-  ngOnInit(): void {}
->>>>>>> Stashed changes
 }

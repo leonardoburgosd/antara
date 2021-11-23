@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-bar',
@@ -8,7 +9,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class UserBarComponent implements OnInit {
   @Input()
   usuario: any = {};
-  constructor() {}
+  constructor(private _router: Router) {}
 
   ngOnInit(): void {}
+  logout() {
+    localStorage.removeItem('userResponse');
+    localStorage.removeItem('albumToPlay');
+    this._router.navigate(['/login']);
+  }
 }

@@ -23,11 +23,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { PlaylistComponent } from './main-content/playlist/playlist.component';
 import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playlist-new.component';
 import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
-<<<<<<< Updated upstream
 import { CardPistaComponent } from './main-content/playlist/card-pista/card-pista.component';
-=======
 import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/show-playlist.component';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -50,11 +47,8 @@ import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/sho
     PlaylistComponent,
     PlaylistNewComponent,
     PlaylistUpdateComponent,
-<<<<<<< Updated upstream
     CardPistaComponent,
-=======
     ShowPlaylistComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     CommonModule,
