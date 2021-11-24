@@ -27,14 +27,14 @@ export class AlbumComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.listaMisAlbums(this.usuario.id);
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

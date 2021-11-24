@@ -17,14 +17,16 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 export class CardPistaComponent implements OnInit {
   @ViewChild('opciones') opciones!: ElementRef;
-  @Input() playlist:Playlist = new Playlist();
   @Output() showOpciones: EventEmitter<ElementRef> = new EventEmitter();
   @Output() deletePlaylist: EventEmitter<string> = new EventEmitter();
+  @Input() playlist:Playlist = new Playlist();
   constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
   }
+
   ngAfterViewInit() { }
+
   mostrarOpciones() {
     this.showOpciones.emit(this.opciones);
   }
@@ -32,6 +34,4 @@ export class CardPistaComponent implements OnInit {
   eliminarPlaylist() {
     this.deletePlaylist.emit(this.playlist.id);
   }
-
-
 }

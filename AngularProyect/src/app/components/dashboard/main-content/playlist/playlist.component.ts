@@ -10,6 +10,8 @@ import { PlaylistService } from 'src/app/services/playlist.service';
 import { CardPistaComponent } from './card-pista/card-pista.component';
 import Swal from 'sweetalert2';
 import { Playlist } from 'src/app/classes/Playlist';
+import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-playlist',
@@ -17,17 +19,49 @@ import { Playlist } from 'src/app/classes/Playlist';
   styleUrls: ['./playlist.component.css'],
 })
 export class PlaylistComponent implements OnInit {
+  @ViewChildren('pistas') pistas: QueryList<CardPistaComponent> = new QueryList();
   usuario: any = {};
   playlists: Playlist[] = [];
-  @ViewChildren('cards') cards: QueryList<CardPistaComponent> = new QueryList();
-  constructor(private playlistService: PlaylistService) {}
+  subscription!: Subscription;
+
+  constructor(private playlistService: PlaylistService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.listaPlaylists(this.usuario.id);
   }
+  ngAfterViewInit() { }
 
-  deletePlaylist(event: any) {}
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+
+  deletePlaylist(playlist: string) {
+    Swal.fire({
+      title: '¿Seguro que desea eliminar este album?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#017AFF',
+      cancelButtonColor: '#1d242e',
+      confirmButtonText: 'Si, eliminar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.subscription = this.playlistService.eliminar(playlist).subscribe(
+          () => {
+            this.listaPlaylists(this.usuario.id);
+            console.log('Eliminado correctamente');
+            this.spinner.hide();
+          },
+          (err: any) => {
+            this.controlErrores(err);
+            this.spinner.hide();
+          }
+        );
+      }
+    });
+  }
 
   listaPlaylists(usuarioId: string) {
     this.playlistService.listaPorUsuario(usuarioId).subscribe(
@@ -54,10 +88,11 @@ export class PlaylistComponent implements OnInit {
 
   //#endregion
 
+
   //#region metodosDOMControl
 
   showOpciones(element: ElementRef) {
-    this.cards.forEach((element: CardPistaComponent) =>
+    this.pistas.forEach((element: CardPistaComponent) =>
       element.opciones.nativeElement.classList.remove('active')
     );
     element.nativeElement.classList.add('active');
@@ -81,7 +116,7 @@ export class PlaylistComponent implements OnInit {
     for (let i = 3; i < 6; i++) {
       let elemento = e.composedPath()[i] as HTMLElement;
 
-      if (elemento.localName == 'app-card-album') {
+      if (elemento.localName == 'app-card-pista') {
         let primerE = e.composedPath()[0] as HTMLElement;
         if (
           /*
@@ -103,7 +138,7 @@ export class PlaylistComponent implements OnInit {
     se cierra la ventana
     */
     if (cerrar) {
-      this.cards.forEach((element: CardPistaComponent) =>
+      this.pistas.forEach((element: CardPistaComponent) =>
         element.opciones.nativeElement.classList.remove('active')
       );
     }
