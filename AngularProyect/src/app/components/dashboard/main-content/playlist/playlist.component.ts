@@ -30,10 +30,11 @@ export class PlaylistComponent implements OnInit {
     this.usuario = this.obtieneUsuarioLog();
     this.listaPlaylists(this.usuario.id);
   }
+
   ngAfterViewInit() { }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 
 

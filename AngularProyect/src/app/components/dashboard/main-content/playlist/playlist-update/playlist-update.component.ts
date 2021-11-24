@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { forkJoin } from 'rxjs';
 import { Pista } from 'src/app/classes/Pista';
 import { Playlist } from 'src/app/classes/Playlist';
+import { PistasService } from 'src/app/services/pistas.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import Swal from 'sweetalert2';
 
@@ -20,8 +21,13 @@ export class PlaylistUpdateComponent implements OnInit {
   usuario: any = {};
   portada!: File;
 
-  constructor(private playlistService: PlaylistService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private _router: Router) {
+  constructor(
+    private playlistService: PlaylistService,
+    private pistasService: PistasService,
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
+    private _router: Router
+    ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let parametro = params.get('playlistId');
       this.playlist.id = parametro != null && parametro != undefined ? parametro : '';
@@ -53,9 +59,10 @@ export class PlaylistUpdateComponent implements OnInit {
   detallePlaylist(playlisId: string) {
     forkJoin([
       this.playlistService.detalle(playlisId),
+      this.pistasService.listaPorPlaylist(playlisId)
     ]).subscribe((result) => {
       this.playlist = result[0] as Playlist;
-
+      this.pistas=result[1] as Pista[];
     });
   }
 

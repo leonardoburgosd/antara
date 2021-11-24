@@ -38,7 +38,6 @@ export class PlaylistService {
   }
 
   actualizar(playlist: Playlist, portada:File): Observable<any> {
-    debugger
     let data: FormData = new FormData();
     data.append('Nombre', playlist.nombre);
     data.append('Descripcion', playlist.nombre);
@@ -58,4 +57,6 @@ export class PlaylistService {
   eliminarPlaylistPista(playlistPista: PlaylistPista): any {
     //return this.httpClient.delete(this.API+'/agregar', playlistPista).toPromise();
   }
+
+
 }

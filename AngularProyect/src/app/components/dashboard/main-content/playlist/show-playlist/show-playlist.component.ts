@@ -21,7 +21,6 @@ export class ShowPlaylistComponent implements OnInit {
   misPlaylist: Playlist[] = [];
 
   constructor(private _pistaService: PistasService, private playlistServices: PlaylistService, private route: ActivatedRoute) {
-
   }
 
   ngOnInit(): void {
@@ -57,7 +56,7 @@ export class ShowPlaylistComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Cancion registrada',
-          text: 'Se ah registrado en la playlist '+ playlist.nombre+'.',
+          text: 'Se ah registrado en la playlist ' + playlist.nombre + '.',
         });
       },
       (error: any) => this.controlError(error)

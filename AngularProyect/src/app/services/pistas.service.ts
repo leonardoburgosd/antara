@@ -41,7 +41,7 @@ export class PistasService {
     );
   }
 
-  listaPorPlaylist(playlistId: number): Observable<any> {
+  listaPorPlaylist(playlistId: string): Observable<any> {
     return this.httpClient.get(
       `${this.API}/todos/playlist/${playlistId}`,
       httpOptions
