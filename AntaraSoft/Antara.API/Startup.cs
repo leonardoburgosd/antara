@@ -40,6 +40,8 @@ namespace Antara.API
             services.AddTransient<IGestionarPistaService, GestionarPistaService>();
             services.AddTransient<IGestionarAlbumService, GestionarAlbumService>();
             services.AddTransient<IGestionarPlaylistService, GestionarPlaylistService>();
+            services.AddTransient<IGeneroService, GestionarGeneroService>();
+            services.AddTransient<IGeneroRepository, GeneroRepository>();
             services.AddTransient<IEncryptText, EncryptText>();
 
             services.AddCors(options =>
