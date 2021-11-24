@@ -6,7 +6,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { bindCallback, forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Album } from 'src/app/classes/Album';
@@ -205,18 +205,18 @@ export class AlbumUpdateComponent implements OnInit {
   seleccionaAudio(evento: any) {
     this.audio = <File>evento.target.files[0];
     var reader = new FileReader();
+    let duration = 0;
     reader.readAsArrayBuffer(this.audio);
-    reader.onload = function (event) {
+    reader.onload = (event) => {
       var audioContext = new window.AudioContext();
       audioContext.decodeAudioData(
         <ArrayBuffer>event.target!.result,
-        function (buffer) {
-          var duration = buffer.duration;
-          console.log(
-            'The duration of the song is of: ' + duration + ' seconds'
-          );
+        (buffer) => {
+          duration = buffer.duration;
+          this.pista.duracion = duration;
         }
       );
+      console.log(this.pista);
     };
   }
 

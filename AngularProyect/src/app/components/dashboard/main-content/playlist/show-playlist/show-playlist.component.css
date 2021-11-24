@@ -79,3 +79,97 @@ td {
   color: #fff;
   border-style: none;
 }
+
+.imagen-playlist {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
+}
+.table-antara {
+  background: transparent;
+  color: #fff;
+  border-style: none;
+}
+.table-antara td {
+  border-style: none;
+}
+
+.table-antara tr:hover {
+  background-color: #555;
+  border-radius: 15px;
+}
+
+h5.etiqueta {
+  color: white;
+}
+.etiqueta {
+  color: rgb(18, 18, 18);
+}
+#fichero {
+  display: none;
+}
+
+.agregar-pista {
+  width: 100%;
+  background: #212529;
+  color: #fff;
+}
+
+.agregar-pista:hover {
+  background: #2c3136;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+tr:hover .iconos.play {
+  display: block;
+}
+
+tr.playing:hover .iconos.pause {
+  display: block;
+}
+tr.playing:hover .iconos.play {
+  display: none;
+}
+
+tr:hover .pista-id {
+  display: none;
+}
+.iconos {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  cursor: pointer;
+  display: none;
+}
+
+.playing .pista-nombre,
+.playing .pista-id {
+  color: rgb(1, 122, 255);
+}
+
+.paused .pista-nombre,
+.paused .pista-id {
+  color: rgb(1, 122, 255);
+}
+
+tr.paused:hover .iconos.pause {
+  display: none;
+}
+tr.paused:hover .iconos.play {
+  display: block;
+}
+
+.publicado {
+  display: block;
+  width: 150px;
+  margin-bottom: 15px;
+}
+td > img {
+  height: 20px;
+  cursor: pointer;
+}

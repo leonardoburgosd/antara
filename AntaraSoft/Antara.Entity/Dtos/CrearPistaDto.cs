@@ -18,6 +18,7 @@ namespace Antara.Model.Dtos
         [StringLength(45, ErrorMessage = "Debe ser menor de 45 caracteres")]
         public string Compositor { get; set; }
         public string Productor { get; set; }
+        public int Duracion { get; set; }
         [Required]
         public int GeneroId { get; set; }
         [Required]

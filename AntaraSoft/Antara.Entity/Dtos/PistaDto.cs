@@ -17,6 +17,7 @@ namespace Antara.Model.Dtos
         public string Compositor { get; set; }
         public string Productor { get; set; }
         public int Reproducciones { get; set; }
+        public int Duracion { get; set; }
         public int GeneroId { get; set; }
         public string Url { get; set; }
         public Guid AlbumId { get; set; }

@@ -13,8 +13,6 @@ export class UserBarComponent implements OnInit {
 
   ngOnInit(): void {}
   logout() {
-    localStorage.removeItem('userResponse');
-    localStorage.removeItem('albumToPlay');
     this._router.navigate(['/login']);
   }
 }

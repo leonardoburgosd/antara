@@ -36,6 +36,7 @@ namespace Antara.Model
                 Compositor = pista.Compositor,
                 Productor = pista.Productor,
                 Reproducciones = pista.Reproducciones,
+                Duracion = pista.Duracion,
                 GeneroId = pista.GeneroId,
                 Url = pista.Url,
                 AlbumId = pista.AlbumId,

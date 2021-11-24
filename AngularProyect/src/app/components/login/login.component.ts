@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    localStorage.removeItem('userResponse');
+    localStorage.removeItem('albumToPlay');
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = user != null;

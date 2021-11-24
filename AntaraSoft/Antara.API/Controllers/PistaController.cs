@@ -44,6 +44,7 @@ namespace Antara.API.Controllers
                     Compositor = pistaDto.Compositor,
                     Productor = pistaDto.Productor,
                     Reproducciones = 0,
+                    Duracion = pistaDto.Duracion,
                     GeneroId = pistaDto.GeneroId,
                     AlbumId = pistaDto.AlbumId,
                     EstaActivo = true

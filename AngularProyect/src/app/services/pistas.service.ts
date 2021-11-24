@@ -22,11 +22,13 @@ export class PistasService {
 
   registro(pista: Pista, audio: File): Observable<any> {
     let data: FormData = new FormData();
+    console.log(pista);
     data.append('AnoCreacion', pista.anoCreacion.toString());
     data.append('Interprete', pista.interprete);
     data.append('Compositor', pista.compositor);
     data.append('Productor', pista.productor);
     data.append('GeneroId', pista.generoId.toString());
+    data.append('Duracion', pista.duracion.toFixed(0));
     data.append('AlbumId', pista.albumId);
     data.append('archivo', audio);
     return this.httpClient.post(this.API, data);

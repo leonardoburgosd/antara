@@ -5,7 +5,12 @@
       src="../../../../assets/images/musica.png"
       class="imagen-playlist"
     />
-    <img *ngIf="album.portadaUrl != null" src="" class="imagen-playlist" />
+    <img
+      *ngIf="album.portadaUrl != null"
+      src="{{ album.portadaUrl }}"
+      alt="pordata_album.jpg"
+      class="imagen-playlist"
+    />
   </div>
   <div class="grid-item info-container">
     <h6>{{ album.descripcion }}</h6>
@@ -32,7 +37,14 @@
             <i class="fas fa-pause iconos pause" (click)="pauseSong(i)"></i>
           </td>
           <td class="align-middle pista-nombre">{{ pista.nombre }}</td>
-          <td class="text-center align-middle">duracion</td>
+          <td>
+            <img
+              src="../../../../../../assets/images/icono_logo_blanco.png"
+              alt=""
+              srcset=""
+            />
+          </td>
+          <td class="text-center align-middle">{{ pista.duracion }}</td>
         </tr>
       </tbody>
     </table>

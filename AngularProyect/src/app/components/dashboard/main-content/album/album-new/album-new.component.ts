@@ -16,15 +16,12 @@ import { Router } from '@angular/router';
 export class AlbumNewComponent implements OnInit {
   usuario: any = {};
   album: Album = new Album();
-  pista: Pista = new Pista();
-  pistas: Pista[] = [];
   portada!: File;
   audio!: File;
   imagenUrl: string | ArrayBuffer | null | undefined;
 
   constructor(
     private albumService: AlbumService,
-    private pistaService: PistasService,
     private spinner: NgxSpinnerService,
     private _router: Router
   ) {}
@@ -36,7 +33,7 @@ export class AlbumNewComponent implements OnInit {
     this.spinner.hide();
   }
 
-  registrarAlbumBorrador() {
+  registrarAlbum() {
     this.spinner.show();
     this.albumService.registro(this.album, this.portada).subscribe(
       (response: any) => {
@@ -48,7 +45,7 @@ export class AlbumNewComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Album registrado',
-          text: 'Se ah registrado el album exitosamente',
+          text: 'Se ha registrado el álbum exitosamente',
         });
         this._router.navigate(['/dashboard/album']);
       },
@@ -58,35 +55,6 @@ export class AlbumNewComponent implements OnInit {
       }
     );
   }
-
-  guardarAudio() {
-    this.spinner.show();
-    this.pista.albumId = this.album.id;
-    this.pistaService.registro(this.pista, this.audio).subscribe(
-      (response: any) => {
-        this.listaPistas();
-        this.spinner.hide();
-      },
-      (error: any) => {
-        this.controlError(error);
-        this.spinner.hide();
-      }
-    );
-  }
-
-  listaPistas() {
-    this.pistaService.listaPorAlbum(this.album.id).subscribe(
-      (response: any) => {
-        this.pistas = response;
-        this.spinner.hide();
-      },
-      (error: any) => {
-        this.controlError(error);
-        this.spinner.hide();
-      }
-    );
-  }
-
   //#region Complementos
 
   inicializaNuevoAlbum(): Album {
@@ -135,8 +103,5 @@ export class AlbumNewComponent implements OnInit {
     }
   }
 
-  seleccionaAudio(evento: any) {
-    this.audio = <File>evento.target.files[0];
-  }
   //#endregion
 }

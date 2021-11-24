@@ -32,6 +32,7 @@ namespace Antara.Repository.Repositories
                     pista.Compositor,
                     pista.Productor,
                     pista.Reproducciones,
+                    pista.Duracion,
                     pista.GeneroId,
                     pista.AlbumId,
                     pista.EstaActivo
