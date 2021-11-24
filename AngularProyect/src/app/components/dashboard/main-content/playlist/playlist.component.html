@@ -1,24 +1,24 @@
-<!-- <div class="album-header">
+<div class="album-header">
   <h3>Album</h3>
   <a [routerLink]="['new']" class="btn btn-playlist"
-    ><i class="fas fa-plus"></i> Crear album</a
+    ><i class="fas fa-plus"></i> Crear playlist</a
   >
 </div>
 <hr />
 
-<div class="grid-container" *ngIf="albums.length > 0">
-  <div class="grid-item" *ngFor="let album of albums">
-    <app-card-album
-      [album]="album"
+<div class="grid-container" *ngIf="playlists.length > 0">
+  <div class="grid-item" *ngFor="let playlist of playlists">
+    <app-card-pista
+      [playlist]="playlist"
       (showOpciones)="showOpciones($event)"
-      (deleteAlbum)="deleteAlbum($event)"
+      (deleteAlbum)="deletePlaylist($event)"
       #cards
     >
-    </app-card-album>
+    </app-card-pista>
   </div>
 </div>
 
-<h5 *ngIf="albums.length == 0" class="text-center">
+<h5 *ngIf="playlists.length == 0" class="text-center">
   <i class="fas fa-headphones"></i> Aún no tiene albums registrados.
 </h5>
 
@@ -31,4 +31,3 @@
 >
   <p style="color: white">Cargando...</p>
 </ngx-spinner>
- -->

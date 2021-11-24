@@ -1,1 +1,72 @@
-<p>playlist-update works!</p>
+<div class="row">
+    <div class="col-lg-3">
+        <img [src]="imagenUrl" class="imagen-playlist" *ngIf="imagenUrl != null" />
+        <img src="../../../../assets/images/musica.png" class="imagen-playlist" *ngIf="imagenUrl == null" />
+    </div>
+    <div class="col-lg-9">
+        <h6>{{playlist.descripcion}}</h6>
+        <h1>{{playlist.nombre}}</h1>
+        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editar-playlist">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        |
+        <button class="btn btn-success" (click)="actualizarPlaylist()">
+            <i class="far fa-save"></i>
+        </button>
+    </div>
+    <hr />
+    <div class="col-lg-12">
+        <table class="table table-antara">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col"><i class="far fa-calendar-alt"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody>
+                <tr *ngFor="let pista of pistas; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ pista.nombre }}</td>
+                    <td>{{ pista.fechaRegistro | date: "dd/MM/yyyy" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+        <p style="color: white">Subiendo pista...</p>
+    </ngx-spinner>
+</div>
+
+<div class="modal fade" id="editar-playlist" tabindex="-1" aria-labelledby="editar-playlist" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title etiqueta">Editando playlist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Titulo del album:</label>
+                        <input type="text" name="nombre" [(ngModel)]="playlist.nombre" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Descripcion del album:</label>
+                        <textarea class="form-control" [(ngModel)]="playlist.descripcion" name="descripcion"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label etiqueta">Imagen de portada:</label>
+                        <input type="file" accept="image/*" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="mostrarImagen()" data-bs-dismiss="modal">
+                    Guardar localmente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

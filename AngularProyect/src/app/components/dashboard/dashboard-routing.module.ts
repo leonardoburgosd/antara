@@ -11,6 +11,7 @@ import { PlaylistComponent } from './main-content/playlist/playlist.component';
 import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playlist-new.component';
 import { WorkingPageComponent } from 'src/app/shared/working-page/working-page.component';
 import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/show-playlist.component';
+import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -25,7 +26,7 @@ const routes: Routes = [
       { path: 'album/edit/:albumId', component: AlbumUpdateComponent },
       { path: 'playlist', component: PlaylistComponent },
       { path: 'playlist/new', component: PlaylistNewComponent },
-      { path: 'playlist/edit/:playlistId', component: PlaylistNewComponent },
+      { path: 'playlist/edit/:playlistId', component: PlaylistUpdateComponent },
       { path: 'in_progress', component: WorkingPageComponent },
       { path: 'account', component: UsuarioComponent },
       { path: 'search/:stringSearch', component: SearchComponent },
