@@ -37,8 +37,14 @@ export class PlaylistService {
     return this.httpClient.get(this.API + '/todos/' + usuarioId);
   }
 
-  actualizar(playlist: Playlist): Observable<any> {
-    return this.httpClient.put(this.API + '?id=' + playlist, playlist);
+  actualizar(playlist: Playlist, portada:File): Observable<any> {
+    debugger
+    let data: FormData = new FormData();
+    data.append('Nombre', playlist.nombre);
+    data.append('Descripcion', playlist.nombre);
+    data.append('imagenDePortada', portada);
+
+    return this.httpClient.put(this.API + '?id=' + playlist.id, playlist);
   }
 
   eliminar(playlistId: string): Observable<any> {

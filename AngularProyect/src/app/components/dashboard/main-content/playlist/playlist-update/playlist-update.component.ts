@@ -35,7 +35,7 @@ export class PlaylistUpdateComponent implements OnInit {
   }
 
   actualizarPlaylist() {
-    this.playlistService.actualizar(this.playlist).subscribe(
+    this.playlistService.actualizar(this.playlist,this.portada).subscribe(
       (response: any) => console.log(response),
       (error: any) => this.controlError(error)
     );
@@ -55,6 +55,7 @@ export class PlaylistUpdateComponent implements OnInit {
       this.playlistService.detalle(playlisId),
     ]).subscribe((result) => {
       this.playlist = result[0] as Playlist;
+
     });
   }
 
