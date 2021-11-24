@@ -21,7 +21,7 @@ const routes: Routes = [
     children: [
       { path: '', component: MainContentComponent },
       { path: 'album', component: AlbumComponent },
-      { path: 'play/:id', component: ShowPlaylistComponent },
+      { path: 'play/:idPlay', component: ShowPlaylistComponent },
       { path: 'album/new', component: AlbumNewComponent },
       { path: 'album/edit/:albumId', component: AlbumUpdateComponent },
       { path: 'playlist', component: PlaylistComponent },

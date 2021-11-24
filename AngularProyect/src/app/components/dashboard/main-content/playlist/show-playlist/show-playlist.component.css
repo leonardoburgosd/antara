@@ -173,3 +173,10 @@ td > img {
   height: 20px;
   cursor: pointer;
 }
+
+
+.drop-show{
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}

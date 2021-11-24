@@ -51,8 +51,8 @@ export class PlaylistService {
     return this.httpClient.delete(this.API + '/' + playlistId);
   }
 
-  agregarPlaylistPista(playlistPista: PlaylistPista): Observable<any> {
-    return this.httpClient.post(this.API + '/agregar', playlistPista);
+  agregarPistaPlaylist(playlist: PlaylistPista) {
+    return this.httpClient.post(this.API + '/agregar', playlist,httpOptions).toPromise();
   }
 
   eliminarPlaylistPista(playlistPista: PlaylistPista): any {

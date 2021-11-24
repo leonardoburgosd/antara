@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pista } from '../classes/Pista';
 import { Observable, of } from 'rxjs';
 import { Utilities } from '../shared/utilities';
+import { PlaylistPista } from '../classes/Playlist';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,7 +23,6 @@ export class PistasService {
 
   registro(pista: Pista, audio: File): Observable<any> {
     let data: FormData = new FormData();
-    console.log(pista);
     data.append('AnoCreacion', pista.anoCreacion.toString());
     data.append('Interprete', pista.interprete);
     data.append('Compositor', pista.compositor);
@@ -57,4 +57,6 @@ export class PistasService {
       .get(this.API + '/buscar?cadena=' + cadena)
       .toPromise();
   }
+
+
 }

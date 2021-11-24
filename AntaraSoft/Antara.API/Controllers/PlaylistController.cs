@@ -143,7 +143,7 @@ namespace Antara.API.Controllers
         }
 
         [HttpPost("agregar")]
-        public async Task<ActionResult> AgregarPistaAPlaylistAsync(PlaylistPista playlistPista)
+        public async Task<ActionResult> AgregarPistaAPlaylistAsync([FromBody] PlaylistPista playlistPista)
         {
             try
             {
