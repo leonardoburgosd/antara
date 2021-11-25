@@ -17,5 +17,6 @@ namespace Antara.Model.Contracts
         Task EliminarPista(Guid id);
         Task<List<Pista>> BuscarPistass(string cadena);
         Task ReproducirPista(Guid id, int reproducciones);
+        Task<List<Pista>> ObtenerPistasPorGenero(int generoId);
     }
 }

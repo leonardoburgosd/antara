@@ -58,5 +58,8 @@ export class PistasService {
       .toPromise();
   }
 
+  listaPorGenero(generoId: number): any {
+    return this.httpClient.get(this.API + '/genero/' + generoId).toPromise();
+  }
 
 }

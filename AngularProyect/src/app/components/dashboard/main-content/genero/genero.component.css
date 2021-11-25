@@ -1,0 +1,24 @@
+.card-result{
+    width: 31%;
+    height: 6rem;
+    margin: 5px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.card-result:hover{
+    background-color: rgb(32, 32, 32);
+}
+
+.information{
+    text-decoration: none;
+    color: #fff;
+}
+
+.information:hover{
+    color: rgb(206, 206, 206);
+}
+
+.title{
+    padding: 12px;
+}

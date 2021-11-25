@@ -197,6 +197,10 @@ namespace Antara.API.Controllers
             }
         }
 
-        
+        [HttpGet("genero/{id}")]
+        public async Task<List<Pista>> ObtenerPistasPorGenero(int id)
+        {
+            return await _gestionarPistaService.ObtenerPistasPorGenero(id);
+        }
     }
 }

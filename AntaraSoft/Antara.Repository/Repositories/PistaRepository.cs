@@ -169,5 +169,20 @@ namespace Antara.Repository.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Pista>> ObtenerPistasPorGenero(int generoId)
+        {
+            try
+            {
+                return await _dapper.Consulta<Pista>("ObtenerPistasPorGenero", new
+                {
+                    @GeneroId = generoId
+                });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

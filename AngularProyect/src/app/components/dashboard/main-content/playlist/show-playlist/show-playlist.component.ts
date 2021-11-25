@@ -78,8 +78,8 @@ export class ShowPlaylistComponent implements OnInit {
       this._pistaService.listaPorAlbum(albumId)
     ]).subscribe(
       (result) => {
+        debugger
         this.misPlaylist = result[0] as Playlist[];
-        console.log(this.misPlaylist);
         this.pistas = result[1] as Pista[];
       },
       (error) => {

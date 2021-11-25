@@ -1,0 +1,11 @@
+<h4>
+    Generos
+</h4>
+<hr>
+<div class="row">
+    <div class="card-result" [ngStyle]="{'background':generateRandom()}" *ngFor="let genero of generos;">
+        <a class="information" [routerLink]=[genero.id]>
+            <h4 class="title">{{genero.tipo}}</h4>
+        </a>
+    </div>
+</div>

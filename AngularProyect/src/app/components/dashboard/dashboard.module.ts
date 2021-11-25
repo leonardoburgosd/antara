@@ -25,6 +25,8 @@ import { PlaylistNewComponent } from './main-content/playlist/playlist-new/playl
 import { PlaylistUpdateComponent } from './main-content/playlist/playlist-update/playlist-update.component';
 import { CardPistaComponent } from './main-content/playlist/card-pista/card-pista.component';
 import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/show-playlist.component';
+import { GeneroComponent } from './main-content/genero/genero.component';
+import { DetalleComponent } from './main-content/genero/detalle/detalle.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { ShowPlaylistComponent } from './main-content/playlist/show-playlist/sho
     PlaylistUpdateComponent,
     CardPistaComponent,
     ShowPlaylistComponent,
+    GeneroComponent,
+    DetalleComponent,
   ],
   imports: [
     CommonModule,

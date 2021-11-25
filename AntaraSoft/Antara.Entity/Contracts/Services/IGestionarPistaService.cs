@@ -18,6 +18,6 @@ namespace Antara.Model.Contracts.Services
         Task<List<Pista>> BuscarPistas(string cadena);
         Task ReproducirPista(Pista pista);
         bool SonDatosValidos(Pista pista);
-
+        Task<List<Pista>> ObtenerPistasPorGenero(int generoId);
     }
 }

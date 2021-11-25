@@ -190,5 +190,17 @@ namespace Antara.Service
                 throw;
             }
         }
+
+        public async Task<List<Pista>> ObtenerPistasPorGenero(int generoId)
+        {
+            try
+            {
+                return await _pistaRepository.ObtenerPistasPorGenero(generoId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

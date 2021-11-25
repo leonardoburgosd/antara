@@ -1,0 +1,15 @@
+<div class="container">
+    <h4>
+        Resultados
+    </h4>
+    <hr>
+    <div class="col-4 card-result" *ngFor="let pista of pistas">
+        <div class="information">
+            <h4 class="title">{{pista.nombre}}</h4>
+            <h6 class="interpreter">
+                <a class="btn btn-dark" routerLink="/dashboard/play/{{pista.albumId}}">
+                    Ir al album</a>
+            </h6>
+        </div>
+    </div>
+</div>
