@@ -84,7 +84,7 @@ D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.AssemblyInfoInputs.cache
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.AssemblyInfo.cs
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.csproj.CoreCompileInputs.cache
-D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.csproj.CopyComplete
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\ref\Antara.Repository.dll
 D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.pdb
+D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\Antara.Repository\obj\Debug\net5.0\Antara.Repository.csproj.CopyComplete

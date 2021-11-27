@@ -48,6 +48,13 @@ export class PistasService {
     );
   }
 
+  obtenerIdPistasEnPlaylist(playlistId: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.API}/todos/playlistId/{playlistId}${playlistId}`,
+      httpOptions
+    );
+  }
+
   eliminar(pistaId: string): any {
     return this.httpClient.delete(this.API + '/' + pistaId).toPromise();
   }
@@ -61,5 +68,4 @@ export class PistasService {
   listaPorGenero(generoId: number): any {
     return this.httpClient.get(this.API + '/genero/' + generoId).toPromise();
   }
-
 }

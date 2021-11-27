@@ -8,7 +8,7 @@
   word-wrap: break-word;
   background-clip: border-box;
   border-radius: 0.25rem;
-  cursor: pointer;
+  cursor: default;
 }
 
 .card-black:hover {
@@ -31,6 +31,7 @@ img {
   visibility: hidden;
   opacity: 0;
   transition: all 0.6s;
+  cursor: pointer;
 }
 
 .card-black:hover .button {

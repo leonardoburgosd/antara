@@ -72,12 +72,12 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet("todos/album/{AlbumId}")]
-        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDeAlbumAsync(Guid AlbumId)
+        [HttpGet("todos/album/{albumId}")]
+        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDeAlbumAsync(Guid albumId)
         {
             try
             {
-                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDeAlbum(AlbumId)).Select(item => item.AsDto());
+                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDeAlbum(albumId)).Select(item => item.AsDto());
                 return StatusCode(200, pistasList);
             }
             catch (Exception err)
@@ -86,12 +86,12 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpGet("todos/playlist/{PlaylistId}")]
-        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDePlaylistAsync(Guid PlaylistId)
+        [HttpGet("todos/playlist/{playlistId}")]
+        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosPistasDePlaylistAsync(Guid playlistId)
         {
             try
             {
-                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDePlaylist(PlaylistId)).Select(item => item.AsDto());
+                var pistasList = (await _gestionarPistaService.ObtenerTodosPistasDePlaylist(playlistId)).Select(item => item.AsDto());
                 return StatusCode(200, pistasList);
             }
             catch (Exception err)
@@ -99,6 +99,22 @@ namespace Antara.API.Controllers
                 return StatusCode(500, err);
             }
         }
+
+
+        [HttpGet("todos/playlistId/{playlistId}")]
+        public async Task<ActionResult<List<PistaDto>>> ObtenerTodosIdPistasEnPlaylist(Guid playlistId)
+        {
+            try
+            {
+                var pistasIdList = (await _gestionarPistaService.ObtenerTodosIdPistasEnPlaylist(playlistId));
+                return StatusCode(200, pistasIdList);
+            }
+            catch (Exception err)
+            {
+                return StatusCode(500, err);
+            }
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PistaDto>> ObtenerPistaAsync(Guid id)

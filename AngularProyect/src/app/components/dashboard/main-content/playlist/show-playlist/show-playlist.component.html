@@ -1,8 +1,16 @@
 <div class="grid-container">
   <div class="grid-item img-container">
-    <img *ngIf="album.portadaUrl == null" src="../../../../assets/images/musica.png" class="imagen-playlist" />
-    <img *ngIf="album.portadaUrl != null" src="{{ album.portadaUrl }}" alt="pordata_album.jpg"
-      class="imagen-playlist" />
+    <img
+      *ngIf="album.portadaUrl == null"
+      src="../../../../assets/images/musica.png"
+      class="imagen-playlist"
+    />
+    <img
+      *ngIf="album.portadaUrl != null"
+      src="{{ album.portadaUrl }}"
+      alt="pordata_album.jpg"
+      class="imagen-playlist"
+    />
   </div>
   <div class="grid-item info-container">
     <h6>{{ album.descripcion }}</h6>
@@ -31,22 +39,37 @@
           </td>
           <td class="align-middle pista-nombre">{{ pista.nombre }}</td>
           <td>
-            <img src="../../../../../../assets/images/icono_logo_blanco.png" alt="" srcset=""
-              (click)="addToPlaylist($event,pista)" />
+            <img
+              src="../../../../../../assets/images/icono_logo_blanco.png"
+              alt=""
+              srcset=""
+              (click)="addToPlaylist($event, pista)"
+            />
           </td>
           <td class="text-center align-middle">{{ pista.duracion }}</td>
           <td>
             <div class="dropdown">
-              <a class=" drop-show dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <a
+                class="drop-show dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
                   <h6 class="dropdown-header">Mis playlist</h6>
                 </li>
                 <div *ngFor="let playlist of misPlaylist">
-                  <li><button class="dropdown-item"
-                      (click)="agregarPlaylistPista(pista,playlist)">{{playlist.nombre}}</button></li>
+                  <li *ngIf="playlist.nombre != 'Tus me gusta'">
+                    <button
+                      class="dropdown-item"
+                      (click)="agregarPlaylistPista(pista, playlist)"
+                    >
+                      {{ playlist.nombre }}
+                    </button>
+                  </li>
                 </div>
               </ul>
             </div>

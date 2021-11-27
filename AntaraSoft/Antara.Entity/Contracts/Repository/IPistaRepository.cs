@@ -13,6 +13,7 @@ namespace Antara.Model.Contracts
         Task<Pista> ObtenerPista(Guid id);
         Task<List<Pista>> ObtenerTodosPistasDeAlbum(Guid albumId);
         Task<List<Pista>> ObtenerTodosPistasDePlaylist(Guid playlistId);
+        Task<dynamic> ObtenerTodosIdPistasEnPlaylist(Guid playlistId);
         Task EditarPista(Pista pista);
         Task EliminarPista(Guid id);
         Task<List<Pista>> BuscarPistass(string cadena);

@@ -20,14 +20,15 @@ export class ShowPlaylistComponent implements OnInit {
   pistas: Pista[] = [];
   misPlaylist: Playlist[] = [];
 
-  constructor(private _pistaService: PistasService, private playlistServices: PlaylistService, private route: ActivatedRoute) {
-  }
+  constructor(
+    private _pistaService: PistasService,
+    private _playlistServices: PlaylistService
+  ) {}
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.album = this.obtenerAlbumPlay();
     this.dataInicial(this.usuario.id, this.album.id);
-
   }
 
   addToPlaylist(event: Event, pista: Pista) {
@@ -51,20 +52,19 @@ export class ShowPlaylistComponent implements OnInit {
     playlistPista.pistaId = pista.id;
     playlistPista.playlistId = playlist.id;
     playlistPista.fechaRegistro = new Date();
-    this.playlistServices.agregarPistaPlaylist(playlistPista).then(
+    this._playlistServices.agregarPistaPlaylist(playlistPista).then(
       (response: any) => {
         Swal.fire({
           icon: 'success',
           title: 'Cancion registrada',
-          text: 'Se ah registrado en la playlist ' + playlist.nombre + '.',
+          text: 'Se ha registrado en la playlist ' + playlist.nombre + '.',
         });
       },
       (error: any) => this.controlError(error)
     );
   }
 
-
-  pauseSong(index: number) { }
+  pauseSong(index: number) {}
   playSong(index: number) {
     /* this.playAlbum.emit(this.album);
     console.log(`Album from pista-displayed: ${this.album}`); */
@@ -74,17 +74,19 @@ export class ShowPlaylistComponent implements OnInit {
 
   dataInicial(usuarioId: string, albumId: string) {
     forkJoin([
-      this.playlistServices.listaPorUsuario(usuarioId),
-      this._pistaService.listaPorAlbum(albumId)
+      this._playlistServices.listaPorUsuario(usuarioId),
+      this._pistaService.listaPorAlbum(albumId),
     ]).subscribe(
       (result) => {
-        debugger
+        debugger;
         this.misPlaylist = result[0] as Playlist[];
         this.pistas = result[1] as Pista[];
+        this._pistaService
+          .obtenerIdPistasEnPlaylist(this.misPlaylist[0].id)
+          .subscribe((data: string) => console.log(data));
       },
       (error) => {
-        this.controlError(error[0]),
-          this.controlError(error[1])
+        this.controlError(error[0]), this.controlError(error[1]);
       }
     );
   }
@@ -96,7 +98,9 @@ export class ShowPlaylistComponent implements OnInit {
   }
 
   obtenerAlbumPlay(): Album {
-    let album: Album = JSON.parse(localStorage.getItem('albumToPlay') as string).data;
+    let album: Album = JSON.parse(
+      localStorage.getItem('albumToPlay') as string
+    ).data;
     return album;
   }
 

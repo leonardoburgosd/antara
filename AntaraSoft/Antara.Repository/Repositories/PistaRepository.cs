@@ -179,9 +179,27 @@ namespace Antara.Repository.Repositories
                     @GeneroId = generoId
                 });
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                throw e;
+                Console.Write(err.Message);
+                throw;
+            }
+        }
+
+        public async Task<dynamic> ObtenerTodosIdPistasEnPlaylist(Guid playlistId)
+        {
+            try
+            {
+                var pistasIdList = await _dapper.Consulta<dynamic>("ObtenerTodosIdPistasEnPlaylist", new
+                {
+                    @PlaylistId = playlistId
+                });
+                return pistasIdList;
+            }
+            catch (Exception err)
+            {
+                Console.Write(err.Message);
+                throw;
             }
         }
     }

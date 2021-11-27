@@ -202,5 +202,17 @@ namespace Antara.Service
                 throw e;
             }
         }
+
+        public async Task<dynamic> ObtenerTodosIdPistasEnPlaylist(Guid playlistId)
+        {
+            try
+            {
+                return await _pistaRepository.ObtenerTodosIdPistasEnPlaylist(playlistId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
