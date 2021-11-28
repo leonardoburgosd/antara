@@ -1,6 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
+import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { Album } from 'src/app/classes/Album';
@@ -8,6 +13,8 @@ import { Pista } from 'src/app/classes/Pista';
 import { Playlist, PlaylistPista } from 'src/app/classes/Playlist';
 import { PistasService } from 'src/app/services/pistas.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
+import { ReproductorInteractionService } from 'src/app/services/reproductor-interaction.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-playlist',
@@ -15,6 +22,7 @@ import { PlaylistService } from 'src/app/services/playlist.service';
   styleUrls: ['./show-playlist.component.css'],
 })
 export class ShowPlaylistComponent implements OnInit {
+  @ViewChildren('pistaRow') pistasRow: QueryList<ElementRef> = new QueryList();
   album: Album = new Album();
   usuario: any = {};
   pistas: Pista[] = [];
@@ -22,29 +30,62 @@ export class ShowPlaylistComponent implements OnInit {
 
   constructor(
     private _pistaService: PistasService,
-    private _playlistServices: PlaylistService
+    private _playlistServices: PlaylistService,
+    private _reproductorInteractionService: ReproductorInteractionService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     this.usuario = this.obtieneUsuarioLog();
     this.album = this.obtenerAlbumPlay();
     this.dataInicial(this.usuario.id, this.album.id);
+    this._reproductorInteractionService.tableIndex$.subscribe(
+      (data: number) => this.paintRow(data),
+      (err) => {}
+    );
+  }
+  isInFavorites(pista: Pista): Boolean {
+    let isInFavorites = null;
+    let pistasIdList: [] = JSON.parse(
+      localStorage.getItem('pistasIdList') as string
+    );
+    isInFavorites = pistasIdList.find((item: any) => {
+      if (item.pistaId == pista.id) {
+        return true;
+      }
+      return false;
+    });
+    if (isInFavorites == null) return false;
+    return true;
   }
 
   addToPlaylist(event: Event, pista: Pista) {
-    let icon: string = (<HTMLImageElement>event.target)?.getAttribute('src')!;
-    if (icon.includes('blanco')) {
-      (<HTMLImageElement>event.target)?.setAttribute(
-        'src',
-        icon.replace('blanco', 'color')
-      );
-      this.agregarPlaylistPista(pista, this.misPlaylist[0]);
+    if (this.isInFavorites(pista)) {
+      this.eliminarPlaylistPista(pista, this.misPlaylist[0]);
     } else {
-      (<HTMLImageElement>event.target)?.setAttribute(
-        'src',
-        icon.replace('color', 'blanco')
-      );
+      this.agregarPlaylistPista(pista, this.misPlaylist[0]);
     }
+
+    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this._router.onSameUrlNavigation = 'reload';
+    this._router.navigate(['dashboard/play', this.usuario.id]);
+  }
+
+  eliminarPlaylistPista(pista: Pista, playlist: Playlist) {
+    let playlistPista: PlaylistPista = new PlaylistPista();
+    playlistPista.pistaId = pista.id;
+    playlistPista.playlistId = playlist.id;
+    playlistPista.fechaRegistro = new Date();
+    this._playlistServices.eliminarPlaylistPista(playlistPista).then(
+      (response: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cancion registrada',
+          text: 'Se ha registrado en la playlist ' + playlist.nombre + '.',
+        });
+      },
+      (error: any) => this.controlError(error)
+    );
   }
 
   agregarPlaylistPista(pista: Pista, playlist: Playlist) {
@@ -64,10 +105,30 @@ export class ShowPlaylistComponent implements OnInit {
     );
   }
 
-  pauseSong(index: number) {}
+  paintRow(index: number) {
+    this.pistasRow.forEach((item: ElementRef) => {
+      item.nativeElement.classList.remove('playing');
+      item.nativeElement.classList.remove('paused');
+    });
+    this.pistasRow.toArray()[index].nativeElement.classList.add('playing');
+  }
+
   playSong(index: number) {
-    /* this.playAlbum.emit(this.album);
-    console.log(`Album from pista-displayed: ${this.album}`); */
+    this._reproductorInteractionService.playAlbum({
+      pistas: this.pistas,
+      //portadaAlbum: this.album.portadaUrl,
+      album: this.album,
+      songIndex: index,
+    });
+  }
+
+  pauseSong(index: number) {
+    this.pistasRow.forEach((item: ElementRef) => {
+      item.nativeElement.classList.remove('playing');
+      item.nativeElement.classList.remove('paused');
+    });
+    this.pistasRow.toArray()[index].nativeElement.classList.add('paused');
+    this._reproductorInteractionService.pauseSong();
   }
 
   //#region Datos basicos
@@ -78,12 +139,13 @@ export class ShowPlaylistComponent implements OnInit {
       this._pistaService.listaPorAlbum(albumId),
     ]).subscribe(
       (result) => {
-        debugger;
         this.misPlaylist = result[0] as Playlist[];
         this.pistas = result[1] as Pista[];
         this._pistaService
           .obtenerIdPistasEnPlaylist(this.misPlaylist[0].id)
-          .subscribe((data: string) => console.log(data));
+          .subscribe((data: any) => {
+            localStorage.setItem('pistasIdList', JSON.stringify(data));
+          });
       },
       (error) => {
         this.controlError(error[0]), this.controlError(error[1]);
@@ -120,4 +182,34 @@ export class ShowPlaylistComponent implements OnInit {
     }
   }
   //#endregion
+
+  formatTime(sec: number): string {
+    let min = Math.floor(sec / 60);
+    sec = sec % 60;
+
+    if (min >= 60) {
+      let hour = Math.floor(min / 60);
+      min = min % 60;
+      return (
+        this.formatNumber(hour) +
+        ':' +
+        this.formatNumber(min) +
+        ':' +
+        this.formatNumber(Number.parseInt(sec.toFixed(0)))
+      );
+    }
+    return (
+      this.formatNumber(min) +
+      ':' +
+      this.formatNumber(Number.parseInt(sec.toFixed(0)))
+    );
+  }
+
+  formatNumber(number: number): string {
+    let cadena: string = number.toString();
+    if (number < 10) {
+      cadena = '0' + number;
+    }
+    return cadena;
+  }
 }

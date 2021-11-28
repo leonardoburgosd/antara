@@ -1,8 +1,6 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { Album } from 'src/app/classes/Album';
 import { Pista } from 'src/app/classes/Pista';
-import { PistasService } from 'src/app/services/pistas.service';
 import { ReproductorInteractionService } from 'src/app/services/reproductor-interaction.service';
 
 @Component({
@@ -28,7 +26,7 @@ export class ReproductorComponent implements OnInit {
   interpreter: HTMLElement | null = null;
   songIndex: number = -1;
   songsList: Pista[] = [];
-  portadaAlbum: string = '';
+  album: Album = new Album();
 
   constructor(private reproductorInteraction: ReproductorInteractionService) {}
 
@@ -37,12 +35,28 @@ export class ReproductorComponent implements OnInit {
 
     this.reproductorInteraction.pistas$.subscribe(
       (data: any) => {
-        this.songsList = data.pistas;
-        this.portadaAlbum = data.portadaAlbum;
-        if (this.songIndex !== data.songIndex) {
+        const storedAlbum = JSON.parse(
+          localStorage.getItem('albumToPlay') as string
+        );
+        if (storedAlbum == null) {
+          this.songsList = data.pistas;
+          this.album = data.album;
           this.songIndex = data.songIndex;
           this.loadSong(this.songsList[this.songIndex]);
+        } else {
+          if (
+            this.songIndex !== data.songIndex ||
+            this.album.id !== storedAlbum.data.id
+          ) {
+            this.songsList = data.pistas;
+            this.album = data.album;
+            this.songIndex = data.songIndex;
+            this.loadSong(this.songsList[this.songIndex]);
+          }
         }
+
+        //console.log(this.album.id, storedAlbum.data.id);
+
         this.playSong();
       },
       (err) => {},
@@ -78,9 +92,15 @@ export class ReproductorComponent implements OnInit {
   }
 
   loadSong(song: Pista) {
-    if (this.portadaAlbum != null) {
-      this.portada?.setAttribute('src', this.portadaAlbum);
+    if (this.album.portadaUrl != null) {
+      this.portada?.setAttribute('src', this.album.portadaUrl);
+    } else {
+      this.portada?.setAttribute(
+        'src',
+        '../../../../../assets/images/musica.png'
+      );
     }
+
     this.pistaFile?.setAttribute('src', song.url);
     if (this.title) this.title.innerText = song.nombre;
     if (this.interpreter) this.interpreter.innerText = song.interprete;

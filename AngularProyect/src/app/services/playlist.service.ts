@@ -37,7 +37,7 @@ export class PlaylistService {
     return this.httpClient.get(this.API + '/todos/' + usuarioId);
   }
 
-  actualizar(playlist: Playlist, portada:File): Observable<any> {
+  actualizar(playlist: Playlist, portada: File): Observable<any> {
     let data: FormData = new FormData();
     data.append('Nombre', playlist.nombre);
     data.append('Descripcion', playlist.nombre);
@@ -51,12 +51,16 @@ export class PlaylistService {
   }
 
   agregarPistaPlaylist(playlist: PlaylistPista) {
-    return this.httpClient.post(this.API + '/agregar', playlist,httpOptions).toPromise();
+    return this.httpClient
+      .post(this.API + '/agregar', playlist, httpOptions)
+      .toPromise();
   }
 
   eliminarPlaylistPista(playlistPista: PlaylistPista): any {
-    //return this.httpClient.delete(this.API+'/agregar', playlistPista).toPromise();
+    return this.httpClient
+      .delete(
+        `${this.API}/quitar/${playlistPista.playlistId}/${playlistPista.pistaId}`
+      )
+      .toPromise();
   }
-
-
 }

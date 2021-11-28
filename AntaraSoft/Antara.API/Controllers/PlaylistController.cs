@@ -162,16 +162,19 @@ namespace Antara.API.Controllers
             }
         }
 
-        [HttpDelete("quitar")]
-        public async Task<ActionResult> QuitarPistaDePlaylistAsync(PlaylistPista playlistPista)
+        [HttpDelete("quitar/{playlistId}/{pistaId}")]
+        public async Task<ActionResult> QuitarPistaDePlaylistAsync(Guid playlistId, Guid pistaId)
         {
             try
             {
-                var grupo = await _gestionarPlaylistService.ObtenerPlaylist(playlistPista.PlaylistId);
+                var grupo = await _gestionarPlaylistService.ObtenerPlaylist(playlistId);
                 if (grupo == null)
                 {
-                    return NotFound(playlistPista.PlaylistId);
+                    return NotFound(playlistId);
                 }
+                var playlistPista = new PlaylistPista();
+                playlistPista.PlaylistId = playlistId;
+                playlistPista.PistaId = pistaId;
                 await _gestionarPlaylistService.QuitarPistaDePlaylist(playlistPista);
                 return StatusCode(200);
             }

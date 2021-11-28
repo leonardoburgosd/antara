@@ -15,11 +15,7 @@ export class ReproductorInteractionService {
   pause$ = this.pauseSource.asObservable();
   constructor() {}
 
-  playAlbum(album: {
-    pistas: Pista[];
-    portadaAlbum: string;
-    songIndex: number;
-  }) {
+  playAlbum(album: { pistas: Pista[]; album: Album; songIndex: number }) {
     this.pistasSource.next(album);
   }
 

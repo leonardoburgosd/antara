@@ -69,7 +69,8 @@ export class AlbumUpdateComponent implements OnInit {
   playSong(index: number) {
     this.reproductorInteractionService.playAlbum({
       pistas: this.pistas,
-      portadaAlbum: this.album.portadaUrl,
+      //portadaAlbum: this.album.portadaUrl,
+      album: this.album,
       songIndex: index,
     });
   }

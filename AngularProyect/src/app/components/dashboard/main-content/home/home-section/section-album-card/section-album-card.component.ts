@@ -17,6 +17,6 @@ export class SectionAlbumCardComponent implements OnInit {
       'albumToPlay',
       JSON.stringify({ user: 'antara', data: this.album })
     );
-    console.log(this._router.navigate(['dashboard/play', this.album.id]));
+    this._router.navigate(['dashboard/play', this.album.id]);
   }
 }

@@ -40,22 +40,33 @@
           <td class="align-middle pista-nombre">{{ pista.nombre }}</td>
           <td>
             <img
+              *ngIf="!isInFavorites(pista)"
               src="../../../../../../assets/images/icono_logo_blanco.png"
               alt=""
               srcset=""
               (click)="addToPlaylist($event, pista)"
             />
+            <img
+              *ngIf="isInFavorites(pista)"
+              src="../../../../../../assets/images/icono_logo_color.png"
+              alt=""
+              srcset=""
+              (click)="addToPlaylist($event, pista)"
+            />
           </td>
-          <td class="text-center align-middle">{{ pista.duracion }}</td>
-          <td>
-            <div class="dropdown">
+          <td class="text-center align-middle">
+            {{ formatTime(pista.duracion) }}
+          </td>
+          <td class="text-center">
+            <div class="dropdown text-center">
               <a
-                class="drop-show dropdown-toggle"
+                class="drop-show"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
+                <i class="fas fa-ellipsis-v"></i>
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>

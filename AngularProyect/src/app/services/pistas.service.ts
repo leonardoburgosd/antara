@@ -50,7 +50,7 @@ export class PistasService {
 
   obtenerIdPistasEnPlaylist(playlistId: string): Observable<any> {
     return this.httpClient.get(
-      `${this.API}/todos/playlistId/{playlistId}${playlistId}`,
+      `${this.API}/todos/playlistId/${playlistId}`,
       httpOptions
     );
   }
