@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Album } from '../classes/Album';
 import { Pista } from '../classes/Pista';
+import { Playlist } from '../classes/Playlist';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,11 @@ export class ReproductorInteractionService {
   pause$ = this.pauseSource.asObservable();
   constructor() {}
 
-  playAlbum(album: { pistas: Pista[]; album: Album; songIndex: number }) {
+  playAlbum(album: {
+    pistas: Pista[];
+    album: Album | Playlist;
+    songIndex: number;
+  }) {
     this.pistasSource.next(album);
   }
 

@@ -33,7 +33,7 @@ export class HomeBannerComponent implements OnInit {
       },
     },
     nav: true,
-    autoplay: false,
+    autoplay: true,
     autoplayTimeout: 5000,
     autoplaySpeed: 1000,
     autoplayHoverPause: true,

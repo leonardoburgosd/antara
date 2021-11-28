@@ -1,23 +1,32 @@
 <div class="card card-album">
-    <div class="card-img">
-        <img src="{{ playlist.portadaUrl }}" alt="album-cover" *ngIf="playlist.portadaUrl != null" />
-        <img src="../../../../assets/images/musica.png" alt="album-cover" *ngIf="playlist.portadaUrl == null" />
-        <div class="opciones-icon" (click)="mostrarOpciones()">
-            <div class="circle"></div>
-            <i class="fas fa-ellipsis-v"></i>
-        </div>
-        <nav class="opciones" #opciones>
-            <ul>
-                <li (click)="eliminarPlaylist()">Eliminar</li>
-            </ul>
-        </nav>
+  <div class="card-img">
+    <img
+      src="{{ playlist.portadaUrl }}"
+      alt="album-cover"
+      *ngIf="playlist.portadaUrl != null"
+    />
+    <img
+      src="../../../../assets/images/musica.png"
+      alt="album-cover"
+      *ngIf="playlist.portadaUrl == null"
+    />
+    <div class="opciones-icon" (click)="mostrarOpciones()">
+      <div class="circle"></div>
+      <i class="fas fa-ellipsis-v"></i>
     </div>
-    <div class="card-body">
-        <div class="datos">
-            <a [routerLink]="['/dashboard/playlist/edit/', playlist.id]" class="nombre-album">{{ playlist.nombre }}</a>
-            <h6 class="otros-datos">
-                {{ playlist.fechaRegistro | date: "yyyy" }} * Playlist
-            </h6>
-        </div>
+    <nav class="opciones" #opciones>
+      <ul>
+        <li (click)="eliminarPlaylist()">Eliminar</li>
+      </ul>
+    </nav>
+  </div>
+  <div class="card-body">
+    <div class="datos">
+      <a
+        [routerLink]="['/dashboard/playlist/edit/', playlist.id]"
+        class="nombre-album"
+        >{{ playlist.nombre }}</a
+      >
     </div>
+  </div>
 </div>
