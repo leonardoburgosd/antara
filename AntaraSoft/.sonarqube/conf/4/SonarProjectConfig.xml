@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SonarProjectConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/analyzer/2021/1">
-  <AnalysisConfigPath>D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\.sonarqube\conf\SonarQubeAnalysisConfig.xml</AnalysisConfigPath>
-  <ProjectPath>D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\AntaraTest\AntaraTest.csproj</ProjectPath>
-  <FilesToAnalyzePath>D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\.sonarqube\conf\4\FilesToAnalyze.txt</FilesToAnalyzePath>
-  <OutPath>D:\UPN\9no\CAPSTONE\Proyecto\AntaraSoft\antara\AntaraSoft\.sonarqube\out\4</OutPath>
-  <ProjectType>Test</ProjectType>
-  <TargetFramework>net5.0</TargetFramework>
-</SonarProjectConfig>
