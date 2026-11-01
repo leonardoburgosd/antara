@@ -62,6 +62,18 @@ cd apps/mobile
 ./gradlew assembleDebug
 ```
 
+## Documentación
+
+La documentación integral del proyecto (arquitectura, estándares, design system e instrucciones de implementación) vive en:
+
+- [`docs/`](docs/README.md) — visión global, arquitectura, estándares y design system comunes a las tres plataformas.
+- [`apps/desktop/docs/`](apps/desktop/docs/README.md) — arquitectura y guías específicas de Desktop (System Tray, reproducción de audio).
+- [`apps/mobile/docs/`](apps/mobile/docs/README.md) — arquitectura y guías específicas de Mobile (background playback, MediaSession, permisos).
+
+**Antes de implementar cualquier funcionalidad**, lee [`docs/implementation-instructions.md`](docs/implementation-instructions.md). Las decisiones arquitectónicas quedan registradas en [`docs/decisions/README.md`](docs/decisions/README.md).
+
+> Nota: la checklist de funcionalidades de abajo describe el objetivo del producto; el estado real (todavía en plantilla para todas las features) está documentado en [`docs/project-overview.md`](docs/project-overview.md).
+
 ## Funcionalidades
 - [x] Registro de usuario
 - [x] Registro de album
