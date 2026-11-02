@@ -121,6 +121,14 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 - **Consecuencias:** cada corrección se aplica dentro del flujo de [development-workflow.md](../development-workflow.md); eliminar código de plantilla no usado está permitido y deseable.
 - **Progreso (2026-11-01, feature Home Android):** resueltos los `mipmap` faltantes (iconos de lanzamiento generados por densidad) y los errores de compilación de `WelcomeScreen.kt` (`Float * Dp` y `.value` sobre `Float`). Siguen pendientes: `Random` sin `remember` en `WelcomeScreen`, wrapper Gradle incompleto y migración de `WelcomeScreen` a tokens.
 
+### ADR-013: Navegación con estado local (sin `navigation-compose`) en Android
+
+- **Estado:** Aceptada
+- **Fecha:** 2026-11-01
+- **Contexto:** Home necesita abrir dos destinos de detalle ("Canciones que te gustan" y álbumes) conservando el estado de Home (filtro y scroll). Las dependencias nuevas pasan por evaluación y hoy solo hay 3 pestañas + 2 rutas de detalle.
+- **Decisión:** usar estado local (`detailRoute: String` con `rememberSaveable` + `BackHandler`) en `navigation/AppRoot.kt`, con rutas centralizadas en `navigation/Routes.kt`. El detalle se compone como overlay sobre Home (que permanece compuesto debajo para preservar su estado). Sin librería de navegación.
+- **Consecuencias:** al añadir rutas con argumentos/ViewModels o más pantallas, migrar a `navigation-compose` (revisar entonces también el back stack por pestaña). La hoja de opciones de cada canción usa `ModalBottomSheet` de Material 3 con acciones placeholder (mock).
+
 ---
 
 ## Plantilla para nuevas entradas

@@ -42,6 +42,8 @@ import java.util.Calendar
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onOpenLikedSongs: () -> Unit = {},
+    onOpenAlbum: (String) -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     // Estado de UI de la pantalla (filtro); sobrevive a rotación (rememberSaveable).
@@ -49,6 +51,8 @@ fun HomeScreen(
     val selectedTag = HomeTag.entries[selectedTagIndex]
     // Contenido derivado del tag seleccionado.
     val content = remember(selectedTag) { buildHomeContent(selectedTag) }
+    // La navegación a detalle solo aplica al contenido de Música.
+    val isMusic = selectedTag == HomeTag.Music
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -75,7 +79,12 @@ fun HomeScreen(
         }
         // Grid: Liked Songs + playlists (o "Crear playlist" en espacios vacíos).
         items(content.tiles, key = { it.id }) { tile ->
-            GridTileView(tile = tile)
+            GridTileView(
+                tile = tile,
+                onClick = {
+                    if (isMusic && tile is GridTile.Liked) onOpenLikedSongs()
+                },
+            )
         }
         // Carrusel de sugeridos: se oculta si la lista está vacía.
         if (content.suggested.isNotEmpty()) {
@@ -89,6 +98,9 @@ fun HomeScreen(
                             R.string.suggested_audiobooks
                         },
                     ),
+                    onItemClick = { item ->
+                        if (isMusic) onOpenAlbum(item.id)
+                    },
                 )
             }
         }

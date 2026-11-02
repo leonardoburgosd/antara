@@ -23,6 +23,20 @@
     <string name="suggested_albums">Álbumes sugeridos</string>
     <string name="suggested_audiobooks">Audiolibros sugeridos</string>
 
+    <!-- Detalle (Canciones que te gustan / álbum) -->
+    <string name="detail_back">Volver</string>
+    <string name="play">Reproducir</string>
+    <string name="tab_music">Música</string>
+    <string name="tab_albums">Álbumes</string>
+    <string name="section_songs">Canciones</string>
+    <string name="liked_row_subtitle">%1$d canciones • Antara</string>
+    <string name="song_options">Más opciones</string>
+    <string name="albums_empty">Este artista aún no tiene otros álbumes</string>
+    <string name="sheet_add_queue">Añadir a la cola</string>
+    <string name="sheet_view_artist">Ver artista</string>
+    <string name="sheet_view_album">Ver álbum</string>
+    <string name="sheet_share">Compartir</string>
+
     <!-- Pantallas provisionales -->
     <string name="placeholder_coming_soon">Próximamente</string>
 </resources>

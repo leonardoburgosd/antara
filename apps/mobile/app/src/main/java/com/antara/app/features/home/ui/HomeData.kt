@@ -1,7 +1,6 @@
 package com.antara.app.features.home.ui
 
 import androidx.compose.ui.graphics.Color
-import com.antara.app.core.designsystem.color.AntaraDarkTokens
 
 /** Tipo de contenido filtrado por los tags de Home. */
 enum class HomeTag { Music, Audiobooks }
@@ -55,17 +54,8 @@ data class HomeContent(
 
 // -----------------------------------------------------------------------------
 // Datos de ejemplo (mock). Sustituir por datos reales cuando exista backend.
+// La paleta de portadas vive en DetailData.kt (compartida con los detalles).
 // -----------------------------------------------------------------------------
-
-/** Paleta de portadas de ejemplo; solo colores derivados de tokens (design system). */
-private val mockCoverPalette = listOf(
-    AntaraDarkTokens.Primary,
-    AntaraDarkTokens.Accent,
-    AntaraDarkTokens.AccentWarm,
-    AntaraDarkTokens.Info,
-    AntaraDarkTokens.Success,
-    AntaraDarkTokens.Error,
-)
 
 /** Playlists de ejemplo (Música). */
 private val mockPlaylists = listOf(
@@ -74,16 +64,6 @@ private val mockPlaylists = listOf(
     "Lo-Fi Chill" to 2,
     "Éxitos Latidos" to 3,
     "Ruta de Viaje" to 4,
-)
-
-/** Álbumes sugeridos de ejemplo (Música). */
-private val mockSuggestedAlbums = listOf(
-    "Midnight Reverie" to "Luna Vale",
-    "Sol de Invierno" to "Los Cometas",
-    "Electro Nights" to "DJ Prism",
-    "Acústico en Vivo" to "Marina Ríos",
-    "Rutas Antiguas" to "Trío Cóndor",
-    "Neon Dreams" to "The Static Hearts",
 )
 
 /** Colecciones de audiolibros de ejemplo (Audiolibros). */
@@ -126,14 +106,7 @@ fun buildHomeContent(tag: HomeTag): HomeContent = when (tag) {
                 first = GridTile.Liked(label = "Canciones que te gustan"),
                 items = playlistTiles,
             ),
-            suggested = mockSuggestedAlbums.mapIndexed { index, (title, artist) ->
-                HomeMediaItem(
-                    id = "album-$index",
-                    title = title,
-                    subtitle = artist,
-                    coverColor = mockCoverPalette[index % mockCoverPalette.size],
-                )
-            },
+            suggested = suggestedAlbums,
         )
     }
     HomeTag.Audiobooks -> {

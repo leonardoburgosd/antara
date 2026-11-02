@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="antara_background">#0D0D12</color>
+    <string name="albums_empty">Este artista aún no tiene otros álbumes</string>
     <string name="app_name">Antara</string>
     <string name="create_playlist">Crear playlist</string>
+    <string name="detail_back">Volver</string>
     <string name="greeting_afternoon">Buenas tardes</string>
     <string name="greeting_morning">Buenos días</string>
     <string name="greeting_night">Buenas noches</string>
     <string name="liked_audiobooks">A favoritos</string>
+    <string name="liked_row_subtitle">%1$d canciones • Antara</string>
     <string name="liked_songs">Canciones que te gustan</string>
     <string name="nav_home">Inicio</string>
     <string name="nav_library">Tu biblioteca</string>
     <string name="nav_search">Búsqueda</string>
     <string name="placeholder_coming_soon">Próximamente</string>
+    <string name="play">Reproducir</string>
+    <string name="section_songs">Canciones</string>
     <string name="settings">Ajustes</string>
+    <string name="sheet_add_queue">Añadir a la cola</string>
+    <string name="sheet_share">Compartir</string>
+    <string name="sheet_view_album">Ver álbum</string>
+    <string name="sheet_view_artist">Ver artista</string>
+    <string name="song_options">Más opciones</string>
     <string name="suggested_albums">Álbumes sugeridos</string>
     <string name="suggested_audiobooks">Audiolibros sugeridos</string>
+    <string name="tab_albums">Álbumes</string>
+    <string name="tab_music">Música</string>
     <string name="tag_audiobooks">Audiolibros</string>
     <string name="tag_music">Música</string>
     <style name="Theme.Antara" parent="android:Theme.Material.NoActionBar">

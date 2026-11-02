@@ -101,8 +101,8 @@ app/src/androidTest/java/com/antara/app/ # Instrumentadas: composables, navegaci
 |---|---|
 | `MainActivity.kt` → `AntaraTheme` + `AppRoot` (nav por pestañas con estado, sin librería) | `MainActivity` → `AntaraTheme` + `NavHost` (al añadir rutas con argumentos/ViewModels) |
 | `core/designsystem/` creado: `AntaraTheme`, `AntaraTypography`, `color/`, `shape/`, `spacing/` con tokens globales y `dynamicColor` ausente (false) | Mantener; añadir `components/` (AntaraButton, SongRow, Skeleton…) al primer uso compartido |
-| `navigation/AppRoot.kt`: 3 pestañas (Inicio/Búsqueda/Tu biblioteca) + bottom nav 56dp+insets | Ampliar con `navigation/Routes.kt` y NavHost al crecer destinos |
-| `features/home/ui/`: `HomeScreen`, `HomeComponents`, `HomeData` (datos mock en español) | Migrar datos mock a `data/` + repositorio cuando exista backend |
+| `navigation/AppRoot.kt`: 3 pestañas (Inicio/Búsqueda/Tu biblioteca) + bottom nav 56dp+insets; estado de detalle (`detailRoute`) + `BackHandler` (sin librería) | Ampliar con NavHost al crecer destinos (rutas ya centralizadas en `navigation/Routes.kt`) |
+| `features/home/ui/`: `HomeScreen`, `HomeComponents`, `HomeData`, detalle (`DetailScreen`, `DetailComponents`, `DetailData`) — datos mock en español | Migrar datos mock a `data/` + repositorio cuando exista backend |
 | `WelcomeScreen.kt` con estilos inline y `Random` en composición (no se muestra; reservada para auth/onboarding) | Migrar a tokens de `core/designsystem/`; `Random` con `remember` (bug conocido, ADR-012); mover a `features/auth/` o `features/onboarding/` |
 | Sin `domain/`, `data/`, `player/` | Se crean con la primera feature que los necesite |
 | Manifest sin `<service>` | Agregar `PlaybackService` al implementar reproducción (ver [background-playback.md](background-playback.md)) |

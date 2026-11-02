@@ -126,6 +126,7 @@ private fun tileTitle(tile: GridTile): String = when (tile) {
 fun SuggestedCarousel(
     items: List<HomeMediaItem>,
     contentDescriptionPrefix: String,
+    onItemClick: (HomeMediaItem) -> Unit = {},
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -147,7 +148,8 @@ fun SuggestedCarousel(
                     .size(itemSize)
                     .clip(MaterialTheme.shapes.medium)
                     .background(item.coverColor)
-                    .semantics { contentDescription = "$contentDescriptionPrefix: ${item.title}" },
+                    .semantics { contentDescription = "$contentDescriptionPrefix: ${item.title}" }
+                    .clickable { onItemClick(item) },
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.antara.app.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,37 +35,69 @@ import androidx.compose.ui.unit.dp
 import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.spacing.AntaraSpacing
+import com.antara.app.features.home.ui.DetailScreen
 import com.antara.app.features.home.ui.HomeScreen
 
 /**
- * Raíz de la app: estado de pestañas (3), Scaffold con bottom nav y cambio de pantalla.
- * Sin librería de navegación (3 destinos estáticos; YAGNI/KISS — evaluar al añadir rutas con argumentos).
+ * Raíz de la app: estado de pestañas (3), estado de detalle (Liked Songs / álbum),
+ * Scaffold con bottom nav y cambio de pantalla.
+ * Sin librería de navegación (destinos estáticos; YAGNI/KISS — evaluar al crecer).
  */
 @Composable
 fun AppRoot() {
     // Índice de pestaña como Int para rememberSaveable; se deriva el enum para usarlo.
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(Tab.Home.ordinal) }
     val selectedTab = Tab.entries[selectedTabIndex]
+    // Ruta del detalle abierto (vacío = sin detalle). Ver [Routes].
+    var detailRoute by rememberSaveable { mutableStateOf("") }
+
+    // Botón "atrás" de Android: cierra el detalle si está abierto.
+    BackHandler(enabled = detailRoute.isNotEmpty()) {
+        detailRoute = ""
+    }
 
     Scaffold(
         bottomBar = {
             AntaraBottomNav(
                 selectedTab = selectedTab,
-                onSelect = { selectedTabIndex = it.ordinal },
+                onSelect = { tab ->
+                    selectedTabIndex = tab.ordinal
+                    detailRoute = "" // cambiar de pestaña cierra el detalle
+                },
             )
         },
         containerColor = AntaraTheme.colorScheme.background,
     ) { innerPadding ->
-        when (selectedTab) {
-            Tab.Home -> HomeScreen(modifier = Modifier.padding(innerPadding))
-            Tab.Search -> PlaceholderScreen(
-                title = stringResource(R.string.nav_search),
-                modifier = Modifier.padding(innerPadding),
-            )
-            Tab.Library -> PlaceholderScreen(
-                title = stringResource(R.string.nav_library),
-                modifier = Modifier.padding(innerPadding),
-            )
+        Box {
+            // Home se mantiene compuesto para preservar su estado (filtro/scroll)
+            // mientras el detalle se muestra encima.
+            when (selectedTab) {
+                Tab.Home -> HomeScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    onOpenLikedSongs = { detailRoute = Routes.LIKED },
+                    onOpenAlbum = { id -> detailRoute = Routes.album(id) },
+                )
+                Tab.Search -> PlaceholderScreen(
+                    title = stringResource(R.string.nav_search),
+                    modifier = Modifier.padding(innerPadding),
+                )
+                Tab.Library -> PlaceholderScreen(
+                    title = stringResource(R.string.nav_library),
+                    modifier = Modifier.padding(innerPadding),
+                )
+            }
+            // Detalle sobre la pantalla actual (con borde inferior para no tapar la nav).
+            if (detailRoute.isNotEmpty()) {
+                DetailScreen(
+                    route = detailRoute,
+                    onBack = { detailRoute = "" },
+                    onOpenLikedSongs = { detailRoute = Routes.LIKED },
+                    onOpenAlbum = { id -> detailRoute = Routes.album(id) },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = innerPadding.calculateBottomPadding()),
+                )
+            }
         }
     }
 }
