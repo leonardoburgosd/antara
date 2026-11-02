@@ -1,151 +1,107 @@
 package com.antara.app.features.home.ui
 
 import androidx.compose.ui.graphics.Color
+import com.antara.app.core.designsystem.color.AntaraDarkTokens
+import com.antara.app.navigation.Routes
 
-/** Tipo de contenido filtrado por los tags de Home. */
-enum class HomeTag { Music, Audiobooks }
+/** Filtros de contenido de Home (chips de la referencia). */
+enum class HomeFilter { All, NewReleases, Trending, TopSongs }
 
-/**
- * Modelo de contenido mostrado en Home (mock; sin backend todavía).
- * `coverColor` representa el color dominante de la portada (hoy un placeholder de color;
- * con backend real será una URL de imagen cargada con un cargador de imágenes).
- */
-data class HomeMediaItem(
+/** Tarjeta destacada del carrusel "Curado y en tendencia". */
+data class FeaturedItem(
     val id: String,
     val title: String,
     val subtitle: String,
+    val background: Color,
+    val darkText: Boolean,
+    val badge: String? = null,
+)
+
+/** Playlist de la sección "Playlists diarias". */
+data class PlaylistItem(
+    val id: String,
+    val title: String,
+    val artist: String,
     val coverColor: Color,
+    val trackCount: Int,
+    val songIndex: Int,
 )
 
-/**
- * Celda del grid de Home. Puede ser Liked Songs, una playlist real o el placeholder "Crear playlist".
- */
-sealed interface GridTile {
-    val id: String
-
-    /** Celda "Liked Songs" / "A favoritos" (siempre presente, primera del grid). */
-    data class Liked(
-        override val id: String = "liked",
-        val label: String,
-    ) : GridTile
-
-    /** Playlist o colección real del usuario. */
-    data class Playlist(
-        override val id: String,
-        val title: String,
-        val coverColor: Color,
-    ) : GridTile
-
-    /** Placeholder "Crear playlist" para espacios vacíos del grid. */
-    data class CreatePlaylist(
-        override val id: String,
-    ) : GridTile
-}
-
-/**
- * Contenido de Home para una etiqueta (tag) seleccionada.
- * Si las listas están vacías: el grid se rellena con "Crear playlist" y las secciones
- * de sugeridos se ocultan (ver [HomeScreen]).
- */
+/** Contenido completo de Home para un filtro. */
 data class HomeContent(
-    val tiles: List<GridTile>,
-    val suggested: List<HomeMediaItem>,
+    val curatedTitle: String,
+    val featured: List<FeaturedItem>,
+    val playlistsTitle: String,
+    val playlists: List<PlaylistItem>,
 )
 
-// -----------------------------------------------------------------------------
-// Datos de ejemplo (mock). Sustituir por datos reales cuando exista backend.
-// La paleta de portadas vive en DetailData.kt (compartida con los detalles).
-// -----------------------------------------------------------------------------
-
-/** Playlists de ejemplo (Música). */
-private val mockPlaylists = listOf(
-    "Favoritos 2024" to 0,
-    "Workout Mix" to 1,
-    "Lo-Fi Chill" to 2,
-    "Éxitos Latidos" to 3,
-    "Ruta de Viaje" to 4,
-)
-
-/** Colecciones de audiolibros de ejemplo (Audiolibros). */
-private val mockAudiobookCollections = listOf(
-    "Misterio Clásico" to 1,
-    "Historia Universal" to 2,
-    "Ciencia Ficción" to 3,
-    "Desarrollo Personal" to 4,
-    "Crimen y Misterio" to 5,
-)
-
-/** Audiolibros sugeridos de ejemplo (Audiolibros). */
-private val mockSuggestedAudiobooks = listOf(
-    "El secreto de la mansión" to "A. R. Blackwood",
-    "Breve historia del tiempo" to "C. Nakamura",
-    "El código interno" to "S. Petrov",
-    "Sombras en la niebla" to "M. Castillo",
-    "El arte de la estrategia" to "L. Fernández",
-    "Crónicas del espacio" to "K. O'Neill",
-)
-
-/**
- * Construye el contenido de Home para la etiqueta dada.
- * Reglas:
- * - El grid empieza siempre por Liked Songs / A favoritos.
- * - Se añaden hasta 5 playlists/colecciones; los espacios vacíos hasta 6 se rellenan con "Crear playlist".
- * - Las secciones de sugeridos se ocultan si la lista está vacía.
- */
-fun buildHomeContent(tag: HomeTag): HomeContent = when (tag) {
-    HomeTag.Music -> {
-        val playlistTiles: List<GridTile> = mockPlaylists.mapIndexed { index, (title, colorIndex) ->
-            GridTile.Playlist(
-                id = "playlist-$index",
-                title = title,
-                coverColor = mockCoverPalette[colorIndex % mockCoverPalette.size],
-            )
-        }
-        HomeContent(
-            tiles = buildTiles(
-                first = GridTile.Liked(label = "Canciones que te gustan"),
-                items = playlistTiles,
-            ),
-            suggested = suggestedAlbums,
+/** Construye el contenido mock (se sustituirá por repositorio cuando exista backend). */
+fun buildHomeContent(filter: HomeFilter): HomeContent {
+    val songs = detailContentFor(Routes.LIKED)?.songs.orEmpty()
+    val playlists = songs.mapIndexed { index, song ->
+        PlaylistItem(
+            id = song.id,
+            title = song.title,
+            artist = song.artist,
+            coverColor = song.coverColor,
+            trackCount = songs.size,
+            songIndex = index,
         )
     }
-    HomeTag.Audiobooks -> {
-        val collectionTiles: List<GridTile> = mockAudiobookCollections.mapIndexed { index, (title, colorIndex) ->
-            GridTile.Playlist(
-                id = "audiobook-collection-$index",
-                title = title,
-                coverColor = mockCoverPalette[colorIndex % mockCoverPalette.size],
-            )
-        }
-        HomeContent(
-            tiles = buildTiles(
-                first = GridTile.Liked(label = "A favoritos"),
-                items = collectionTiles,
-            ),
-            suggested = mockSuggestedAudiobooks.mapIndexed { index, (title, author) ->
-                HomeMediaItem(
-                    id = "audiobook-$index",
-                    title = title,
-                    subtitle = author,
-                    coverColor = mockCoverPalette[index % mockCoverPalette.size],
-                )
-            },
-        )
-    }
-}
 
-/**
- * Combina la celda inicial (Liked Songs) con las playlists y rellena los espacios
- * vacíos hasta 6 con "Crear playlist" (2 columnas × 3 filas).
- */
-private fun buildTiles(first: GridTile, items: List<GridTile>): List<GridTile> {
-    val totalSlots = 6
-    val createPlaceholders = (items.size + 1 until totalSlots).map { index ->
-        GridTile.CreatePlaylist(id = "create-playlist-$index")
-    }
-    return buildList {
-        add(first)
-        addAll(items)
-        addAll(createPlaceholders)
+    val discover = FeaturedItem(
+        id = "discover-weekly",
+        title = "Descubre semanal",
+        subtitle = "Lo mejor de tu semana, elegido para ti",
+        background = AntaraDarkTokens.Primary,
+        darkText = false,
+    )
+    val newReleases = FeaturedItem(
+        id = "new-releases",
+        title = "Nuevos lanzamientos",
+        subtitle = "Lo último de tus artistas favoritos",
+        background = AntaraDarkTokens.AccentWarm,
+        darkText = true,
+    )
+    val trending = FeaturedItem(
+        id = "trending",
+        title = "Tendencias ahora",
+        subtitle = "Lo que todos están escuchando",
+        background = AntaraDarkTokens.Accent,
+        darkText = true,
+    )
+    val top = FeaturedItem(
+        id = "top-50",
+        title = "Top 50 global",
+        subtitle = "Las canciones más reproducidas",
+        background = AntaraDarkTokens.Info,
+        darkText = true,
+    )
+
+    return when (filter) {
+        HomeFilter.All -> HomeContent(
+            curatedTitle = "Curado y en tendencia",
+            featured = listOf(discover, newReleases),
+            playlistsTitle = "Playlists diarias",
+            playlists = playlists,
+        )
+        HomeFilter.NewReleases -> HomeContent(
+            curatedTitle = "Novedades para ti",
+            featured = listOf(newReleases, discover),
+            playlistsTitle = "Lanzamientos recientes",
+            playlists = playlists.reversed().take(6),
+        )
+        HomeFilter.Trending -> HomeContent(
+            curatedTitle = "Tendencias ahora",
+            featured = listOf(trending, top),
+            playlistsTitle = "En tendencia",
+            playlists = playlists.drop(1).take(6),
+        )
+        HomeFilter.TopSongs -> HomeContent(
+            curatedTitle = "Top canciones",
+            featured = listOf(top, trending),
+            playlistsTitle = "Las más escuchadas",
+            playlists = playlists.take(5),
+        )
     }
 }

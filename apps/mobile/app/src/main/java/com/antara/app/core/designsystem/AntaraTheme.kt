@@ -7,6 +7,7 @@ import com.antara.app.core.designsystem.color.AntaraDarkColorScheme
 import com.antara.app.core.designsystem.color.AntaraExtendedColors
 import com.antara.app.core.designsystem.color.LocalAntaraExtendedColors
 import com.antara.app.core.designsystem.shape.AntaraShapes
+import com.antara.app.core.designsystem.spacing.AntaraSpacing
 
 /**
  * Tema global de Antara (Material 3 personalizado con los tokens del design system).
@@ -24,7 +25,9 @@ fun AntaraTheme(
     CompositionLocalProvider(
         LocalAntaraExtendedColors provides AntaraExtendedColors(
             surfaceElevated = com.antara.app.core.designsystem.color.AntaraDarkTokens.SurfaceElevated,
+            surfaceGlass = com.antara.app.core.designsystem.color.AntaraDarkTokens.SurfaceGlass,
             surfaceHover = com.antara.app.core.designsystem.color.AntaraDarkTokens.SurfaceHover,
+            navIndicator = com.antara.app.core.designsystem.color.AntaraDarkTokens.NavIndicator,
             accent = com.antara.app.core.designsystem.color.AntaraDarkTokens.Accent,
             accentWarm = com.antara.app.core.designsystem.color.AntaraDarkTokens.AccentWarm,
             textPrimary = com.antara.app.core.designsystem.color.AntaraDarkTokens.TextPrimary,
@@ -64,4 +67,7 @@ object AntaraTheme {
 
     val shapes
         @Composable get() = MaterialTheme.shapes
+
+    /** Escala de espaciado global (4/8/12/16/24/32/48/64). */
+    val spacing: AntaraSpacing get() = AntaraSpacing
 }

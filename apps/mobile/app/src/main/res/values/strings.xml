@@ -1,41 +1,90 @@
 <resources>
     <string name="app_name">Antara</string>
 
-    <!-- Navegación inferior (3 pestañas) -->
+    <!-- Navegación inferior -->
     <string name="nav_home">Inicio</string>
     <string name="nav_search">Búsqueda</string>
     <string name="nav_library">Tu biblioteca</string>
+    <string name="nav_profile">Perfil</string>
 
-    <!-- Home: saludo por hora -->
+    <!-- Home -->
     <string name="greeting_morning">Buenos días</string>
     <string name="greeting_afternoon">Buenas tardes</string>
     <string name="greeting_night">Buenas noches</string>
     <string name="settings">Ajustes</string>
+    <string name="home_headline">Tu música, en cualquier momento</string>
+    <string name="home_notifications">Notificaciones</string>
+    <string name="home_favorites">Favoritos</string>
+    <string name="home_see_all">Ver todo</string>
+    <string name="home_playlist_subtitle">De %1$s • %2$d canciones</string>
+    <string name="home_filter_all">Todos</string>
+    <string name="home_filter_new">Novedades</string>
+    <string name="home_filter_trending">Tendencias</string>
+    <string name="home_filter_top">Top canciones</string>
 
-    <!-- Home: tags filtro -->
-    <string name="tag_music">Música</string>
-    <string name="tag_audiobooks">Audiolibros</string>
-
-    <!-- Home: grid y carruseles -->
-    <string name="liked_songs">Canciones que te gustan</string>
-    <string name="liked_audiobooks">A favoritos</string>
-    <string name="create_playlist">Crear playlist</string>
-    <string name="suggested_albums">Álbumes sugeridos</string>
-    <string name="suggested_audiobooks">Audiolibros sugeridos</string>
-
-    <!-- Detalle (Canciones que te gustan / álbum) -->
+    <!-- Detalle -->
     <string name="detail_back">Volver</string>
-    <string name="play">Reproducir</string>
-    <string name="tab_music">Música</string>
-    <string name="tab_albums">Álbumes</string>
     <string name="section_songs">Canciones</string>
-    <string name="liked_row_subtitle">%1$d canciones • Antara</string>
+    <string name="detail_song_count">%1$d canciones</string>
+    <string name="detail_track_subtitle">De %1$s</string>
+    <string name="play">Reproducir</string>
     <string name="song_options">Más opciones</string>
-    <string name="albums_empty">Este artista aún no tiene otros álbumes</string>
-    <string name="sheet_add_queue">Añadir a la cola</string>
-    <string name="sheet_view_artist">Ver artista</string>
-    <string name="sheet_view_album">Ver álbum</string>
-    <string name="sheet_share">Compartir</string>
+
+    <!-- Reproductor -->
+    <string name="player_now_playing">Reproduciendo</string>
+    <string name="player_play">Reproducir</string>
+    <string name="player_pause">Pausar</string>
+    <string name="player_open">Abrir reproductor</string>
+    <string name="player_shuffle">Aleatorio</string>
+    <string name="player_previous">Anterior</string>
+    <string name="player_next">Siguiente</string>
+    <string name="player_repeat">Repetir</string>
+    <string name="player_lyrics_line_1">Susurros en la brisa nocturna,</string>
+    <string name="player_lyrics_line_2">llevando sueños a través del mar,</string>
+    <string name="player_lyrics_line_3">cierro los ojos y me dejo llevar.</string>
+
+    <!-- Autenticación -->
+    <string name="auth_tagline">Tu música, en todas partes</string>
+    <string name="auth_login_title">Bienvenido de nuevo</string>
+    <string name="auth_email">Correo electrónico</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_enter">Entrar</string>
+    <string name="auth_show_password">Mostrar contraseña</string>
+    <string name="auth_hide_password">Ocultar contraseña</string>
+    <string name="auth_demo_hint">Modo demo: cualquier correo válido y una contraseña de 6+ caracteres.</string>
+    <string name="auth_server_empty">Añadir servidor</string>
+    <string name="auth_server_add_description">Configura la IP o el dominio de tu servidor</string>
+    <string name="auth_server_change">Toca para cambiar de servidor</string>
+    <string name="auth_error_email_empty">Escribe tu correo electrónico</string>
+    <string name="auth_error_email_invalid">El correo no es válido</string>
+    <string name="auth_error_password_empty">Escribe tu contraseña</string>
+    <string name="auth_error_password_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="auth_error_generic">No se pudo iniciar sesión. Inténtalo de nuevo.</string>
+    <!-- Servidores -->
+    <string name="servers_open">Configurar servidores</string>
+    <string name="servers_title">Servidores</string>
+    <string name="servers_intro">Conecta Antara con tu servidor. Puedes guardar varias direcciones IP o dominios y elegir cuál usar.</string>
+    <string name="servers_input_placeholder">192.168.1.10:8080 o https://mi-servidor.com</string>
+    <string name="servers_add">Añadir servidor</string>
+    <string name="servers_saved">Guardados</string>
+    <string name="servers_empty_title">Aún no hay servidores</string>
+    <string name="servers_empty_description">Añade la dirección IP o el dominio de tu servidor para empezar.</string>
+    <string name="servers_first_run">Necesitas al menos un servidor para continuar.</string>
+    <string name="servers_active">Activo</string>
+    <string name="servers_use">Toca para usar este servidor</string>
+    <string name="servers_delete">Eliminar servidor</string>
+    <string name="servers_continue">Continuar</string>
+    <string name="servers_error_empty">Escribe una dirección IP o un dominio</string>
+    <string name="servers_error_invalid">La dirección no es válida. Ejemplo: 192.168.1.10:8080</string>
+    <string name="servers_error_duplicate">Ese servidor ya está guardado</string>
+    <string name="servers_error_save">No se pudo guardar el servidor. Inténtalo de nuevo.</string>
+
+    <!-- Perfil -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_active_server">Servidor activo</string>
+    <string name="profile_no_server">Sin servidor configurado</string>
+    <string name="profile_configure_servers">Configurar servidores</string>
+    <string name="profile_sign_out">Cerrar sesión</string>
 
     <!-- Pantallas provisionales -->
     <string name="placeholder_coming_soon">Próximamente</string>

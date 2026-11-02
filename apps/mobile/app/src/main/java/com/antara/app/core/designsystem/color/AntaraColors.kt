@@ -13,10 +13,12 @@ object AntaraDarkTokens {
     val Background = Color(0xFF0D0D12)
     val Surface = Color(0xFF15151C)
     val SurfaceElevated = Color(0xFF1E1E27)
+    val SurfaceGlass = Color(0xB31E1E27)
     val SurfaceHover = Color(0xFF25252F)
     val Primary = Color(0xFF8B3BFF)
     val PrimaryHover = Color(0xFF7C33E6)
     val PrimaryPressed = Color(0xFF6D2CCE)
+    val NavIndicator = Color(0xFFC4B5FD)
     val Accent = Color(0xFF2DD4BF)
     val AccentWarm = Color(0xFFFFB84D)
     val TextPrimary = Color(0xFFF4F4F6)
@@ -95,7 +97,9 @@ val AntaraLightColorScheme = lightColorScheme(
  */
 class AntaraExtendedColors(
     val surfaceElevated: Color,
+    val surfaceGlass: Color,
     val surfaceHover: Color,
+    val navIndicator: Color,
     val accent: Color,
     val accentWarm: Color,
     val textPrimary: Color,
@@ -111,7 +115,9 @@ class AntaraExtendedColors(
 internal val LocalAntaraExtendedColors = staticCompositionLocalOf {
     AntaraExtendedColors(
         surfaceElevated = AntaraDarkTokens.SurfaceElevated,
+        surfaceGlass = AntaraDarkTokens.SurfaceGlass,
         surfaceHover = AntaraDarkTokens.SurfaceHover,
+        navIndicator = AntaraDarkTokens.NavIndicator,
         accent = AntaraDarkTokens.Accent,
         accentWarm = AntaraDarkTokens.AccentWarm,
         textPrimary = AntaraDarkTokens.TextPrimary,

@@ -2,63 +2,55 @@
 
 Organización de `apps/mobile/`. Respetando el módulo único `:app` actual (no se crean módulos Gradle prematuramente: KISS/YAGNI), la estructura se alcanza conforme se implementan funcionalidades.
 
-## Árbol de paquetes objetivo
+## Árbol de paquetes actual
 
 ```text
 app/src/main/java/com/antara/app/
-├── AntaraApplication.kt          # AppContainer (DI manual)
-├── MainActivity.kt               # Única Activity: edge-to-edge, AntaraTheme, NavHost
+├── AntaraApplication.kt          # Application + AppContainer (DI manual)
+├── AppContainer.kt               # Repositorios y PlayerConnection
+├── MainActivity.kt               # Única Activity: edge-to-edge, AntaraTheme, AppRoot
 │
 ├── core/
 │   ├── designsystem/
-│   │   ├── color/ AntaraColors.kt        # Tokens de color (ver design-system.md)
-│   │   ├── typography/ AntaraTypography.kt
+│   │   ├── AntaraTheme.kt                 # Material 3 personalizado + spacing
+│   │   ├── AntaraTypography.kt            # Escala tipográfica global
+│   │   ├── color/ AntaraColors.kt         # Tokens (única fuente de colores)
 │   │   ├── shape/ AntaraShapes.kt
-│   │   ├── AntaraTheme.kt                # Material 3 personalizado
-│   │   └── components/                   # Botón, Card, SongRow, Skeleton, Toast…
-│   ├── network/
-│   │   ├── ApiClient.kt                  # Retrofit + OkHttp + interceptores
-│   │   ├── NetworkError.kt               # Mapeo a AppError
-│   │   └── (dto base, auth interceptor)
-│   ├── datastore/
-│   │   ├── SessionStore.kt               # Token/sesión (cifrado)
-│   │   └── PreferencesStore.kt
-│   └── common/
-│       ├── AppResult.kt                  # Resultado tipado + errores
-│       ├── DispatcherProvider.kt
-│       └── extensions/
+│   │   ├── spacing/ AntaraSpacing.kt
+│   │   └── components/                    # AntaraPrimaryButton, AntaraTextField,
+│   │                                      # AntaraFilterChips, AntaraTrackRow,
+│   │                                      # AntaraSectionHeader, AntaraMiniPlayer…
+│   └── network/
+│       └── ServerAddress.kt               # Normalización/validación de IP o dominio
 │
 ├── domain/
-│   ├── model/        Track.kt, Album.kt, Artist.kt, Playlist.kt, User.kt…
-│   ├── repository/   TrackRepository.kt, LibraryRepository.kt… (interfaces)
-│   └── usecase/      (solo los justificados; ver architecture.md)
+│   ├── model/        UserSession.kt, ServerConfig.kt
+│   └── repository/   SessionRepository.kt, ServerRepository.kt
 │
 ├── data/
-│   ├── remote/
-│   │   ├── dto/          TrackDto.kt, AlbumDto.kt… (@Serializable)
-│   │   ├── service/      TrackService.kt, AuthService.kt… (Retrofit)
-│   │   └── mapper/       TrackMappers.kt…
-│   ├── local/            SessionStore implementation, mappers locales
-│   └── repository/       TrackRepositoryImpl.kt…
+│   └── local/        AntaraPreferences.kt, SessionRepositoryImpl.kt,
+│                     ServerRepositoryImpl.kt (DataStore Preferences)
 │
 ├── player/
 │   ├── PlaybackService.kt        # MediaSessionService (dueño de ExoPlayer + MediaSession)
-│   ├── PlayerController.kt       # Envoltorio tipado de MediaController
-│   ├── PlaybackConnection.kt     # Conexión + StateFlow hacia la UI
-│   └── (PlayerUiState.kt)        # Estado de reproducción observable por la UI
+│   ├── PlayerConnection.kt       # MediaController + StateFlow hacia la UI
+│   ├── PlayerUiState.kt          # Estado de reproducción observable
+│   └── PlayerViewModel.kt
 │
 ├── navigation/
-│   ├── AntaraNavHost.kt
-│   └── Routes.kt
+│   ├── AppRoot.kt                # Arranque, auth, servidores, pestañas, overlays
+│   └── Routes.kt                 # Rutas (claves de estado, ADR-013)
 │
 └── features/
-    ├── auth/        library/   albums/   artists/
-    ├── tracks/      playlists/ search/   settings/
-    └── <feature>/
-        ├── ui/                  # <Feature>Screen.kt + composables internos
-        ├── <Feature>ViewModel.kt
-        └── <Feature>UiState.kt
+    ├── auth/       AuthUiState.kt, AuthViewModel.kt, ui/AuthScreen.kt
+    ├── servers/    ServersUiState.kt, ServersViewModel.kt, ui/ServersScreen.kt
+    ├── home/       ui/HomeScreen.kt, HomeComponents.kt, HomeData.kt,
+    │               ui/DetailScreen.kt, DetailComponents.kt, DetailData.kt
+    ├── player/     ui/PlayerScreen.kt
+    └── profile/    ui/ProfileScreen.kt
 ```
+
+> El antiguo `WelcomeScreen.kt` de plantilla se eliminó al implementar la autenticación real (ADR-014).
 
 ## Pruebas
 
@@ -82,7 +74,7 @@ app/src/androidTest/java/com/antara/app/ # Instrumentadas: composables, navegaci
 | Reproducción | `player/` |
 | Navegación | `navigation/` |
 | Tokens/tema | `core/designsystem/` |
-| Preferencias/sesión | `core/datastore/` |
+| Preferencias/sesión | `data/local/` (DataStore; `core/datastore/` si se extrae interfaz propia) |
 | DI | `AntaraApplication.kt` + `AppContainer` |
 | Documentación | `apps/mobile/docs/` (este directorio) |
 
@@ -97,15 +89,15 @@ app/src/androidTest/java/com/antara/app/ # Instrumentadas: composables, navegaci
 
 ## Estado actual vs. objetivo
 
-| Hoy (tras feature Home) | Destino |
+| Hoy | Destino |
 |---|---|
-| `MainActivity.kt` → `AntaraTheme` + `AppRoot` (nav por pestañas con estado, sin librería) | `MainActivity` → `AntaraTheme` + `NavHost` (al añadir rutas con argumentos/ViewModels) |
-| `core/designsystem/` creado: `AntaraTheme`, `AntaraTypography`, `color/`, `shape/`, `spacing/` con tokens globales y `dynamicColor` ausente (false) | Mantener; añadir `components/` (AntaraButton, SongRow, Skeleton…) al primer uso compartido |
-| `navigation/AppRoot.kt`: 3 pestañas (Inicio/Búsqueda/Tu biblioteca) + bottom nav 56dp+insets; estado de detalle (`detailRoute`) + `BackHandler` (sin librería) | Ampliar con NavHost al crecer destinos (rutas ya centralizadas en `navigation/Routes.kt`) |
-| `features/home/ui/`: `HomeScreen`, `HomeComponents`, `HomeData`, detalle (`DetailScreen`, `DetailComponents`, `DetailData`) — datos mock en español | Migrar datos mock a `data/` + repositorio cuando exista backend |
-| `WelcomeScreen.kt` con estilos inline y `Random` en composición (no se muestra; reservada para auth/onboarding) | Migrar a tokens de `core/designsystem/`; `Random` con `remember` (bug conocido, ADR-012); mover a `features/auth/` o `features/onboarding/` |
-| Sin `domain/`, `data/`, `player/` | Se crean con la primera feature que los necesite |
-| Manifest sin `<service>` | Agregar `PlaybackService` al implementar reproducción (ver [background-playback.md](background-playback.md)) |
+| `MainActivity.kt` → `AntaraTheme` + `AppRoot` (arranque auth/servidores y pestañas con estado, sin librería) | `MainActivity` → `AntaraTheme` + `NavHost` (al añadir rutas con argumentos/ViewModels) |
+| `core/designsystem/` con tokens globales, `AntaraTheme`, `AntaraSpacing` y `components/` compartidos | Mantener; ampliar componentes con cada uso realmente compartido |
+| `navigation/AppRoot.kt`: Loading → Auth → Servers (forzado si no hay ninguno) → Main; 4 pestañas; overlay de detalle y de reproductor; `BackHandler` | Ampliar con NavHost al crecer destinos (rutas ya centralizadas en `navigation/Routes.kt`) |
+| `features/home/ui/`: Home, detalle y datos mock en español; filtros funcionales | Migrar datos mock a `data/` + repositorio cuando exista backend |
+| `features/auth/`, `features/servers/`, `features/profile/` con ViewModel + UiState + pantalla; sesión y servidores persistidos en DataStore | Conectar contrato real de autenticación; token en almacén cifrado |
+| `player/`: `PlaybackService` (MediaSessionService), `PlayerConnection` (MediaController), `PlayerUiState`, `PlayerViewModel`; audio demo local de 90 s | Reproducir streams reales; evaluar resumption de Media3 |
+| Sin capa HTTP ni pruebas automatizadas | `core/network` + `data/remote` y pruebas al integrar el backend |
 
 ## Reglas
 

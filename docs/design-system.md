@@ -19,6 +19,7 @@ Paleta oscura por defecto (producto de música, uso predominantemente en ambient
 | `primary-hover` | `#9D5CFF` | Hover/press del primario |
 | `primary-subtle` | `rgba(139, 59, 255, 0.14)` | Fondos de items seleccionados, badges |
 | `secondary` | `#C4B5FD` | Apoyo: texto sobre primario, indicadores secundarios |
+| `nav-indicator` | `#C4B5FD` | Círculo del ítem activo en la barra de navegación inferior |
 | `accent` | `#2DD4BF` | Énfasis funcional: barra de progreso activa, ecualizador, "reproduciendo ahora" |
 | `text-primary` | `#F4F4F6` | Texto principal |
 | `text-secondary` | `#A3A3B2` | Texto secundario (artista, descripciones) |

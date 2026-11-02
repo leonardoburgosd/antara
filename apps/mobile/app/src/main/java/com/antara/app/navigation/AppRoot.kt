@@ -1,173 +1,370 @@
 package com.antara.app.navigation
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.antara.app.AppContainer
 import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
-import com.antara.app.core.designsystem.spacing.AntaraSpacing
+import com.antara.app.core.designsystem.components.AntaraMiniPlayer
+import com.antara.app.domain.model.SavedServers
+import com.antara.app.domain.model.SessionState
+import com.antara.app.domain.model.UserSession
+import com.antara.app.features.auth.ui.AuthScreen
 import com.antara.app.features.home.ui.DetailScreen
 import com.antara.app.features.home.ui.HomeScreen
+import com.antara.app.features.home.ui.SongItem
+import com.antara.app.features.home.ui.detailContentFor
+import com.antara.app.features.player.ui.PlayerScreen
+import com.antara.app.features.profile.ui.ProfileScreen
+import com.antara.app.features.servers.ui.ServersScreen
+import com.antara.app.player.PlayableTrack
+import com.antara.app.player.PlayerUiState
+import com.antara.app.player.PlayerViewModel
+import kotlinx.coroutines.launch
 
 /**
- * Raíz de la app: estado de pestañas (3), estado de detalle (Liked Songs / álbum),
- * Scaffold con bottom nav y cambio de pantalla.
- * Sin librería de navegación (destinos estáticos; YAGNI/KISS — evaluar al crecer).
+ * Raíz de la app: decide entre splash, autenticación, configuración inicial de servidores
+ * y el contenido principal. Extiende la navegación por estado de ADR-013.
  */
 @Composable
-fun AppRoot() {
-    // Índice de pestaña como Int para rememberSaveable; se deriva el enum para usarlo.
+fun AppRoot(container: AppContainer) {
+    val sessionState by container.sessionRepository.session.collectAsState(initial = SessionState.Loading)
+    val savedServers by container.serverRepository.servers.collectAsState(initial = null)
+
+    val playerFactory = remember(container) { PlayerViewModel.factory(container.playerConnection) }
+    val playerViewModel: PlayerViewModel = viewModel(factory = playerFactory)
+    val playerState by playerViewModel.uiState.collectAsState()
+
+    var serversOpen by rememberSaveable { mutableStateOf(false) }
+    var playerOpen by rememberSaveable { mutableStateOf(false) }
+
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(sessionState) {
+        if (sessionState is SessionState.SignedOut) {
+            serversOpen = false
+            playerOpen = false
+        }
+    }
+
+    LaunchedEffect(sessionState, savedServers) {
+        val servers = savedServers
+        if (sessionState is SessionState.SignedIn && servers != null && servers.servers.isEmpty()) {
+            serversOpen = true
+        }
+    }
+
+    BackHandler(enabled = playerOpen) {
+        playerOpen = false
+    }
+
+    when (val state = sessionState) {
+        SessionState.Loading -> SplashScreen()
+
+        SessionState.SignedOut -> {
+            val servers = savedServers
+            if (serversOpen && servers != null) {
+                ServersScreen(
+                    serverRepository = container.serverRepository,
+                    firstRun = false,
+                    onBack = { serversOpen = false },
+                    onContinue = { serversOpen = false },
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else {
+                AuthScreen(
+                    sessionRepository = container.sessionRepository,
+                    activeServer = servers?.active,
+                    onOpenServers = { serversOpen = true },
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
+
+        is SessionState.SignedIn -> {
+            val servers = savedServers
+            when {
+                servers == null -> SplashScreen()
+
+                serversOpen || servers.servers.isEmpty() -> ServersScreen(
+                    serverRepository = container.serverRepository,
+                    firstRun = servers.servers.isEmpty(),
+                    onBack = {
+                        if (servers.servers.isNotEmpty()) serversOpen = false
+                    },
+                    onContinue = { serversOpen = false },
+                    modifier = Modifier.fillMaxSize(),
+                )
+
+                else -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        MainContent(
+                            session = state.session,
+                            servers = servers,
+                            playerState = playerState,
+                            onOpenServers = { serversOpen = true },
+                            onOpenPlayer = { playerOpen = true },
+                            onTogglePlayPause = playerViewModel::togglePlayPause,
+                            onSignOut = {
+                                scope.launch { container.sessionRepository.signOut() }
+                            },
+                            onPlayQueue = { songs, index ->
+                                playerViewModel.playQueue(songs.toPlayableTracks(), index)
+                                playerOpen = true
+                            },
+                            onPlayLikedIndex = { index ->
+                                val songs = detailContentFor(Routes.LIKED)?.songs.orEmpty()
+                                playerViewModel.playQueue(songs.toPlayableTracks(), index)
+                                playerOpen = true
+                            },
+                        )
+
+                        if (playerOpen && playerState.hasTrack) {
+                            PlayerScreen(
+                                state = playerState,
+                                onBack = { playerOpen = false },
+                                onTogglePlayPause = playerViewModel::togglePlayPause,
+                                onNext = playerViewModel::next,
+                                onPrevious = playerViewModel::previous,
+                                onSeek = playerViewModel::seekTo,
+                                onToggleShuffle = playerViewModel::toggleShuffle,
+                                onCycleRepeat = playerViewModel::cycleRepeat,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainContent(
+    session: UserSession,
+    servers: SavedServers,
+    playerState: PlayerUiState,
+    onOpenServers: () -> Unit,
+    onOpenPlayer: () -> Unit,
+    onTogglePlayPause: () -> Unit,
+    onSignOut: () -> Unit,
+    onPlayQueue: (List<SongItem>, Int) -> Unit,
+    onPlayLikedIndex: (Int) -> Unit,
+) {
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(Tab.Home.ordinal) }
     val selectedTab = Tab.entries[selectedTabIndex]
-    // Ruta del detalle abierto (vacío = sin detalle). Ver [Routes].
     var detailRoute by rememberSaveable { mutableStateOf("") }
+    var bottomBarHeightPx by remember { mutableIntStateOf(0) }
+    val bottomBarHeight = with(LocalDensity.current) { bottomBarHeightPx.toDp() }
+    val contentBottomPadding = bottomBarHeight + AntaraTheme.spacing.xl
 
-    // Botón "atrás" de Android: cierra el detalle si está abierto.
     BackHandler(enabled = detailRoute.isNotEmpty()) {
         detailRoute = ""
     }
 
     Scaffold(
         bottomBar = {
-            AntaraBottomNav(
-                selectedTab = selectedTab,
-                onSelect = { tab ->
-                    selectedTabIndex = tab.ordinal
-                    detailRoute = "" // cambiar de pestaña cierra el detalle
-                },
-            )
-        },
-        containerColor = AntaraTheme.colorScheme.background,
-    ) { innerPadding ->
-        Box {
-            // Home se mantiene compuesto para preservar su estado (filtro/scroll)
-            // mientras el detalle se muestra encima.
-            when (selectedTab) {
-                Tab.Home -> HomeScreen(
-                    modifier = Modifier.padding(innerPadding),
-                    onOpenLikedSongs = { detailRoute = Routes.LIKED },
-                    onOpenAlbum = { id -> detailRoute = Routes.album(id) },
+            // La barra flota sobre el contenido: es translúcida y deja ver lo que hay detrás.
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onSizeChanged { bottomBarHeightPx = it.height },
+            ) {
+                AntaraMiniPlayer(
+                    state = playerState,
+                    onOpen = onOpenPlayer,
+                    onTogglePlayPause = onTogglePlayPause,
                 )
-                Tab.Search -> PlaceholderScreen(
-                    title = stringResource(R.string.nav_search),
-                    modifier = Modifier.padding(innerPadding),
-                )
-                Tab.Library -> PlaceholderScreen(
-                    title = stringResource(R.string.nav_library),
-                    modifier = Modifier.padding(innerPadding),
+                AntaraBottomNav(
+                    selectedTab = selectedTab,
+                    onSelect = { tab ->
+                        selectedTabIndex = tab.ordinal
+                        detailRoute = ""
+                    },
                 )
             }
-            // Detalle sobre la pantalla actual (con borde inferior para no tapar la nav).
+        },
+        containerColor = Color.Transparent,
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AntaraTheme.colorScheme.background),
+        ) {
+            val screenModifier = Modifier
+                .fillMaxSize()
+                .padding(top = innerPadding.calculateTopPadding())
+
+            when (selectedTab) {
+                Tab.Home -> HomeScreen(
+                    userName = session.name,
+                    playerState = playerState,
+                    onOpenServers = onOpenServers,
+                    onOpenLikedSongs = { detailRoute = Routes.LIKED },
+                    onPlayIndex = onPlayLikedIndex,
+                    bottomContentPadding = contentBottomPadding,
+                    modifier = screenModifier,
+                )
+
+                Tab.Search -> PlaceholderScreen(
+                    title = stringResource(R.string.nav_search),
+                    modifier = screenModifier,
+                )
+
+                Tab.Library -> PlaceholderScreen(
+                    title = stringResource(R.string.nav_library),
+                    modifier = screenModifier,
+                )
+
+                Tab.Profile -> ProfileScreen(
+                    session = session,
+                    activeServer = servers.active,
+                    onOpenServers = onOpenServers,
+                    onSignOut = onSignOut,
+                    bottomContentPadding = contentBottomPadding,
+                    modifier = screenModifier,
+                )
+            }
+
             if (detailRoute.isNotEmpty()) {
                 DetailScreen(
                     route = detailRoute,
+                    playerState = playerState,
                     onBack = { detailRoute = "" },
-                    onOpenLikedSongs = { detailRoute = Routes.LIKED },
-                    onOpenAlbum = { id -> detailRoute = Routes.album(id) },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = innerPadding.calculateBottomPadding()),
+                    onPlayQueue = onPlayQueue,
+                    bottomContentPadding = contentBottomPadding,
+                    modifier = screenModifier,
                 )
             }
         }
     }
 }
 
-/** Pestañas de la navegación inferior. */
 private enum class Tab(
     val labelRes: Int,
     val icon: ImageVector,
 ) {
-    Home(R.string.nav_home, Icons.Filled.Home),
-    Search(R.string.nav_search, Icons.Filled.Search),
-    Library(R.string.nav_library, Icons.Filled.List),
+    Home(R.string.nav_home, Icons.Outlined.Home),
+    Search(R.string.nav_search, Icons.Outlined.Search),
+    Library(R.string.nav_library, Icons.Outlined.LibraryMusic),
+    Profile(R.string.nav_profile, Icons.Outlined.Person),
 }
 
-/**
- * Menú inferior de 3 opciones (Inicio, Búsqueda, Tu biblioteca).
- * Altura 56dp + insets de navegación, fondo `surface` con borde superior `border`;
- * activo `primary`, inactivo `textSecondary`; icono 24 + label 11sp
- * (ver ui-guidelines.md → Bottom Navigation y design-system.md).
- */
 @Composable
 private fun AntaraBottomNav(
     selectedTab: Tab,
     onSelect: (Tab) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = AntaraTheme.extendedColors.border,
-        )
-        NavigationBar(
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = AntaraTheme.spacing.lg, vertical = AntaraTheme.spacing.sm),
+        contentAlignment = Alignment.Center,
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
-                .height(56.dp),
-            containerColor = AntaraTheme.colorScheme.surface,
-            tonalElevation = 0.dp,
+                .height(68.dp)
+                .shadow(elevation = 18.dp, shape = CircleShape, clip = false)
+                .background(AntaraTheme.extendedColors.surfaceGlass, CircleShape)
+                .border(
+                    width = 1.dp,
+                    color = AntaraTheme.extendedColors.border.copy(alpha = 0.6f),
+                    shape = CircleShape,
+                )
+                .padding(horizontal = AntaraTheme.spacing.sm),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Tab.entries.forEach { tab ->
                 val isSelected = tab == selectedTab
-                NavigationBarItem(
-                    selected = isSelected,
-                    onClick = { onSelect(tab) },
-                    icon = {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .selectable(
+                            selected = isSelected,
+                            role = Role.Tab,
+                            onClick = { onSelect(tab) },
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(if (isSelected) 56.dp else 44.dp)
+                            .background(
+                                color = if (isSelected) {
+                                    AntaraTheme.extendedColors.navIndicator
+                                } else {
+                                    Color.Transparent
+                                },
+                                shape = CircleShape,
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
                         Icon(
                             imageVector = tab.icon,
                             contentDescription = stringResource(tab.labelRes),
-                            modifier = Modifier.size(24.dp),
+                            tint = if (isSelected) {
+                                AntaraTheme.colorScheme.background
+                            } else {
+                                AntaraTheme.colorScheme.onSurface
+                            },
+                            modifier = Modifier.size(if (isSelected) 26.dp else 24.dp),
                         )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(tab.labelRes),
-                            style = AntaraTheme.typography.labelSmall,
-                        )
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = AntaraTheme.colorScheme.primary,
-                        selectedTextColor = AntaraTheme.colorScheme.primary,
-                        unselectedIconColor = AntaraTheme.extendedColors.textSecondary,
-                        unselectedTextColor = AntaraTheme.extendedColors.textSecondary,
-                        indicatorColor = AntaraTheme.colorScheme.surface,
-                    ),
-                )
+                    }
+                }
             }
         }
     }
 }
 
-/** Pantalla provisional para pestañas aún no implementadas (Búsqueda / Tu biblioteca). */
 @Composable
 private fun PlaceholderScreen(
     title: String,
@@ -179,7 +376,7 @@ private fun PlaceholderScreen(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(AntaraSpacing.sm),
+            verticalArrangement = Arrangement.spacedBy(AntaraTheme.spacing.sm),
         ) {
             Text(
                 text = title,
@@ -193,4 +390,52 @@ private fun PlaceholderScreen(
             )
         }
     }
+}
+
+@Composable
+private fun SplashScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AntaraTheme.colorScheme.background),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(AntaraTheme.spacing.lg),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(76.dp)
+                    .background(AntaraTheme.colorScheme.primary, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.MusicNote,
+                    contentDescription = null,
+                    tint = AntaraTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(36.dp),
+                )
+            }
+            Text(
+                text = stringResource(R.string.app_name),
+                style = AntaraTheme.typography.headlineLarge,
+                color = AntaraTheme.colorScheme.onBackground,
+            )
+            CircularProgressIndicator(
+                color = AntaraTheme.extendedColors.accent,
+                strokeWidth = 2.dp,
+                modifier = Modifier.size(24.dp),
+            )
+        }
+    }
+}
+
+private fun List<SongItem>.toPlayableTracks(): List<PlayableTrack> = map { song ->
+    PlayableTrack(
+        id = song.id,
+        title = song.title,
+        artist = song.artist,
+        coverColor = song.coverColor,
+    )
 }

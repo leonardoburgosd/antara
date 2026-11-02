@@ -11,18 +11,17 @@ Documento **obligatorio** para permisos, servicios y ciclo de vida. Requisitos d
 | `android.permission.INTERNET` | Instalación | ✅ Sí | Requisito mínimo para streaming y API |
 | `android.permission.FOREGROUND_SERVICE` | Instalación | ✅ Sí | Obligatorio desde API 28 para servicios en primer plano |
 | `android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK` | Instalación | ✅ Sí | **Obligatorio desde API 34** (targetSdk 34) para FGS de tipo `mediaPlayback`; ya declarado, coherente con el plan de reproducción |
+| `android.permission.WAKE_LOCK` | Instalación | ✅ Sí | Necesario por `ExoPlayer.setWakeMode(C.WAKE_MODE_NETWORK)` en `PlaybackService`: mantiene CPU/red con la pantalla apagada. Solo activo durante la reproducción |
 
 ### A declarar según implementación
 
 | Permiso | Tipo | Cuándo | Notas |
 |---|---|---|---|
-| `android.permission.WAKE_LOCK` | Instalación | Al usar `ExoPlayer.setWakeMode(C.WAKE_MODE_NETWORK)` en `PlaybackService` | Para mantener CPU+red con pantalla apagada durante streaming. Solo durante reproducción activa |
 | `android.permission.POST_NOTIFICATIONS` | **Runtime (API 33+)** | **No requerido** para notificaciones de sesión multimedia: las notificaciones de *media sessions* están **exentas** del cambio de permiso de Android 13 (fuente: documentación oficial de notificaciones de Android). Media3 no lo necesita para la notificación de reproducción | Agregarlo **solo** si la app publica otras notificaciones no ligadas a media (hoy no las hay). Si se agrega: solicitarlo en contexto, con justificación, y documentarlo aquí |
 
 ### No solicitar (regla de mínimos)
 
 - Sin permisos de almacenamiento (`READ_MEDIA_AUDIO`/`READ_EXTERNAL_STORAGE`): la app reproduce **streams** del backend; no accede a archivos locales. (Solo si en el futuro se agregan archivos locales, solicitar el permiso correspondiente a su versión con flujo de justificación.)
-- Sin `WAKE_LOCK` si no se usa wake mode.
 - Sin permisos de ubicación, contactos, cámara, micrófono, teléfono.
 - Sin `IGNORE_BATTERY_OPTIMIZATIONS` (el FGS de reproducción no lo requiere; pedirlo viola políticas de Play).
 
@@ -51,7 +50,7 @@ Documento **obligatorio** para permisos, servicios y ciclo de vida. Requisitos d
 
 - `foregroundServiceType="mediaPlayback"` es **obligatorio** con targetSdk 34 para coincidir con `FOREGROUND_SERVICE_MEDIA_PLAYBACK`.
 - `exported="true"` con intent-filter: lo requiere el patrón de `MediaSessionService` para que el sistema y controllers externos se conecten.
-- Hoy **no hay `<service>`**: debe agregarse al implementar reproducción ([background-playback.md](background-playback.md)).
+- Declarado en el manifest actual como `.player.PlaybackService` (ADR-014).
 
 ## Restricciones de Android 13, 14 y posteriores
 

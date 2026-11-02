@@ -129,6 +129,27 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 - **Decisión:** usar estado local (`detailRoute: String` con `rememberSaveable` + `BackHandler`) en `navigation/AppRoot.kt`, con rutas centralizadas en `navigation/Routes.kt`. El detalle se compone como overlay sobre Home (que permanece compuesto debajo para preservar su estado). Sin librería de navegación.
 - **Consecuencias:** al añadir rutas con argumentos/ViewModels o más pantallas, migrar a `navigation-compose` (revisar entonces también el back stack por pestaña). La hoja de opciones de cada canción usa `ModalBottomSheet` de Material 3 con acciones placeholder (mock).
 
+### ADR-014: Autenticación local, servidores y reproductor Media3 en la app Android
+
+- **Estado:** Aceptada
+- **Fecha:** 2026-11-02
+- **Contexto:** La app Android necesitaba el flujo completo de arranque (autenticación y configuración de servidores), las interfaces de Home/Detalle (referencia compartida) y un reproductor real con controles del sistema. Hasta ahora Media3 estaba declarado sin usar, no había persistencia local ni ViewModels. Además, la pantalla `WelcomeScreen` de la plantilla quedó obsoleta.
+- **Decisión:**
+  1. **Navegación:** extender ADR-013 con estado local en `navigation/AppRoot.kt` (`Loading → Auth → Servers → Main`, overlays de detalle y reproductor, `BackHandler`). Sin `navigation-compose`.
+  2. **Persistencia:** `androidx.datastore:datastore-preferences:1.1.1` en `data/local/` para sesión mock y lista de servidores (direcciones normalizadas), expuesta mediante `SessionRepository`/`ServerRepository`.
+  3. **ViewModels:** `androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6` con `viewModelFactory` manual; UiState inmutable en `StateFlow` por feature (`Auth`, `Servers`, `Player`).
+  4. **Reproducción:** implementar `PlaybackService` (`MediaSessionService` + ExoPlayer 1.4.1), `PlayerConnection` (`MediaController`, única vía de la UI al player) y `PlayerViewModel`. La notificación usa `DefaultMediaNotificationProvider` con icono propio; audio demo local `res/raw/antara_sample.wav` (90 s) para funcionar offline.
+  5. **UI:** `androidx.compose.material:material-icons-extended` (gestionado por Compose BOM) y componentes compartidos en `core/designsystem/components/` (botones, input, chips, fila de canción, cabecera de sección, mini player).
+  6. **Permisos:** se añade `WAKE_LOCK` por `setWakeMode(C.WAKE_MODE_NETWORK)`; `POST_NOTIFICATIONS` sigue sin declararse (exención de media sessions).
+  7. **Limpieza:** se elimina `WelcomeScreen.kt` de la plantilla, sustituido por `features/auth/ui/AuthScreen.kt`.
+  8. **Login:** formulario único de inicio de sesión (sin registro). Incluye una tarjeta de servidor que abre la configuración con retorno al login; si tras autenticarse no hay servidores, se muestra la configuración en modo primera ejecución antes del contenido.
+- **Consecuencias:**
+  - La autenticación es **mock local** (cualquier email válido y contraseña ≥ 6 caracteres); al existir backend debe sustituirse en `AuthViewModel` y guardar el token en almacén cifrado.
+  - El audio de todas las pistas mock es el mismo recurso local; al integrar el backend se cambiará el `Uri` en `PlayerConnection`.
+  - `MainActivity.onStop()` libera el `MediaController`; el servicio continúa reproduciendo (verificado con notificación y `dumpsys media_session`).
+  - Al crecer el número de destinos con argumentos, migrar a `navigation-compose` (revisar ADR-013).
+  - Si se añaden notificaciones distintas a la multimedia, declarar `POST_NOTIFICATIONS` y actualizar `permissions-and-lifecycle.md`.
+
 ---
 
 ## Plantilla para nuevas entradas

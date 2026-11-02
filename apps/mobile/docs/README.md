@@ -30,11 +30,12 @@ Aplicación nativa de Antara para **Android**: Kotlin, Jetpack Compose, Material
 
 ## Estado actual del código (saber con qué se trabaja)
 
-Aplicación basada en la plantilla de Android Studio con una pantalla de bienvenida (`WelcomeScreen.kt`):
+Aplicación Android funcional construida sobre la plantilla, con las interfaces de autenticación, configuración de servidores, Home, detalle de canciones y reproductor:
 
-- **Existe:** módulo único `:app`; `MainActivity` con edge-to-edge; tema Material 3 de plantilla (colores por defecto, `dynamicColor = true`); dependencias Media3 1.4.1 **declaradas sin usar**; permisos `INTERNET`, `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` en el manifest; version catalog con Kotlin 2.0.21, Compose BOM 2024.10.00, compileSdk/targetSdk 34, minSdk 24.
-- **No existe:** ViewModels, navegación, cliente HTTP, repositorios, `MediaSessionService`, servicios declarados, DI, pruebas.
-- **Bloqueos de build conocidos:** faltan recursos `@mipmap/ic_launcher` (referenciados en el manifest); falta `gradle-wrapper.jar` y el script `gradlew` Unix (solo existe `gradlew.bat`); `local.properties` está versionado. Ver [../../docs/decisions/README.md](../../../docs/decisions/README.md) ADR-012.
+- **Existe:** módulo único `:app`; `MainActivity` edge-to-edge; `AntaraTheme` con los tokens del design system (sin `dynamicColor`); navegación por estado en `navigation/AppRoot.kt` (ADR-013); autenticación local mock (solo inicio de sesión, sin registro) con sesión persistida en DataStore y acceso a la configuración de servidores desde el login; alta/selección de servidores (IP/dominio) en DataStore con validación y normalización; Home con filtros y carrusel; detalle con lista de canciones; reproductor a pantalla completa; mini player; perfil con cierre de sesión; `PlaybackService` (`MediaSessionService` con ExoPlayer 1.4.1) + `PlayerConnection`/`PlayerViewModel`; `MediaController` solo en `player/`; DI manual (`AntaraApplication` + `AppContainer`); recursos en español; audio de ejemplo en `res/raw/antara_sample.wav` (90 s) para reproducción offline.
+- **No existe todavía:** capa HTTP/Retrofit, contratos reales del backend, catálogo real (los datos de Home/Detalle son mock en `features/home/ui/*Data.kt`), almacenamiento cifrado de token, pruebas automatizadas.
+- **Bloqueos de build conocidos:** falta `gradle-wrapper.jar` y el script `gradlew` Unix (solo existe `gradlew.bat`); `local.properties` está versionado. El build se verificó con Gradle 8.14.3 en caché (ver ADR-012).
+
 
 ## Reglas inamovibles de Android
 

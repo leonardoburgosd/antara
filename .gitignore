@@ -1,1 +1,47 @@
+# Freebuff
 .freebuff
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Rust / Tauri
+target/
+gen/schemas
+
+# Android / Gradle
+.gradle/
+build/
+.kotlin/
+cxx/
+captures/
+local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Local-only scratch
+.cloud-attachments/
+# Artefacto suelto de un redirect de PowerShell mal formado
+System.Drawing.Drawing2D.GraphicsPath

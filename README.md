@@ -86,7 +86,3 @@ La documentación integral del proyecto (arquitectura, estándares, design syste
 |-------------------------------------|------------------------------------|
 |:sunglasses: Diego Rivasplata Guzmán | https://github.com/diegoRivasplata |
 |:sunglasses: Leonardo Burgos Díaz    | https://github.com/leonardoburgosd |
-
-## Desplegado
-
-Próximamente: https://antara.leonardoburgosd.site

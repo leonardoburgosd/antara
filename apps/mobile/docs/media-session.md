@@ -4,7 +4,7 @@ Documento **obligatorio**: integración completa con los controles multimedia de
 
 > **La `MediaSession` es la fuente de verdad del estado de reproducción expuesto al sistema.** No implementar una notificación independiente que simule los controles: Media3 proporciona la integración.
 
-> **Estado actual:** **aún no implementado** (depende de [background-playback.md](background-playback.md); ver [README.md](README.md)). Este documento define el diseño objetivo (ADR-005).
+> **Estado actual:** **implementado** en `player/PlaybackService.kt` (`MediaSessionService` + ExoPlayer), conectado a la UI mediante `player/PlayerConnection.kt` (`MediaController`) y `player/PlayerViewModel.kt` (ADR-005, ADR-014).
 
 ## Objetivo
 

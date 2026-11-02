@@ -18,7 +18,7 @@ Traslado del sistema visual global ([../../docs/design-system.md](../../../docs/
 
 Reglas:
 
-- **Prohibido** `Color.Black`/`Color.White`/colores hardcodeados fuera de `core/designsystem` (el `WelcomeScreen` actual los usa: corregir al tocar esa pantalla — ADR-012).
+- **Prohibido** `Color.Black`/`Color.White`/colores hardcodeados fuera de `core/designsystem` (ADR-012).
 - Toda pantalla usa `AntaraTheme.colorScheme/Typography/Shapes` vía `MaterialTheme`.
 - Los cambios de token se hacen en `core/designsystem` y en `docs/design-system.md` (misma versión de valores).
 
@@ -35,7 +35,7 @@ Reglas:
 | Toasts | Snackbar con el spec global (duración 4s; errores persistentes con acción) |
 | Skeletons | `Modifier.shimmer`/animación de opacidad con `surfaceElevated` (1.2s) |
 | Estados vacíos | `EmptyState(icon, title, description, action)` centrado |
-| Bottom Navigation | `NavigationBar` con items 24dp + label 11sp; activo `primary`, inactivo `textSecondary` |
+| Bottom Navigation | Barra flotante tipo píldora (64dp, `surfaceElevated` + borde, 16dp de margen); solo iconos 24dp; activo = círculo 64dp `navIndicator` elevado 4dp con icono `background`, inactivo `onSurface` |
 | Mini Player / Full Screen Player | Ver [ui-consistency](../../../docs/ui-consistency.md) y [responsive-design](../../../docs/responsive-design.md): MiniPlayer 64dp sobre la nav; FullScreenPlayer con portada grande + controles |
 | Barras de progreso | `Slider`/`LinearProgressIndicator` con colores `accent`/`border` y track 4dp |
 

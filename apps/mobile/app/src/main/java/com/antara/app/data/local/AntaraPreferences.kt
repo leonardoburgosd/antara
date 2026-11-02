@@ -1,0 +1,22 @@
+package com.antara.app.data.local
+
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+
+/** Instancia única de DataStore para preferencias locales de la app. */
+val Context.antaraDataStore: DataStore<Preferences> by preferencesDataStore(name = "antara_preferences")
+
+/** Claves centralizadas de preferencias (sesión y servidores). */
+object PreferencesKeys {
+    val AUTHENTICATED = booleanPreferencesKey("auth_authenticated")
+    val USER_NAME = stringPreferencesKey("auth_user_name")
+    val USER_EMAIL = stringPreferencesKey("auth_user_email")
+
+    /** Direcciones separadas por salto de línea (ya normalizadas por [com.antara.app.core.network.ServerAddress]). */
+    val SERVERS = stringPreferencesKey("servers")
+    val ACTIVE_SERVER = stringPreferencesKey("active_server")
+}

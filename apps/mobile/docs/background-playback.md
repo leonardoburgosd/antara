@@ -4,7 +4,7 @@ Documento **obligatorio** para reproducción musical y ejecución en segundo pla
 
 > **No se elimina ni simplifica esta funcionalidad sin justificación técnica documentada** en [../../docs/decisions/README.md](../../../docs/decisions/README.md).
 
-> **Estado actual:** la reproducción en segundo plano **aún no está implementada** (Media3 está declarado sin usar; ver [README.md](README.md)). Este documento define el diseño objetivo (ADR-005).
+> **Estado actual:** **implementado** en `player/PlaybackService.kt`; el servicio sigue reproduciendo con la Activity en segundo plano y expone la notificación multimedia. Ver [README.md](README.md) y ADR-014.
 
 ## Objetivo
 
@@ -20,7 +20,7 @@ La reproducción **no** depende de que la Activity principal permanezca visible.
 
 ## Tecnología requerida
 
-**AndroidX Media3 + ExoPlayer** (ya declarados: `media3-exoplayer`, `media3-ui`, `media3-session` 1.4.1 en `app/build.gradle.kts`; hoy sin usar).
+**AndroidX Media3 + ExoPlayer** (`media3-exoplayer`, `media3-ui`, `media3-session` 1.4.1 en `app/build.gradle.kts`; en uso desde ADR-014).
 
 Arquitectura: `ExoPlayer` + `MediaSession` dentro de un **`MediaSessionService`** (foreground service), consumido por la UI mediante **`MediaController`**. La notificación la genera `DefaultMediaNotificationProvider` (ver [media-session.md](media-session.md)).
 

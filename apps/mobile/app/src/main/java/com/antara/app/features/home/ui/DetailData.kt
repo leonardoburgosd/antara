@@ -22,44 +22,27 @@ data class SongItem(
     val coverColor: Color,
 )
 
-/** Álbum breve para la pestaña "Álbumes" (otros álbumes del mismo artista). */
-data class AlbumBrief(
-    val id: String,
-    val title: String,
-    val year: Int,
-    val coverColor: Color,
-)
-
-/** Contenido del detalle: "Canciones que te gustan" o un álbum. */
+/** Contenido del detalle: "Mi música" o un álbum. */
 sealed interface DetailContent {
     val title: String
     val subtitle: String?
-    val heroColor: Color
     val songs: List<SongItem>
-    val isAlbum: Boolean
 
     data class Liked(
-        override val title: String = "Canciones que te gustan",
+        override val title: String = "Mi música",
         override val subtitle: String? = null,
-        override val heroColor: Color = AntaraDarkTokens.Primary,
         override val songs: List<SongItem>,
-    ) : DetailContent {
-        override val isAlbum: Boolean = false
-    }
+    ) : DetailContent
 
     data class Album(
         override val title: String,
         val artist: String,
-        override val subtitle: String? = artist,
-        override val heroColor: Color,
+        override val subtitle: String = "De $artist",
         override val songs: List<SongItem>,
-        val otherAlbums: List<AlbumBrief>,
-    ) : DetailContent {
-        override val isAlbum: Boolean = true
-    }
+    ) : DetailContent
 }
 
-/** Nº de canciones que te gustan (para la fila "Canciones que te gustan"). */
+/** Nº de canciones que te gustan (para las filas de Home). */
 val likedSongsCount: Int
     get() = likedSongSpecs.size
 
@@ -83,7 +66,6 @@ private data class LikedSongSpec(
     val colorIndex: Int,
 )
 
-/** Álbumes: los 6 primeros componen el carrusel de Home. */
 private val albumSpecs = listOf(
     AlbumSpec(
         "midnight-reverie", "Midnight Reverie", "Luna Vale", 2024, 0,
@@ -142,17 +124,6 @@ private val likedSongSpecs = listOf(
     LikedSongSpec("liked-8", "Vidrio Roto", "The Static Hearts", 1),
 )
 
-/** Álbumes sugeridos del carrusel de Home (6 primeros). */
-val suggestedAlbums: List<HomeMediaItem>
-    get() = albumSpecs.take(6).map { spec ->
-        HomeMediaItem(
-            id = spec.id,
-            title = spec.title,
-            subtitle = spec.artist,
-            coverColor = mockCoverPalette[spec.colorIndex],
-        )
-    }
-
 /** Resuelve el contenido de un detalle a partir de su ruta. */
 fun detailContentFor(route: String): DetailContent? = when {
     route == Routes.LIKED -> DetailContent.Liked(
@@ -177,19 +148,8 @@ private fun AlbumSpec.toDetailContent(): DetailContent.Album {
     return DetailContent.Album(
         title = title,
         artist = artist,
-        heroColor = color,
         songs = tracks.mapIndexed { index, trackTitle ->
             SongItem(id = "$id-$index", title = trackTitle, artist = artist, coverColor = color)
         },
-        otherAlbums = albumSpecs
-            .filter { it.artist == artist && it.id != id }
-            .map {
-                AlbumBrief(
-                    id = it.id,
-                    title = it.title,
-                    year = it.year,
-                    coverColor = mockCoverPalette[it.colorIndex],
-                )
-            },
     )
 }
