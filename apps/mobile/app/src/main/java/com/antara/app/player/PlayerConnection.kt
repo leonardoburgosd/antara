@@ -163,12 +163,12 @@ class PlayerConnection(
         tracks: List<PlayableTrack>,
         startIndex: Int,
     ) {
-        val uri = Uri.parse("android.resource://${context.packageName}/${R.raw.antara_sample}")
+        val fallbackUri = Uri.parse("android.resource://${context.packageName}/${R.raw.antara_sample}")
         val items = tracks.map { track ->
             val extras = Bundle().apply { putInt(KEY_COVER_COLOR, track.coverColor.toArgb()) }
             MediaItem.Builder()
                 .setMediaId(track.id)
-                .setUri(uri)
+                .setUri(track.uri?.let(Uri::parse) ?: fallbackUri)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(track.title)

@@ -1,8 +1,122 @@
-import WelcomeScreen from './components/WelcomeScreen'
-import './App.css'
+import { useState } from "react";
+import { NAV_ITEMS } from "./app/navigation";
+import { BottomNav } from "./components/BottomNav";
+import { Icon } from "./components/Icon";
+import { PlayerBar } from "./components/PlayerBar";
+import { Sidebar } from "./components/Sidebar";
+import { LoginScreen } from "./features/auth/LoginScreen";
+import { HomeScreen } from "./features/home/HomeScreen";
+import { UploadsScreen } from "./features/uploads/UploadsScreen";
+import { PlayerProvider, usePlayer } from "./stores/player";
+import { SessionProvider, useSession } from "./stores/session";
+import { UploadsProvider } from "./stores/uploads";
+import type { NavId } from "./types/library";
 
-function App() {
-  return <WelcomeScreen />
+const EXTRA_TITLES: Partial<Record<NavId, string>> = {
+  uploads: "Mis archivos",
+  server: "Servidores",
+};
+
+function PlaceholderScreen({ title }: { title: string }) {
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
+      <Icon name="auto_awesome" size={40} className="text-text-disabled" />
+      <h1 className="text-h2 font-semibold text-text-primary">{title}</h1>
+      <p className="text-body-sm text-text-secondary">Próximamente</p>
+    </div>
+  );
 }
 
-export default App
+function AppShell() {
+  const [tab, setTab] = useState<NavId>("home");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { currentTrack } = usePlayer();
+  const activeLabel = NAV_ITEMS.find((item) => item.id === tab)?.label ?? EXTRA_TITLES[tab] ?? "";
+
+  const select = (id: NavId) => {
+    setTab(id);
+    setDrawerOpen(false);
+  };
+
+  return (
+    <div className="flex h-dvh flex-col bg-background text-text-primary">
+      <div className="flex min-h-0 flex-1">
+        {/* Sidebar en `lg+` (responsive-design.md) */}
+        <div className="hidden lg:block">
+          <Sidebar active={tab} onSelect={select} />
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Ventanas pequeñas: cabecera mínima; el drawer aparece en `md`–`lg` */}
+          <header className="flex items-center gap-3 border-b border-border px-4 py-3 md:hidden">
+            <span className="grid size-9 place-items-center rounded-full bg-primary text-on-primary">
+              <Icon name="music_note" size={20} />
+            </span>
+            <span className="text-h3 font-semibold">Antara</span>
+          </header>
+
+          <header className="hidden items-center gap-3 border-b border-border px-4 py-3 md:flex lg:hidden">
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Abrir menú"
+              className="grid size-10 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-text-primary"
+            >
+              <Icon name="menu" size={22} />
+            </button>
+            <span className="text-h3 font-semibold">Antara</span>
+          </header>
+
+          <main className="min-h-0 flex-1 overflow-y-auto">
+            {tab === "home" ? (
+              <HomeScreen userName="Alex" />
+            ) : tab === "uploads" ? (
+              <UploadsScreen />
+            ) : (
+              <PlaceholderScreen title={activeLabel} />
+            )}
+          </main>
+        </div>
+      </div>
+
+      {currentTrack ? <PlayerBar /> : null}
+
+      <BottomNav active={tab} onSelect={select} />
+
+      {drawerOpen ? (
+        <div className="fixed inset-0 z-40 flex lg:hidden">
+          <button
+            type="button"
+            aria-label="Cerrar menú"
+            onClick={() => setDrawerOpen(false)}
+            className="absolute inset-0 bg-overlay"
+          />
+          <div className="relative z-10 flex shadow-xl">
+            <Sidebar active={tab} onSelect={select} />
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** Sin sesión se muestra el login (misma regla que Android: login primero). */
+function Root() {
+  const { user } = useSession();
+
+  return user ? <AppShell /> : <LoginScreen />;
+}
+
+function App() {
+  return (
+    <SessionProvider>
+      <UploadsProvider>
+        <PlayerProvider>
+          <Root />
+        </PlayerProvider>
+      </UploadsProvider>
+    </SessionProvider>
+  );
+}
+
+export default App;

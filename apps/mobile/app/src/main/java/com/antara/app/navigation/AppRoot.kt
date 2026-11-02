@@ -52,7 +52,11 @@ import com.antara.app.AppContainer
 import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.components.AntaraMiniPlayer
+import com.antara.app.core.designsystem.color.AntaraDarkTokens
+import com.antara.app.domain.model.LocalAudio
 import com.antara.app.domain.model.SavedServers
+import com.antara.app.domain.repository.LocalAudioRepository
+import com.antara.app.features.library.ui.LibraryScreen
 import com.antara.app.domain.model.SessionState
 import com.antara.app.domain.model.UserSession
 import com.antara.app.features.auth.ui.AuthScreen
@@ -154,6 +158,11 @@ fun AppRoot(container: AppContainer) {
                             onSignOut = {
                                 scope.launch { container.sessionRepository.signOut() }
                             },
+                            localAudioRepository = container.localAudioRepository,
+                            onPlayLocal = { files, index ->
+                                playerViewModel.playQueue(files.map { it.toPlayableTrack() }, index)
+                                playerOpen = true
+                            },
                             onPlayQueue = { songs, index ->
                                 playerViewModel.playQueue(songs.toPlayableTracks(), index)
                                 playerOpen = true
@@ -194,6 +203,8 @@ private fun MainContent(
     onOpenPlayer: () -> Unit,
     onTogglePlayPause: () -> Unit,
     onSignOut: () -> Unit,
+    localAudioRepository: LocalAudioRepository,
+    onPlayLocal: (List<LocalAudio>, Int) -> Unit,
     onPlayQueue: (List<SongItem>, Int) -> Unit,
     onPlayLikedIndex: (Int) -> Unit,
 ) {
@@ -257,8 +268,12 @@ private fun MainContent(
                     modifier = screenModifier,
                 )
 
-                Tab.Library -> PlaceholderScreen(
-                    title = stringResource(R.string.nav_library),
+                Tab.Library -> LibraryScreen(
+                    repository = localAudioRepository,
+                    currentId = playerState.currentId,
+                    isPlaying = playerState.isPlaying,
+                    onPlay = onPlayLocal,
+                    bottomContentPadding = contentBottomPadding,
                     modifier = screenModifier,
                 )
 
@@ -439,3 +454,11 @@ private fun List<SongItem>.toPlayableTracks(): List<PlayableTrack> = map { song 
         coverColor = song.coverColor,
     )
 }
+
+private fun LocalAudio.toPlayableTrack() = PlayableTrack(
+    id = uri,
+    title = title,
+    artist = "Archivo local",
+    coverColor = AntaraDarkTokens.Primary,
+    uri = uri,
+)

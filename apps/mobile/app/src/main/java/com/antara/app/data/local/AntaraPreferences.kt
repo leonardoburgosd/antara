@@ -10,7 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 /** Instancia única de DataStore para preferencias locales de la app. */
 val Context.antaraDataStore: DataStore<Preferences> by preferencesDataStore(name = "antara_preferences")
 
-/** Claves centralizadas de preferencias (sesión y servidores). */
+/** Claves centralizadas de preferencias (sesión, servidores y archivos locales). */
 object PreferencesKeys {
     val AUTHENTICATED = booleanPreferencesKey("auth_authenticated")
     val USER_NAME = stringPreferencesKey("auth_user_name")
@@ -19,4 +19,7 @@ object PreferencesKeys {
     /** Direcciones separadas por salto de línea (ya normalizadas por [com.antara.app.core.network.ServerAddress]). */
     val SERVERS = stringPreferencesKey("servers")
     val ACTIVE_SERVER = stringPreferencesKey("active_server")
+
+    /** Archivos de audio del dispositivo: una entrada `uri<TAB>título` por línea. */
+    val LOCAL_AUDIO = stringPreferencesKey("local_audio")
 }

@@ -9,6 +9,8 @@ data class PlayableTrack(
     val title: String,
     val artist: String,
     val coverColor: Color,
+    /** URI del archivo del dispositivo; `null` usa el audio de muestra empaquetado. */
+    val uri: String? = null,
 )
 
 /** Modos de repetición expuestos a la UI (independientes de las constantes de Media3). */

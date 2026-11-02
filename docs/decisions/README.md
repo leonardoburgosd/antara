@@ -152,6 +152,25 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 
 ---
 
+### ADR-015: UI de Web y Desktop sobre tokens replicados, fuentes locales y store de reproductor sin dependencias nuevas
+
+- **Estado:** Aceptada (fase 1 de UI)
+- **Fecha:** 2026-11-02
+- **Contexto:** Web y Desktop seguían siendo la plantilla (`WelcomeScreen` duplicado, CSS de plantilla, sin tokens). Había que arrancar la interfaz con la misma identidad que Android sin introducir `packages/` (ADR-010) ni dependencias de estado/iconos.
+- **Decisión:**
+  1. **Tokens:** un bloque CSS de variables + `@theme inline` de Tailwind v4 por app (`apps/web/src/index.css`, `apps/desktop/src/styles/index.css`) con los valores exactos de [design-system.md](../design-system.md). Tema oscuro por defecto y claro vía `data-theme="light"`.
+  2. **Componentes:** `Icon`, `Sidebar`, `MediaRow`, `SectionHeader`, `FilterChips`, `FeaturedCard` y `PlayerBar` replicados en ambas apps (duplicación intencional mientras ADR-010 no se revise).
+  3. **Tipografía e iconografía:** Inter variable y Material Symbols Outlined (ADR-008) **vendorizados** en `public/fonts/` como `woff2`, servidos con `@font-face`; sin CDN, de modo que Desktop funciona sin red al empaquetar.
+  4. **Estado del reproductor:** `stores/player.tsx` con `Context` + `useReducer` (único dueño del estado, ADR-011). Sin Zustand ni motor de audio todavía: la posición avanza con un temporizador hasta que exista `PlaybackEngine` (ADR-003).
+  5. **Limpieza de plantilla:** se eliminan `WelcomeScreen`, `App.css`, assets de la plantilla Vite y el sprite de redes sociales `public/icons.svg`; `strict: true` activado en el `tsconfig.app.json` de Web.
+- **Consecuencias:**
+  - Los tokens y los componentes deben mantenerse idénticos a mano entre Web y Desktop (criterio de revisión de [ui-consistency.md](../ui-consistency.md)).
+  - La reproducción no emite audio hasta implementar `PlaybackEngine`; la UI ya expone los controles y estados equivalentes a Android.
+  - Rutas y HTTP siguen pendientes: Home usa datos mock locales, sin `services/api/`.
+  - En Desktop queda pendiente el cambio de identidad en `tauri.conf.json` (`productName`, identificador `tauri-app`) y el `csp: null` de ADR-012.
+
+---
+
 ## Plantilla para nuevas entradas
 
 ```markdown

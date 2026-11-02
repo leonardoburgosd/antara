@@ -86,6 +86,15 @@
     <string name="profile_configure_servers">Configurar servidores</string>
     <string name="profile_sign_out">Cerrar sesión</string>
 
+    <!-- Biblioteca -->
+    <string name="library_files_title">Mis archivos</string>
+    <string name="library_files_description">Añade audios de tu dispositivo y escúchalos aquí. Los archivos no se copian: se enlazan desde su ubicación original.</string>
+    <string name="library_upload">Subir audio</string>
+    <string name="library_empty_title">Aún no hay archivos</string>
+    <string name="library_empty_description">Toca Subir audio y elige archivos MP3, WAV, OGG, M4A, FLAC u OPUS.</string>
+    <string name="library_file_subtitle">Archivo local</string>
+    <string name="library_remove">Quitar archivo</string>
+
     <!-- Pantallas provisionales -->
     <string name="placeholder_coming_soon">Próximamente</string>
 </resources>
