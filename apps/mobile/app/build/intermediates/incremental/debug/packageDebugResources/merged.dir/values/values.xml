@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="antara_background">#0D0D12</color>
+    <string name="app_name">Antara</string>
+    <string name="create_playlist">Crear playlist</string>
+    <string name="greeting_afternoon">Buenas tardes</string>
+    <string name="greeting_morning">Buenos días</string>
+    <string name="greeting_night">Buenas noches</string>
+    <string name="liked_audiobooks">A favoritos</string>
+    <string name="liked_songs">Canciones que te gustan</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_library">Tu biblioteca</string>
+    <string name="nav_search">Búsqueda</string>
+    <string name="placeholder_coming_soon">Próximamente</string>
+    <string name="settings">Ajustes</string>
+    <string name="suggested_albums">Álbumes sugeridos</string>
+    <string name="suggested_audiobooks">Audiolibros sugeridos</string>
+    <string name="tag_audiobooks">Audiolibros</string>
+    <string name="tag_music">Música</string>
+    <style name="Theme.Antara" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/antara_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

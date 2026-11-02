@@ -114,11 +114,12 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 
 ### ADR-012: Corrección de deudas de plantilla como prerequisito de features
 
-- **Estado:** Propuesta
+- **Estado:** Propuesta (en progreso)
 - **Fecha:** 2026-11-01
 - **Contexto:** detectadas deudas: `csp: null` en Tauri, `strict` ausente en Web, CSS muerto de plantilla, identidad "tauri-app" sin renombrar, recursos `mipmap` faltantes en Android (bloquean build), wrapper Gradle incompleto, logs versionados en `apps/*.log`, `local.properties` versionado, bug de `isAppearanceLightStatusBars` invertido, `Random` sin `remember` en composables.
 - **Decisión:** abordarlas de forma incremental **al tocar cada área** (no una mega-refactorización), priorizando: (1) bloqueos de build de Android, (2) tokens/CSP/strict, (3) limpieza de plantilla.
 - **Consecuencias:** cada corrección se aplica dentro del flujo de [development-workflow.md](../development-workflow.md); eliminar código de plantilla no usado está permitido y deseable.
+- **Progreso (2026-11-01, feature Home Android):** resueltos los `mipmap` faltantes (iconos de lanzamiento generados por densidad) y los errores de compilación de `WelcomeScreen.kt` (`Float * Dp` y `.value` sobre `Float`). Siguen pendientes: `Random` sin `remember` en `WelcomeScreen`, wrapper Gradle incompleto y migración de `WelcomeScreen` a tokens.
 
 ---
 

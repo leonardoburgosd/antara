@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Antara" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Tema oscuro por defecto (producto de música, uso en ambientes oscuros).
+         El fondo evita el destello blanco en el arranque antes de que Compose tome el control. -->
+    <style name="Theme.Antara" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/antara_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>

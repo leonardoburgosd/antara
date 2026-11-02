@@ -32,7 +32,7 @@ fun ParticlePattern() {
     ) {
         repeat(60) { index ->
             val angle = (index * 6.0) * Math.PI / 180.0
-            val distance = 40.dp + (Random.nextFloat() * 60.dp)
+            val distance = 40.dp + (60.dp * Random.nextFloat())
             val animatedDistance by infiniteTransition.animateFloat(
                 initialValue = 20f,
                 targetValue = 80f,
@@ -64,8 +64,8 @@ fun ParticlePattern() {
                 modifier = Modifier
                     .size(2.dp)
                     .offset(
-                        x = (Math.cos(angle) * animatedDistance.value).dp,
-                        y = (Math.sin(angle) * animatedDistance.value).dp
+                        x = (Math.cos(angle) * animatedDistance).dp,
+                        y = (Math.sin(angle) * animatedDistance).dp
                     )
                     .background(Color.White.copy(alpha = animatedAlpha))
             )
