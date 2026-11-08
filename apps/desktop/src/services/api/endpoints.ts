@@ -18,4 +18,21 @@ export const ENDPOINTS = {
    * por lo que el motor de reproducción puede hacer seek.
    */
   trackStream: (trackId: string) => `/api/pista/${encodeURIComponent(trackId)}`,
+  /** GET → rutas de audio activas para elegir destino (PistaController.ObtenerRutasDeSubidaAsync). */
+  uploadRoutes: "/api/pista/subir/rutas",
+  /** POST multipart (archivo, rutaId?, subcarpeta?) → PistaController.SubirPistaAsync. */
+  uploadTrack: "/api/pista/subir",
+  /** POST { rutaId?, subcarpeta?, url } → PistaController.SubirDesdeUrlAsync. */
+  uploadFromUrl: "/api/pista/subir/url",
+  /** GET → playlists con nº de canciones y artistas; requiere Bearer admin (PlaylistController.ObtenerTodasAsync). */
+  playlists: "/api/playlist/todos",
+  /** GET → canciones de la playlist mezclando artistas (PistaController.ObtenerTodosPistasDePlaylistAsync). */
+  playlistTracks: (playlistId: string) =>
+    `/api/pista/todos/playlist/${encodeURIComponent(playlistId)}`,
+  /** GET ?cadena=&proveedor= → coincidencias de metadatos (PistaController.BuscarMetadatosAsync). */
+  metadataSearch: (cadena: string, proveedor = "todos") =>
+    `/api/pista/metadatos/buscar?cadena=${encodeURIComponent(cadena)}&proveedor=${encodeURIComponent(proveedor)}`,
+  /** POST { idExterno, proveedor } → aplica los metadatos a la pista (PistaController.ActualizarMetadatosAsync). */
+  trackMetadata: (trackId: string) =>
+    `/api/pista/${encodeURIComponent(trackId)}/metadatos`,
 } as const;

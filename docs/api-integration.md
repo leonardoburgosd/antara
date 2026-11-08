@@ -34,6 +34,8 @@ Responsabilidades del cliente:
 | `/api/pista/subir/rutas` | `GET` | `Bearer` con rol `admin`/`administrador` | Selector de ruta de destino para las subidas (Web: "Mis archivos") |
 | `/api/pista/subir` | `POST` (multipart) | `Bearer` con rol `admin`/`administrador` | Sube un archivo de audio; campos `rutaId?`, `subcarpeta?`, `archivo` (Web) |
 | `/api/pista/subir/url` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Descarga desde YouTube y registra la pista; `{ rutaId?, subcarpeta?, url }` (Web) |
+| `/api/pista/metadatos/buscar` | `GET` (`?cadena=&proveedor=`) | `Bearer` con rol `admin`/`administrador` | Coincidencias de metadatos (`idExterno`, título, artista, álbum, portada, año) para la pista recién subida; timeout 60 s (Web) |
+| `/api/pista/{id}/metadatos` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Aplica `{ idExterno, proveedor }` y actualiza título, artista, álbum, año, género, duración y letra; timeout 60 s (Web) |
 | `/api/playlist/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | "Curado y en tendencia" de Home: playlists con `totalPistas`, `totalArtistas` y `artistas` (Web) |
 | `/api/pista/todos/playlist/{PlaylistId}` | `GET` | Pública | Canciones de la playlist mezclando artistas; cada pista trae su `interprete` (Web: detalle de playlist) |
 

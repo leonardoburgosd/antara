@@ -27,4 +27,11 @@ object Endpoints {
      */
     fun trackStream(trackId: String): String =
         "/api/pista/" + URLEncoder.encode(trackId, Charsets.UTF_8.name())
+
+    /** `GET` → playlists con pistas y artistas; exige Bearer admin (`PlaylistController.ObtenerTodasAsync`). */
+    const val PLAYLISTS = "/api/playlist/todos"
+
+    /** `GET` → canciones de la playlist (`PistaController.ObtenerTodosPistasDePlaylistAsync`). */
+    fun playlistTracks(playlistId: String): String =
+        "/api/pista/todos/playlist/" + URLEncoder.encode(playlistId, Charsets.UTF_8.name())
 }

@@ -6,8 +6,10 @@ import { ENDPOINTS } from "./endpoints";
  * - `GET /api/pista/subir/rutas` → PistaController.ObtenerRutasDeSubidaAsync
  * - `POST /api/pista/subir` (multipart) → PistaController.SubirPistaAsync
  * - `POST /api/pista/subir/url` → PistaController.SubirDesdeUrlAsync
+ * - `GET /api/pista/metadatos/buscar` → PistaController.BuscarMetadatosAsync
+ * - `POST /api/pista/{id}/metadatos` → PistaController.ActualizarMetadatosAsync
  *
- * Los tres exigen `Authorization: Bearer` con tipo `admin`/`administrador`
+ * Todos exigen `Authorization: Bearer` con tipo `admin`/`administrador`
  * (403 por ahora; la restricción se liberará más adelante).
  */
 
@@ -122,6 +124,119 @@ export async function uploadTrackFromUrl(
   });
 
   return assertSubida(dto);
+}
+
+/** Coincidencia de metadatos ofrecida por un proveedor. */
+export type MetadatosCandidatoDto = {
+  idExterno: string;
+  titulo: string | null;
+  artista: string | null;
+  album: string | null;
+  portadaUrl: string | null;
+  imagenArtista: string | null;
+  ano: number;
+  duracionSegundos: number;
+  fuente: string | null;
+};
+
+/** Pista con los datos de biblioteca tras aplicar metadatos. */
+export type PistaBibliotecaDto = {
+  id: string;
+  nombre: string;
+  interprete: string | null;
+  albumId: string;
+  albumNombre: string | null;
+  portadaUrl: string | null;
+  anoCreacion: number;
+  generoId: number;
+  generoNombre: string | null;
+  duracionSegundos: number;
+  reproducciones: number;
+  fechaRegistro: string;
+  url: string;
+  tieneLetra: boolean;
+  letra: string | null;
+  imagenArtista: string | null;
+  fuenteMetadatos: string | null;
+  estaActivo: boolean;
+};
+
+/** Buscar proveedores + descargar portada/letra puede tardar. */
+const METADATA_TIMEOUT_MS = 60_000;
+
+/** Coincidencias para una cadena; el backend consulta todos los proveedores activos. */
+export async function searchTrackMetadata(
+  baseUrl: string,
+  token: string,
+  cadena: string,
+  signal?: AbortSignal,
+): Promise<MetadatosCandidatoDto[]> {
+  const data = await apiRequest<MetadatosCandidatoDto[]>({
+    baseUrl,
+    path: ENDPOINTS.metadataSearch(cadena),
+    method: "GET",
+    token,
+    timeoutMs: METADATA_TIMEOUT_MS,
+    signal,
+  });
+
+  if (!Array.isArray(data)) {
+    throw new ApiError("parsing", "La respuesta de metadatos no tiene el formato esperado.");
+  }
+
+  return data;
+}
+
+/** Aplica una coincidencia a la pista: título, artista, álbum, año, género, duración y letra. */
+export async function applyTrackMetadata(
+  baseUrl: string,
+  token: string,
+  trackId: string,
+  idExterno: string,
+  proveedor?: string | null,
+): Promise<PistaBibliotecaDto> {
+  const dto = await apiRequest<PistaBibliotecaDto | undefined>({
+    baseUrl,
+    path: ENDPOINTS.trackMetadata(trackId),
+    method: "POST",
+    body: { idExterno, proveedor: proveedor ?? null },
+    token,
+    timeoutMs: METADATA_TIMEOUT_MS,
+  });
+
+  if (!dto || typeof dto !== "object" || typeof dto.nombre !== "string") {
+    throw new ApiError("parsing", "La respuesta de metadatos no tiene el formato esperado.");
+  }
+
+  return dto;
+}
+
+/**
+ * Enriquecimiento posterior a la subida: busca con "intérprete + título" (los
+ * datos que dejó la subida) y aplica la primera coincidencia con
+ * `ActualizarMetadatosAsync`. Devuelve `null` si no hay resultados.
+ */
+export async function enrichTrackMetadata(
+  baseUrl: string,
+  token: string,
+  subida: SubidaPistaDto,
+): Promise<{ candidato: MetadatosCandidatoDto; pista: PistaBibliotecaDto } | null> {
+  const cadena = [subida.interprete?.trim(), subida.nombre?.trim()].filter(Boolean).join(" ").trim();
+  if (!cadena) return null;
+
+  const candidatos = await searchTrackMetadata(baseUrl, token, cadena);
+  const candidato = candidatos.find((item) => Boolean(item.idExterno?.trim()));
+  if (!candidato) return null;
+
+  const pista = await applyTrackMetadata(
+    baseUrl,
+    token,
+    subida.pistaId,
+    candidato.idExterno,
+    candidato.fuente,
+  );
+
+  return { candidato, pista };
 }
 
 function assertSubida(dto: SubidaPistaDto | undefined): SubidaPistaDto {

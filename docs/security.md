@@ -13,7 +13,7 @@ Buenas prácticas de seguridad aplicables a las tres plataformas y al manejo del
 
 | Plataforma | Almacenamiento recomendado | Reglas |
 |---|---|---|
-| **Web** | Preferir cookie `httpOnly` + `Secure` + `SameSite` gestionada por el backend. Si el contrato exige token en JS: `sessionStorage` (no `localStorage`) con expiración corta | No exponer token en URLs ni en `localStorage` si existe alternativa; limpiar al logout |
+| **Web** | Hoy: `localStorage` (`antara:session`) para conservar la sesión entre recargas, limitada por la vigencia real del token (8 h) y borrada al cerrar sesión. Objetivo si el backend lo permite: cookie `httpOnly` + `Secure` + `SameSite` | No exponer el token en URLs; descartar entradas vencidas o corruptas al restaurar y limpiar al logout |
 | **Desktop** | Almacenamiento cifrado del sistema: **Windows Credential Manager** vía crate `keyring` (evaluar al implementar auth). Interim aceptable: plugin `tauri-plugin-store` con archivo en `APPDATA` y permisos restringidos, marcado como deuda | Nunca tokens en claro en el código o en logs; borrar al logout |
 | **Android** | DataStore cifrado con Android Keystore (`EncryptedSharedPreferences`/`Security-Crypto`) o KeyStore directo | Excluir del backup (`data_extraction_rules`); nunca en `SharedPreferences` en claro |
 
@@ -26,7 +26,7 @@ Buenas prácticas de seguridad aplicables a las tres plataformas y al manejo del
 - Verificar certificados (no desactivar `TrustManager`/cert pinning a la ligera).
 - URL base configurada por el usuario (servidor activo) y ruta relativa del endpoint resuelta por el cliente HTTP (ver [api-integration.md](api-integration.md#configuración-de-url-base) y ADR-016); no URLs hardcodeadas en componentes.
 - **HTTP en claro solo en desarrollo/red local:** Android declara `android:usesCleartextTraffic="true"` para servidores `http://` de la LAN; en producción el servidor debe exponerse por HTTPS.
-- **Deuda conocida:** en Android el token de sesión se guarda sin cifrar en DataStore; en Web/Desktop vive solo en memoria y se pierde al recargar. Migrar al almacén cifrado (y decidir persistencia en Web/Desktop) cuando se evalúe esa dependencia.
+- **Deuda conocida:** en Android el token de sesión se guarda sin cifrar en DataStore; en Web/Desktop se guarda en `localStorage` (`antara:session`) y se restaura mientras el `exp` del token siga vigente (8 h), descartándose al expirar o al cerrar sesión. Migrar al almacén cifrado cuando se evalúe esa dependencia.
 - **Desktop (Tauri):** habilitar CSP en `tauri.conf.json` (hoy está en `null`, deuda conocida). CSP mínima sugerida:
 
 ```jsonc

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "../../components/Icon";
 import { ApiError } from "../../services/api/apiClient";
 import {
+  enrichTrackMetadata,
   fetchUploadRoutes,
   uploadTrackFile,
   uploadTrackFromUrl,
@@ -19,6 +20,13 @@ const INPUT_CLASS =
 
 /** Rutas cargadas junto a la clave (servidor + token) con la que se pidieron. */
 type RutasCargadas = { clave: string; rutas: RutaSubidaDto[] };
+
+/** Estado del enriquecimiento de metadatos que sigue a cada subida. */
+type EstadoMetadatos =
+  | { estado: "buscando" }
+  | { estado: "aplicado"; nombre: string; interprete: string | null; album: string | null }
+  | { estado: "sinCoincidencias" }
+  | { estado: "error"; mensaje: string };
 
 function claveDeCarga(address: string, token: string): string {
   return `${address}\u0000${token}`;
@@ -45,6 +53,7 @@ export function ServerUploadPanel() {
   const [enviando, setEnviando] = useState<"archivo" | "url" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [resultado, setResultado] = useState<SubidaPistaDto | null>(null);
+  const [metadatos, setMetadatos] = useState<EstadoMetadatos | null>(null);
 
   const clave = activeServer && token ? claveDeCarga(activeServer.address, token) : null;
 
@@ -81,12 +90,41 @@ export function ServerUploadPanel() {
 
   const puedeEnviar = Boolean(activeServer && token) && enviando === null;
 
+  /**
+   * Tras la subida busca la canción y aplica la primera coincidencia con
+   * `POST /api/pista/{id}/metadatos` (ActualizarMetadatosAsync). Un fallo aquí
+   * no invalida la subida: se informa en una línea aparte.
+   */
+  const completarMetadatos = async (dto: SubidaPistaDto) => {
+    if (!activeServer || !token) return;
+
+    setMetadatos({ estado: "buscando" });
+
+    try {
+      const aplicado = await enrichTrackMetadata(activeServer.address, token, dto);
+      if (!aplicado) {
+        setMetadatos({ estado: "sinCoincidencias" });
+        return;
+      }
+
+      setMetadatos({
+        estado: "aplicado",
+        nombre: aplicado.pista.nombre?.trim() || dto.nombre,
+        interprete: aplicado.pista.interprete?.trim() || null,
+        album: aplicado.pista.albumNombre?.trim() || null,
+      });
+    } catch (cause) {
+      setMetadatos({ estado: "error", mensaje: messageForMetadata(cause) });
+    }
+  };
+
   const subirArchivo = async () => {
     if (!activeServer || !token || !archivo) return;
 
     setEnviando("archivo");
     setError(null);
     setResultado(null);
+    setMetadatos(null);
 
     try {
       const dto = await uploadTrackFile(activeServer.address, token, {
@@ -97,6 +135,7 @@ export function ServerUploadPanel() {
       setResultado(dto);
       setArchivo(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
+      void completarMetadatos(dto);
     } catch (cause) {
       setError(messageForUpload(cause));
     } finally {
@@ -110,6 +149,7 @@ export function ServerUploadPanel() {
     setEnviando("url");
     setError(null);
     setResultado(null);
+    setMetadatos(null);
 
     try {
       const dto = await uploadTrackFromUrl(activeServer.address, token, {
@@ -119,6 +159,7 @@ export function ServerUploadPanel() {
       });
       setResultado(dto);
       setUrl("");
+      void completarMetadatos(dto);
     } catch (cause) {
       setError(messageForUpload(cause));
     } finally {
@@ -230,6 +271,30 @@ export function ServerUploadPanel() {
         </p>
       ) : null}
 
+      {metadatos ? (
+        <p
+          role="status"
+          className={`mt-2 rounded-md border bg-surface-elevated px-3 py-2 text-body-sm ${
+            metadatos.estado === "error"
+              ? "border-warning/40 text-warning"
+              : "border-border text-text-secondary"
+          }`}
+        >
+          {metadatos.estado === "buscando" ? "Buscando metadatos de la canción…" : null}
+          {metadatos.estado === "sinCoincidencias"
+            ? "No se encontraron coincidencias: la pista quedó con los datos de la subida."
+            : null}
+          {metadatos.estado === "aplicado"
+            ? `Metadatos actualizados: ${metadatos.nombre}${
+                metadatos.interprete ? ` · ${metadatos.interprete}` : ""
+              }${metadatos.album ? ` — ${metadatos.album}` : ""}`
+            : null}
+          {metadatos.estado === "error"
+            ? `La pista se subió, pero no se pudieron actualizar sus metadatos. ${metadatos.mensaje}`
+            : null}
+        </p>
+      ) : null}
+
       {error ? (
         <p
           role="alert"
@@ -240,6 +305,31 @@ export function ServerUploadPanel() {
       ) : null}
     </section>
   );
+}
+
+/** Traduce los errores del enriquecimiento de metadatos (403, sin red, etc.). */
+function messageForMetadata(cause: unknown): string {
+  if (!(cause instanceof ApiError)) {
+    return "Inténtalo de nuevo más tarde.";
+  }
+
+  switch (cause.kind) {
+    case "forbidden":
+      return "La actualización de metadatos está restringida a cuentas administradoras por ahora.";
+    case "unauthorized":
+      return "Tu sesión expiró. Vuelve a iniciar sesión.";
+    case "validation":
+    case "notFound":
+      return cause.message;
+    case "network":
+      return "No se pudo conectar con el servidor.";
+    case "unavailable":
+      return "El servidor no está disponible.";
+    case "parsing":
+      return "Respuesta inesperada del servidor.";
+    case "server":
+      return "Error del servidor.";
+  }
 }
 
 /** Traduce los errores de subida (incluido el 403 temporal de rol). */

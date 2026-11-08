@@ -29,4 +29,10 @@ export const ENDPOINTS = {
   /** GET → canciones de la playlist mezclando artistas (PistaController.ObtenerTodosPistasDePlaylistAsync). */
   playlistTracks: (playlistId: string) =>
     `/api/pista/todos/playlist/${encodeURIComponent(playlistId)}`,
+  /** GET ?cadena=&proveedor= → coincidencias de metadatos (PistaController.BuscarMetadatosAsync). */
+  metadataSearch: (cadena: string, proveedor = "todos") =>
+    `/api/pista/metadatos/buscar?cadena=${encodeURIComponent(cadena)}&proveedor=${encodeURIComponent(proveedor)}`,
+  /** POST { idExterno, proveedor } → aplica los metadatos a la pista (PistaController.ActualizarMetadatosAsync). */
+  trackMetadata: (trackId: string) =>
+    `/api/pista/${encodeURIComponent(trackId)}/metadatos`,
 } as const;

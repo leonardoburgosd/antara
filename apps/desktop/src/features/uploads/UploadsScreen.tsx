@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Icon } from "../../components/Icon";
 import { MediaRow } from "../../components/MediaRow";
+import { ServerUploadPanel } from "../../components/ServerUploadPanel";
 import { usePlayer } from "../../stores/player";
 import { useUploads } from "../../stores/uploads";
 import type { Track } from "../../types/library";
@@ -104,6 +105,8 @@ export function UploadsScreen() {
           })}
         </div>
       )}
+
+      <ServerUploadPanel />
     </div>
   );
 }

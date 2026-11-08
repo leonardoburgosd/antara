@@ -60,12 +60,17 @@ import com.antara.app.features.library.ui.LibraryScreen
 import com.antara.app.domain.model.SessionState
 import com.antara.app.domain.model.UserSession
 import com.antara.app.data.remote.dto.AlbumDto
+import com.antara.app.data.remote.dto.PlaylistDto
 import com.antara.app.features.album.AlbumDetailUiState
 import com.antara.app.features.album.AlbumDetailViewModel
 import com.antara.app.features.album.ui.AlbumDetailScreen
 import com.antara.app.features.auth.ui.AuthScreen
 import com.antara.app.features.home.HomeAlbumsUiState
+import com.antara.app.features.home.HomePlaylistsUiState
 import com.antara.app.features.home.HomeViewModel
+import com.antara.app.features.playlist.PlaylistDetailUiState
+import com.antara.app.features.playlist.PlaylistDetailViewModel
+import com.antara.app.features.playlist.ui.PlaylistDetailScreen
 import com.antara.app.features.home.ui.DetailScreen
 import com.antara.app.features.home.ui.HomeScreen
 import com.antara.app.features.home.ui.SongItem
@@ -94,12 +99,14 @@ fun AppRoot(container: AppContainer) {
     val homeFactory = remember(container) {
         HomeViewModel.factory(
             albumApi = container.albumApi,
+            playlistApi = container.playlistApi,
             sessionRepository = container.sessionRepository,
             serverRepository = container.serverRepository,
         )
     }
     val homeViewModel: HomeViewModel = viewModel(factory = homeFactory)
     val albumsState by homeViewModel.uiState.collectAsState()
+    val playlistsState by homeViewModel.playlistsState.collectAsState()
 
     val albumFactory = remember(container) {
         AlbumDetailViewModel.factory(
@@ -109,6 +116,15 @@ fun AppRoot(container: AppContainer) {
     }
     val albumViewModel: AlbumDetailViewModel = viewModel(factory = albumFactory)
     val albumState by albumViewModel.uiState.collectAsState()
+
+    val playlistFactory = remember(container) {
+        PlaylistDetailViewModel.factory(
+            playlistApi = container.playlistApi,
+            serverRepository = container.serverRepository,
+        )
+    }
+    val playlistViewModel: PlaylistDetailViewModel = viewModel(factory = playlistFactory)
+    val playlistState by playlistViewModel.uiState.collectAsState()
 
     var serversOpen by rememberSaveable { mutableStateOf(false) }
     var playerOpen by rememberSaveable { mutableStateOf(false) }
@@ -121,6 +137,7 @@ fun AppRoot(container: AppContainer) {
             playerOpen = false
             homeViewModel.reset()
             albumViewModel.reset()
+            playlistViewModel.reset()
         }
     }
 
@@ -182,12 +199,22 @@ fun AppRoot(container: AppContainer) {
                             servers = servers,
                             playerState = playerState,
                             albumsState = albumsState,
+                            playlistsState = playlistsState,
                             onLoadAlbums = { homeViewModel.loadAlbums() },
                             onRetryAlbums = { homeViewModel.loadAlbums(force = true) },
+                            onLoadPlaylists = { homeViewModel.loadPlaylists() },
+                            onRetryPlaylists = { homeViewModel.loadPlaylists(force = true) },
                             albumState = albumState,
                             onLoadAlbumTracks = { albumId -> albumViewModel.load(albumId) },
                             onRetryAlbumTracks = albumViewModel::retry,
                             onPlayAlbum = { tracks, index ->
+                                playerViewModel.playQueue(tracks, index)
+                                playerOpen = true
+                            },
+                            playlistState = playlistState,
+                            onLoadPlaylistTracks = { playlistId -> playlistViewModel.load(playlistId) },
+                            onRetryPlaylistTracks = playlistViewModel::retry,
+                            onPlayPlaylist = { tracks, index ->
                                 playerViewModel.playQueue(tracks, index)
                                 playerOpen = true
                             },
@@ -239,12 +266,19 @@ private fun MainContent(
     servers: SavedServers,
     playerState: PlayerUiState,
     albumsState: HomeAlbumsUiState,
+    playlistsState: HomePlaylistsUiState,
     onLoadAlbums: () -> Unit,
     onRetryAlbums: () -> Unit,
+    onLoadPlaylists: () -> Unit,
+    onRetryPlaylists: () -> Unit,
     albumState: AlbumDetailUiState,
     onLoadAlbumTracks: (String) -> Unit,
     onRetryAlbumTracks: () -> Unit,
     onPlayAlbum: (List<PlayableTrack>, Int) -> Unit,
+    playlistState: PlaylistDetailUiState,
+    onLoadPlaylistTracks: (String) -> Unit,
+    onRetryPlaylistTracks: () -> Unit,
+    onPlayPlaylist: (List<PlayableTrack>, Int) -> Unit,
     onOpenServers: () -> Unit,
     onOpenPlayer: () -> Unit,
     onTogglePlayPause: () -> Unit,
@@ -259,13 +293,16 @@ private fun MainContent(
     var detailRoute by rememberSaveable { mutableStateOf("") }
     var selectedAlbum by remember { mutableStateOf<AlbumDto?>(null) }
     var selectedAlbumCover by remember { mutableStateOf<Color>(AntaraDarkTokens.Primary) }
+    var selectedPlaylist by remember { mutableStateOf<PlaylistDto?>(null) }
+    var selectedPlaylistCover by remember { mutableStateOf<Color>(AntaraDarkTokens.Primary) }
     var bottomBarHeightPx by remember { mutableIntStateOf(0) }
     val bottomBarHeight = with(LocalDensity.current) { bottomBarHeightPx.toDp() }
     val contentBottomPadding = bottomBarHeight + AntaraTheme.spacing.xl
 
-    BackHandler(enabled = detailRoute.isNotEmpty() || selectedAlbum != null) {
+    BackHandler(enabled = detailRoute.isNotEmpty() || selectedAlbum != null || selectedPlaylist != null) {
         detailRoute = ""
         selectedAlbum = null
+        selectedPlaylist = null
     }
 
     Scaffold(
@@ -306,14 +343,22 @@ private fun MainContent(
                     userName = session.name,
                     playerState = playerState,
                     albumsState = albumsState,
+                    playlistsState = playlistsState,
                     onLoadAlbums = onLoadAlbums,
                     onRetryAlbums = onRetryAlbums,
+                    onLoadPlaylists = onLoadPlaylists,
+                    onRetryPlaylists = onRetryPlaylists,
                     onOpenServers = onOpenServers,
                     onOpenLikedSongs = { detailRoute = Routes.LIKED },
                     onOpenAlbum = { album, coverColor ->
                         selectedAlbum = album
                         selectedAlbumCover = coverColor
                         onLoadAlbumTracks(album.id)
+                    },
+                    onOpenPlaylist = { playlist, coverColor ->
+                        selectedPlaylist = playlist
+                        selectedPlaylistCover = coverColor
+                        onLoadPlaylistTracks(playlist.id)
                     },
                     onPlayIndex = onPlayLikedIndex,
                     bottomContentPadding = contentBottomPadding,
@@ -350,6 +395,40 @@ private fun MainContent(
                     playerState = playerState,
                     onBack = { detailRoute = "" },
                     onPlayQueue = onPlayQueue,
+                    bottomContentPadding = contentBottomPadding,
+                    modifier = screenModifier,
+                )
+            }
+
+            selectedPlaylist?.let { playlist ->
+                PlaylistDetailScreen(
+                    playlistTitle = playlist.nombre,
+                    playlistArtists = playlist.artistas.orEmpty(),
+                    playlistDescription = playlist.descripcion,
+                    totalTracks = playlist.totalPistas,
+                    totalArtists = playlist.totalArtistas,
+                    coverColor = selectedPlaylistCover,
+                    state = playlistState,
+                    playerState = playerState,
+                    onBack = { selectedPlaylist = null },
+                    onRetry = onRetryPlaylistTracks,
+                    onPlayTrack = { index ->
+                        val tracks = playlistState.tracks
+                        if (tracks.isNotEmpty()) {
+                            onPlayPlaylist(
+                                tracks.map { track ->
+                                    PlayableTrack(
+                                        id = track.id,
+                                        title = track.title,
+                                        artist = track.artist.ifBlank { playlist.artistas.orEmpty() },
+                                        coverColor = selectedPlaylistCover,
+                                        uri = track.uri,
+                                    )
+                                },
+                                index.coerceIn(0, tracks.lastIndex),
+                            )
+                        }
+                    },
                     bottomContentPadding = contentBottomPadding,
                     modifier = screenModifier,
                 )

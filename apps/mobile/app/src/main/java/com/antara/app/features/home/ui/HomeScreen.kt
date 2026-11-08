@@ -32,7 +32,9 @@ import com.antara.app.core.designsystem.color.AntaraDarkTokens
 import com.antara.app.core.designsystem.components.AntaraFilterChips
 import com.antara.app.core.designsystem.components.AntaraTrackRow
 import com.antara.app.data.remote.dto.AlbumDto
+import com.antara.app.data.remote.dto.PlaylistDto
 import com.antara.app.features.home.HomeAlbumsUiState
+import com.antara.app.features.home.HomePlaylistsUiState
 import com.antara.app.player.PlayerUiState
 import java.util.Calendar
 
@@ -44,6 +46,14 @@ private val ALBUM_COVERS = listOf(
     AntaraDarkTokens.Accent,
     AntaraDarkTokens.Success,
     AntaraDarkTokens.Error,
+)
+
+/** Colores de las tarjetas destacadas por posición (misma paleta que el mock). */
+private val FEATURED_STYLES = listOf(
+    AntaraDarkTokens.Primary to false,
+    AntaraDarkTokens.AccentWarm to true,
+    AntaraDarkTokens.Accent to true,
+    AntaraDarkTokens.Info to true,
 )
 
 /**
@@ -58,11 +68,15 @@ fun HomeScreen(
     userName: String,
     playerState: PlayerUiState,
     albumsState: HomeAlbumsUiState,
+    playlistsState: HomePlaylistsUiState,
     onLoadAlbums: () -> Unit,
     onRetryAlbums: () -> Unit,
+    onLoadPlaylists: () -> Unit,
+    onRetryPlaylists: () -> Unit,
     onOpenServers: () -> Unit,
     onOpenLikedSongs: () -> Unit,
     onOpenAlbum: (AlbumDto, Color) -> Unit,
+    onOpenPlaylist: (PlaylistDto, Color) -> Unit,
     onPlayIndex: (Int) -> Unit,
     bottomContentPadding: Dp = 0.dp,
     modifier: Modifier = Modifier,
@@ -71,7 +85,35 @@ fun HomeScreen(
     val selectedFilter = HomeFilter.entries[selectedFilterIndex]
     val content = remember(selectedFilter) { buildHomeContent(selectedFilter) }
 
-    LaunchedEffect(Unit) { onLoadAlbums() }
+    // "Curado y en tendencia" usa las playlists del backend; sin ellas queda el mock.
+    val featuredPlaylists = if (selectedFilter == HomeFilter.All) {
+        playlistsState.playlists.take(2)
+    } else {
+        emptyList()
+    }
+
+    val featuredItems = if (featuredPlaylists.isEmpty()) {
+        content.featured
+    } else {
+        featuredPlaylists.mapIndexed { index, playlist ->
+            val style = FEATURED_STYLES[index % FEATURED_STYLES.size]
+            FeaturedItem(
+                id = playlist.id,
+                title = playlist.nombre.ifBlank { playlist.id },
+                subtitle = playlist.descripcion
+                    ?: "${playlist.totalPistas} canciones · ${playlist.totalArtistas} artistas",
+                background = style.first,
+                darkText = style.second,
+            )
+        }
+    }
+
+    val featuredPlaylistsById = featuredPlaylists.associateBy { it.id }
+
+    LaunchedEffect(Unit) {
+        onLoadAlbums()
+        onLoadPlaylists()
+    }
 
     val greeting = stringResource(
         when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
@@ -121,10 +163,27 @@ fun HomeScreen(
         item(key = "featured") {
             Spacer(Modifier.height(AntaraTheme.spacing.sm))
             FeaturedCarousel(
-                items = content.featured,
-                onPlay = { onPlayIndex(0) },
-                onOpen = { onOpenLikedSongs() },
+                items = featuredItems,
+                onPlay = { item ->
+                    val playlist = featuredPlaylistsById[item.id]
+                    if (playlist != null) {
+                        onOpenPlaylist(playlist, item.background)
+                    } else {
+                        onPlayIndex(0)
+                    }
+                },
+                onOpen = { item ->
+                    val playlist = featuredPlaylistsById[item.id]
+                    if (playlist != null) onOpenPlaylist(playlist, item.background) else onOpenLikedSongs()
+                },
             )
+        }
+        if (selectedFilter == HomeFilter.All && playlistsState.errorRes != null) {
+            item(key = "featured-retry") {
+                TextButton(onClick = onRetryPlaylists) {
+                    Text(text = stringResource(R.string.home_albums_retry))
+                }
+            }
         }
         item(key = "playlists-header") {
             Spacer(Modifier.height(AntaraTheme.spacing.xl))

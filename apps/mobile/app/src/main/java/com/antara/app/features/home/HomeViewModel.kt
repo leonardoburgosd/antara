@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.antara.app.R
 import com.antara.app.core.network.ApiError
 import com.antara.app.data.remote.AlbumApi
+import com.antara.app.data.remote.PlaylistApi
 import com.antara.app.domain.model.SessionState
 import com.antara.app.domain.repository.ServerRepository
 import com.antara.app.domain.repository.SessionRepository
@@ -26,12 +27,16 @@ import kotlinx.coroutines.launch
  */
 class HomeViewModel(
     private val albumApi: AlbumApi,
+    private val playlistApi: PlaylistApi,
     private val sessionRepository: SessionRepository,
     private val serverRepository: ServerRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeAlbumsUiState())
     val uiState: StateFlow<HomeAlbumsUiState> = _uiState.asStateFlow()
+
+    private val _playlistsState = MutableStateFlow(HomePlaylistsUiState())
+    val playlistsState: StateFlow<HomePlaylistsUiState> = _playlistsState.asStateFlow()
 
     /** Carga los álbumes una vez; `force` reintenta tras un error. */
     fun loadAlbums(force: Boolean = false) {
@@ -70,13 +75,55 @@ class HomeViewModel(
         }
     }
 
+    /** Carga las playlists destacadas; `force` reintenta tras un error. */
+    fun loadPlaylists(force: Boolean = false) {
+        val current = _playlistsState.value
+        if (current.isLoading) return
+        if (current.loaded && !force) return
+
+        _playlistsState.update { it.copy(isLoading = true, errorRes = null) }
+
+        viewModelScope.launch {
+            val session = sessionRepository.session.first()
+            val token = (session as? SessionState.SignedIn)?.session?.token
+            val server = serverRepository.servers.first().active
+
+            if (token.isNullOrBlank()) {
+                failPlaylists(R.string.home_albums_session)
+                return@launch
+            }
+            if (server == null) {
+                failPlaylists(R.string.home_albums_no_server)
+                return@launch
+            }
+
+            try {
+                val playlists = playlistApi.todos(baseUrl = server.address, token = token)
+                _playlistsState.value = HomePlaylistsUiState(
+                    isLoading = false,
+                    playlists = playlists,
+                    loaded = true,
+                )
+            } catch (error: ApiError) {
+                failPlaylists(error.toMessageRes())
+            } catch (_: Exception) {
+                failPlaylists(R.string.home_albums_error)
+            }
+        }
+    }
+
     private fun fail(messageRes: Int) {
         _uiState.update { it.copy(isLoading = false, errorRes = messageRes) }
     }
 
-    /** Limpia el estado al cerrar sesión para no reutilizar álbumes de otra cuenta. */
+    private fun failPlaylists(messageRes: Int) {
+        _playlistsState.update { it.copy(isLoading = false, errorRes = messageRes) }
+    }
+
+    /** Limpia el estado al cerrar sesión para no reutilizar contenido de otra cuenta. */
     fun reset() {
         _uiState.value = HomeAlbumsUiState()
+        _playlistsState.value = HomePlaylistsUiState()
     }
 
     private fun ApiError.toMessageRes(): Int = when (this) {
@@ -94,10 +141,11 @@ class HomeViewModel(
     companion object {
         fun factory(
             albumApi: AlbumApi,
+            playlistApi: PlaylistApi,
             sessionRepository: SessionRepository,
             serverRepository: ServerRepository,
         ) = viewModelFactory {
-            initializer { HomeViewModel(albumApi, sessionRepository, serverRepository) }
+            initializer { HomeViewModel(albumApi, playlistApi, sessionRepository, serverRepository) }
         }
     }
 }

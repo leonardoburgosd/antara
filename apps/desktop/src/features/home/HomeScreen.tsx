@@ -7,10 +7,12 @@ import { SectionHeader } from "../../components/SectionHeader";
 import { ApiError } from "../../services/api/apiClient";
 import { fetchAlbums } from "../../services/api/albumsService";
 import type { AlbumDto } from "../../services/api/albumsService";
+import { fetchPlaylists } from "../../services/api/playlistsService";
+import type { PlaylistResumenDto } from "../../services/api/playlistsService";
 import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
 import { useSession } from "../../stores/session";
-import type { HomeFilter } from "../../types/library";
+import type { FeaturedItem, HomeFilter } from "../../types/library";
 import { buildHomeContent, HOME_FILTERS } from "./homeContent";
 
 function greetingForHour(hour: number): string {
@@ -40,6 +42,14 @@ const ALBUM_COVERS = [
   "bg-error",
 ];
 
+/** Estilos de las tarjetas destacadas por posición (misma paleta que el mock). */
+const FEATURED_STYLES = [
+  { background: "bg-primary", darkText: false },
+  { background: "bg-accent-warm", darkText: true },
+  { background: "bg-accent", darkText: true },
+  { background: "bg-info", darkText: true },
+];
+
 /**
  * Home: saludo + acciones, titular, filtros, carrusel "Curado y en tendencia"
  * y lista de playlists diarias (misma jerarquía que Mobile).
@@ -51,11 +61,14 @@ export function HomeScreen({
   userName,
   onOpenServers,
   onOpenAlbum,
+  onOpenPlaylist,
 }: {
   userName: string;
   onOpenServers: () => void;
   /** Abre el detalle del álbum con su lista de reproducción. */
   onOpenAlbum: (album: AlbumDto, coverColor: string) => void;
+  /** Abre una playlist destacada; `autoPlay` arranca su primera canción. */
+  onOpenPlaylist: (playlist: PlaylistResumenDto, coverColor: string, autoPlay: boolean) => void;
 }) {
   const { state, currentTrack, playQueue, togglePlayPause } = usePlayer();
   const { token } = useSession();
@@ -67,6 +80,8 @@ export function HomeScreen({
   const [albums, setAlbums] = useState<AlbumDto[] | null>(null);
   const [albumsLoading, setAlbumsLoading] = useState(false);
   const [albumsError, setAlbumsError] = useState<string | null>(null);
+  const [playlists, setPlaylists] = useState<PlaylistResumenDto[] | null>(null);
+  const [playlistsLoading, setPlaylistsLoading] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
@@ -76,6 +91,8 @@ export function HomeScreen({
       setAlbums(null);
       setAlbumsError("Configura un servidor e inicia sesión para ver los álbumes.");
       setAlbumsLoading(false);
+      setPlaylists(null);
+      setPlaylistsLoading(false);
       return;
     }
 
@@ -84,6 +101,19 @@ export function HomeScreen({
 
     setAlbumsLoading(true);
     setAlbumsError(null);
+    setPlaylistsLoading(true);
+
+    // "Curado y en tendencia" usa playlists reales; si falla, quedan las del mock.
+    fetchPlaylists(activeServer.address, token, controller.signal)
+      .then((data) => {
+        if (mounted) setPlaylists(data);
+      })
+      .catch(() => {
+        if (mounted) setPlaylists(null);
+      })
+      .finally(() => {
+        if (mounted) setPlaylistsLoading(false);
+      });
 
     fetchAlbums(activeServer.address, token, controller.signal)
       .then((data) => {
@@ -133,6 +163,25 @@ export function HomeScreen({
   const rows = isDaily ? albumRows : mockRows;
   const albumsPending = isDaily && albums === null && !albumsError;
   const showSkeleton = isDaily && (albumsLoading || albumsPending);
+
+  // Tarjetas destacadas con playlists del backend (primera fila de Home).
+  const destacadas: Array<{ item: FeaturedItem; playlist: PlaylistResumenDto }> = isDaily
+    ? (playlists ?? []).slice(0, 2).map((playlist, index) => {
+        const estilo = FEATURED_STYLES[index % FEATURED_STYLES.length] ?? FEATURED_STYLES[0];
+        return {
+          item: {
+            id: playlist.id,
+            title: playlist.nombre?.trim() || "Playlist sin nombre",
+            subtitle:
+              playlist.descripcion?.trim() ||
+              `${playlist.totalPistas} canciones · ${playlist.totalArtistas} artistas`,
+            background: estilo.background,
+            darkText: estilo.darkText,
+          },
+          playlist,
+        };
+      })
+    : [];
   const showEmpty =
     isDaily && albums !== null && !albumsLoading && !albumsError && rows.length === 0;
 
@@ -189,16 +238,39 @@ export function HomeScreen({
 
       <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.curatedTitle}>
         <SectionHeader title={content.curatedTitle} actionLabel="Ver todo" onAction={() => undefined} />
-        <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
-          {content.featured.map((item) => (
-            <FeaturedCard
-              key={item.id}
-              item={item}
-              onPlay={() => playQueue(content.tracks, 0)}
-              onOpen={() => undefined}
-            />
-          ))}
-        </div>
+
+        {isDaily && playlistsLoading && destacadas.length === 0 ? (
+          <div
+            className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+            aria-hidden="true"
+          >
+            {[0, 1].map((index) => (
+              <div key={index} className="min-h-[172px] animate-pulse rounded-xl bg-surface-elevated" />
+            ))}
+          </div>
+        ) : destacadas.length > 0 ? (
+          <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+            {destacadas.map(({ item, playlist }) => (
+              <FeaturedCard
+                key={item.id}
+                item={item}
+                onPlay={() => onOpenPlaylist(playlist, item.background, true)}
+                onOpen={() => onOpenPlaylist(playlist, item.background, false)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+            {content.featured.map((item) => (
+              <FeaturedCard
+                key={item.id}
+                item={item}
+                onPlay={() => playQueue(content.tracks, 0)}
+                onOpen={() => undefined}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.playlistsTitle}>

@@ -6,6 +6,7 @@ import com.antara.app.data.local.ServerRepositoryImpl
 import com.antara.app.data.local.SessionRepositoryImpl
 import com.antara.app.data.remote.AlbumApi
 import com.antara.app.data.remote.AuthApi
+import com.antara.app.data.remote.PlaylistApi
 import com.antara.app.domain.repository.LocalAudioRepository
 import com.antara.app.domain.repository.ServerRepository
 import com.antara.app.domain.repository.SessionRepository
@@ -23,5 +24,6 @@ class AppContainer(context: Context) {
     val localAudioRepository: LocalAudioRepository = LocalAudioRepositoryImpl(applicationContext)
     val authApi = AuthApi()
     val albumApi = AlbumApi()
+    val playlistApi = PlaylistApi()
     val playerConnection = PlayerConnection(applicationContext)
 }

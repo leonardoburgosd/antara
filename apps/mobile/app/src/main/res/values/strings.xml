@@ -112,6 +112,14 @@
     <string name="library_file_subtitle">Archivo local</string>
     <string name="library_remove">Quitar archivo</string>
 
+    <!-- Playlists -->
+    <string name="playlist_label">Playlist</string>
+    <string name="playlist_summary">%1$d canciones · %2$d artistas</string>
+    <string name="playlist_various_artists">Varios artistas</string>
+    <string name="playlist_tracks_empty">Esta playlist todavía no tiene canciones</string>
+    <string name="playlist_tracks_error">No se pudieron cargar las canciones de la playlist</string>
+    <string name="playlist_tracks_network">No se pudo conectar con el servidor. Revisa la dirección y tu red.</string>
+
     <!-- Pantallas provisionales -->
     <string name="placeholder_coming_soon">Próximamente</string>
 </resources>

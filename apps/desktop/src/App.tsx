@@ -4,11 +4,13 @@ import { Icon } from "./components/Icon";
 import { PlayerBar } from "./components/PlayerBar";
 import { Sidebar } from "./components/Sidebar";
 import { AlbumDetailScreen } from "./features/album/AlbumDetailScreen";
+import { PlaylistDetailScreen } from "./features/playlist/PlaylistDetailScreen";
 import { LoginScreen } from "./features/auth/LoginScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
 import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
 import type { AlbumDto } from "./services/api/albumsService";
+import type { PlaylistResumenDto } from "./services/api/playlistsService";
 import { PlayerProvider, usePlayer } from "./stores/player";
 import { ServersProvider, useServers } from "./stores/servers";
 import { SessionProvider, useSession } from "./stores/session";
@@ -38,6 +40,11 @@ function AppShell() {
     () => window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === "true",
   );
   const [album, setAlbum] = useState<{ album: AlbumDto; coverColor: string } | null>(null);
+  const [playlist, setPlaylist] = useState<{
+    playlist: PlaylistResumenDto;
+    coverColor: string;
+    autoPlay: boolean;
+  } | null>(null);
   const { user } = useSession();
   const { currentTrack } = usePlayer();
   const activeLabel = NAV_ITEMS.find((item) => item.id === tab)?.label ?? EXTRA_TITLES[tab] ?? "";
@@ -67,6 +74,7 @@ function AppShell() {
           onSelect={(id) => {
             setTab(id);
             setAlbum(null);
+            setPlaylist(null);
           }}
           collapsed={collapsed}
           onToggleCollapsed={() => setCollapsed((value) => !value)}
@@ -97,7 +105,14 @@ function AppShell() {
           </header>
 
           <main className="min-h-0 flex-1 overflow-y-auto">
-            {album ? (
+            {playlist ? (
+              <PlaylistDetailScreen
+                playlist={playlist.playlist}
+                coverColor={playlist.coverColor}
+                autoPlay={playlist.autoPlay}
+                onBack={() => setPlaylist(null)}
+              />
+            ) : album ? (
               <AlbumDetailScreen
                 album={album.album}
                 coverColor={album.coverColor}
@@ -107,7 +122,14 @@ function AppShell() {
               <HomeScreen
                 userName={user?.name ?? "Alex"}
                 onOpenServers={() => setTab("server")}
-                onOpenAlbum={(selected, coverColor) => setAlbum({ album: selected, coverColor })}
+                onOpenAlbum={(selected, coverColor) => {
+                  setPlaylist(null);
+                  setAlbum({ album: selected, coverColor });
+                }}
+                onOpenPlaylist={(selected, coverColor, autoPlay) => {
+                  setAlbum(null);
+                  setPlaylist({ playlist: selected, coverColor, autoPlay });
+                }}
               />
             ) : tab === "uploads" ? (
               <UploadsScreen />
