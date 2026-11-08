@@ -1,6 +1,7 @@
 import { usePlayer } from "../stores/player";
 import { formatTime } from "../utils/formatTime";
 import { Icon } from "./Icon";
+import { VolumeControl } from "./VolumeControl";
 
 /** Barra inferior persistente del reproductor (80px en Desktop/Web). */
 export function PlayerBar() {
@@ -115,17 +116,10 @@ export function PlayerBar() {
           </div>
         </div>
 
-        {/* Volumen y cola */}
+        {/* Volumen pegado a la izquierda del botón de cola (misma fila del reproductor). */}
         <div className="hidden flex-1 items-center justify-end gap-2 md:flex">
-          <Icon name="volume_up" size={20} className="text-text-secondary" />
-          <input
-            type="range"
-            min={0}
-            max={100}
-            defaultValue={70}
-            aria-label="Volumen"
-            className="h-1 w-24 cursor-pointer accent-accent"
-          />
+          <VolumeControl />
+
           <button
             type="button"
             aria-label="Cola de reproducción"

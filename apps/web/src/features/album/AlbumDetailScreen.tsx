@@ -3,7 +3,11 @@ import { Icon } from "../../components/Icon";
 import { MediaRow } from "../../components/MediaRow";
 import { ApiError } from "../../services/api/apiClient";
 import type { AlbumDto } from "../../services/api/albumsService";
-import { fetchAlbumTracks, resolveAudioUrl, type TrackDto } from "../../services/api/tracksService";
+import {
+  fetchAlbumTracks,
+  resolveTrackStreamUrl,
+  type TrackDto,
+} from "../../services/api/tracksService";
 import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
 import type { Track } from "../../types/library";
@@ -11,6 +15,9 @@ import type { Track } from "../../types/library";
 /**
  * Detalle de un álbum: cabecera con portada y datos del álbum, y lista de
  * pistas cargada con `GET /api/pista/todos/album/{AlbumId}` (ADR-016).
+ *
+ * La reproducción usa `GET /api/pista/{id}` (PistaController.ObtenerPistaAsync),
+ * que entrega el contenido de cada pista del álbum con soporte de Range.
  *
  * Se llega desde las filas de álbum de "Playlists diarias" en Home.
  */
@@ -189,22 +196,29 @@ export function AlbumDetailScreen({
   );
 }
 
-/** Convierte las pistas del backend en la cola del reproductor. */
+/**
+ * Convierte las pistas del backend en la cola del reproductor.
+ *
+ * Solo se encola el contenido que pertenece a un álbum (`albumId` presente):
+ * su audio se pide al endpoint de streaming por id de pista.
+ */
 function toQueue(
   pistas: TrackDto[],
   album: AlbumDto,
   coverColor: string,
   baseUrl: string,
 ): Track[] {
-  return pistas.map((pista) => ({
-    id: pista.id,
-    title: pista.nombre?.trim() || "Pista sin nombre",
-    artist: pista.interprete?.trim() || album.artista?.trim() || "Artista desconocido",
-    album: album.nombre?.trim() || "Álbum sin nombre",
-    coverColor,
-    duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
-    src: resolveAudioUrl(baseUrl, pista.url),
-  }));
+  return pistas
+    .filter((pista) => Boolean(pista.albumId?.trim()))
+    .map((pista) => ({
+      id: pista.id,
+      title: pista.nombre?.trim() || "Pista sin nombre",
+      artist: pista.interprete?.trim() || album.artista?.trim() || "Artista desconocido",
+      album: album.nombre?.trim() || "Álbum sin nombre",
+      coverColor,
+      duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
+      src: resolveTrackStreamUrl(baseUrl, pista),
+    }));
 }
 
 /** Traduce los errores del cliente HTTP al mensaje de la lista de pistas. */

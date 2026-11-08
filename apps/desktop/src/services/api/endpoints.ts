@@ -10,4 +10,12 @@ export const ENDPOINTS = {
   login: "/api/usuario/login",
   /** GET → lista de álbumes; requiere Bearer con rol admin (AlbumController.ObtenerTodosAlbumesAsync). */
   albums: "/api/album/todos",
+  /** GET → pistas del álbum (PistaController.ObtenerTodosPistasDeAlbumAsync). */
+  albumTracks: (albumId: string) => `/api/pista/todos/album/${encodeURIComponent(albumId)}`,
+  /**
+   * GET → contenido de audio de la pista para reproducirla
+   * (PistaController.ObtenerPistaAsync). Sirve el archivo con `Accept-Ranges`,
+   * por lo que el motor de reproducción puede hacer seek.
+   */
+  trackStream: (trackId: string) => `/api/pista/${encodeURIComponent(trackId)}`,
 } as const;

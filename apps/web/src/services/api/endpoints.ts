@@ -12,4 +12,21 @@ export const ENDPOINTS = {
   albums: "/api/album/todos",
   /** GET → pistas del álbum (PistaController.ObtenerTodosPistasDeAlbumAsync). */
   albumTracks: (albumId: string) => `/api/pista/todos/album/${encodeURIComponent(albumId)}`,
+  /**
+   * GET → contenido de audio de la pista para reproducirla
+   * (PistaController.ObtenerPistaAsync). Sirve el archivo con `Accept-Ranges`,
+   * por lo que el motor de reproducción puede hacer seek.
+   */
+  trackStream: (trackId: string) => `/api/pista/${encodeURIComponent(trackId)}`,
+  /** GET → rutas de audio activas para elegir destino (PistaController.ObtenerRutasDeSubidaAsync). */
+  uploadRoutes: "/api/pista/subir/rutas",
+  /** POST multipart (archivo, rutaId?, subcarpeta?) → PistaController.SubirPistaAsync. */
+  uploadTrack: "/api/pista/subir",
+  /** POST { rutaId?, subcarpeta?, url } → PistaController.SubirDesdeUrlAsync. */
+  uploadFromUrl: "/api/pista/subir/url",
+  /** GET → playlists con nº de canciones y artistas; requiere Bearer admin (PlaylistController.ObtenerTodasAsync). */
+  playlists: "/api/playlist/todos",
+  /** GET → canciones de la playlist mezclando artistas (PistaController.ObtenerTodosPistasDePlaylistAsync). */
+  playlistTracks: (playlistId: string) =>
+    `/api/pista/todos/playlist/${encodeURIComponent(playlistId)}`,
 } as const;

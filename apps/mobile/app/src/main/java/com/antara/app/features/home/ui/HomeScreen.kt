@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.color.AntaraDarkTokens
 import com.antara.app.core.designsystem.components.AntaraFilterChips
 import com.antara.app.core.designsystem.components.AntaraTrackRow
+import com.antara.app.data.remote.dto.AlbumDto
 import com.antara.app.features.home.HomeAlbumsUiState
 import com.antara.app.player.PlayerUiState
 import java.util.Calendar
@@ -60,6 +62,7 @@ fun HomeScreen(
     onRetryAlbums: () -> Unit,
     onOpenServers: () -> Unit,
     onOpenLikedSongs: () -> Unit,
+    onOpenAlbum: (AlbumDto, Color) -> Unit,
     onPlayIndex: (Int) -> Unit,
     bottomContentPadding: Dp = 0.dp,
     modifier: Modifier = Modifier,
@@ -148,13 +151,15 @@ fun HomeScreen(
                     items = albumsState.albums,
                     key = { _, album -> album.id },
                 ) { index, album ->
+                    val coverColor = ALBUM_COVERS[index % ALBUM_COVERS.size]
                     AntaraTrackRow(
                         title = album.nombre,
                         subtitle = album.descripcion
                             ?: album.artista?.let { stringResource(R.string.home_album_artist, it) }
                             ?: stringResource(R.string.home_album_generic),
-                        coverColor = ALBUM_COVERS[index % ALBUM_COVERS.size],
+                        coverColor = coverColor,
                         onPlay = null,
+                        onRowClick = { onOpenAlbum(album, coverColor) },
                     )
                 }
             }

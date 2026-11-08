@@ -38,6 +38,10 @@
     <string name="detail_track_subtitle">De %1$s</string>
     <string name="play">Reproducir</string>
     <string name="song_options">Más opciones</string>
+    <string name="album_label">Álbum</string>
+    <string name="album_tracks_empty">Este álbum todavía no tiene canciones</string>
+    <string name="album_tracks_error">No se pudieron cargar las canciones del álbum</string>
+    <string name="album_tracks_network">No se pudo conectar con el servidor. Revisa la dirección y tu red.</string>
 
     <!-- Reproductor -->
     <string name="player_now_playing">Reproduciendo</string>

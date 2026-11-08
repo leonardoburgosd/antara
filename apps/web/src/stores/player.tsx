@@ -12,7 +12,8 @@ import type { PlayerState, RepeatMode, Track } from "../types/library";
 
 /**
  * Estado del reproductor: único dueño del estado de reproducción (ADR-011).
- * Las pistas con `src` (archivos subidos) se reproducen con el motor local
+ * Las pistas con `src` (stream del backend o archivos subidos) se reproducen con
+ * el motor local
  * (`HTMLAudioElement`, fase 1 de ADR-003); las de muestra avanzan con temporizador
  * hasta que exista el motor completo.
  */
@@ -23,6 +24,7 @@ type PlayerAction =
   | { type: "next" }
   | { type: "previous" }
   | { type: "seek"; position: number }
+  | { type: "setVolume"; volume: number }
   | { type: "syncPosition"; position: number }
   | { type: "toggleShuffle" }
   | { type: "cycleRepeat" }
@@ -35,6 +37,7 @@ const INITIAL_STATE: PlayerState = {
   shuffle: false,
   repeat: "off",
   position: 0,
+  volume: 70,
 };
 
 const NEXT_REPEAT: Record<RepeatMode, RepeatMode> = {
@@ -42,6 +45,11 @@ const NEXT_REPEAT: Record<RepeatMode, RepeatMode> = {
   all: "one",
   one: "off",
 };
+
+function clampVolume(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+  return Math.min(100, Math.max(0, Math.round(value)));
+}
 
 function reducer(state: PlayerState, action: PlayerAction): PlayerState {
   switch (action.type) {
@@ -86,6 +94,9 @@ function reducer(state: PlayerState, action: PlayerAction): PlayerState {
     case "seek":
       return { ...state, position: action.position };
 
+    case "setVolume":
+      return { ...state, volume: clampVolume(action.volume) };
+
     case "syncPosition":
       return { ...state, position: action.position };
 
@@ -118,6 +129,7 @@ type PlayerContextValue = {
   next: () => void;
   previous: () => void;
   seek: (position: number) => void;
+  setVolume: (volume: number) => void;
   toggleShuffle: () => void;
   cycleRepeat: () => void;
 };
@@ -159,6 +171,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     else engine.pause();
   }, [state.isPlaying, currentSrc]);
 
+  // El volumen vive en el estado del reproductor y se aplica al motor aunque se
+  // recree al cambiar de pista (control independiente de la barra de transporte).
+  useEffect(() => {
+    engineRef.current?.setVolume(state.volume / 100);
+  }, [state.volume, currentSrc]);
+
   // Temporizador de muestra: solo cuando la pista no tiene archivo real.
   useEffect(() => {
     if (!state.isPlaying || currentSrc) return;
@@ -181,6 +199,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         engineRef.current?.seek(position);
         dispatch({ type: "seek", position });
       },
+      setVolume: (volume) => dispatch({ type: "setVolume", volume }),
       toggleShuffle: () => dispatch({ type: "toggleShuffle" }),
       cycleRepeat: () => dispatch({ type: "cycleRepeat" }),
     };

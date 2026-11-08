@@ -29,9 +29,23 @@ Responsabilidades del cliente:
 |---|---|---|---|
 | `/api/usuario/login` | `POST` | Pública | Login (Web/Desktop/Mobile) |
 | `/api/album/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | Sección "Playlists diarias" de Home (Web/Desktop/Mobile) |
-| `/api/pista/todos/album/{AlbumId}` | `GET` | Pública | Detalle del álbum: lista de canciones y reproducción (Web) |
+| `/api/pista/todos/album/{AlbumId}` | `GET` | Pública | Detalle del álbum: lista de canciones y reproducción (Web/Desktop/Mobile) |
+| `/api/pista/{id}` | `GET` | Pública | Streaming del audio de una pista del álbum, con `Accept-Ranges` (Web/Desktop/Mobile: reproducir/seek) |
+| `/api/pista/subir/rutas` | `GET` | `Bearer` con rol `admin`/`administrador` | Selector de ruta de destino para las subidas (Web: "Mis archivos") |
+| `/api/pista/subir` | `POST` (multipart) | `Bearer` con rol `admin`/`administrador` | Sube un archivo de audio; campos `rutaId?`, `subcarpeta?`, `archivo` (Web) |
+| `/api/pista/subir/url` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Descarga desde YouTube y registra la pista; `{ rutaId?, subcarpeta?, url }` (Web) |
+| `/api/playlist/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | "Curado y en tendencia" de Home: playlists con `totalPistas`, `totalArtistas` y `artistas` (Web) |
+| `/api/pista/todos/playlist/{PlaylistId}` | `GET` | Pública | Canciones de la playlist mezclando artistas; cada pista trae su `interprete` (Web: detalle de playlist) |
+
+> **Restricción temporal de subidas:** los tres endpoints de subida exigen hoy rol `admin`/`administrador`. La UI no oculta el panel: muestra el `403` como "disponible solo para cuentas administradoras por ahora", de modo que al liberar el backend no haya que cambiar el frontend.
 
 > El catálogo de álbumes usa el endpoint de administración porque el backend todavía no expone una vista pública de álbumes. Si la cuenta no es admin, el backend responde `403` y la UI muestra un mensaje de permisos. Revisar cuando exista el endpoint de consumidor.
+
+### Subida de archivos (multipart)
+
+- `apiRequest` acepta `formData`: en ese caso **no** fija `Content-Type` (el navegador añade el boundary) y conserva `Accept` y `Authorization`.
+- Las subidas usan timeouts propios y mayores (`subir` 120 s, `subir/url` 180 s) porque incluyen transferencia o descarga completa del audio.
+- El destino nunca se envía como ruta física: se envía `rutaId` (y `subcarpeta` opcional) y el backend resuelve la carpeta dentro de la ruta registrada.
 
 ### Transporte en Desktop (decisión)
 
@@ -130,6 +144,7 @@ Mapeo mínimo obligatorio (detalle de mensajes en [error-handling.md](error-hand
   - Requests con `Range: bytes=<inicio>-<fin>` → respuesta `206 Partial Content` con `Content-Range`.
   - Verificar `Accept-Ranges: bytes`; si el backend no lo soporta, seek parcial no funcionará → registrar incidencia.
 - **Nunca** descargar el archivo completo antes de reproducir: el motor de reproducción pide solo los rangos que necesita (la pila de medios del navegador/ExoPlayer lo hace automáticamente).
+- La fuente de audio de una pista es `GET {baseUrl}/api/pista/{id}` (`PistaController.ObtenerPistaAsync`); el campo `url` de la pista es una ruta del almacenamiento del backend, no un endpoint público. Solo se reproduce contenido que pertenece a un álbum.
 - Seek: requiere que el servidor resuelva rangos arbitrarios (importante en VBR).
 - Cancelación: al cambiar de pista, el motor aborta las peticiones en vuelo (nativo en `<audio>`/ExoPlayer).
 - Autenticación del stream: según contrato (token en query, header o URL pre-firmada). **No inventar**: usar el mecanismo que exija el backend y documentarlo aquí cuando se conozca.

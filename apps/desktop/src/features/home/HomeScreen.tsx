@@ -26,6 +26,8 @@ type HomeRow = {
   subtitle: string;
   coverColor: string;
   trackIndex: number;
+  /** Presente solo en filas de álbum: abre su lista de reproducción. */
+  album?: AlbumDto;
 };
 
 /** Tokens del design system usados como portada de los álbumes (sin imágenes por ahora). */
@@ -48,9 +50,12 @@ const ALBUM_COVERS = [
 export function HomeScreen({
   userName,
   onOpenServers,
+  onOpenAlbum,
 }: {
   userName: string;
   onOpenServers: () => void;
+  /** Abre el detalle del álbum con su lista de reproducción. */
+  onOpenAlbum: (album: AlbumDto, coverColor: string) => void;
 }) {
   const { state, currentTrack, playQueue, togglePlayPause } = usePlayer();
   const { token } = useSession();
@@ -122,6 +127,7 @@ export function HomeScreen({
     subtitle: album.descripcion?.trim() || album.artista?.trim() || "Álbum",
     coverColor: ALBUM_COVERS[index % ALBUM_COVERS.length] ?? "bg-primary",
     trackIndex: -1,
+    album,
   }));
 
   const rows = isDaily ? albumRows : mockRows;
@@ -238,6 +244,7 @@ export function HomeScreen({
             {rows.map((row) => {
               const isCurrent =
                 row.trackIndex >= 0 && content.tracks[row.trackIndex]?.id === currentTrack?.id;
+              const album = row.album;
 
               return (
                 <MediaRow
@@ -248,6 +255,7 @@ export function HomeScreen({
                   isCurrent={isCurrent}
                   isPlaying={state.isPlaying}
                   onPlay={row.trackIndex >= 0 ? () => playFrom(row.trackIndex) : undefined}
+                  onOpen={album ? () => onOpenAlbum(album, row.coverColor) : undefined}
                 />
               );
             })}

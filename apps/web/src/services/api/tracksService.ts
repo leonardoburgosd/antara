@@ -51,12 +51,18 @@ export async function fetchAlbumTracks(
 }
 
 /**
- * Resuelve la URL de audio de una pista: si el backend devuelve una ruta
- * relativa se compone con la URL base; si ya es absoluta se deja tal cual.
+ * Resuelve la URL para reproducir una pista: siempre pasa por el endpoint de
+ * streaming `GET /api/pista/{id}` (PistaController.ObtenerPistaAsync), que
+ * devuelve el contenido con `Accept-Ranges` para permitir seek. `url` no es una
+ * ruta pública del servidor, así que no sirve como fuente de audio.
+ *
+ * Solo el contenido que pertenece a un álbum es reproducible: una pista sin
+ * `albumId` no tiene fuente y la cola la descarta.
  */
-export function resolveAudioUrl(baseUrl: string, rawUrl: string | null): string | undefined {
-  const value = rawUrl?.trim();
-  if (!value) return undefined;
-  if (/^https?:\/\//i.test(value)) return value;
-  return buildUrl(baseUrl, value);
+export function resolveTrackStreamUrl(
+  baseUrl: string,
+  pista: Pick<TrackDto, "id" | "albumId">,
+): string | undefined {
+  if (!pista.albumId?.trim()) return undefined;
+  return buildUrl(baseUrl, ENDPOINTS.trackStream(pista.id));
 }

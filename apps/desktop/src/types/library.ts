@@ -9,7 +9,7 @@ export type Track = {
   coverColor: string;
   /** Duración en segundos. */
   duration: number;
-  /** URL reproducible de un archivo local subido por el usuario (blob/object URL). */
+  /** URL reproducible: stream de la pista en el backend o blob de un archivo local. */
   src?: string;
 };
 
@@ -44,6 +44,8 @@ export type PlayerState = {
   repeat: RepeatMode;
   /** Posición en segundos. */
   position: number;
+  /** Volumen 0–100, independiente de los controles de transporte. */
+  volume: number;
 };
 
 /** Destinos de la navegación: principal, archivos subidos y configuración de servidores. */

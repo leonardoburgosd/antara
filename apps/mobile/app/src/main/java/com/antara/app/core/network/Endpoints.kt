@@ -1,5 +1,7 @@
 package com.antara.app.core.network
 
+import java.net.URLEncoder
+
 /**
  * Catálogo central de rutas del backend.
  *
@@ -14,4 +16,15 @@ object Endpoints {
 
     /** `GET` → lista de álbumes; exige Bearer con rol admin (`AlbumController.ObtenerTodosAlbumesAsync`). */
     const val ALBUMS = "/api/album/todos"
+
+    /** `GET` → pistas del álbum (`PistaController.ObtenerTodosPistasDeAlbumAsync`). */
+    fun albumTracks(albumId: String): String =
+        "/api/pista/todos/album/" + URLEncoder.encode(albumId, Charsets.UTF_8.name())
+
+    /**
+     * `GET` → contenido de audio de la pista (`PistaController.ObtenerPistaAsync`).
+     * Sirve el archivo con `Accept-Ranges`, así que ExoPlayer puede hacer seek.
+     */
+    fun trackStream(trackId: String): String =
+        "/api/pista/" + URLEncoder.encode(trackId, Charsets.UTF_8.name())
 }

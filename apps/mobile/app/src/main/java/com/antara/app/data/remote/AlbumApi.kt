@@ -3,6 +3,7 @@ package com.antara.app.data.remote
 import com.antara.app.core.network.ApiClient
 import com.antara.app.core.network.Endpoints
 import com.antara.app.data.remote.dto.AlbumDto
+import com.antara.app.data.remote.dto.PistaDto
 
 /**
  * Consumidor de los endpoints de álbumes.
@@ -24,6 +25,21 @@ class AlbumApi {
 
         return (0 until array.length()).mapNotNull { index ->
             array.optJSONObject(index)?.let(AlbumDto::fromJson)
+        }
+    }
+
+    /**
+     * `GET /api/pista/todos/album/{AlbumId}`. Endpoint público: no requiere token.
+     * Devuelve las pistas del álbum, incluida la de pertenencia (`albumId`).
+     */
+    suspend fun pistas(baseUrl: String, albumId: String): List<PistaDto> {
+        val array = ApiClient.getJsonArray(
+            baseUrl = baseUrl,
+            path = Endpoints.albumTracks(albumId),
+        )
+
+        return (0 until array.length()).mapNotNull { index ->
+            array.optJSONObject(index)?.let(PistaDto::fromJson)
         }
     }
 }

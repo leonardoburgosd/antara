@@ -45,6 +45,11 @@ export type ApiRequestOptions = {
   path: string;
   method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: unknown;
+  /**
+   * Cuerpo multipart (subida de archivos). No se fija `Content-Type`: el
+   * navegador añade el header con el boundary correcto.
+   */
+  formData?: FormData;
   token?: string | null;
   timeoutMs?: number;
   signal?: AbortSignal;
@@ -60,8 +65,10 @@ export async function apiRequest<T>(options: ApiRequestOptions): Promise<T> {
   options.signal?.addEventListener("abort", abortFromCaller);
 
   const headers: Record<string, string> = { Accept: "application/json" };
-  let payload: string | undefined;
-  if (options.body !== undefined) {
+  let payload: BodyInit | undefined;
+  if (options.formData) {
+    payload = options.formData;
+  } else if (options.body !== undefined) {
     headers["Content-Type"] = "application/json";
     payload = JSON.stringify(options.body);
   }

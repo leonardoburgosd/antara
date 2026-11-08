@@ -9,6 +9,8 @@ export type LocalAudioEngine = {
   play: () => void;
   pause: () => void;
   seek: (seconds: number) => void;
+  /** Volumen del elemento de audio, de 0 a 1. */
+  setVolume: (level: number) => void;
   dispose: () => void;
 };
 
@@ -37,6 +39,9 @@ export function createLocalAudioEngine(handlers: EngineHandlers): LocalAudioEngi
     },
     seek(seconds) {
       if (Number.isFinite(seconds)) audio.currentTime = seconds;
+    },
+    setVolume(level) {
+      if (Number.isFinite(level)) audio.volume = Math.min(1, Math.max(0, level));
     },
     dispose() {
       audio.pause();

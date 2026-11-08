@@ -59,6 +59,10 @@ import com.antara.app.domain.repository.LocalAudioRepository
 import com.antara.app.features.library.ui.LibraryScreen
 import com.antara.app.domain.model.SessionState
 import com.antara.app.domain.model.UserSession
+import com.antara.app.data.remote.dto.AlbumDto
+import com.antara.app.features.album.AlbumDetailUiState
+import com.antara.app.features.album.AlbumDetailViewModel
+import com.antara.app.features.album.ui.AlbumDetailScreen
 import com.antara.app.features.auth.ui.AuthScreen
 import com.antara.app.features.home.HomeAlbumsUiState
 import com.antara.app.features.home.HomeViewModel
@@ -97,6 +101,15 @@ fun AppRoot(container: AppContainer) {
     val homeViewModel: HomeViewModel = viewModel(factory = homeFactory)
     val albumsState by homeViewModel.uiState.collectAsState()
 
+    val albumFactory = remember(container) {
+        AlbumDetailViewModel.factory(
+            albumApi = container.albumApi,
+            serverRepository = container.serverRepository,
+        )
+    }
+    val albumViewModel: AlbumDetailViewModel = viewModel(factory = albumFactory)
+    val albumState by albumViewModel.uiState.collectAsState()
+
     var serversOpen by rememberSaveable { mutableStateOf(false) }
     var playerOpen by rememberSaveable { mutableStateOf(false) }
 
@@ -107,6 +120,7 @@ fun AppRoot(container: AppContainer) {
             serversOpen = false
             playerOpen = false
             homeViewModel.reset()
+            albumViewModel.reset()
         }
     }
 
@@ -170,6 +184,13 @@ fun AppRoot(container: AppContainer) {
                             albumsState = albumsState,
                             onLoadAlbums = { homeViewModel.loadAlbums() },
                             onRetryAlbums = { homeViewModel.loadAlbums(force = true) },
+                            albumState = albumState,
+                            onLoadAlbumTracks = { albumId -> albumViewModel.load(albumId) },
+                            onRetryAlbumTracks = albumViewModel::retry,
+                            onPlayAlbum = { tracks, index ->
+                                playerViewModel.playQueue(tracks, index)
+                                playerOpen = true
+                            },
                             onOpenServers = { serversOpen = true },
                             onOpenPlayer = { playerOpen = true },
                             onTogglePlayPause = playerViewModel::togglePlayPause,
@@ -220,6 +241,10 @@ private fun MainContent(
     albumsState: HomeAlbumsUiState,
     onLoadAlbums: () -> Unit,
     onRetryAlbums: () -> Unit,
+    albumState: AlbumDetailUiState,
+    onLoadAlbumTracks: (String) -> Unit,
+    onRetryAlbumTracks: () -> Unit,
+    onPlayAlbum: (List<PlayableTrack>, Int) -> Unit,
     onOpenServers: () -> Unit,
     onOpenPlayer: () -> Unit,
     onTogglePlayPause: () -> Unit,
@@ -232,12 +257,15 @@ private fun MainContent(
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(Tab.Home.ordinal) }
     val selectedTab = Tab.entries[selectedTabIndex]
     var detailRoute by rememberSaveable { mutableStateOf("") }
+    var selectedAlbum by remember { mutableStateOf<AlbumDto?>(null) }
+    var selectedAlbumCover by remember { mutableStateOf<Color>(AntaraDarkTokens.Primary) }
     var bottomBarHeightPx by remember { mutableIntStateOf(0) }
     val bottomBarHeight = with(LocalDensity.current) { bottomBarHeightPx.toDp() }
     val contentBottomPadding = bottomBarHeight + AntaraTheme.spacing.xl
 
-    BackHandler(enabled = detailRoute.isNotEmpty()) {
+    BackHandler(enabled = detailRoute.isNotEmpty() || selectedAlbum != null) {
         detailRoute = ""
+        selectedAlbum = null
     }
 
     Scaffold(
@@ -282,6 +310,11 @@ private fun MainContent(
                     onRetryAlbums = onRetryAlbums,
                     onOpenServers = onOpenServers,
                     onOpenLikedSongs = { detailRoute = Routes.LIKED },
+                    onOpenAlbum = { album, coverColor ->
+                        selectedAlbum = album
+                        selectedAlbumCover = coverColor
+                        onLoadAlbumTracks(album.id)
+                    },
                     onPlayIndex = onPlayLikedIndex,
                     bottomContentPadding = contentBottomPadding,
                     modifier = screenModifier,
@@ -317,6 +350,38 @@ private fun MainContent(
                     playerState = playerState,
                     onBack = { detailRoute = "" },
                     onPlayQueue = onPlayQueue,
+                    bottomContentPadding = contentBottomPadding,
+                    modifier = screenModifier,
+                )
+            }
+
+            selectedAlbum?.let { album ->
+                AlbumDetailScreen(
+                    albumTitle = album.nombre,
+                    albumArtist = album.artista.orEmpty(),
+                    albumDescription = album.descripcion,
+                    coverColor = selectedAlbumCover,
+                    state = albumState,
+                    playerState = playerState,
+                    onBack = { selectedAlbum = null },
+                    onRetry = onRetryAlbumTracks,
+                    onPlayTrack = { index ->
+                        val tracks = albumState.tracks
+                        if (tracks.isNotEmpty()) {
+                            onPlayAlbum(
+                                tracks.map { track ->
+                                    PlayableTrack(
+                                        id = track.id,
+                                        title = track.title,
+                                        artist = track.artist.ifBlank { album.artista.orEmpty() },
+                                        coverColor = selectedAlbumCover,
+                                        uri = track.uri,
+                                    )
+                                },
+                                index.coerceIn(0, tracks.lastIndex),
+                            )
+                        }
+                    },
                     bottomContentPadding = contentBottomPadding,
                     modifier = screenModifier,
                 )

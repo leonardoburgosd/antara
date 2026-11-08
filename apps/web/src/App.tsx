@@ -9,7 +9,9 @@ import { AlbumDetailScreen } from "./features/album/AlbumDetailScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
 import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
+import { PlaylistDetailScreen } from "./features/playlist/PlaylistDetailScreen";
 import type { AlbumDto } from "./services/api/albumsService";
+import type { PlaylistResumenDto } from "./services/api/playlistsService";
 import { PlayerProvider, usePlayer } from "./stores/player";
 import { ServersProvider, useServers } from "./stores/servers";
 import { SessionProvider, useSession } from "./stores/session";
@@ -35,6 +37,11 @@ function AppShell() {
   const [tab, setTab] = useState<NavId>("home");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [album, setAlbum] = useState<{ album: AlbumDto; coverColor: string } | null>(null);
+  const [playlist, setPlaylist] = useState<{
+    playlist: PlaylistResumenDto;
+    coverColor: string;
+    autoPlay: boolean;
+  } | null>(null);
   const { user } = useSession();
   const { currentTrack } = usePlayer();
   const activeLabel = NAV_ITEMS.find((item) => item.id === tab)?.label ?? EXTRA_TITLES[tab] ?? "";
@@ -42,6 +49,7 @@ function AppShell() {
   const select = (id: NavId) => {
     setTab(id);
     setAlbum(null);
+    setPlaylist(null);
     setDrawerOpen(false);
   };
 
@@ -75,7 +83,14 @@ function AppShell() {
           </header>
 
           <main className="min-h-0 flex-1 overflow-y-auto">
-            {album ? (
+            {playlist ? (
+              <PlaylistDetailScreen
+                playlist={playlist.playlist}
+                coverColor={playlist.coverColor}
+                autoPlay={playlist.autoPlay}
+                onBack={() => setPlaylist(null)}
+              />
+            ) : album ? (
               <AlbumDetailScreen
                 album={album.album}
                 coverColor={album.coverColor}
@@ -85,7 +100,14 @@ function AppShell() {
               <HomeScreen
                 userName={user?.name ?? "Alex"}
                 onOpenServers={() => setTab("server")}
-                onOpenAlbum={(selected, coverColor) => setAlbum({ album: selected, coverColor })}
+                onOpenAlbum={(selected, coverColor) => {
+                  setPlaylist(null);
+                  setAlbum({ album: selected, coverColor });
+                }}
+                onOpenPlaylist={(selected, coverColor, autoPlay) => {
+                  setAlbum(null);
+                  setPlaylist({ playlist: selected, coverColor, autoPlay });
+                }}
               />
             ) : tab === "uploads" ? (
               <UploadsScreen />

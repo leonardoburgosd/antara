@@ -5,10 +5,14 @@ import { usePlayer } from "../../stores/player";
 import { useUploads } from "../../stores/uploads";
 import type { Track } from "../../types/library";
 import { formatTime } from "../../utils/formatTime";
+import { ServerUploadPanel } from "./ServerUploadPanel";
 
 /**
- * "Mis archivos": sube audios del equipo y reprodúcelos con el motor local.
- * Los archivos no se suben a ningún servidor: viven como object URLs de la sesión.
+ * "Mis archivos": audios locales reproducidos con el motor local (object URLs
+ * de la sesión) y subida al servidor por archivo o enlace de YouTube.
+ *
+ * La subida usa `POST /api/pista/subir` y `POST /api/pista/subir/url`; por ahora
+ * el backend las restringe a administradores (ver `ServerUploadPanel`).
  */
 export function UploadsScreen() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,8 +37,8 @@ export function UploadsScreen() {
         <div className="min-w-0">
           <h1 className="text-h2 font-semibold text-text-primary">Mis archivos</h1>
           <p className="mt-1 max-w-md text-body-sm text-text-secondary">
-            Reproduce audios de tu dispositivo. Los archivos se quedan en esta sesión y no se suben
-            a ningún servidor.
+            Reproduce audios de tu dispositivo sin subirlos, o envíalos a tu servidor para
+            escucharlos en todas tus apps.
           </p>
         </div>
 
@@ -61,6 +65,8 @@ export function UploadsScreen() {
           }}
         />
       </header>
+
+      <ServerUploadPanel />
 
       {tracks.length === 0 ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border-strong px-6 py-12 text-center">
