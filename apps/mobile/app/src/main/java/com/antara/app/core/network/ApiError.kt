@@ -13,6 +13,9 @@ sealed class ApiError(message: String) : Exception(message) {
     /** 401: no autorizado. */
     data object Unauthorized : ApiError("No autorizado.")
 
+    /** 403: autenticado sin permisos para el recurso. */
+    data object Forbidden : ApiError("No tienes permisos para realizar esta acción.")
+
     /** 404: recurso no encontrado (en login, credenciales incorrectas). */
     data object NotFound : ApiError("Recurso no encontrado.")
 

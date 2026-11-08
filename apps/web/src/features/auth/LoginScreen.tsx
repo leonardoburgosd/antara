@@ -147,6 +147,8 @@ function messageFor(cause: unknown): string {
     case "notFound":
     case "unauthorized":
       return "Email o contraseña incorrectos";
+    case "forbidden":
+      return "Tu cuenta no tiene permisos para iniciar sesión";
     case "unavailable":
       return "El servidor aún no tiene un administrador registrado";
     case "network":

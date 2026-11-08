@@ -94,7 +94,7 @@ app/src/androidTest/java/com/antara/app/ # Instrumentadas: composables, navegaci
 | `MainActivity.kt` → `AntaraTheme` + `AppRoot` (arranque auth/servidores y pestañas con estado, sin librería) | `MainActivity` → `AntaraTheme` + `NavHost` (al añadir rutas con argumentos/ViewModels) |
 | `core/designsystem/` con tokens globales, `AntaraTheme`, `AntaraSpacing` y `components/` compartidos | Mantener; ampliar componentes con cada uso realmente compartido |
 | `navigation/AppRoot.kt`: Loading → Auth → Servers (forzado si no hay ninguno) → Main; 4 pestañas; overlay de detalle y de reproductor; `BackHandler` | Ampliar con NavHost al crecer destinos (rutas ya centralizadas en `navigation/Routes.kt`) |
-| `features/home/ui/`: Home, detalle y datos mock en español; filtros funcionales | Migrar datos mock a `data/` + repositorio cuando exista backend |
+| `features/home/ui/`: Home con filtros, carrusel y "Playlists diarias" desde `GET /api/album/todos`; detalle y datos mock en español; filtros funcionales | Sustituir el resto de datos mock por repositorios cuando existan más endpoints |
 | `features/auth/`, `features/servers/`, `features/profile/` con ViewModel + UiState + pantalla; login real vía `core/network` y sesión/token persistidos en DataStore | Token en almacén cifrado; registro y recuperación si el backend los expone |
 | `player/`: `PlaybackService` (MediaSessionService), `PlayerConnection` (MediaController), `PlayerUiState`, `PlayerViewModel`; audio demo local de 90 s | Reproducir streams reales; evaluar resumption de Media3 |
 | Sin pruebas automatizadas | Pruebas unitarias de ViewModels/repositorios al estabilizar contratos |

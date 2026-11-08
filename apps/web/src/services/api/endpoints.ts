@@ -8,4 +8,8 @@
 export const ENDPOINTS = {
   /** POST { email, password } → usuario + token (UsuarioController.LoginAsync). */
   login: "/api/usuario/login",
+  /** GET → lista de álbumes; requiere Bearer con rol admin (AlbumController.ObtenerTodosAlbumesAsync). */
+  albums: "/api/album/todos",
+  /** GET → pistas del álbum (PistaController.ObtenerTodosPistasDeAlbumAsync). */
+  albumTracks: (albumId: string) => `/api/pista/todos/album/${encodeURIComponent(albumId)}`,
 } as const;

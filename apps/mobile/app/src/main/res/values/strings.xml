@@ -17,6 +17,15 @@
     <string name="home_favorites">Favoritos</string>
     <string name="home_see_all">Ver todo</string>
     <string name="home_playlist_subtitle">De %1$s • %2$d canciones</string>
+    <string name="home_album_artist">De %1$s</string>
+    <string name="home_album_generic">Álbum</string>
+    <string name="home_albums_empty">Aún no hay álbumes registrados en el servidor</string>
+    <string name="home_albums_retry">Reintentar</string>
+    <string name="home_albums_forbidden">Tu cuenta no tiene permisos para ver los álbumes</string>
+    <string name="home_albums_session">Vuelve a iniciar sesión para ver los álbumes</string>
+    <string name="home_albums_no_server">Configura un servidor para ver los álbumes</string>
+    <string name="home_albums_network">No se pudo conectar con el servidor</string>
+    <string name="home_albums_error">No se pudieron cargar los álbumes</string>
     <string name="home_filter_all">Todos</string>
     <string name="home_filter_new">Novedades</string>
     <string name="home_filter_trending">Tendencias</string>

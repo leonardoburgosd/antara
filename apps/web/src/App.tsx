@@ -5,9 +5,11 @@ import { Icon } from "./components/Icon";
 import { PlayerBar } from "./components/PlayerBar";
 import { Sidebar } from "./components/Sidebar";
 import { LoginScreen } from "./features/auth/LoginScreen";
+import { AlbumDetailScreen } from "./features/album/AlbumDetailScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
 import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
+import type { AlbumDto } from "./services/api/albumsService";
 import { PlayerProvider, usePlayer } from "./stores/player";
 import { ServersProvider, useServers } from "./stores/servers";
 import { SessionProvider, useSession } from "./stores/session";
@@ -32,12 +34,14 @@ function PlaceholderScreen({ title }: { title: string }) {
 function AppShell() {
   const [tab, setTab] = useState<NavId>("home");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [album, setAlbum] = useState<{ album: AlbumDto; coverColor: string } | null>(null);
   const { user } = useSession();
   const { currentTrack } = usePlayer();
   const activeLabel = NAV_ITEMS.find((item) => item.id === tab)?.label ?? EXTRA_TITLES[tab] ?? "";
 
   const select = (id: NavId) => {
     setTab(id);
+    setAlbum(null);
     setDrawerOpen(false);
   };
 
@@ -71,8 +75,18 @@ function AppShell() {
           </header>
 
           <main className="min-h-0 flex-1 overflow-y-auto">
-            {tab === "home" ? (
-              <HomeScreen userName={user?.name ?? "Alex"} onOpenServers={() => setTab("server")} />
+            {album ? (
+              <AlbumDetailScreen
+                album={album.album}
+                coverColor={album.coverColor}
+                onBack={() => setAlbum(null)}
+              />
+            ) : tab === "home" ? (
+              <HomeScreen
+                userName={user?.name ?? "Alex"}
+                onOpenServers={() => setTab("server")}
+                onOpenAlbum={(selected, coverColor) => setAlbum({ album: selected, coverColor })}
+              />
             ) : tab === "uploads" ? (
               <UploadsScreen />
             ) : tab === "server" ? (

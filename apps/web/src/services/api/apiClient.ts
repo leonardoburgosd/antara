@@ -9,6 +9,7 @@
 export type ApiErrorKind =
   | "validation"
   | "unauthorized"
+  | "forbidden"
   | "notFound"
   | "unavailable"
   | "server"
@@ -111,6 +112,9 @@ function toApiError(status: number, body: string): ApiError {
   }
   if (status === 401) {
     return new ApiError("unauthorized", message ?? "No autorizado.", status);
+  }
+  if (status === 403) {
+    return new ApiError("forbidden", message ?? "No tienes permisos para esta acción.", status);
   }
   if (status === 404) {
     return new ApiError("notFound", message ?? "Recurso no encontrado.", status);

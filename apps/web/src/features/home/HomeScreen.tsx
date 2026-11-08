@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FeaturedCard } from "../../components/FeaturedCard";
 import { FilterChips } from "../../components/FilterChips";
 import { Icon } from "../../components/Icon";
 import { MediaRow } from "../../components/MediaRow";
 import { SectionHeader } from "../../components/SectionHeader";
+import { ApiError } from "../../services/api/apiClient";
+import { fetchAlbums } from "../../services/api/albumsService";
+import type { AlbumDto } from "../../services/api/albumsService";
 import { usePlayer } from "../../stores/player";
+import { useServers } from "../../stores/servers";
+import { useSession } from "../../stores/session";
 import type { HomeFilter } from "../../types/library";
 import { buildHomeContent, HOME_FILTERS } from "./homeContent";
 
@@ -14,20 +19,90 @@ function greetingForHour(hour: number): string {
   return "Buenas noches";
 }
 
+/** Fila de la sección de playlists/álbumes. `trackIndex` negativo = no reproducible. */
+type HomeRow = {
+  id: string;
+  title: string;
+  subtitle: string;
+  coverColor: string;
+  trackIndex: number;
+  /** Presente solo en filas de álbum: abre su lista de reproducción. */
+  album?: AlbumDto;
+};
+
+/** Tokens del design system usados como portada de los álbumes (sin imágenes por ahora). */
+const ALBUM_COVERS = [
+  "bg-primary",
+  "bg-accent-warm",
+  "bg-info",
+  "bg-accent",
+  "bg-success",
+  "bg-error",
+];
+
 /**
  * Home: saludo + acciones, titular, filtros, carrusel "Curado y en tendencia"
  * y lista de playlists diarias (misma jerarquía que Mobile).
+ *
+ * En "Playlists diarias" la lista se alimenta de `GET /api/album/todos`
+ * (ADR-016); el resto de filtros siguen usando contenido mock.
  */
 export function HomeScreen({
   userName,
   onOpenServers,
+  onOpenAlbum,
 }: {
   userName: string;
   onOpenServers: () => void;
+  /** Abre el detalle del álbum con su lista de reproducción. */
+  onOpenAlbum: (album: AlbumDto, coverColor: string) => void;
 }) {
   const { state, currentTrack, playQueue, togglePlayPause } = usePlayer();
+  const { token } = useSession();
+  const { activeServer } = useServers();
   const [filter, setFilter] = useState<HomeFilter>("all");
   const content = buildHomeContent(filter);
+
+  const isDaily = filter === "all";
+  const [albums, setAlbums] = useState<AlbumDto[] | null>(null);
+  const [albumsLoading, setAlbumsLoading] = useState(false);
+  const [albumsError, setAlbumsError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    if (!isDaily) return;
+
+    if (!activeServer || !token) {
+      setAlbums(null);
+      setAlbumsError("Configura un servidor e inicia sesión para ver los álbumes.");
+      setAlbumsLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    let mounted = true;
+
+    setAlbumsLoading(true);
+    setAlbumsError(null);
+
+    fetchAlbums(activeServer.address, token, controller.signal)
+      .then((data) => {
+        if (mounted) setAlbums(data);
+      })
+      .catch((cause: unknown) => {
+        if (!mounted) return;
+        setAlbums(null);
+        setAlbumsError(messageForAlbums(cause));
+      })
+      .finally(() => {
+        if (mounted) setAlbumsLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, [isDaily, activeServer, token, reloadKey]);
 
   const playFrom = (trackIndex: number) => {
     const track = content.tracks[trackIndex];
@@ -37,6 +112,29 @@ export function HomeScreen({
     }
     playQueue(content.tracks, trackIndex);
   };
+
+  const mockRows: HomeRow[] = content.playlists.map((playlist) => ({
+    id: playlist.id,
+    title: playlist.title,
+    subtitle: `De ${playlist.artist} • ${playlist.trackCount} canciones`,
+    coverColor: playlist.coverColor,
+    trackIndex: playlist.trackIndex,
+  }));
+
+  const albumRows: HomeRow[] = (albums ?? []).map((album, index) => ({
+    id: album.id,
+    title: album.nombre?.trim() || "Álbum sin nombre",
+    subtitle: album.descripcion?.trim() || album.artista?.trim() || "Álbum",
+    coverColor: ALBUM_COVERS[index % ALBUM_COVERS.length] ?? "bg-primary",
+    trackIndex: -1,
+    album,
+  }));
+
+  const rows = isDaily ? albumRows : mockRows;
+  const albumsPending = isDaily && albums === null && !albumsError;
+  const showSkeleton = isDaily && (albumsLoading || albumsPending);
+  const showEmpty =
+    isDaily && albums !== null && !albumsLoading && !albumsError && rows.length === 0;
 
   return (
     <div className="flex min-h-full w-full flex-col px-4 pb-10 pt-2 sm:px-6">
@@ -105,24 +203,91 @@ export function HomeScreen({
 
       <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.playlistsTitle}>
         <SectionHeader title={content.playlistsTitle} actionLabel="Ver todo" onAction={() => undefined} />
-        <div className="mt-2 grid min-h-0 flex-1 auto-rows-fr gap-x-6 gap-y-1 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
-          {content.playlists.map((playlist) => {
-            const isCurrent = content.tracks[playlist.trackIndex]?.id === currentTrack?.id;
 
-            return (
-              <MediaRow
-                key={playlist.id}
-                title={playlist.title}
-                subtitle={`De ${playlist.artist} • ${playlist.trackCount} canciones`}
-                coverColor={playlist.coverColor}
-                isCurrent={isCurrent}
-                isPlaying={state.isPlaying}
-                onPlay={() => playFrom(playlist.trackIndex)}
-              />
-            );
-          })}
-        </div>
+        {showSkeleton ? (
+          <div className="mt-2 grid gap-x-6 gap-y-1 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+            {[0, 1, 2, 3].map((index) => (
+              <div key={index} className="flex min-h-16 items-center gap-3 px-3" aria-hidden="true">
+                <div className="size-12 shrink-0 animate-pulse rounded-md bg-surface-elevated" />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="h-3 w-1/3 animate-pulse rounded bg-surface-elevated" />
+                  <div className="h-2.5 w-1/2 animate-pulse rounded bg-surface-elevated" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {isDaily && albumsError ? (
+          <div className="mt-3 flex flex-col items-start gap-3 rounded-lg border border-border bg-surface p-4">
+            <p role="alert" className="text-body-sm text-error">
+              {albumsError}
+            </p>
+            <button
+              type="button"
+              onClick={() => setReloadKey((value) => value + 1)}
+              className="rounded-md bg-primary px-3 py-2 text-button text-on-primary transition-colors duration-150 hover:bg-primary-hover"
+            >
+              Reintentar
+            </button>
+          </div>
+        ) : null}
+
+        {showEmpty ? (
+          <p className="mt-3 px-3 text-body-sm text-text-secondary">
+            Aún no hay álbumes registrados en el servidor.
+          </p>
+        ) : null}
+
+        {!isDaily || (!showSkeleton && !albumsError) ? (
+          <div className="mt-2 grid gap-x-6 gap-y-1 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+            {rows.map((row) => {
+              const isCurrent =
+                row.trackIndex >= 0 && content.tracks[row.trackIndex]?.id === currentTrack?.id;
+              const album = row.album;
+
+              return (
+                <MediaRow
+                  key={row.id}
+                  title={row.title}
+                  subtitle={row.subtitle}
+                  coverColor={row.coverColor}
+                  isCurrent={isCurrent}
+                  isPlaying={state.isPlaying}
+                  onPlay={row.trackIndex >= 0 ? () => playFrom(row.trackIndex) : undefined}
+                  onOpen={album ? () => onOpenAlbum(album, row.coverColor) : undefined}
+                />
+              );
+            })}
+          </div>
+        ) : null}
       </section>
     </div>
   );
+}
+
+/** Traduce los errores del cliente HTTP al mensaje de la sección de álbumes. */
+function messageForAlbums(cause: unknown): string {
+  if (!(cause instanceof ApiError)) {
+    return "No se pudieron cargar los álbumes. Inténtalo de nuevo.";
+  }
+
+  switch (cause.kind) {
+    case "forbidden":
+      return "Tu cuenta no tiene permisos para ver los álbumes.";
+    case "unauthorized":
+      return "Tu sesión expiró. Vuelve a iniciar sesión.";
+    case "network":
+      return "No se pudo conectar con el servidor. Revisa la dirección y tu red.";
+    case "unavailable":
+      return "El servidor no está disponible.";
+    case "validation":
+      return cause.message;
+    case "parsing":
+      return "Respuesta inesperada del servidor.";
+    case "server":
+      return "Error del servidor. Inténtalo más tarde.";
+    case "notFound":
+      return "No se encontró el recurso de álbumes.";
+  }
 }

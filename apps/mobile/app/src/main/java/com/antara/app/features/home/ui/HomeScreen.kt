@@ -1,39 +1,63 @@
 package com.antara.app.features.home.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
+import com.antara.app.core.designsystem.color.AntaraDarkTokens
 import com.antara.app.core.designsystem.components.AntaraFilterChips
 import com.antara.app.core.designsystem.components.AntaraTrackRow
+import com.antara.app.features.home.HomeAlbumsUiState
 import com.antara.app.player.PlayerUiState
 import java.util.Calendar
+
+/** Portadas de álbum mientras no se cargan imágenes (tokens del design system). */
+private val ALBUM_COVERS = listOf(
+    AntaraDarkTokens.Primary,
+    AntaraDarkTokens.AccentWarm,
+    AntaraDarkTokens.Info,
+    AntaraDarkTokens.Accent,
+    AntaraDarkTokens.Success,
+    AntaraDarkTokens.Error,
+)
 
 /**
  * Home de Antara siguiendo la referencia: saludo + acciones, titular, filtros,
  * carrusel "Curado y en tendencia" y lista de playlists diarias.
+ *
+ * En "Playlists diarias" la lista se alimenta de `GET /api/album/todos`
+ * (ADR-016); el resto de filtros siguen usando contenido mock.
  */
 @Composable
 fun HomeScreen(
     userName: String,
     playerState: PlayerUiState,
+    albumsState: HomeAlbumsUiState,
+    onLoadAlbums: () -> Unit,
+    onRetryAlbums: () -> Unit,
     onOpenServers: () -> Unit,
     onOpenLikedSongs: () -> Unit,
     onPlayIndex: (Int) -> Unit,
@@ -43,6 +67,8 @@ fun HomeScreen(
     var selectedFilterIndex by rememberSaveable { mutableIntStateOf(HomeFilter.All.ordinal) }
     val selectedFilter = HomeFilter.entries[selectedFilterIndex]
     val content = remember(selectedFilter) { buildHomeContent(selectedFilter) }
+
+    LaunchedEffect(Unit) { onLoadAlbums() }
 
     val greeting = stringResource(
         when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
@@ -104,21 +130,93 @@ fun HomeScreen(
                 onSeeAll = onOpenLikedSongs,
             )
         }
-        itemsIndexed(content.playlists, key = { _, item -> item.id }) { _, item ->
-            AntaraTrackRow(
-                title = item.title,
-                subtitle = stringResource(
-                    R.string.home_playlist_subtitle,
-                    item.artist,
-                    item.trackCount,
-                ),
-                coverColor = item.coverColor,
-                isCurrent = playerState.currentId == item.id,
-                isPlaying = playerState.isPlaying,
-                onPlay = { onPlayIndex(item.songIndex) },
-            )
+
+        if (selectedFilter == HomeFilter.All) {
+            val albumsError = albumsState.errorRes
+
+            when {
+                albumsState.isLoading || (!albumsState.loaded && albumsError == null) ->
+                    item(key = "albums-loading") { AlbumsLoading() }
+
+                albumsError != null -> item(key = "albums-error") {
+                    AlbumsError(messageRes = albumsError, onRetry = onRetryAlbums)
+                }
+
+                albumsState.albums.isEmpty() -> item(key = "albums-empty") { AlbumsEmpty() }
+
+                else -> itemsIndexed(
+                    items = albumsState.albums,
+                    key = { _, album -> album.id },
+                ) { index, album ->
+                    AntaraTrackRow(
+                        title = album.nombre,
+                        subtitle = album.descripcion
+                            ?: album.artista?.let { stringResource(R.string.home_album_artist, it) }
+                            ?: stringResource(R.string.home_album_generic),
+                        coverColor = ALBUM_COVERS[index % ALBUM_COVERS.size],
+                        onPlay = null,
+                    )
+                }
+            }
+        } else {
+            itemsIndexed(content.playlists, key = { _, item -> item.id }) { _, item ->
+                AntaraTrackRow(
+                    title = item.title,
+                    subtitle = stringResource(
+                        R.string.home_playlist_subtitle,
+                        item.artist,
+                        item.trackCount,
+                    ),
+                    coverColor = item.coverColor,
+                    isCurrent = playerState.currentId == item.id,
+                    isPlaying = playerState.isPlaying,
+                    onPlay = { onPlayIndex(item.songIndex) },
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun AlbumsLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = AntaraTheme.spacing.xl),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator(color = AntaraTheme.colorScheme.primary)
+    }
+}
+
+@Composable
+private fun AlbumsError(messageRes: Int, onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = AntaraTheme.spacing.lg, vertical = AntaraTheme.spacing.md),
+    ) {
+        Text(
+            text = stringResource(messageRes),
+            style = AntaraTheme.typography.bodySmall,
+            color = AntaraTheme.colorScheme.error,
+        )
+        TextButton(onClick = onRetry) {
+            Text(text = stringResource(R.string.home_albums_retry))
+        }
+    }
+}
+
+@Composable
+private fun AlbumsEmpty() {
+    Text(
+        text = stringResource(R.string.home_albums_empty),
+        style = AntaraTheme.typography.bodySmall,
+        color = AntaraTheme.extendedColors.textSecondary,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = AntaraTheme.spacing.lg, vertical = AntaraTheme.spacing.md),
+    )
 }
 
 @Composable

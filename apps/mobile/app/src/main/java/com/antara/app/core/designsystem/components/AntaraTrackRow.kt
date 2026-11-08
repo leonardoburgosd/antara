@@ -34,23 +34,30 @@ import com.antara.app.core.designsystem.AntaraTheme
 /**
  * Fila de canción del design system (64dp): portada 48dp, título/artista y acción play/pausa.
  * El estado "reproduciendo" usa `primary` + ecualizador `accent`.
+ *
+ * `onPlay = null` oculta la acción de reproducción (p. ej. álbumes sin pistas).
  */
 @Composable
 fun AntaraTrackRow(
     title: String,
     subtitle: String,
     coverColor: Color,
-    onPlay: () -> Unit,
+    onPlay: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     isCurrent: Boolean = false,
     isPlaying: Boolean = false,
-    onRowClick: () -> Unit = onPlay,
+    onRowClick: (() -> Unit)? = onPlay,
 ) {
+    val rowAction = onRowClick ?: onPlay
+    val playAction = onPlay
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 64.dp)
-            .clickable(onClick = onRowClick)
+            .let { base ->
+                if (rowAction != null) base.clickable(onClick = rowAction) else base
+            }
             .padding(horizontal = AntaraTheme.spacing.lg, vertical = AntaraTheme.spacing.sm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -93,24 +100,26 @@ fun AntaraTrackRow(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        IconButton(
-            onClick = onPlay,
-            modifier = Modifier.size(48.dp),
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(AntaraTheme.extendedColors.surfaceElevated, CircleShape),
-                contentAlignment = Alignment.Center,
+        if (playAction != null) {
+            IconButton(
+                onClick = playAction,
+                modifier = Modifier.size(48.dp),
             ) {
-                Icon(
-                    imageVector = if (isCurrent && isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                    contentDescription = stringResource(
-                        if (isCurrent && isPlaying) R.string.player_pause else R.string.play,
-                    ),
-                    tint = AntaraTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp),
-                )
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(AntaraTheme.extendedColors.surfaceElevated, CircleShape),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = if (isCurrent && isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = stringResource(
+                            if (isCurrent && isPlaying) R.string.player_pause else R.string.play,
+                        ),
+                        tint = AntaraTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
             }
         }
     }

@@ -7,7 +7,8 @@ type MediaRowProps = {
   coverColor: string;
   isCurrent: boolean;
   isPlaying: boolean;
-  onPlay: () => void;
+  /** Si se omite, la fila no muestra acción de reproducción (p. ej. álbumes sin pistas). */
+  onPlay?: () => void;
 };
 
 /**
@@ -35,14 +36,16 @@ export function MediaRow({ title, subtitle, coverColor, isCurrent, isPlaying, on
         <p className="truncate text-body-sm text-text-secondary">{subtitle}</p>
       </div>
 
-      <button
-        type="button"
-        onClick={onPlay}
-        aria-label={isCurrent && isPlaying ? "Pausar" : "Reproducir"}
-        className="grid size-10 shrink-0 place-items-center rounded-full bg-surface-elevated text-primary transition-colors duration-150 hover:bg-surface"
-      >
-        <Icon name={isCurrent && isPlaying ? "pause" : "play_arrow"} size={22} filled />
-      </button>
+      {onPlay ? (
+        <button
+          type="button"
+          onClick={onPlay}
+          aria-label={isCurrent && isPlaying ? "Pausar" : "Reproducir"}
+          className="grid size-10 shrink-0 place-items-center rounded-full bg-surface-elevated text-primary transition-colors duration-150 hover:bg-surface"
+        >
+          <Icon name={isCurrent && isPlaying ? "pause" : "play_arrow"} size={22} filled />
+        </button>
+      ) : null}
     </div>
   );
 }

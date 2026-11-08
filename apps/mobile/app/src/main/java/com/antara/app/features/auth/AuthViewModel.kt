@@ -121,6 +121,8 @@ class AuthViewModel(
         ApiError.Validation,
         -> R.string.auth_error_invalid_credentials
 
+        ApiError.Forbidden -> R.string.auth_error_generic
+
         ApiError.Unavailable -> R.string.auth_error_no_admin
         ApiError.Network -> R.string.auth_error_network
         ApiError.Server,

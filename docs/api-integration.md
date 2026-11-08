@@ -23,6 +23,16 @@ Responsabilidades del cliente:
 5. Traducir respuestas y errores a `Result<T, AppError>` (ver [error-handling.md](error-handling.md)).
 6. Ejecutar la política de reintentos.
 
+### Endpoints integrados
+
+| Endpoint | Método | Auth | Uso en la app |
+|---|---|---|---|
+| `/api/usuario/login` | `POST` | Pública | Login (Web/Desktop/Mobile) |
+| `/api/album/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | Sección "Playlists diarias" de Home (Web/Desktop/Mobile) |
+| `/api/pista/todos/album/{AlbumId}` | `GET` | Pública | Detalle del álbum: lista de canciones y reproducción (Web) |
+
+> El catálogo de álbumes usa el endpoint de administración porque el backend todavía no expone una vista pública de álbumes. Si la cuenta no es admin, el backend responde `403` y la UI muestra un mensaje de permisos. Revisar cuando exista el endpoint de consumidor.
+
 ### Transporte en Desktop (decisión)
 
 - **Primera opción:** `fetch` nativo (mismo código que Web, máxima reutilización).

@@ -4,6 +4,7 @@ import android.content.Context
 import com.antara.app.data.local.LocalAudioRepositoryImpl
 import com.antara.app.data.local.ServerRepositoryImpl
 import com.antara.app.data.local.SessionRepositoryImpl
+import com.antara.app.data.remote.AlbumApi
 import com.antara.app.data.remote.AuthApi
 import com.antara.app.domain.repository.LocalAudioRepository
 import com.antara.app.domain.repository.ServerRepository
@@ -21,5 +22,6 @@ class AppContainer(context: Context) {
     val serverRepository: ServerRepository = ServerRepositoryImpl(applicationContext)
     val localAudioRepository: LocalAudioRepository = LocalAudioRepositoryImpl(applicationContext)
     val authApi = AuthApi()
+    val albumApi = AlbumApi()
     val playerConnection = PlayerConnection(applicationContext)
 }

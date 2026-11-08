@@ -60,6 +60,8 @@ import com.antara.app.features.library.ui.LibraryScreen
 import com.antara.app.domain.model.SessionState
 import com.antara.app.domain.model.UserSession
 import com.antara.app.features.auth.ui.AuthScreen
+import com.antara.app.features.home.HomeAlbumsUiState
+import com.antara.app.features.home.HomeViewModel
 import com.antara.app.features.home.ui.DetailScreen
 import com.antara.app.features.home.ui.HomeScreen
 import com.antara.app.features.home.ui.SongItem
@@ -85,6 +87,16 @@ fun AppRoot(container: AppContainer) {
     val playerViewModel: PlayerViewModel = viewModel(factory = playerFactory)
     val playerState by playerViewModel.uiState.collectAsState()
 
+    val homeFactory = remember(container) {
+        HomeViewModel.factory(
+            albumApi = container.albumApi,
+            sessionRepository = container.sessionRepository,
+            serverRepository = container.serverRepository,
+        )
+    }
+    val homeViewModel: HomeViewModel = viewModel(factory = homeFactory)
+    val albumsState by homeViewModel.uiState.collectAsState()
+
     var serversOpen by rememberSaveable { mutableStateOf(false) }
     var playerOpen by rememberSaveable { mutableStateOf(false) }
 
@@ -94,6 +106,7 @@ fun AppRoot(container: AppContainer) {
         if (sessionState is SessionState.SignedOut) {
             serversOpen = false
             playerOpen = false
+            homeViewModel.reset()
         }
     }
 
@@ -154,6 +167,9 @@ fun AppRoot(container: AppContainer) {
                             session = state.session,
                             servers = servers,
                             playerState = playerState,
+                            albumsState = albumsState,
+                            onLoadAlbums = { homeViewModel.loadAlbums() },
+                            onRetryAlbums = { homeViewModel.loadAlbums(force = true) },
                             onOpenServers = { serversOpen = true },
                             onOpenPlayer = { playerOpen = true },
                             onTogglePlayPause = playerViewModel::togglePlayPause,
@@ -201,6 +217,9 @@ private fun MainContent(
     session: UserSession,
     servers: SavedServers,
     playerState: PlayerUiState,
+    albumsState: HomeAlbumsUiState,
+    onLoadAlbums: () -> Unit,
+    onRetryAlbums: () -> Unit,
     onOpenServers: () -> Unit,
     onOpenPlayer: () -> Unit,
     onTogglePlayPause: () -> Unit,
@@ -258,6 +277,9 @@ private fun MainContent(
                 Tab.Home -> HomeScreen(
                     userName = session.name,
                     playerState = playerState,
+                    albumsState = albumsState,
+                    onLoadAlbums = onLoadAlbums,
+                    onRetryAlbums = onRetryAlbums,
                     onOpenServers = onOpenServers,
                     onOpenLikedSongs = { detailRoute = Routes.LIKED },
                     onPlayIndex = onPlayLikedIndex,

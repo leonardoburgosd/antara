@@ -174,7 +174,7 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 
 ### ADR-016: URL base configurada por el usuario + ruta relativa del endpoint
 
-- **Estado:** Aceptada (fase 1: Login)
+- **Estado:** Aceptada (fases 1 y 2: Login y álbumes)
 - **Fecha:** 2026-11-08
 - **Contexto:** El backend se ejecuta en un servidor que el usuario elige (IP o dominio de su red local, o un host remoto), por lo que Web, Desktop y Mobile no pueden depender de una URL base fijada en build. Hasta ahora el Login era mock y no existía capa HTTP en ninguna plataforma.
 - **Decisión:**
@@ -184,11 +184,14 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
   4. **Fase 1 — Login:** `POST {baseUrl}/api/usuario/login` con `{ email, password }`; respuesta 200 con datos del usuario y `token`. Traducción de errores: 404/401 → credenciales incorrectas, 503 → sin administrador registrado, 5xx → error del servidor, sin red → error de conexión.
   5. **Sesión real:** Web/Desktop arrancan sin sesión y `signIn` recibe `{ user, token, tipo }`; Android persiste el token en DataStore junto con el usuario. Los componentes consumen `user`, nunca el token directamente.
   6. **HTTP en claro:** Android declara `usesCleartextTraffic="true"` para permitir servidores `http://` de la red local; en producción se documenta HTTPS.
+  7. **Fase 2 — Álbumes:** la sección "Playlists diarias" de Home consume `GET {baseUrl}/api/album/todos` con el token de sesión. El endpoint exige rol `admin`/`administrador`; un `403` se muestra como error de permisos.
+  8. **Fase 3 — Detalle del álbum (Web):** al pulsar una fila de álbum se abre su lista de reproducción y se cargan las pistas con `GET {baseUrl}/api/pista/todos/album/{AlbumId}`. La navegación sigue siendo por estado local (`App.tsx`) y la URL de audio de cada pista se resuelve con la misma URL base.
 - **Consecuencias:**
   - Cambiar de servidor no requiere recompilar: basta con seleccionar otro servidor activo.
   - El Login real deja de usar el atajo mock (`signIn("alex@antara.app")` desaparece de los sidebars); sin backend accesible el formulario muestra el error de conexión.
   - **Deuda:** en Android el token se guarda sin cifrar en DataStore; en Web/Desktop vive solo en memoria y se pierde al recargar (no hay persistencia de sesión todavía). Migrar al almacén seguro cuando se evalúe esa dependencia (ver [security.md](../security.md)).
   - El catálogo `ENDPOINTS`/`Endpoints` crece con cada endpoint integrado; ningún servicio compone rutas por su cuenta.
+  - **Deuda:** "Playlists diarias" usa `GET /api/album/todos`, pensado para el panel de administración, porque aún no existe un endpoint público de álbumes. Revisar el contrato cuando el backend lo exponga y, mientras tanto, mostrar el `403` como mensaje de permisos.
   - Retrofit/OkHttp sigue siendo el objetivo en Android si el número de endpoints crece (ADR-007).
 
 ---

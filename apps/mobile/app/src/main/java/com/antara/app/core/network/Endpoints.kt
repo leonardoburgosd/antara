@@ -11,4 +11,7 @@ object Endpoints {
 
     /** `POST { email, password }` → usuario + token (`UsuarioController.LoginAsync`). */
     const val LOGIN = "/api/usuario/login"
+
+    /** `GET` → lista de álbumes; exige Bearer con rol admin (`AlbumController.ObtenerTodosAlbumesAsync`). */
+    const val ALBUMS = "/api/album/todos"
 }

@@ -84,7 +84,7 @@ En **las tres plataformas** están pendientes:
 
 - Autenticación y gestión de sesión: **login** implementado en las tres apps (ADR-016); faltan registro, recuperación y almacén cifrado de token.
 - Comunicación con el backend: **cliente HTTP propio y `POST /api/usuario/login`** implementados en las tres apps (ADR-016); el resto de endpoints sigue pendiente.
-- Biblioteca: artistas, álbumes, pistas, búsqueda.
+- Biblioteca: los **álbumes** se listan en Home desde `/api/album/todos`; al pulsar uno se abre su lista de reproducción con `GET /api/pista/todos/album/{AlbumId}` (Web). Artistas, pistas globales y búsqueda siguen pendientes.
 - Listas de reproducción y favoritos.
 - Cola de reproducción y sincronización de estado entre dispositivos.
 - Reproducción de audio (motor de reproducción, streaming HTTP, seek).
