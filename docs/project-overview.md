@@ -82,8 +82,8 @@ Desarrollado con **.NET 10, C# y Dapper**. Expone la API que los tres clientes c
 
 En **las tres plataformas** están pendientes:
 
-- Autenticación y gestión de sesión.
-- Comunicación con el backend (capa HTTP): no existe ningún cliente HTTP ni endpoint consumido.
+- Autenticación y gestión de sesión: **login** implementado en las tres apps (ADR-016); faltan registro, recuperación y almacén cifrado de token.
+- Comunicación con el backend: **cliente HTTP propio y `POST /api/usuario/login`** implementados en las tres apps (ADR-016); el resto de endpoints sigue pendiente.
 - Biblioteca: artistas, álbumes, pistas, búsqueda.
 - Listas de reproducción y favoritos.
 - Cola de reproducción y sincronización de estado entre dispositivos.
@@ -97,8 +97,8 @@ Además, pendientes **específicas por plataforma**:
 | Plataforma | Pendientes específicos |
 |---|---|
 | Desktop | System Tray y Close-to-Tray; motor de reproducción; integración con teclas multimedia de Windows; persistencia de ventana; identidad de producto (nombre/identificador aún de plantilla) |
-| Mobile | `MediaSessionService`, `ExoPlayer`, `MediaController`, notificación multimedia; permisos y servicios en manifest (hoy solo permisos declarados sin servicio); navegación; ViewModels; cliente HTTP; iconos de lanzamiento (bloquean la compilación) |
-| Web | Habilitar `strict` en TypeScript; routing; capa HTTP; tokens de diseño efectivos |
+| Mobile | `MediaSessionService`, `ExoPlayer`, `MediaController`, notificación multimedia; permisos y servicios en manifest (hoy solo permisos declarados sin servicio); navegación; ViewModels; iconos de lanzamiento (bloquean la compilación) |
+| Web | Habilitar `strict` en TypeScript; routing; tokens de diseño efectivos |
 
 > La lista de funcionalidades marcadas como `[x]` en el `README.md` raíz **no coincide** con el código real de los clientes de este repositorio. Tratar ese README como descripción de producto aspiracional, no como estado verificado. Este documento es la fuente de verdad del estado real.
 

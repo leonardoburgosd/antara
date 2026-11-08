@@ -16,6 +16,12 @@ object PreferencesKeys {
     val USER_NAME = stringPreferencesKey("auth_user_name")
     val USER_EMAIL = stringPreferencesKey("auth_user_email")
 
+    /**
+     * Token del backend. Deuda conocida: DataStore no cifra; migrar al almacén
+     * seguro (ver `docs/security.md`) cuando se añada esa dependencia.
+     */
+    val USER_TOKEN = stringPreferencesKey("auth_user_token")
+
     /** Direcciones separadas por salto de línea (ya normalizadas por [com.antara.app.core.network.ServerAddress]). */
     val SERVERS = stringPreferencesKey("servers")
     val ACTIVE_SERVER = stringPreferencesKey("active_server")

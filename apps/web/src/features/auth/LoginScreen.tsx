@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../../components/Icon";
+import { ApiError } from "../../services/api/apiClient";
+import { login } from "../../services/api/authService";
 import { serverDisplayName, useServers } from "../../stores/servers";
 import { useSession } from "../../stores/session";
 
@@ -8,8 +10,9 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
 
 /**
- * Inicio de sesión mock (igual que Android, ADR-014): email válido y contraseña
- * de 6+ caracteres. Al existir backend se sustituye por `services/api/auth`.
+ * Inicio de sesión real contra `POST /api/usuario/login` del servidor
+ * configurado (ADR-016). La URL base la elige el usuario en Servidores; la ruta
+ * `/api/usuario/login` sale del catálogo de endpoints.
  */
 export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
   const { signIn } = useSession();
@@ -17,9 +20,11 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (loading) return;
 
     if (!EMAIL_PATTERN.test(email.trim())) {
       setError("Introduce un email válido");
@@ -31,8 +36,22 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
       return;
     }
 
+    if (!activeServer) {
+      setError("Configura un servidor antes de iniciar sesión");
+      return;
+    }
+
     setError(null);
-    signIn(email.trim());
+    setLoading(true);
+
+    try {
+      const result = await login(activeServer.address, email.trim(), password);
+      signIn(result);
+    } catch (cause) {
+      setError(messageFor(cause));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,10 +102,11 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
 
           <button
             type="submit"
-            className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary text-button text-on-primary transition-colors duration-150 hover:bg-primary-hover"
+            disabled={loading}
+            className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary text-button text-on-primary transition-colors duration-150 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
           >
-            <Icon name="login" size={18} />
-            Entrar
+            <Icon name={loading ? "hourglass_top" : "login"} size={18} />
+            {loading ? "Entrando…" : "Entrar"}
           </button>
         </form>
 
@@ -115,4 +135,27 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
       </div>
     </div>
   );
+}
+
+/** Traduce los errores del cliente HTTP a mensajes para el formulario. */
+function messageFor(cause: unknown): string {
+  if (!(cause instanceof ApiError)) {
+    return "No se pudo iniciar sesión. Inténtalo de nuevo.";
+  }
+
+  switch (cause.kind) {
+    case "notFound":
+    case "unauthorized":
+      return "Email o contraseña incorrectos";
+    case "unavailable":
+      return "El servidor aún no tiene un administrador registrado";
+    case "network":
+      return "No se pudo conectar con el servidor. Revisa la dirección y tu red.";
+    case "validation":
+      return cause.message;
+    case "parsing":
+      return "Respuesta inesperada del servidor";
+    case "server":
+      return "Error del servidor. Inténtalo más tarde.";
+  }
 }

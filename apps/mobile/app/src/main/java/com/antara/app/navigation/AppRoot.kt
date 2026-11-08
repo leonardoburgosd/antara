@@ -124,6 +124,8 @@ fun AppRoot(container: AppContainer) {
             } else {
                 AuthScreen(
                     sessionRepository = container.sessionRepository,
+                    serverRepository = container.serverRepository,
+                    authApi = container.authApi,
                     activeServer = servers?.active,
                     onOpenServers = { serversOpen = true },
                     modifier = Modifier.fillMaxSize(),

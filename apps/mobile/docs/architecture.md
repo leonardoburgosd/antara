@@ -32,7 +32,7 @@ flowchart TB
 
     subgraph Data["Data"]
         REPO[Repositorios]
-        REMOTE[Remote: Retrofit/OkHttp + DTOs]
+        REMOTE[Remote: servicios HTTP + DTOs]
         LOCAL[Local: DataStore]
         REPO --> REMOTE
         REPO --> LOCAL
@@ -76,13 +76,13 @@ flowchart TB
 ### Data
 
 - **Repositorios (implementación)**: orquestan remote/local, mapean DTOs → entidades, aplican políticas de caché y error.
-- **Remote**: servicios Retrofit + DTOs `@Serializable` + mapeadores.
+- **Remote**: servicios que usan `core/network/ApiClient` + DTOs JSON (`data/remote/dto/`) + mapeadores. Retrofit/OkHttp queda como objetivo si crece el número de endpoints.
 - **Local**: DataStore para preferencias/sesión/última posición (sin Room hasta que exista necesidad real de caché offline — ADR: evaluar al implementar).
 - Implementa las interfaces de domain; presentation solo ve la interfaz (Dependency Inversion).
 
 ### Core
 
-- **Network**: `ApiClient` central (OkHttp/Retrofit), interceptores (auth), mapeo de errores (ver [../../docs/api-integration.md](../../../docs/api-integration.md)).
+- **Network**: `ApiClient` central (`HttpURLConnection` + `org.json`, sin dependencias nuevas), catálogo de rutas relativas en `Endpoints.kt`, errores normalizados en `ApiError` y mapeo a mensajes en cada ViewModel (ver [../../docs/api-integration.md](../../../docs/api-integration.md) y ADR-016). La URL base la aporta el servidor activo configurado por el usuario.
 - **Design System**: tokens de color/tipografía/shape + componentes comunes (`AntaraTheme` personalizado, botones, cards, filas, skeletons, toasts).
 - **DataStore**: sesión y preferencias con acceso centralizado (y cifrado cuando sea información sensible, ver [../../docs/security.md](../../../docs/security.md#almacenamiento-seguro-de-tokens)).
 - **Common**: `AppResult`/tipos de error, extensiones, `DispatcherProvider` (para tests).

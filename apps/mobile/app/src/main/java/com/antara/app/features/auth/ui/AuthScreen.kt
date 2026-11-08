@@ -51,7 +51,9 @@ import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.components.AntaraPrimaryButton
 import com.antara.app.core.designsystem.components.AntaraTextField
+import com.antara.app.data.remote.AuthApi
 import com.antara.app.domain.model.ServerConfig
+import com.antara.app.domain.repository.ServerRepository
 import com.antara.app.domain.repository.SessionRepository
 import com.antara.app.features.auth.AuthViewModel
 
@@ -65,11 +67,15 @@ import com.antara.app.features.auth.AuthViewModel
 @Composable
 fun AuthScreen(
     sessionRepository: SessionRepository,
+    serverRepository: ServerRepository,
+    authApi: AuthApi,
     activeServer: ServerConfig?,
     onOpenServers: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val factory = remember(sessionRepository) { AuthViewModel.factory(sessionRepository) }
+    val factory = remember(sessionRepository, serverRepository, authApi) {
+        AuthViewModel.factory(sessionRepository, serverRepository, authApi)
+    }
     val viewModel: AuthViewModel = viewModel(factory = factory)
     val state by viewModel.uiState.collectAsState()
 
@@ -189,15 +195,6 @@ fun AuthScreen(
                     modifier = Modifier.fillMaxWidth(),
                     loading = state.isLoading,
                 )
-                Spacer(Modifier.height(AntaraTheme.spacing.md))
-                Text(
-                    text = stringResource(R.string.auth_demo_hint),
-                    style = AntaraTheme.typography.labelSmall,
-                    color = AntaraTheme.extendedColors.textDisabled,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
                 Spacer(Modifier.height(AntaraTheme.spacing.xl))
                 ServerAccessCard(
                     activeServer = activeServer,

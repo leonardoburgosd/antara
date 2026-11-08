@@ -29,7 +29,7 @@ function initials(name: string) {
  * texto, bloque de sesión y acción "Nueva playlist" al pie.
  */
 export function Sidebar({ active, onSelect, collapsed, onToggleCollapsed }: SidebarProps) {
-  const { user, signIn, signOut } = useSession();
+  const { user, signOut } = useSession();
 
   return (
     <nav
@@ -172,15 +172,15 @@ export function Sidebar({ active, onSelect, collapsed, onToggleCollapsed }: Side
           <li>
             <button
               type="button"
-              onClick={() => (user ? signOut() : signIn("alex@antara.app"))}
-              aria-label={user ? "Cerrar sesión" : "Iniciar sesión"}
-              title={collapsed ? (user ? "Cerrar sesión" : "Iniciar sesión") : undefined}
+              onClick={signOut}
+              aria-label="Cerrar sesión"
+              title={collapsed ? "Cerrar sesión" : undefined}
               className={`flex h-9 w-full items-center gap-2.5 rounded-md text-body text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-text-primary ${
                 collapsed ? "justify-center px-0" : "px-3 text-left"
               }`}
             >
-              <Icon name={user ? "logout" : "login"} size={20} />
-              {collapsed ? null : <span className="truncate">{user ? "Cerrar sesión" : "Iniciar sesión"}</span>}
+              <Icon name="logout" size={20} />
+              {collapsed ? null : <span className="truncate">Cerrar sesión</span>}
             </button>
           </li>
         </ul>

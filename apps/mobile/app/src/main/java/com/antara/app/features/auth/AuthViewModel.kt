@@ -5,22 +5,27 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.antara.app.R
+import com.antara.app.core.network.ApiError
+import com.antara.app.data.remote.AuthApi
+import com.antara.app.domain.repository.ServerRepository
 import com.antara.app.domain.repository.SessionRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel del inicio de sesión.
  *
- * Mientras no exista backend, la autenticación es local (mock): valida el formulario
- * y guarda la sesión en DataStore. El contrato real se conectará en esta capa.
+ * Consulta `POST /api/usuario/login` contra el servidor activo configurado por
+ * el usuario (ADR-016) y persiste la sesión con el token devuelto.
  */
 class AuthViewModel(
     private val sessionRepository: SessionRepository,
+    private val serverRepository: ServerRepository,
+    private val authApi: AuthApi,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthUiState())
@@ -66,17 +71,32 @@ class AuthViewModel(
 
         _uiState.update { it.copy(isLoading = true, generalErrorRes = null) }
         viewModelScope.launch {
+            val server = serverRepository.servers.first().active
+            if (server == null) {
+                _uiState.update {
+                    it.copy(isLoading = false, generalErrorRes = R.string.auth_error_no_server)
+                }
+                return@launch
+            }
+
             try {
-                // Simula la llamada de red del contrato de autenticación.
-                delay(600)
-                val email = state.email.trim()
-                sessionRepository.signIn(name = displayNameFromEmail(email), email = email)
+                val response = authApi.login(
+                    baseUrl = server.address,
+                    email = state.email.trim(),
+                    password = state.password,
+                )
+                sessionRepository.signIn(
+                    name = response.nombre.ifBlank { displayNameFromEmail(response.email) },
+                    email = response.email.ifBlank { state.email.trim() },
+                    token = response.token,
+                )
+            } catch (error: ApiError) {
+                _uiState.update {
+                    it.copy(isLoading = false, generalErrorRes = error.toMessageRes())
+                }
             } catch (_: Exception) {
                 _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        generalErrorRes = R.string.auth_error_generic,
-                    )
+                    it.copy(isLoading = false, generalErrorRes = R.string.auth_error_generic)
                 }
             }
         }
@@ -95,12 +115,29 @@ class AuthViewModel(
             }
             .ifBlank { "Melómano" }
 
+    private fun ApiError.toMessageRes(): Int = when (this) {
+        ApiError.NotFound,
+        ApiError.Unauthorized,
+        ApiError.Validation,
+        -> R.string.auth_error_invalid_credentials
+
+        ApiError.Unavailable -> R.string.auth_error_no_admin
+        ApiError.Network -> R.string.auth_error_network
+        ApiError.Server,
+        ApiError.Parsing,
+        -> R.string.auth_error_server
+    }
+
     companion object {
         private const val MIN_PASSWORD_LENGTH = 6
         private val EMAIL_REGEX = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 
-        fun factory(repository: SessionRepository) = viewModelFactory {
-            initializer { AuthViewModel(repository) }
+        fun factory(
+            sessionRepository: SessionRepository,
+            serverRepository: ServerRepository,
+            authApi: AuthApi,
+        ) = viewModelFactory {
+            initializer { AuthViewModel(sessionRepository, serverRepository, authApi) }
         }
     }
 }

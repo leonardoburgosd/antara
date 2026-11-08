@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 /**
- * Sesión persistida en DataStore.
+ * Sesión persistida en DataStore, incluido el token emitido por el backend.
  *
- * Nota: mientras no exista backend real, no se guarda token; solo el usuario demo.
- * Cuando exista contrato de autenticación, el token irá al almacén cifrado (architecture.md).
+ * Deuda conocida: DataStore no cifra el token; migrar al almacén seguro cuando
+ * se evalúe esa dependencia (`docs/security.md`).
  */
 class SessionRepositoryImpl(
     private val context: Context,
@@ -40,6 +40,7 @@ class SessionRepositoryImpl(
                                 name = preferences[PreferencesKeys.USER_NAME]?.takeIf { it.isNotBlank() }
                                     ?: "Melómano",
                                 email = preferences[PreferencesKeys.USER_EMAIL].orEmpty(),
+                                token = preferences[PreferencesKeys.USER_TOKEN]?.takeIf { it.isNotBlank() },
                             ),
                         )
                     }
@@ -47,11 +48,12 @@ class SessionRepositoryImpl(
         )
     }
 
-    override suspend fun signIn(name: String, email: String) {
+    override suspend fun signIn(name: String, email: String, token: String) {
         context.antaraDataStore.edit { preferences ->
             preferences[PreferencesKeys.AUTHENTICATED] = true
             preferences[PreferencesKeys.USER_NAME] = name
             preferences[PreferencesKeys.USER_EMAIL] = email
+            preferences[PreferencesKeys.USER_TOKEN] = token
         }
     }
 
@@ -60,6 +62,7 @@ class SessionRepositoryImpl(
             preferences.remove(PreferencesKeys.AUTHENTICATED)
             preferences.remove(PreferencesKeys.USER_NAME)
             preferences.remove(PreferencesKeys.USER_EMAIL)
+            preferences.remove(PreferencesKeys.USER_TOKEN)
         }
     }
 }

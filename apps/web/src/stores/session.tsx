@@ -3,32 +3,48 @@ import type { ReactNode } from "react";
 import type { SessionUser } from "../types/library";
 
 /**
- * Sesión local mock mientras no exista backend (misma regla que Android, ADR-014):
- * cualquier email válido y contraseña de 6+ caracteres inicia sesión.
- * La app arranca con la sesión de desarrollo abierta.
+ * Sesión autenticada contra el backend real (ADR-016).
+ *
+ * El token solo vive en esta capa de estado; los componentes consumen `user`
+ * y nunca el token directamente. Se limpia al cerrar sesión.
  */
-const DEFAULT_USER: SessionUser = { name: "Alex", email: "alex@antara.app" };
+export type SignInPayload = {
+  user: SessionUser;
+  token: string;
+  tipo: string;
+};
 
 type SessionContextValue = {
   user: SessionUser | null;
-  signIn: (email: string) => void;
+  token: string | null;
+  tipo: string | null;
+  signIn: (payload: SignInPayload) => void;
   signOut: () => void;
 };
 
 const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<SessionUser | null>(DEFAULT_USER);
+  const [user, setUser] = useState<SessionUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [tipo, setTipo] = useState<string | null>(null);
 
-  const signIn = useCallback((email: string) => {
-    const local = email.split("@")[0] ?? "";
-    const name = local ? local.charAt(0).toUpperCase() + local.slice(1) : DEFAULT_USER.name;
-    setUser({ name, email });
+  const signIn = useCallback((payload: SignInPayload) => {
+    setUser(payload.user);
+    setToken(payload.token);
+    setTipo(payload.tipo);
   }, []);
 
-  const signOut = useCallback(() => setUser(null), []);
+  const signOut = useCallback(() => {
+    setUser(null);
+    setToken(null);
+    setTipo(null);
+  }, []);
 
-  const value = useMemo(() => ({ user, signIn, signOut }), [user, signIn, signOut]);
+  const value = useMemo(
+    () => ({ user, token, tipo, signIn, signOut }),
+    [user, token, tipo, signIn, signOut],
+  );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }

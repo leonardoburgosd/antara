@@ -24,7 +24,9 @@ Buenas prácticas de seguridad aplicables a las tres plataformas y al manejo del
 
 - **HTTPS obligatorio** en producción; en desarrollo se permite `http://localhost` documentado.
 - Verificar certificados (no desactivar `TrustManager`/cert pinning a la ligera).
-- URL base por entorno vía configuración (ver [api-integration.md](api-integration.md#configuración-de-url-base)); no URLs hardcodeadas en componentes.
+- URL base configurada por el usuario (servidor activo) y ruta relativa del endpoint resuelta por el cliente HTTP (ver [api-integration.md](api-integration.md#configuración-de-url-base) y ADR-016); no URLs hardcodeadas en componentes.
+- **HTTP en claro solo en desarrollo/red local:** Android declara `android:usesCleartextTraffic="true"` para servidores `http://` de la LAN; en producción el servidor debe exponerse por HTTPS.
+- **Deuda conocida:** en Android el token de sesión se guarda sin cifrar en DataStore; en Web/Desktop vive solo en memoria y se pierde al recargar. Migrar al almacén cifrado (y decidir persistencia en Web/Desktop) cuando se evalúe esa dependencia.
 - **Desktop (Tauri):** habilitar CSP en `tauri.conf.json` (hoy está en `null`, deuda conocida). CSP mínima sugerida:
 
 ```jsonc

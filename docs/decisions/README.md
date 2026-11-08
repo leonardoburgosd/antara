@@ -79,6 +79,7 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
 - **Contexto:** ninguna plataforma tiene capa HTTP; se necesita una sola puerta de entrada al backend.
 - **Decisión:** `ApiClient` en TS para Web/Desktop (fetch, con opción `@tauri-apps/plugin-http` si CORS lo exige) y Retrofit + OkHttp en Android. Contratos leídos del backend real; sin endpoints inventados. Detalle en [`docs/api-integration.md`](../api-integration.md).
 - **Consecuencias:** si se opta por `plugin-http` en Desktop, queda registrado en un ADR nuevo con el motivo (CORS).
+- **Actualización (2026-11-08):** se implementó la fase 1 con `fetch` en Web/Desktop y `HttpURLConnection` + `org.json` en Android (sin dependencias nuevas). Retrofit/OkHttp queda como objetivo, no como obligación. Ver [ADR-016](#adr-016-url-base-configurada-por-el-usuario--ruta-relativa-del-endpoint).
 
 ### ADR-008: Material Symbols como set único de iconografía
 
@@ -168,6 +169,27 @@ Numeración secuencial (`ADR-001`, `ADR-002`…). Las entradas se agregan al fin
   - La reproducción no emite audio hasta implementar `PlaybackEngine`; la UI ya expone los controles y estados equivalentes a Android.
   - Rutas y HTTP siguen pendientes: Home usa datos mock locales, sin `services/api/`.
   - En Desktop queda pendiente el cambio de identidad en `tauri.conf.json` (`productName`, identificador `tauri-app`) y el `csp: null` de ADR-012.
+
+---
+
+### ADR-016: URL base configurada por el usuario + ruta relativa del endpoint
+
+- **Estado:** Aceptada (fase 1: Login)
+- **Fecha:** 2026-11-08
+- **Contexto:** El backend se ejecuta en un servidor que el usuario elige (IP o dominio de su red local, o un host remoto), por lo que Web, Desktop y Mobile no pueden depender de una URL base fijada en build. Hasta ahora el Login era mock y no existía capa HTTP en ninguna plataforma.
+- **Decisión:**
+  1. **URL base manual:** cada app reutiliza su pantalla de servidores (ADR-014 y equivalente en Web/Desktop): el usuario introduce IP o dominio, con puerto y esquema opcionales, y se guarda un servidor activo. La normalización conserva esquema, host, puerto y, si existe, un prefijo de ruta (útil detrás de un proxy inverso); nunca la ruta del endpoint.
+  2. **Ruta relativa:** el catálogo central de endpoints contiene únicamente rutas (`/api/usuario/login`): `services/api/endpoints.ts` en Web y Desktop, `core/network/Endpoints.kt` en Android. Prohibido hardcodear hosts o rutas completas en componentes, servicios y DTOs.
+  3. **Composición en el cliente:** la URL final se arma en un solo lugar por plataforma (`apiRequest`/`buildUrl` en TS, `ApiClient.buildUrl` en Kotlin) como `baseUrl.trimEnd('/') + '/' + path.trimStart('/')`. Todas las implementaciones de endpoints futuras siguen esta misma forma en las tres plataformas.
+  4. **Fase 1 — Login:** `POST {baseUrl}/api/usuario/login` con `{ email, password }`; respuesta 200 con datos del usuario y `token`. Traducción de errores: 404/401 → credenciales incorrectas, 503 → sin administrador registrado, 5xx → error del servidor, sin red → error de conexión.
+  5. **Sesión real:** Web/Desktop arrancan sin sesión y `signIn` recibe `{ user, token, tipo }`; Android persiste el token en DataStore junto con el usuario. Los componentes consumen `user`, nunca el token directamente.
+  6. **HTTP en claro:** Android declara `usesCleartextTraffic="true"` para permitir servidores `http://` de la red local; en producción se documenta HTTPS.
+- **Consecuencias:**
+  - Cambiar de servidor no requiere recompilar: basta con seleccionar otro servidor activo.
+  - El Login real deja de usar el atajo mock (`signIn("alex@antara.app")` desaparece de los sidebars); sin backend accesible el formulario muestra el error de conexión.
+  - **Deuda:** en Android el token se guarda sin cifrar en DataStore; en Web/Desktop vive solo en memoria y se pierde al recargar (no hay persistencia de sesión todavía). Migrar al almacén seguro cuando se evalúe esa dependencia (ver [security.md](../security.md)).
+  - El catálogo `ENDPOINTS`/`Endpoints` crece con cada endpoint integrado; ningún servicio compone rutas por su cuenta.
+  - Retrofit/OkHttp sigue siendo el objetivo en Android si el número de endpoints crece (ADR-007).
 
 ---
 

@@ -51,7 +51,6 @@
     <string name="auth_enter">Entrar</string>
     <string name="auth_show_password">Mostrar contraseña</string>
     <string name="auth_hide_password">Ocultar contraseña</string>
-    <string name="auth_demo_hint">Modo demo: cualquier correo válido y una contraseña de 6+ caracteres.</string>
     <string name="auth_server_empty">Añadir servidor</string>
     <string name="auth_server_add_description">Configura la IP o el dominio de tu servidor</string>
     <string name="auth_server_change">Toca para cambiar de servidor</string>
@@ -60,6 +59,11 @@
     <string name="auth_error_password_empty">Escribe tu contraseña</string>
     <string name="auth_error_password_short">La contraseña debe tener al menos 6 caracteres</string>
     <string name="auth_error_generic">No se pudo iniciar sesión. Inténtalo de nuevo.</string>
+    <string name="auth_error_no_server">Configura un servidor antes de iniciar sesión</string>
+    <string name="auth_error_invalid_credentials">Correo o contraseña incorrectos</string>
+    <string name="auth_error_network">No se pudo conectar con el servidor. Revisa la dirección y tu red.</string>
+    <string name="auth_error_server">Error del servidor. Inténtalo más tarde.</string>
+    <string name="auth_error_no_admin">El servidor aún no tiene un administrador registrado</string>
     <!-- Servidores -->
     <string name="servers_open">Configurar servidores</string>
     <string name="servers_title">Servidores</string>

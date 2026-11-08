@@ -29,7 +29,7 @@ function initials(name: string) {
  * acción inferior "Nueva playlist".
  */
 export function Sidebar({ active, onSelect, className = "" }: SidebarProps) {
-  const { user, signIn, signOut } = useSession();
+  const { user, signOut } = useSession();
 
   return (
     <nav
@@ -147,11 +147,11 @@ export function Sidebar({ active, onSelect, className = "" }: SidebarProps) {
           <li>
             <button
               type="button"
-              onClick={() => (user ? signOut() : signIn("alex@antara.app"))}
+              onClick={signOut}
               className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-left text-body text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-text-primary"
             >
-              <Icon name={user ? "logout" : "login"} size={20} />
-              <span className="truncate">{user ? "Cerrar sesión" : "Iniciar sesión"}</span>
+              <Icon name="logout" size={20} />
+              <span className="truncate">Cerrar sesión</span>
             </button>
           </li>
         </ul>

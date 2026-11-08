@@ -6,17 +6,17 @@ Reglas para consumir el backend (.NET 10 + Dapper) desde las tres aplicaciones.
 
 ## Cliente HTTP centralizado
 
-Cada plataforma tendrá **un** cliente de infraestructura (ningún componente hará peticiones directas). **Hoy ninguna plataforma tiene capa HTTP** (ver [project-overview.md](project-overview.md#estado-actual-de-funcionalidades) y ADR-007 en [`decisions/README.md`](decisions/README.md)); esta tabla define el objetivo a implementar.
+Cada plataforma tendrá **un** cliente de infraestructura (ningún componente hará peticiones directas). Fase 1 implementada (ADR-016) para `POST /api/usuario/login`; el resto de endpoints se añaden al catálogo y al servicio correspondiente.
 
 | Plataforma | Cliente | Notas |
 |---|---|---|
-| Web | `services/api/apiClient.ts` sobre `fetch` | Interceptores simulados con wrappers propios |
+| Web | `services/api/apiClient.ts` sobre `fetch` | Timeout con `AbortController`; errores → `ApiError` |
 | Desktop | El mismo `apiClient.ts` (código conceptualmente idéntico al de Web) | Ver decisión de transporte abajo |
-| Mobile | `core/network/` sobre Retrofit + OkHttp (suspend functions) | Ver [`apps/mobile/docs/architecture.md`](../apps/mobile/docs/architecture.md) |
+| Mobile | `core/network/ApiClient.kt` con `HttpURLConnection` + `org.json` (suspend) | Sin dependencias nuevas; Retrofit/OkHttp queda como objetivo si crece el número de endpoints |
 
 Responsabilidades del cliente:
 
-1. Componer la URL base + path desde un catálogo central de endpoints (`endpoints.ts` / `remote/…Service.kt`).
+1. Componer la URL base + path desde un catálogo central de endpoints (`endpoints.ts` / `Endpoints.kt`).
 2. Adjuntar headers comunes (`Authorization`, `Content-Type`, `Accept`, `X-Request-Id` si el backend lo usa).
 3. Aplicar timeout y cancelación.
 4. Serializar/deserializar DTOs.
@@ -31,9 +31,14 @@ Responsabilidades del cliente:
 
 ## Configuración de URL base
 
-- Web/Desktop: `VITE_API_BASE_URL` (variable de entorno; incluir `.env.example` documentado, sin secretos).
-- Android: propiedad de Gradle leída desde `local.properties`/variables de CI hacia `BuildConfig` (nunca hardcodeada en fuentes).
-- La URL base se lee una vez al arranque; cambiarla no requiere recompilar componentes.
+**Regla (ADR-016): la URL base la introduce el usuario manualmente y el endpoint se añade por ruta relativa.**
+
+- Cada app guarda una lista de servidores (IP o dominio, con puerto y esquema opcionales) y un servidor activo; la normalización vive en `core/network/ServerAddress.kt` (Android) y `stores/servers.tsx` (Web/Desktop).
+- La URL base es el origen (`http://192.168.1.10:5006`, `https://mi-servidor.com`), opcionalmente con un prefijo de ruta si el backend vive tras un proxy inverso; **nunca** incluye la ruta del endpoint.
+- El catálogo central (`endpoints.ts` / `Endpoints.kt`) contiene **solo rutas relativas** (`/api/usuario/login`) y el cliente compone `baseUrl + path` en cada consulta.
+- Prohibido hardcodear hosts o rutas completas en componentes, servicios o DTOs.
+- Android permite HTTP en claro (`android:usesCleartextTraffic="true"`) porque el servidor suele ser una IP de la red local; en producción se documenta el uso de HTTPS.
+- El cambio de servidor no requiere recompilar: basta con seleccionar otro servidor activo en la app.
 
 ## Autenticación
 

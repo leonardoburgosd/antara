@@ -84,12 +84,12 @@ sequenceDiagram
 
 | Configuración | Dónde vive | Regla |
 |---|---|---|
-| URL base de la API | Variable de entorno por plataforma (`VITE_API_BASE_URL` en Vite; propiedad Gradle/`local.properties` en Android) | Nunca hardcodeada en componentes; nunca secretos en el repositorio |
-| Tokens | Almacenamiento seguro por plataforma | Nunca en código fuente ni en logs |
+| URL base de la API | Servidores configurados por el usuario (servidor activo persistido en localStorage en Web/Desktop y DataStore en Mobile) | Origen y, opcionalmente, prefijo de proxy; la ruta del endpoint viene del catálogo central. Nunca hardcodeada en componentes (ADR-016) |
+| Tokens | Memoria en Web/Desktop; DataStore en Android | Nunca en código fuente ni en logs. Deuda: cifrado en reposo (ADR-016) |
 | Preferencias de usuario (volumen, tema, repeat/shuffle) | Almacenamiento local por plataforma (localStorage/plugin-store/DataStore) | Solo preferencias; nunca datos de sesión en claro donde haya alternativa segura |
 | Configuración de ventanas/permisos | `tauri.conf.json` + capabilities (Desktop), `AndroidManifest.xml` (Mobile) | Mínimo privilegio |
 
-Los valores de configuración se leen **una sola vez** en la capa de infraestructura y se exponen como constantes tipadas al resto de la app.
+Los valores de configuración se leen en la capa de infraestructura y se exponen como constantes tipadas al resto de la app. La URL base es la excepción: se puede cambiar en caliente al seleccionar otro servidor, sin recompilar.
 
 ## Manejo de errores
 

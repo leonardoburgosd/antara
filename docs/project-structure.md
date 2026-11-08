@@ -6,11 +6,11 @@ Define la organización esperada del código en las tres aplicaciones. **Se adap
 
 | Aplicación | Archivos fuente | Estado |
 |---|---|---|
-| `apps/desktop` | 3 TSX/TS + 2 Rust + 1 CSS | Plantilla Tauri 2 con `WelcomeScreen` personalizada. Sin routing, estado, HTTP, reproducción ni bandeja |
-| `apps/mobile` | 5 Kotlin + resources | Plantilla Android con `WelcomeScreen` portada. Sin ViewModels, navegación, HTTP ni `MediaSessionService` (Media3 declarado sin usar) |
-| `apps/web` | 3 TSX/TS + 2 CSS | Plantilla Vite con `WelcomeScreen` (idéntica byte a byte a la de Desktop). Sin routing, estado ni HTTP |
+| `apps/desktop` | 28 TS/TSX/CSS + 2 Rust | Tauri 2 con tokens propios, navegación por estado, reproductor simulado, login real contra el backend (`services/api/`) y configuración de servidores. Bandeja y motor de audio pendientes |
+| `apps/mobile` | 51 Kotlin + resources | App Compose con design system propio, navegación por estado, ViewModels, login real (`core/network/` + `data/remote/`), `MediaSessionService` con ExoPlayer y DI manual |
+| `apps/web` | 28 TS/TSX/CSS | Vite + React con tokens propios, navegación por estado, reproductor simulado, login real (`services/api/`) y configuración de servidores |
 
-Deudas detectadas (detalle en la sección final y en [`decisions/README.md`](decisions/README.md)): sin `strict` en el tsconfig de Web, tokens visuales sin usar, CSS muerto de plantilla, `WelcomeScreen` duplicado, `packages/` inexistente pese a lo que indica el README raíz, logs de desarrollo versionados en `apps/*.log`.
+Deudas detectadas (detalle en la sección final y en [`decisions/README.md`](decisions/README.md)): `packages/` inexistente pese a lo que indica el README raíz, logs y artefactos de build versionados en `apps/mobile`, token de sesión sin cifrar y `csp: null` en Desktop.
 
 ## Estructura por plataforma
 
