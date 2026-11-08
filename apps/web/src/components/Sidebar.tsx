@@ -34,7 +34,7 @@ export function Sidebar({ active, onSelect, className = "" }: SidebarProps) {
   return (
     <nav
       aria-label="Navegación principal"
-      className={`flex w-60 shrink-0 flex-col border-r border-border bg-surface ${className}`}
+      className={`flex h-full min-h-0 w-60 shrink-0 flex-col border-r border-border bg-surface ${className}`}
     >
       <div className="flex items-center gap-2 px-5 pb-4 pt-5">
         <span className="grid size-9 place-items-center rounded-full bg-primary text-on-primary">

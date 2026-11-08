@@ -18,7 +18,13 @@ function greetingForHour(hour: number): string {
  * Home: saludo + acciones, titular, filtros, carrusel "Curado y en tendencia"
  * y lista de playlists diarias (misma jerarquía que Mobile).
  */
-export function HomeScreen({ userName }: { userName: string }) {
+export function HomeScreen({
+  userName,
+  onOpenServers,
+}: {
+  userName: string;
+  onOpenServers: () => void;
+}) {
   const { state, currentTrack, playQueue, togglePlayPause } = usePlayer();
   const [filter, setFilter] = useState<HomeFilter>("all");
   const content = buildHomeContent(filter);
@@ -33,7 +39,7 @@ export function HomeScreen({ userName }: { userName: string }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[1600px] px-4 pb-10 pt-2 sm:px-6">
+    <div className="flex min-h-full w-full flex-col px-4 pb-10 pt-2 sm:px-6">
       <header className="flex items-center gap-3">
         <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-body font-semibold text-on-primary">
           {userName.trim().charAt(0).toUpperCase() || "A"}
@@ -63,6 +69,7 @@ export function HomeScreen({ userName }: { userName: string }) {
           <button
             type="button"
             aria-label="Configurar servidores"
+            onClick={onOpenServers}
             className="grid size-10 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-text-primary"
           >
             <Icon name="dns" size={22} />
@@ -82,9 +89,9 @@ export function HomeScreen({ userName }: { userName: string }) {
         />
       </div>
 
-      <section className="mt-8" aria-label={content.curatedTitle}>
+      <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.curatedTitle}>
         <SectionHeader title={content.curatedTitle} actionLabel="Ver todo" onAction={() => undefined} />
-        <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
+        <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
           {content.featured.map((item) => (
             <FeaturedCard
               key={item.id}
@@ -96,9 +103,9 @@ export function HomeScreen({ userName }: { userName: string }) {
         </div>
       </section>
 
-      <section className="mt-8" aria-label={content.playlistsTitle}>
+      <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.playlistsTitle}>
         <SectionHeader title={content.playlistsTitle} actionLabel="Ver todo" onAction={() => undefined} />
-        <div className="mt-2 flex flex-col">
+        <div className="mt-2 grid min-h-0 flex-1 auto-rows-fr gap-x-6 gap-y-1 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
           {content.playlists.map((playlist) => {
             const isCurrent = content.tracks[playlist.trackIndex]?.id === currentTrack?.id;
 

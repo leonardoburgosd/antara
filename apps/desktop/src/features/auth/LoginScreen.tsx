@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../../components/Icon";
+import { serverDisplayName, useServers } from "../../stores/servers";
 import { useSession } from "../../stores/session";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,8 +11,9 @@ const MIN_PASSWORD_LENGTH = 6;
  * Inicio de sesión mock (igual que Android, ADR-014): email válido y contraseña
  * de 6+ caracteres. Al existir backend se sustituye por `services/api/auth`.
  */
-export function LoginScreen() {
+export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
   const { signIn } = useSession();
+  const { activeServer } = useServers();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -87,6 +89,29 @@ export function LoginScreen() {
             Entrar
           </button>
         </form>
+
+        <div className="mt-6 border-t border-border pt-4">
+          <button
+            type="button"
+            onClick={onOpenServers}
+            className="flex w-full items-center gap-3 rounded-lg border border-border bg-surface-elevated px-3 py-3 text-left transition-colors duration-150 hover:bg-surface-hover"
+          >
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-surface-hover text-primary">
+              <Icon name="dns" size={22} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-body-sm font-medium text-text-primary">
+                {activeServer ? serverDisplayName(activeServer.address) : "Añadir servidor"}
+              </span>
+              <span className="block truncate text-caption text-text-secondary">
+                {activeServer
+                  ? "Toca para cambiar de servidor"
+                  : "Configura la IP o el dominio de tu servidor"}
+              </span>
+            </span>
+            <Icon name="chevron_right" size={20} className="text-text-secondary" />
+          </button>
+        </div>
       </div>
     </div>
   );

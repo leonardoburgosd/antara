@@ -34,7 +34,7 @@ export function Sidebar({ active, onSelect, collapsed, onToggleCollapsed }: Side
   return (
     <nav
       aria-label="Navegación principal"
-      className={`flex shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-200 ${
+      className={`flex h-full min-h-0 shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-200 ${
         collapsed ? "w-[72px]" : "w-60"
       }`}
     >

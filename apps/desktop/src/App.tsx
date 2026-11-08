@@ -5,8 +5,10 @@ import { PlayerBar } from "./components/PlayerBar";
 import { Sidebar } from "./components/Sidebar";
 import { LoginScreen } from "./features/auth/LoginScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
+import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
 import { PlayerProvider, usePlayer } from "./stores/player";
+import { ServersProvider, useServers } from "./stores/servers";
 import { SessionProvider, useSession } from "./stores/session";
 import { UploadsProvider } from "./stores/uploads";
 import type { NavId } from "./types/library";
@@ -33,6 +35,7 @@ function AppShell() {
   const [collapsed, setCollapsed] = useState(
     () => window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === "true",
   );
+  const { user } = useSession();
   const { currentTrack } = usePlayer();
   const activeLabel = NAV_ITEMS.find((item) => item.id === tab)?.label ?? EXTRA_TITLES[tab] ?? "";
 
@@ -89,9 +92,15 @@ function AppShell() {
 
           <main className="min-h-0 flex-1 overflow-y-auto">
             {tab === "home" ? (
-              <HomeScreen userName="Alex" />
+              <HomeScreen userName={user?.name ?? "Alex"} onOpenServers={() => setTab("server")} />
             ) : tab === "uploads" ? (
               <UploadsScreen />
+            ) : tab === "server" ? (
+              <ServersScreen
+                firstRun={false}
+                onBack={() => setTab("home")}
+                onContinue={() => setTab("home")}
+              />
             ) : (
               <PlaceholderScreen title={activeLabel} />
             )}
@@ -107,18 +116,45 @@ function AppShell() {
 /** Sin sesión se muestra el login (misma regla que Android: login primero). */
 function Root() {
   const { user } = useSession();
+  const { activeServer } = useServers();
+  const [serversOpen, setServersOpen] = useState(false);
 
-  return user ? <AppShell /> : <LoginScreen />;
+  if (!user) {
+    return serversOpen ? (
+      <ServersScreen
+        firstRun={false}
+        onBack={() => setServersOpen(false)}
+        onContinue={() => setServersOpen(false)}
+      />
+    ) : (
+      <LoginScreen onOpenServers={() => setServersOpen(true)} />
+    );
+  }
+
+  // Tras iniciar sesión sin servidor, la configuración es obligatoria (como Android).
+  if (!activeServer || serversOpen) {
+    return (
+      <ServersScreen
+        firstRun={!activeServer}
+        onBack={() => setServersOpen(false)}
+        onContinue={() => setServersOpen(false)}
+      />
+    );
+  }
+
+  return <AppShell />;
 }
 
 function App() {
   return (
     <SessionProvider>
-      <UploadsProvider>
-        <PlayerProvider>
-          <Root />
-        </PlayerProvider>
-      </UploadsProvider>
+      <ServersProvider>
+        <UploadsProvider>
+          <PlayerProvider>
+            <Root />
+          </PlayerProvider>
+        </UploadsProvider>
+      </ServersProvider>
     </SessionProvider>
   );
 }

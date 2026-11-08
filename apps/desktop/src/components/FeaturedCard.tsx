@@ -13,7 +13,7 @@ export function FeaturedCard({ item, onPlay, onOpen }: FeaturedCardProps) {
 
   return (
     <article
-      className={`relative flex h-[172px] w-[280px] shrink-0 flex-col rounded-xl p-4 sm:w-[320px] ${item.background}`}
+      className={`relative flex h-full min-h-[172px] flex-col rounded-xl p-4 ${item.background}`}
     >
       <button
         type="button"

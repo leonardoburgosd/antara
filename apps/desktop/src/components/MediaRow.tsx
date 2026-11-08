@@ -16,7 +16,7 @@ type MediaRowProps = {
  */
 export function MediaRow({ title, subtitle, coverColor, isCurrent, isPlaying, onPlay }: MediaRowProps) {
   return (
-    <div className="flex h-16 items-center gap-3 rounded-md px-3 transition-colors duration-150 hover:bg-surface-hover">
+    <div className="flex h-full min-h-16 items-center gap-3 rounded-md px-3 transition-colors duration-150 hover:bg-surface-hover">
       <div className={`size-12 shrink-0 rounded-md ${coverColor}`} aria-hidden="true" />
 
       <div className="min-w-0 flex-1">
