@@ -75,6 +75,7 @@ class PlaylistDetailViewModel(
                             title = pista.nombre.ifBlank { pista.id },
                             artist = pista.interprete.orEmpty(),
                             durationSeconds = pista.duracionSegundos,
+                            durationLabel = pista.durationLabel,
                             uri = ApiClient.buildUrl(server.address, Endpoints.trackStream(pista.id)),
                         )
                     }

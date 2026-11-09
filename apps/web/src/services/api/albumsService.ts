@@ -45,3 +45,13 @@ export async function fetchAlbums(
 
   return data;
 }
+
+/**
+ * Año de publicación a partir de `fechaPublicacion` (ISO-8601).
+ * Devuelve cadena vacía cuando el backend no envía una fecha utilizable
+ * (p. ej. `0001-01-01` en álbumes no publicados).
+ */
+export function albumYear(album: Pick<AlbumDto, "fechaPublicacion">): string {
+  const year = Number.parseInt(album.fechaPublicacion?.slice(0, 4) ?? "", 10);
+  return Number.isFinite(year) && year >= 1900 && year <= 2999 ? String(year) : "";
+}

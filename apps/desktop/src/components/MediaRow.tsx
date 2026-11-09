@@ -11,6 +11,8 @@ type MediaRowProps = {
   onPlay?: () => void;
   /** Si se omite, la fila no es navegable (p. ej. pistas de una lista). */
   onOpen?: () => void;
+  /** Duración ya formateada por el backend ("3:48"); se oculta si está vacía. */
+  durationLabel?: string;
 };
 
 /**
@@ -28,6 +30,7 @@ export function MediaRow({
   isPlaying,
   onPlay,
   onOpen,
+  durationLabel,
 }: MediaRowProps) {
   const body = (
     <>
@@ -64,6 +67,12 @@ export function MediaRow({
       ) : (
         <div className="flex min-w-0 flex-1 items-center gap-3 px-3 py-2">{body}</div>
       )}
+
+      {durationLabel ? (
+        <span className="shrink-0 pl-2 text-caption tabular-nums text-text-secondary">
+          {durationLabel}
+        </span>
+      ) : null}
 
       {onPlay ? (
         <button

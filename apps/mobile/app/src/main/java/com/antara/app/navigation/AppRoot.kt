@@ -439,6 +439,7 @@ private fun MainContent(
                     albumTitle = album.nombre,
                     albumArtist = album.artista.orEmpty(),
                     albumDescription = album.descripcion,
+                    albumDate = album.fechaPublicacion,
                     coverColor = selectedAlbumCover,
                     state = albumState,
                     playerState = playerState,

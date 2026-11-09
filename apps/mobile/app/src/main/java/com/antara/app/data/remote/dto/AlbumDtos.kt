@@ -12,6 +12,8 @@ data class AlbumDto(
     val descripcion: String?,
     val artista: String?,
     val portadaUrl: String?,
+    /** Fecha ISO-8601 del backend; de ahí sale el año que muestra el detalle. */
+    val fechaPublicacion: String?,
     val estaPublicado: Boolean,
     val estaActivo: Boolean,
 ) {
@@ -26,6 +28,7 @@ data class AlbumDto(
                 descripcion = json.optionalText("descripcion"),
                 artista = json.optionalText("artista"),
                 portadaUrl = json.optionalText("portadaUrl"),
+                fechaPublicacion = json.optionalText("fechaPublicacion"),
                 estaPublicado = json.optBoolean("estaPublicado", false),
                 estaActivo = json.optBoolean("estaActivo", true),
             )

@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { Icon } from "../../components/Icon";
 import { MediaRow } from "../../components/MediaRow";
 import { ApiError } from "../../services/api/apiClient";
-import type { AlbumDto } from "../../services/api/albumsService";
+import { albumYear, type AlbumDto } from "../../services/api/albumsService";
 import {
   fetchAlbumTracks,
   resolveTrackStreamUrl,
+  trackDurationLabel,
   type TrackDto,
 } from "../../services/api/tracksService";
 import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
+import { formatTime } from "../../utils/formatTime";
 import type { Track } from "../../types/library";
 
 /**
@@ -74,6 +76,14 @@ export function AlbumDetailScreen({
 
   const queue = tracks ?? [];
   const hasTracks = queue.length > 0;
+  const totalSeconds = queue.reduce((total, track) => total + Math.max(0, track.duration), 0);
+  const albumMeta = [
+    albumYear(album),
+    hasTracks ? `${queue.length} canciones` : "",
+    totalSeconds > 0 ? formatTime(totalSeconds) : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
   const showSkeleton = loading || (tracks === null && !error);
 
   const playFrom = (index: number) => {
@@ -108,6 +118,9 @@ export function AlbumDetailScreen({
             {albumTitle}
           </h1>
           <p className="mt-2 text-body-sm text-text-secondary">{albumArtist}</p>
+          {albumMeta ? (
+            <p className="mt-1 text-caption tabular-nums text-text-secondary">{albumMeta}</p>
+          ) : null}
           {album.descripcion?.trim() ? (
             <p className="mt-2 max-w-2xl text-body-sm text-text-secondary">
               {album.descripcion.trim()}
@@ -181,6 +194,7 @@ export function AlbumDetailScreen({
                   isCurrent={isCurrent}
                   isPlaying={state.isPlaying}
                   onPlay={() => playFrom(index)}
+                  durationLabel={track.durationLabel}
                 />
               );
             })}
@@ -212,6 +226,7 @@ function toQueue(
       album: album.nombre?.trim() || "Álbum sin nombre",
       coverColor,
       duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
+      durationLabel: trackDurationLabel(pista),
       src: resolveTrackStreamUrl(baseUrl, pista),
     }));
 }

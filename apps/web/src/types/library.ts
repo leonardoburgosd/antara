@@ -9,6 +9,8 @@ export type Track = {
   coverColor: string;
   /** Duración en segundos. */
   duration: number;
+  /** Duración legible según el backend ("3:48"); si falta, la UI usa `duration`. */
+  durationLabel?: string;
   /** URL reproducible: stream de la pista en el backend o blob de un archivo local. */
   src?: string;
 };

@@ -48,6 +48,7 @@ fun AlbumDetailScreen(
     albumTitle: String,
     albumArtist: String,
     albumDescription: String?,
+    albumDate: String? = null,
     coverColor: Color,
     state: AlbumDetailUiState,
     playerState: PlayerUiState,
@@ -57,6 +58,17 @@ fun AlbumDetailScreen(
     bottomContentPadding: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
+    val totalSeconds = state.tracks.sumOf { it.durationSeconds }
+    val albumMeta = listOfNotNull(
+        albumYear(albumDate),
+        if (state.tracks.isNotEmpty()) {
+            stringResource(R.string.detail_song_count, state.tracks.size)
+        } else {
+            null
+        },
+        if (totalSeconds > 0) formatAlbumDuration(totalSeconds) else null,
+    ).joinToString(separator = " · ")
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -79,6 +91,7 @@ fun AlbumDetailScreen(
                     AlbumHeader(
                         title = albumTitle,
                         artist = albumArtist,
+                        meta = albumMeta,
                         description = albumDescription,
                         coverColor = coverColor,
                     )
@@ -126,6 +139,7 @@ fun AlbumDetailScreen(
                             coverColor = coverColor,
                             isCurrent = playerState.currentId == track.id,
                             isPlaying = playerState.isPlaying,
+                            durationLabel = track.durationLabel,
                             onPlay = { onPlayTrack(index) },
                         )
                     }
@@ -139,6 +153,7 @@ fun AlbumDetailScreen(
 private fun AlbumHeader(
     title: String,
     artist: String,
+    meta: String,
     description: String?,
     coverColor: Color,
 ) {
@@ -175,6 +190,16 @@ private fun AlbumHeader(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
+            if (meta.isNotBlank()) {
+                Spacer(Modifier.height(AntaraTheme.spacing.xs))
+                Text(
+                    text = meta,
+                    style = AntaraTheme.typography.bodySmall,
+                    color = AntaraTheme.extendedColors.textSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (!description.isNullOrBlank()) {
                 Spacer(Modifier.height(AntaraTheme.spacing.xs))
                 Text(
@@ -216,6 +241,25 @@ private fun AlbumTracksError(messageRes: Int, onRetry: () -> Unit) {
         TextButton(onClick = onRetry) {
             Text(text = stringResource(R.string.home_albums_retry))
         }
+    }
+}
+
+/** Año de `fechaPublicacion` (ISO-8601); `null` si no hay una fecha utilizable. */
+private fun albumYear(date: String?): String? {
+    val year = date?.take(4)?.toIntOrNull() ?: return null
+    return if (year in 1900..2999) year.toString() else null
+}
+
+/** Duración total del álbum con el mismo formato del reproductor (m:ss / h:mm:ss). */
+private fun formatAlbumDuration(seconds: Int): String {
+    val hours = seconds / 3600
+    val minutes = (seconds % 3600) / 60
+    val rest = seconds % 60
+
+    return if (hours > 0) {
+        "%d:%02d:%02d".format(hours, minutes, rest)
+    } else {
+        "%d:%02d".format(minutes, rest)
     }
 }
 

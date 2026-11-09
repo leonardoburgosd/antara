@@ -6,6 +6,8 @@ data class PlaylistTrackUiModel(
     val title: String,
     val artist: String,
     val durationSeconds: Int,
+    /** Duración legible según el backend ("3:48"). */
+    val durationLabel: String,
     /** URL del stream en el backend (`GET /api/pista/{id}`). */
     val uri: String?,
 )

@@ -126,6 +126,7 @@ fun PlaylistDetailScreen(
                             coverColor = coverColor,
                             isCurrent = playerState.currentId == track.id,
                             isPlaying = playerState.isPlaying,
+                            durationLabel = track.durationLabel,
                             onPlay = { onPlayTrack(index) },
                         )
                     }

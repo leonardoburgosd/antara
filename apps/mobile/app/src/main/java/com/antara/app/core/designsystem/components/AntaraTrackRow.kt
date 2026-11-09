@@ -46,6 +46,8 @@ fun AntaraTrackRow(
     modifier: Modifier = Modifier,
     isCurrent: Boolean = false,
     isPlaying: Boolean = false,
+    /** Duración ya formateada por el backend ("3:48"); se oculta si está vacía. */
+    durationLabel: String? = null,
     onRowClick: (() -> Unit)? = onPlay,
 ) {
     val rowAction = onRowClick ?: onPlay
@@ -98,6 +100,14 @@ fun AntaraTrackRow(
                 color = AntaraTheme.extendedColors.textSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+            )
+        }
+        if (!durationLabel.isNullOrBlank()) {
+            Text(
+                text = durationLabel,
+                style = AntaraTheme.typography.bodySmall,
+                color = AntaraTheme.extendedColors.textSecondary,
+                modifier = Modifier.padding(start = AntaraTheme.spacing.sm),
             )
         }
         if (playAction != null) {

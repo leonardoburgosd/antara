@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -81,6 +82,7 @@ fun HomeScreen(
     bottomContentPadding: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     var selectedFilterIndex by rememberSaveable { mutableIntStateOf(HomeFilter.All.ordinal) }
     val selectedFilter = HomeFilter.entries[selectedFilterIndex]
     val content = remember(selectedFilter) { buildHomeContent(selectedFilter) }
@@ -101,7 +103,11 @@ fun HomeScreen(
                 id = playlist.id,
                 title = playlist.nombre.ifBlank { playlist.id },
                 subtitle = playlist.descripcion
-                    ?: "${playlist.totalPistas} canciones · ${playlist.totalArtistas} artistas",
+                    ?: context.getString(
+                        R.string.playlist_summary,
+                        playlist.totalPistas,
+                        playlist.totalArtistas,
+                    ),
                 background = style.first,
                 darkText = style.second,
             )

@@ -28,20 +28,29 @@ Responsabilidades del cliente:
 | Endpoint | Método | Auth | Uso en la app |
 |---|---|---|---|
 | `/api/usuario/login` | `POST` | Pública | Login (Web/Desktop/Mobile) |
-| `/api/album/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | Sección "Playlists diarias" de Home (Web/Desktop/Mobile) |
-| `/api/pista/todos/album/{AlbumId}` | `GET` | Pública | Detalle del álbum: lista de canciones y reproducción (Web/Desktop/Mobile) |
+| `/api/album/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | Sección "Playlists diarias" de Home y cabecera del detalle: nombre, artista, descripción, año de `fechaPublicacion` y total de canciones/duración (Web/Desktop/Mobile) |
+| `/api/pista/todos/album/{AlbumId}` | `GET` | Pública | Detalle del álbum: lista de canciones, duración y reproducción (Web/Desktop/Mobile) |
 | `/api/pista/{id}` | `GET` | Pública | Streaming del audio de una pista del álbum, con `Accept-Ranges` (Web/Desktop/Mobile: reproducir/seek) |
-| `/api/pista/subir/rutas` | `GET` | `Bearer` con rol `admin`/`administrador` | Selector de ruta de destino para las subidas (Web: "Mis archivos") |
-| `/api/pista/subir` | `POST` (multipart) | `Bearer` con rol `admin`/`administrador` | Sube un archivo de audio; campos `rutaId?`, `subcarpeta?`, `archivo` (Web) |
-| `/api/pista/subir/url` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Descarga desde YouTube y registra la pista; `{ rutaId?, subcarpeta?, url }` (Web) |
-| `/api/pista/metadatos/buscar` | `GET` (`?cadena=&proveedor=`) | `Bearer` con rol `admin`/`administrador` | Coincidencias de metadatos (`idExterno`, título, artista, álbum, portada, año) para la pista recién subida; timeout 60 s (Web) |
-| `/api/pista/{id}/metadatos` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Aplica `{ idExterno, proveedor }` y actualiza título, artista, álbum, año, género, duración y letra; timeout 60 s (Web) |
-| `/api/playlist/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | "Curado y en tendencia" de Home: playlists con `totalPistas`, `totalArtistas` y `artistas` (Web) |
-| `/api/pista/todos/playlist/{PlaylistId}` | `GET` | Pública | Canciones de la playlist mezclando artistas; cada pista trae su `interprete` (Web: detalle de playlist) |
+| `/api/pista/subir/rutas` | `GET` | `Bearer` con rol `admin`/`administrador` | Selector de ruta de destino para las subidas (Web/Desktop: "Mis archivos") |
+| `/api/pista/subir` | `POST` (multipart) | `Bearer` con rol `admin`/`administrador` | Sube un archivo de audio; campos `rutaId?`, `subcarpeta?`, `archivo` (Web/Desktop) |
+| `/api/pista/subir/url` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Descarga desde YouTube y registra la pista; `{ rutaId?, subcarpeta?, url }` (Web/Desktop) |
+| `/api/pista/metadatos/buscar` | `GET` (`?cadena=&proveedor=`) | `Bearer` con rol `admin`/`administrador` | Coincidencias de metadatos (`idExterno`, título, artista, álbum, portada, año) para la pista recién subida; timeout 60 s (Web/Desktop) |
+| `/api/pista/{id}/metadatos` | `POST` (JSON) | `Bearer` con rol `admin`/`administrador` | Aplica `{ idExterno, proveedor }` y actualiza título, artista, álbum, año, género, duración y letra; timeout 60 s (Web/Desktop) |
+| `/api/playlist/todos` | `GET` | `Bearer` con rol `admin`/`administrador` | "Curado y en tendencia" de Home: playlists con `totalPistas`, `totalArtistas` y `artistas` (Web/Desktop/Mobile) |
+| `/api/pista/todos/playlist/{PlaylistId}` | `GET` | Pública | Canciones de la playlist mezclando artistas; cada pista trae su `interprete` y su duración (Web/Desktop/Mobile: detalle de playlist) |
 
-> **Restricción temporal de subidas:** los tres endpoints de subida exigen hoy rol `admin`/`administrador`. La UI no oculta el panel: muestra el `403` como "disponible solo para cuentas administradoras por ahora", de modo que al liberar el backend no haya que cambiar el frontend.
+### Duración de las pistas
 
-> El catálogo de álbumes usa el endpoint de administración porque el backend todavía no expone una vista pública de álbumes. Si la cuenta no es admin, el backend responde `403` y la UI muestra un mensaje de permisos. Revisar cuando exista el endpoint de consumidor.
+`PistaDto` (`todos/album/{AlbumId}`, `todos/playlist/{PlaylistId}`) y `PistaBibliotecaDto` (`todos`) incluyen, además de `duracionSegundos`, la duración ya calculada por el backend:
+
+- `duracionMinutos` — minutos con decimales, para calcular el avance.
+- `duracion` — cadena legible (`"3:48"`, `"1:02:05"`).
+
+Las filas de canciones muestran `duracion` y la cola usa `duracionSegundos` para el total de la barra del reproductor, de modo que el tiempo aparece desde que se carga la lista, sin esperar a los metadatos del archivo. Si una respuesta antigua no trae `duracion`, el cliente la deriva de `duracionSegundos` con el mismo formato.
+
+> **Restricción temporal de subidas:** los endpoints de subida y los de metadatos exigen hoy rol `admin`/`administrador`. La UI no oculta el panel: muestra el `403` como "disponible solo para cuentas administradoras por ahora", de modo que al liberar el backend no haya que cambiar el frontend.
+
+> El catálogo de álbumes y el de playlists usan endpoints de administración porque el backend todavía no expone una vista pública de los mismos. Si la cuenta no es admin, el backend responde `403` y la UI muestra un mensaje de permisos. Revisar cuando exista el endpoint de consumidor.
 
 ### Subida de archivos (multipart)
 

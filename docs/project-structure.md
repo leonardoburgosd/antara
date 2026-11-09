@@ -6,9 +6,9 @@ Define la organización esperada del código en las tres aplicaciones. **Se adap
 
 | Aplicación | Archivos fuente | Estado |
 |---|---|---|
-| `apps/desktop` | 28 TS/TSX/CSS + 2 Rust | Tauri 2 con tokens propios, navegación por estado, reproductor simulado, login real contra el backend (`services/api/`) y configuración de servidores. Bandeja y motor de audio pendientes |
-| `apps/mobile` | 51 Kotlin + resources | App Compose con design system propio, navegación por estado, ViewModels, login real (`core/network/` + `data/remote/`), `MediaSessionService` con ExoPlayer y DI manual |
-| `apps/web` | 28 TS/TSX/CSS | Vite + React con tokens propios, navegación por estado, reproductor simulado, login real (`services/api/`) y configuración de servidores |
+| `apps/desktop` | 36 TS/TSX/CSS + 2 Rust | Tauri 2 con tokens propios, navegación por estado, reproductor simulado, login real contra el backend (`services/api/`), playlists (Home + detalle) y subidas con metadatos. Bandeja y motor de audio pendientes |
+| `apps/mobile` | 64 Kotlin + resources | App Compose con design system propio, navegación por estado, ViewModels, login real (`core/network/` + `data/remote/`), playlists (Home + detalle), `MediaSessionService` con ExoPlayer y DI manual |
+| `apps/web` | 36 TS/TSX/CSS | Vite + React con tokens propios, navegación por estado, reproductor simulado, login real (`services/api/`), playlists (Home + detalle) y subidas con metadatos |
 
 Deudas detectadas (detalle en la sección final y en [`decisions/README.md`](decisions/README.md)): `packages/` inexistente pese a lo que indica el README raíz, logs y artefactos de build versionados en `apps/mobile`, token de sesión sin cifrar y `csp: null` en Desktop.
 

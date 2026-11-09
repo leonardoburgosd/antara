@@ -6,7 +6,11 @@ import {
   fetchPlaylistTracks,
   type PlaylistResumenDto,
 } from "../../services/api/playlistsService";
-import { resolveTrackStreamUrl, type TrackDto } from "../../services/api/tracksService";
+import {
+  resolveTrackStreamUrl,
+  trackDurationLabel,
+  type TrackDto,
+} from "../../services/api/tracksService";
 import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
 import type { Track } from "../../types/library";
@@ -198,6 +202,7 @@ export function PlaylistDetailScreen({
                   isCurrent={isCurrent}
                   isPlaying={state.isPlaying}
                   onPlay={() => playFrom(index)}
+                  durationLabel={track.durationLabel}
                 />
               );
             })}
@@ -227,6 +232,7 @@ function toQueue(
       album: playlist.nombre?.trim() || "Playlist",
       coverColor,
       duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
+      durationLabel: trackDurationLabel(pista),
       src: resolveTrackStreamUrl(baseUrl, pista),
     }));
 }

@@ -1,3 +1,4 @@
+import { formatTime } from "../../utils/formatTime";
 import { ApiError, apiRequest, buildUrl } from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
@@ -23,6 +24,10 @@ export type TrackDto = {
   letra: string | null;
   imagenArtista: string | null;
   duracionSegundos: number;
+  /** Duración en minutos con decimales, calculada por el backend. */
+  duracionMinutos?: number;
+  /** Duración legible que ya formatea el backend ("3:48", "1:02:05"). */
+  duracion?: string;
   fuenteMetadatos: string | null;
   idExternoMetadatos: string | null;
 };
@@ -65,4 +70,19 @@ export function resolveTrackStreamUrl(
 ): string | undefined {
   if (!pista.albumId?.trim()) return undefined;
   return buildUrl(baseUrl, ENDPOINTS.trackStream(pista.id));
+}
+
+/**
+ * Etiqueta de duración de una pista para listas y colas.
+ *
+ * El backend ya expone `duracion` formateada ("3:48"); si una respuesta antigua
+ * no la trae, se deriva de `duracionSegundos` con el mismo formato del reproductor.
+ */
+export function trackDurationLabel(
+  pista: Pick<TrackDto, "duracion" | "duracionSegundos">,
+): string {
+  const formateada = pista.duracion?.trim();
+  if (formateada) return formateada;
+
+  return pista.duracionSegundos > 0 ? formatTime(pista.duracionSegundos) : "";
 }
