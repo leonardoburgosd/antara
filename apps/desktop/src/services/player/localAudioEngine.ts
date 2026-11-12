@@ -17,14 +17,29 @@ export type LocalAudioEngine = {
 type EngineHandlers = {
   onPosition: (seconds: number) => void;
   onEnded: () => void;
+  /**
+   * El elemento arrancó o se pausó por fuera del estado del reproductor: teclas
+   * multimedia del teclado, controles del sistema o pestaña en segundo plano.
+   */
+  onPlayStateChange: (playing: boolean) => void;
 };
 
 export function createLocalAudioEngine(handlers: EngineHandlers): LocalAudioEngine {
   const audio = new Audio();
   audio.preload = "auto";
 
+  // Al cambiar de pista el motor se destruye y su `pause()` no debe notificar:
+  // apagaría la reproducción de la pista nueva.
+  let disposed = false;
+
   audio.addEventListener("timeupdate", () => handlers.onPosition(audio.currentTime));
   audio.addEventListener("ended", () => handlers.onEnded());
+  audio.addEventListener("play", () => {
+    if (!disposed) handlers.onPlayStateChange(true);
+  });
+  audio.addEventListener("pause", () => {
+    if (!disposed) handlers.onPlayStateChange(false);
+  });
 
   return {
     load(src) {
@@ -44,6 +59,7 @@ export function createLocalAudioEngine(handlers: EngineHandlers): LocalAudioEngi
       if (Number.isFinite(level)) audio.volume = Math.min(1, Math.max(0, level));
     },
     dispose() {
+      disposed = true;
       audio.pause();
       audio.removeAttribute("src");
       audio.load();

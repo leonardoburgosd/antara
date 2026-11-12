@@ -21,6 +21,7 @@ import type { PlayerState, RepeatMode, Track } from "../types/library";
 type PlayerAction =
   | { type: "playQueue"; tracks: Track[]; index: number }
   | { type: "toggle" }
+  | { type: "setPlaying"; playing: boolean }
   | { type: "next" }
   | { type: "previous" }
   | { type: "seek"; position: number }
@@ -64,6 +65,13 @@ function reducer(state: PlayerState, action: PlayerAction): PlayerState {
 
     case "toggle":
       return state.index < 0 ? state : { ...state, isPlaying: !state.isPlaying };
+
+    // El elemento de audio manda cuando lo controla el sistema: si ya coincide
+    // se devuelve el mismo objeto para no encadenar renders.
+    case "setPlaying":
+      return state.isPlaying === action.playing
+        ? state
+        : { ...state, isPlaying: action.playing };
 
     case "next": {
       if (state.queue.length === 0) return state;
@@ -152,6 +160,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const engine = createLocalAudioEngine({
       onPosition: (seconds) => dispatch({ type: "syncPosition", position: Math.floor(seconds) }),
       onEnded: () => dispatch({ type: "next" }),
+      onPlayStateChange: (playing) => dispatch({ type: "setPlaying", playing }),
     });
 
     engineRef.current = engine;
