@@ -22,6 +22,9 @@ object PreferencesKeys {
      */
     val USER_TOKEN = stringPreferencesKey("auth_user_token")
 
+    /** Email recordado para no reescribirlo al cerrar sesión. Nunca la contraseña. */
+    val REMEMBERED_EMAIL = stringPreferencesKey("auth_remembered_email")
+
     /** Direcciones separadas por salto de línea (ya normalizadas por [com.antara.app.core.network.ServerAddress]). */
     val SERVERS = stringPreferencesKey("servers")
     val ACTIVE_SERVER = stringPreferencesKey("active_server")

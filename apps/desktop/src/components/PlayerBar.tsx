@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { usePlayer } from "../stores/player";
 import { formatTime } from "../utils/formatTime";
+import { CoverArt } from "./CoverArt";
 import { Icon } from "./Icon";
+import { LyricsPanel } from "./LyricsPanel";
 import { VolumeControl } from "./VolumeControl";
 
 /** Barra inferior persistente del reproductor (80px en Desktop/Web). */
 export function PlayerBar() {
   const { state, currentTrack, togglePlayPause, next, previous, seek, toggleShuffle, cycleRepeat } =
     usePlayer();
+  const [lyricsOpen, setLyricsOpen] = useState(false);
 
   if (!currentTrack) return null;
 
@@ -20,7 +24,11 @@ export function PlayerBar() {
       <div className="mx-auto flex h-16 w-full max-w-[1600px] items-center gap-3 px-4 md:h-20 md:gap-4">
         {/* Pista actual */}
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <div className={`size-11 shrink-0 rounded-md md:size-14 ${currentTrack.coverColor}`} aria-hidden="true" />
+          <CoverArt
+            coverColor={currentTrack.coverColor}
+            src={currentTrack.coverUrl}
+            className="size-11 rounded-md md:size-14"
+          />
           <div className="min-w-0">
             <p className="truncate text-body font-semibold text-text-primary">{currentTrack.title}</p>
             <p className="truncate text-caption text-text-secondary">{currentTrack.artist}</p>
@@ -118,6 +126,10 @@ export function PlayerBar() {
 
         {/* Volumen pegado a la izquierda del botón de cola (misma fila del reproductor). */}
         <div className="hidden flex-1 items-center justify-end gap-2 md:flex">
+          <LyricsPanel
+            open={lyricsOpen}
+            onToggle={() => setLyricsOpen((value) => !value)}
+          />
           <VolumeControl />
 
           <button

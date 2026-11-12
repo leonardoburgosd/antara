@@ -7,10 +7,14 @@ export type Track = {
   album: string;
   /** Color de portada tomado de un token del design system. */
   coverColor: string;
+  /** Portada del álbum ya resuelta (URL); si falta se usa `coverColor`. */
+  coverUrl?: string;
   /** Duración en segundos. */
   duration: number;
   /** Duración legible según el backend ("3:48"); si falta, la UI usa `duration`. */
   durationLabel?: string;
+  /** Letra plana que ya entrega el backend (`letra` del DTO de la pista). */
+  lyrics?: string;
   /** URL reproducible: stream de la pista en el backend o blob de un archivo local. */
   src?: string;
 };

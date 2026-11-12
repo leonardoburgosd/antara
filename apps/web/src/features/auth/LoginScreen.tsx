@@ -5,6 +5,7 @@ import { ApiError } from "../../services/api/apiClient";
 import { login } from "../../services/api/authService";
 import { serverDisplayName, useServers } from "../../stores/servers";
 import { useSession } from "../../stores/session";
+import { readRememberedEmail, writeRememberedEmail } from "../../utils/rememberedLogin";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
@@ -17,7 +18,8 @@ const MIN_PASSWORD_LENGTH = 6;
 export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
   const { signIn } = useSession();
   const { activeServer } = useServers();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => readRememberedEmail());
+  const [remember, setRemember] = useState(() => readRememberedEmail().length > 0);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -46,6 +48,7 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
 
     try {
       const result = await login(activeServer.address, email.trim(), password);
+      writeRememberedEmail(remember ? email.trim() : null);
       signIn(result);
     } catch (cause) {
       setError(messageFor(cause));
@@ -99,6 +102,21 @@ export function LoginScreen({ onOpenServers }: { onOpenServers: () => void }) {
               {error}
             </p>
           ) : null}
+
+          <label className="flex items-start gap-2.5 text-body-sm text-text-secondary">
+            <input
+              type="checkbox"
+              checked={remember}
+              onChange={(event) => setRemember(event.target.checked)}
+              className="mt-0.5 size-4 shrink-0 accent-primary"
+            />
+            <span>
+              Recordar mi usuario
+              <span className="mt-0.5 block text-caption text-text-disabled">
+                Guardamos el email en este equipo, nunca la contraseña.
+              </span>
+            </span>
+          </label>
 
           <button
             type="submit"

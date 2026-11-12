@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { NAV_ITEMS } from "./app/navigation";
 import { Icon } from "./components/Icon";
 import { PlayerBar } from "./components/PlayerBar";
+import { TitleBar } from "./components/TitleBar";
 import { Sidebar } from "./components/Sidebar";
 import { AlbumDetailScreen } from "./features/album/AlbumDetailScreen";
 import { PlaylistDetailScreen } from "./features/playlist/PlaylistDetailScreen";
 import { LoginScreen } from "./features/auth/LoginScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
+import { LibraryScreen } from "./features/library/LibraryScreen";
 import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
 import type { AlbumDto } from "./services/api/albumsService";
@@ -67,7 +69,7 @@ function AppShell() {
   }, []);
 
   return (
-    <div className="flex h-dvh flex-col bg-background text-text-primary">
+    <div className="flex h-full min-h-0 flex-col bg-background text-text-primary">
       <div className="flex min-h-0 flex-1">
         <Sidebar
           active={tab}
@@ -131,6 +133,8 @@ function AppShell() {
                   setPlaylist({ playlist: selected, coverColor, autoPlay });
                 }}
               />
+            ) : tab === "library" ? (
+              <LibraryScreen />
             ) : tab === "uploads" ? (
               <UploadsScreen />
             ) : tab === "server" ? (
@@ -189,7 +193,12 @@ function App() {
       <ServersProvider>
         <UploadsProvider>
           <PlayerProvider>
-            <Root />
+            <div className="flex h-dvh flex-col overflow-hidden bg-background text-text-primary">
+              <TitleBar />
+              <div className="min-h-0 flex-1 overflow-y-auto">
+                <Root />
+              </div>
+            </div>
           </PlayerProvider>
         </UploadsProvider>
       </ServersProvider>

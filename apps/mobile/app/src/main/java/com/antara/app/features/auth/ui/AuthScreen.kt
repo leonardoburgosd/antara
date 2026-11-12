@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,7 +29,9 @@ import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -186,6 +190,37 @@ fun AuthScreen(
                     },
                 )
                 FieldError(state.passwordErrorRes)
+                Spacer(Modifier.height(AntaraTheme.spacing.sm))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .toggleable(
+                            value = state.rememberEmail,
+                            onValueChange = viewModel::onRememberEmailChange,
+                            role = Role.Checkbox,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = state.rememberEmail,
+                        onCheckedChange = null,
+                        modifier = Modifier.padding(end = AntaraTheme.spacing.sm),
+                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.auth_remember_email),
+                            style = AntaraTheme.typography.bodySmall,
+                            color = AntaraTheme.extendedColors.textSecondary,
+                        )
+                        Text(
+                            text = stringResource(R.string.auth_remember_email_hint),
+                            style = AntaraTheme.typography.bodySmall,
+                            color = AntaraTheme.extendedColors.textDisabled,
+                        )
+                    }
+                }
+
                 FieldError(state.generalErrorRes)
                 Spacer(Modifier.height(AntaraTheme.spacing.xl))
 

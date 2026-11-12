@@ -7,6 +7,7 @@ import { Sidebar } from "./components/Sidebar";
 import { LoginScreen } from "./features/auth/LoginScreen";
 import { AlbumDetailScreen } from "./features/album/AlbumDetailScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
+import { LibraryScreen } from "./features/library/LibraryScreen";
 import { ServersScreen } from "./features/servers/ServersScreen";
 import { UploadsScreen } from "./features/uploads/UploadsScreen";
 import { PlaylistDetailScreen } from "./features/playlist/PlaylistDetailScreen";
@@ -109,6 +110,8 @@ function AppShell() {
                   setPlaylist({ playlist: selected, coverColor, autoPlay });
                 }}
               />
+            ) : tab === "library" ? (
+              <LibraryScreen />
             ) : tab === "uploads" ? (
               <UploadsScreen />
             ) : tab === "server" ? (

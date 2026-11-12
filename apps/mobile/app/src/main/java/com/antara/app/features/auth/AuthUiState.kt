@@ -5,6 +5,7 @@ data class AuthUiState(
     val email: String = "",
     val password: String = "",
     val passwordVisible: Boolean = false,
+    val rememberEmail: Boolean = false,
     val isLoading: Boolean = false,
     val emailErrorRes: Int? = null,
     val passwordErrorRes: Int? = null,

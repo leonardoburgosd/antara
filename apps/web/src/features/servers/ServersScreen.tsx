@@ -15,9 +15,13 @@ type ServersScreenProps = {
  * primer arranque, replicando el flujo de la app Android.
  */
 export function ServersScreen({ firstRun = false, onBack, onContinue }: ServersScreenProps) {
-  const { servers, activeServer, addServer, removeServer, setActiveServer } = useServers();
+  const { servers, activeServer, addServer, updateServer, removeServer, setActiveServer } =
+    useServers();
   const [address, setAddress] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editAddress, setEditAddress] = useState("");
+  const [editError, setEditError] = useState<string | null>(null);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +34,30 @@ export function ServersScreen({ firstRun = false, onBack, onContinue }: ServersS
 
     setAddress("");
     setError(null);
+  };
+
+  const startEdit = (id: string, currentAddress: string) => {
+    setEditingId(id);
+    setEditAddress(serverDisplayName(currentAddress));
+    setEditError(null);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditAddress("");
+    setEditError(null);
+  };
+
+  const saveEdit = (event: FormEvent<HTMLFormElement>, id: string) => {
+    event.preventDefault();
+    const result = updateServer(id, editAddress);
+
+    if (!result.ok) {
+      setEditError(result.error);
+      return;
+    }
+
+    cancelEdit();
   };
 
   return (
@@ -113,47 +141,106 @@ export function ServersScreen({ firstRun = false, onBack, onContinue }: ServersS
           <ul className="mt-3 flex flex-col gap-2">
             {servers.map((server) => {
               const isActive = server.id === activeServer?.id;
+              const isEditing = editingId === server.id;
 
               return (
                 <li key={server.id}>
-                  <div
-                    className={`flex items-center gap-3 rounded-lg border bg-surface-elevated p-3 ${
-                      isActive ? "border-primary" : "border-border"
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveServer(server.id)}
-                      aria-pressed={isActive}
-                      className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                  {isEditing ? (
+                    <form
+                      onSubmit={(event) => saveEdit(event, server.id)}
+                      className="flex flex-col gap-3 rounded-lg border border-primary bg-surface-elevated p-3"
+                      noValidate
                     >
-                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-surface-hover text-primary">
-                        <Icon name="dns" size={20} />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block truncate text-body font-medium text-text-primary">
-                          {serverDisplayName(server.address)}
-                        </span>
-                        <span className="block text-caption text-text-secondary">
-                          {isActive ? "Activo" : "Toca para usar este servidor"}
-                        </span>
-                      </span>
-                    </button>
+                      <label
+                        htmlFor={`edit-server-${server.id}`}
+                        className="text-caption text-text-secondary"
+                      >
+                        Dirección del servidor
+                      </label>
+                      <input
+                        id={`edit-server-${server.id}`}
+                        value={editAddress}
+                        onChange={(event) => {
+                          setEditAddress(event.target.value);
+                          setEditError(null);
+                        }}
+                        aria-label="Nueva dirección del servidor"
+                        placeholder="192.168.1.10:8080 o https://mi-servidor.com"
+                        autoFocus
+                        className="h-11 w-full rounded-md border border-border-strong bg-surface-elevated px-3 text-body text-text-primary placeholder:text-text-disabled focus:border-primary focus:outline-none"
+                      />
 
-                    <div className="flex items-center gap-1">
-                      {isActive ? (
-                        <Icon name="check_circle" size={20} className="text-accent" />
+                      {editError ? (
+                        <p role="alert" className="text-body-sm text-error">
+                          {editError}
+                        </p>
                       ) : null}
+
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          className="h-9 rounded-md px-3 text-button text-text-secondary transition-colors duration-150 hover:bg-surface-hover"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          type="submit"
+                          className="flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-4 text-button text-on-primary transition-colors duration-150 hover:bg-primary-hover"
+                        >
+                          <Icon name="check" size={18} />
+                          Guardar
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <div
+                      className={`flex items-center gap-3 rounded-lg border bg-surface-elevated p-3 ${
+                        isActive ? "border-primary" : "border-border"
+                      }`}
+                    >
                       <button
                         type="button"
-                        onClick={() => removeServer(server.id)}
-                        aria-label="Eliminar servidor"
-                        className="grid size-9 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-error"
+                        onClick={() => setActiveServer(server.id)}
+                        aria-pressed={isActive}
+                        className="flex min-w-0 flex-1 items-center gap-3 text-left"
                       >
-                        <Icon name="delete" size={20} />
+                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-surface-hover text-primary">
+                          <Icon name="dns" size={20} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-body font-medium text-text-primary">
+                            {serverDisplayName(server.address)}
+                          </span>
+                          <span className="block text-caption text-text-secondary">
+                            {isActive ? "Activo" : "Toca para usar este servidor"}
+                          </span>
+                        </span>
                       </button>
+
+                      <div className="flex items-center gap-1">
+                        {isActive ? (
+                          <Icon name="check_circle" size={20} className="text-accent" />
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => startEdit(server.id, server.address)}
+                          aria-label="Editar servidor"
+                          className="grid size-9 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-primary"
+                        >
+                          <Icon name="edit" size={20} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeServer(server.id)}
+                          aria-label="Eliminar servidor"
+                          className="grid size-9 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-hover hover:text-error"
+                        >
+                          <Icon name="delete" size={20} />
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </li>
               );
             })}

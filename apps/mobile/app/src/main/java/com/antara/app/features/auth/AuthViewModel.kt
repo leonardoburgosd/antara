@@ -31,6 +31,18 @@ class AuthViewModel(
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
+    init {
+        // El formulario arranca con el email recordado, si el usuario lo pidió.
+        viewModelScope.launch {
+            val recordado = sessionRepository.rememberedEmail.first().orEmpty()
+            if (recordado.isNotBlank()) {
+                _uiState.update {
+                    it.copy(email = it.email.ifBlank { recordado }, rememberEmail = true)
+                }
+            }
+        }
+    }
+
     fun onEmailChange(value: String) {
         _uiState.update { it.copy(email = value, emailErrorRes = null) }
     }
@@ -41,6 +53,10 @@ class AuthViewModel(
 
     fun togglePasswordVisibility() {
         _uiState.update { it.copy(passwordVisible = !it.passwordVisible) }
+    }
+
+    fun onRememberEmailChange(value: Boolean) {
+        _uiState.update { it.copy(rememberEmail = value) }
     }
 
     fun submit() {
@@ -89,6 +105,14 @@ class AuthViewModel(
                     name = response.nombre.ifBlank { displayNameFromEmail(response.email) },
                     email = response.email.ifBlank { state.email.trim() },
                     token = response.token,
+                )
+                val emailRecordado = if (state.rememberEmail) state.email.trim() else null
+                sessionRepository.rememberEmail(emailRecordado)
+                // El ViewModel sobrevive al cierre de sesión: deja el formulario
+                // listo para volver al login sin reescribir el usuario.
+                _uiState.value = AuthUiState(
+                    email = emailRecordado.orEmpty(),
+                    rememberEmail = emailRecordado != null,
                 )
             } catch (error: ApiError) {
                 _uiState.update {

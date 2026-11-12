@@ -28,6 +28,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.antara.app.R
+import com.antara.app.core.image.RemoteCover
+import com.antara.app.core.image.resolveCoverUrl
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.components.AntaraPrimaryButton
 import com.antara.app.core.designsystem.components.AntaraTrackRow
@@ -50,6 +52,7 @@ fun AlbumDetailScreen(
     albumDescription: String?,
     albumDate: String? = null,
     coverColor: Color,
+    coverUrl: String? = null,
     state: AlbumDetailUiState,
     playerState: PlayerUiState,
     onBack: () -> Unit,
@@ -94,6 +97,7 @@ fun AlbumDetailScreen(
                         meta = albumMeta,
                         description = albumDescription,
                         coverColor = coverColor,
+                        coverUrl = coverUrl,
                     )
                     Spacer(Modifier.height(AntaraTheme.spacing.md))
                     AntaraPrimaryButton(
@@ -156,17 +160,20 @@ private fun AlbumHeader(
     meta: String,
     description: String?,
     coverColor: Color,
+    coverUrl: String? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = AntaraTheme.spacing.lg),
     ) {
-        Box(
+        RemoteCover(
+            url = coverUrl,
+            fallbackColor = coverColor,
+            contentDescription = title,
             modifier = Modifier
                 .size(128.dp)
-                .clip(MaterialTheme.shapes.extraLarge)
-                .background(coverColor),
+                .clip(MaterialTheme.shapes.extraLarge),
         )
         Spacer(Modifier.width(AntaraTheme.spacing.md))
         Column(modifier = Modifier.weight(1f)) {

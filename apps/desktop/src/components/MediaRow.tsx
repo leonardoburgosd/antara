@@ -1,3 +1,4 @@
+import { CoverArt } from "./CoverArt";
 import { Icon } from "./Icon";
 
 type MediaRowProps = {
@@ -5,12 +6,16 @@ type MediaRowProps = {
   subtitle: string;
   /** Utilidad Tailwind de un token de color para la portada. */
   coverColor: string;
+  /** Portada del álbum ya resuelta; si falta se usa `coverColor`. */
+  coverUrl?: string;
   isCurrent: boolean;
   isPlaying: boolean;
   /** Si se omite, la fila no muestra acción de reproducción (p. ej. álbumes sin pistas). */
   onPlay?: () => void;
   /** Si se omite, la fila no es navegable (p. ej. pistas de una lista). */
   onOpen?: () => void;
+  /** Muestra el corazón que abre el modal de playlists. */
+  onAddToPlaylist?: () => void;
   /** Duración ya formateada por el backend ("3:48"); se oculta si está vacía. */
   durationLabel?: string;
 };
@@ -26,15 +31,17 @@ export function MediaRow({
   title,
   subtitle,
   coverColor,
+  coverUrl,
   isCurrent,
   isPlaying,
   onPlay,
   onOpen,
+  onAddToPlaylist,
   durationLabel,
 }: MediaRowProps) {
   const body = (
     <>
-      <div className={`size-12 shrink-0 rounded-md ${coverColor}`} aria-hidden="true" />
+      <CoverArt coverColor={coverColor} src={coverUrl} className="size-12 rounded-md" />
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">
@@ -55,7 +62,7 @@ export function MediaRow({
   );
 
   return (
-    <div className="flex h-full min-h-16 items-center gap-1 rounded-md pr-3 transition-colors duration-150 hover:bg-surface-hover">
+    <div className="flex min-h-16 items-center gap-1 rounded-md pr-3 transition-colors duration-150 hover:bg-surface-hover">
       {onOpen ? (
         <button
           type="button"
@@ -72,6 +79,18 @@ export function MediaRow({
         <span className="shrink-0 pl-2 text-caption tabular-nums text-text-secondary">
           {durationLabel}
         </span>
+      ) : null}
+
+      {onAddToPlaylist ? (
+        <button
+          type="button"
+          onClick={onAddToPlaylist}
+          aria-label="Añadir a playlist"
+          title="Añadir a playlist"
+          className="grid size-9 shrink-0 place-items-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface hover:text-primary"
+        >
+          <Icon name="favorite_border" size={20} />
+        </button>
       ) : null}
 
       {onPlay ? (

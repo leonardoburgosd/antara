@@ -78,6 +78,26 @@ class ServerRepositoryImpl(
         }
     }
 
+    override suspend fun update(oldAddress: String, newAddress: String): Result<Unit> = runCatching {
+        context.antaraDataStore.edit { preferences ->
+            val list = parse(preferences[PreferencesKeys.SERVERS])
+            val index = list.indexOfFirst { it.equals(oldAddress, ignoreCase = true) }
+            require(index >= 0) { "El servidor no está guardado" }
+
+            val duplicate = list.withIndex().any { (position, address) ->
+                position != index && address.equals(newAddress, ignoreCase = true)
+            }
+            require(!duplicate) { "El servidor ya está guardado" }
+
+            val updated = list.toMutableList().apply { this[index] = newAddress }
+            preferences[PreferencesKeys.SERVERS] = updated.joinToString(separator = "\n")
+
+            if (preferences[PreferencesKeys.ACTIVE_SERVER].equals(oldAddress, ignoreCase = true)) {
+                preferences[PreferencesKeys.ACTIVE_SERVER] = newAddress
+            }
+        }
+    }
+
     private fun parse(raw: String?): List<String> = raw
         .orEmpty()
         .lineSequence()

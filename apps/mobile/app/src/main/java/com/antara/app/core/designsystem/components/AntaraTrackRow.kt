@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.antara.app.R
+import com.antara.app.core.image.RemoteCover
 import com.antara.app.core.designsystem.AntaraTheme
 
 /**
@@ -42,6 +43,8 @@ fun AntaraTrackRow(
     title: String,
     subtitle: String,
     coverColor: Color,
+    /** Portada ya resuelta; si falta o falla queda [coverColor]. */
+    coverUrl: String? = null,
     onPlay: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     isCurrent: Boolean = false,
@@ -63,11 +66,12 @@ fun AntaraTrackRow(
             .padding(horizontal = AntaraTheme.spacing.lg, vertical = AntaraTheme.spacing.sm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
+        RemoteCover(
+            url = coverUrl,
+            fallbackColor = coverColor,
             modifier = Modifier
                 .size(48.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(coverColor),
+                .clip(MaterialTheme.shapes.medium),
         )
         Spacer(Modifier.width(AntaraTheme.spacing.md))
         Column(modifier = Modifier.weight(1f)) {

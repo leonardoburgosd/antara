@@ -27,11 +27,14 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Dns
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -160,6 +163,7 @@ fun ServersScreen(
                     ServerCard(
                         server = server,
                         onSelect = { viewModel.setActive(server.address) },
+                        onEdit = { viewModel.startEdit(server.address) },
                         onDelete = { viewModel.removeServer(server.address) },
                     )
                 }
@@ -178,6 +182,17 @@ fun ServersScreen(
                     ),
             )
         }
+    }
+
+    if (state.editing != null) {
+        EditServerDialog(
+            value = state.editInput,
+            errorRes = state.editErrorRes,
+            isSaving = state.isSavingEdit,
+            onValueChange = viewModel::onEditInputChange,
+            onConfirm = viewModel::saveEdit,
+            onDismiss = viewModel::cancelEdit,
+        )
     }
 }
 
@@ -272,6 +287,7 @@ private fun EmptyServers() {
 private fun ServerCard(
     server: ServerConfig,
     onSelect: () -> Unit,
+    onEdit: () -> Unit,
     onDelete: () -> Unit,
 ) {
     Surface(
@@ -342,6 +358,13 @@ private fun ServerCard(
                     modifier = Modifier.size(22.dp),
                 )
             }
+            IconButton(onClick = onEdit) {
+                Icon(
+                    imageVector = Icons.Outlined.Edit,
+                    contentDescription = stringResource(R.string.servers_edit),
+                    tint = AntaraTheme.extendedColors.textSecondary,
+                )
+            }
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Outlined.Delete,
@@ -351,4 +374,91 @@ private fun ServerCard(
             }
         }
     }
+}
+
+@Composable
+private fun EditServerDialog(
+    value: String,
+    errorRes: Int?,
+    isSaving: Boolean,
+    onValueChange: (String) -> Unit,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = {
+            if (!isSaving) onDismiss()
+        },
+        title = {
+            Text(
+                text = stringResource(R.string.servers_edit_title),
+                style = AntaraTheme.typography.titleLarge,
+                color = AntaraTheme.colorScheme.onSurface,
+            )
+        },
+        text = {
+            Column {
+                Text(
+                    text = stringResource(R.string.servers_edit_description),
+                    style = AntaraTheme.typography.bodyMedium,
+                    color = AntaraTheme.extendedColors.textSecondary,
+                )
+                Spacer(Modifier.height(AntaraTheme.spacing.md))
+                AntaraTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    placeholder = stringResource(R.string.servers_input_placeholder),
+                    leadingIcon = Icons.Outlined.Dns,
+                    isError = errorRes != null,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Uri,
+                        imeAction = ImeAction.Done,
+                    ),
+                    keyboardActions = KeyboardActions(onDone = { onConfirm() }),
+                )
+                if (errorRes != null) {
+                    Text(
+                        text = stringResource(errorRes),
+                        style = AntaraTheme.typography.labelMedium,
+                        color = AntaraTheme.colorScheme.error,
+                        modifier = Modifier.padding(
+                            start = AntaraTheme.spacing.sm,
+                            top = AntaraTheme.spacing.xs,
+                        ),
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm,
+                enabled = !isSaving && value.isNotBlank(),
+            ) {
+                Text(
+                    text = stringResource(R.string.servers_edit_save),
+                    style = AntaraTheme.typography.labelLarge,
+                    color = if (isSaving || value.isBlank()) {
+                        AntaraTheme.extendedColors.textDisabled
+                    } else {
+                        AntaraTheme.colorScheme.primary
+                    },
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+                enabled = !isSaving,
+            ) {
+                Text(
+                    text = stringResource(R.string.servers_edit_cancel),
+                    style = AntaraTheme.typography.labelLarge,
+                    color = AntaraTheme.extendedColors.textSecondary,
+                )
+            }
+        },
+        containerColor = AntaraTheme.extendedColors.surfaceElevated,
+        titleContentColor = AntaraTheme.colorScheme.onSurface,
+        textContentColor = AntaraTheme.extendedColors.textSecondary,
+    )
 }

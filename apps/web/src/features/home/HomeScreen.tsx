@@ -13,6 +13,7 @@ import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
 import { useSession } from "../../stores/session";
 import type { FeaturedItem, HomeFilter } from "../../types/library";
+import { coverUrlFor } from "../../utils/coverUrl";
 import { buildHomeContent, HOME_FILTERS } from "./homeContent";
 
 function greetingForHour(hour: number): string {
@@ -27,6 +28,8 @@ type HomeRow = {
   title: string;
   subtitle: string;
   coverColor: string;
+  /** Portada del álbum ya resuelta desde `portadaUrl`. */
+  coverUrl?: string;
   trackIndex: number;
   /** Presente solo en filas de álbum: abre su lista de reproducción. */
   album?: AlbumDto;
@@ -156,6 +159,7 @@ export function HomeScreen({
     title: album.nombre?.trim() || "Álbum sin nombre",
     subtitle: album.descripcion?.trim() || album.artista?.trim() || "Álbum",
     coverColor: ALBUM_COVERS[index % ALBUM_COVERS.length] ?? "bg-primary",
+    coverUrl: coverUrlFor(album.portadaUrl, activeServer?.address),
     trackIndex: -1,
     album,
   }));
@@ -236,12 +240,12 @@ export function HomeScreen({
         />
       </div>
 
-      <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.curatedTitle}>
+      <section className="mt-8 flex flex-col" aria-label={content.curatedTitle}>
         <SectionHeader title={content.curatedTitle} actionLabel="Ver todo" onAction={() => undefined} />
 
         {isDaily && playlistsLoading && destacadas.length === 0 ? (
           <div
-            className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+            className="mt-3 grid min-h-[172px] gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
             aria-hidden="true"
           >
             {[0, 1].map((index) => (
@@ -249,7 +253,7 @@ export function HomeScreen({
             ))}
           </div>
         ) : destacadas.length > 0 ? (
-          <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+          <div className="mt-3 grid min-h-[172px] gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
             {destacadas.map(({ item, playlist }) => (
               <FeaturedCard
                 key={item.id}
@@ -260,7 +264,7 @@ export function HomeScreen({
             ))}
           </div>
         ) : (
-          <div className="mt-3 grid min-h-[172px] flex-1 gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+          <div className="mt-3 grid min-h-[172px] gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
             {content.featured.map((item) => (
               <FeaturedCard
                 key={item.id}
@@ -273,7 +277,7 @@ export function HomeScreen({
         )}
       </section>
 
-      <section className="mt-8 flex min-h-0 flex-1 flex-col" aria-label={content.playlistsTitle}>
+      <section className="mt-8 flex flex-col" aria-label={content.playlistsTitle}>
         <SectionHeader title={content.playlistsTitle} actionLabel="Ver todo" onAction={() => undefined} />
 
         {showSkeleton ? (
@@ -324,6 +328,7 @@ export function HomeScreen({
                   title={row.title}
                   subtitle={row.subtitle}
                   coverColor={row.coverColor}
+                  coverUrl={row.coverUrl}
                   isCurrent={isCurrent}
                   isPlaying={state.isPlaying}
                   onPlay={row.trackIndex >= 0 ? () => playFrom(row.trackIndex) : undefined}

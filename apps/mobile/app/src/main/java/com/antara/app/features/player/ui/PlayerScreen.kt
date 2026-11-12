@@ -5,16 +5,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.QueueMusic
@@ -34,6 +39,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,6 +57,8 @@ import androidx.compose.ui.unit.dp
 import com.antara.app.R
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.components.AntaraCircleIcon
+import com.antara.app.features.player.LrcParser
+import com.antara.app.features.player.LyricsUiState
 import com.antara.app.player.PlayerUiState
 import com.antara.app.player.RepeatMode
 
@@ -61,6 +69,7 @@ import com.antara.app.player.RepeatMode
 @Composable
 fun PlayerScreen(
     state: PlayerUiState,
+    lyricsState: LyricsUiState,
     onBack: () -> Unit,
     onTogglePlayPause: () -> Unit,
     onNext: () -> Unit,
@@ -144,7 +153,10 @@ fun PlayerScreen(
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.height(AntaraTheme.spacing.md))
-            LyricsBlock()
+            LyricsBlock(
+                lyricsState = lyricsState,
+                positionMs = state.positionMs,
+            )
             Spacer(Modifier.height(AntaraTheme.spacing.lg))
             PlayerProgress(
                 state = state,
@@ -224,27 +236,76 @@ private fun PlayerTopBar(
 }
 
 @Composable
-private fun LyricsBlock() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = stringResource(R.string.player_lyrics_line_1),
-            style = AntaraTheme.typography.bodyMedium,
-            color = AntaraTheme.extendedColors.textSecondary,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = stringResource(R.string.player_lyrics_line_2),
-            style = AntaraTheme.typography.bodyMedium,
-            color = AntaraTheme.extendedColors.textSecondary,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = stringResource(R.string.player_lyrics_line_3),
-            style = AntaraTheme.typography.bodyMedium,
-            color = AntaraTheme.extendedColors.textDisabled,
-            textAlign = TextAlign.Center,
-        )
+private fun LyricsBlock(
+    lyricsState: LyricsUiState,
+    positionMs: Long,
+) {
+    val lines = lyricsState.lines
+    val activeIndex = remember(lines, positionMs) { LrcParser.activeIndex(lines, positionMs) }
+    val listState = rememberLazyListState()
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 76.dp, max = 148.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        when {
+            lyricsState.isLoading -> LyricsMessage(stringResource(R.string.player_lyrics_loading))
+
+            lyricsState.errorRes != null -> LyricsMessage(stringResource(lyricsState.errorRes))
+
+            lyricsState.notAvailable || lines.isEmpty() -> LyricsMessage(
+                stringResource(R.string.player_lyrics_unavailable),
+            )
+
+            else -> {
+                // Mantiene la línea activa centrada al avanzar la canción.
+                LaunchedEffect(activeIndex) {
+                    if (activeIndex >= 0) listState.animateScrollToItem(activeIndex)
+                }
+
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    contentPadding = PaddingValues(vertical = AntaraTheme.spacing.md),
+                ) {
+                    itemsIndexed(lines) { index, line ->
+                        val isActive = index == activeIndex
+                        Text(
+                            text = line.text,
+                            style = if (isActive) {
+                                AntaraTheme.typography.titleMedium
+                            } else {
+                                AntaraTheme.typography.bodyMedium
+                            },
+                            color = if (isActive) {
+                                AntaraTheme.colorScheme.onBackground
+                            } else {
+                                AntaraTheme.extendedColors.textSecondary.copy(alpha = 0.55f)
+                            },
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 2.dp),
+                        )
+                    }
+                }
+            }
+        }
     }
+}
+
+@Composable
+private fun LyricsMessage(text: String) {
+    Text(
+        text = text,
+        style = AntaraTheme.typography.bodyMedium,
+        color = AntaraTheme.extendedColors.textSecondary,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 @Composable

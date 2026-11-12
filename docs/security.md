@@ -5,6 +5,7 @@ Buenas prácticas de seguridad aplicables a las tres plataformas y al manejo del
 ## Gestión de credenciales
 
 - **Nunca** almacenar contraseñas en el cliente. El usuario envía credenciales una vez al backend; el cliente solo guarda tokens (o cookies, según el contrato).
+- **Recordar usuario (no contraseña):** la opción «Recordar mi usuario» del login guarda únicamente el email en `localStorage` (Web/Desktop, clave `antara:remembered-email`) y en DataStore (Android, `auth_remembered_email`). La contraseña nunca se persiste: debe escribirse en cada inicio de sesión.
 - **Nunca** secretos en el código fuente: claves de API, cadenas de conexión, credenciales de servicio. Van en variables de entorno / propiedades locales / secreto del CI.
 - Revisar el historial de git si un secreto llega a commitearse: rotar el valor **y** limpiar el historial.
 - El `README` y la documentación no contienen credenciales reales.

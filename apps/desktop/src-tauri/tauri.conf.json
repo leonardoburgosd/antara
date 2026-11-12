@@ -12,9 +12,13 @@
   "app": {
     "windows": [
       {
-        "title": "tauri-app",
-        "width": 800,
-        "height": 600
+        "title": "Antara",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 680,
+        "minHeight": 520,
+        "decorations": false,
+        "center": true
       }
     ],
     "security": {

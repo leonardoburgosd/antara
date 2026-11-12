@@ -23,6 +23,14 @@ class SessionRepositoryImpl(
     private val context: Context,
 ) : SessionRepository {
 
+    override val rememberedEmail: Flow<String?> = context.antaraDataStore.data
+        .catch { error ->
+            if (error is IOException) emit(emptyPreferences()) else throw error
+        }
+        .map { preferences ->
+            preferences[PreferencesKeys.REMEMBERED_EMAIL]?.takeIf { it.isNotBlank() }
+        }
+
     override val session: Flow<SessionState> = flow {
         emit(SessionState.Loading)
         emitAll(
@@ -63,6 +71,16 @@ class SessionRepositoryImpl(
             preferences.remove(PreferencesKeys.USER_NAME)
             preferences.remove(PreferencesKeys.USER_EMAIL)
             preferences.remove(PreferencesKeys.USER_TOKEN)
+        }
+    }
+
+    override suspend fun rememberEmail(email: String?) {
+        context.antaraDataStore.edit { preferences ->
+            if (email.isNullOrBlank()) {
+                preferences.remove(PreferencesKeys.REMEMBERED_EMAIL)
+            } else {
+                preferences[PreferencesKeys.REMEMBERED_EMAIL] = email.trim()
+            }
         }
     }
 }

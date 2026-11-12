@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.antara.app.AppContainer
 import com.antara.app.R
+import com.antara.app.core.image.resolveCoverUrl
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.components.AntaraMiniPlayer
 import com.antara.app.core.designsystem.color.AntaraDarkTokens
@@ -76,11 +77,13 @@ import com.antara.app.features.home.ui.HomeScreen
 import com.antara.app.features.home.ui.SongItem
 import com.antara.app.features.home.ui.detailContentFor
 import com.antara.app.features.player.ui.PlayerScreen
+import com.antara.app.features.player.LyricsViewModel
 import com.antara.app.features.profile.ui.ProfileScreen
 import com.antara.app.features.servers.ui.ServersScreen
 import com.antara.app.player.PlayableTrack
 import com.antara.app.player.PlayerUiState
 import com.antara.app.player.PlayerViewModel
+import java.util.UUID
 import kotlinx.coroutines.launch
 
 /**
@@ -95,6 +98,16 @@ fun AppRoot(container: AppContainer) {
     val playerFactory = remember(container) { PlayerViewModel.factory(container.playerConnection) }
     val playerViewModel: PlayerViewModel = viewModel(factory = playerFactory)
     val playerState by playerViewModel.uiState.collectAsState()
+
+    val lyricsFactory = remember(container) {
+        LyricsViewModel.factory(
+            lyricsApi = container.lyricsApi,
+            sessionRepository = container.sessionRepository,
+            serverRepository = container.serverRepository,
+        )
+    }
+    val lyricsViewModel: LyricsViewModel = viewModel(factory = lyricsFactory)
+    val lyricsState by lyricsViewModel.uiState.collectAsState()
 
     val homeFactory = remember(container) {
         HomeViewModel.factory(
@@ -138,6 +151,7 @@ fun AppRoot(container: AppContainer) {
             homeViewModel.reset()
             albumViewModel.reset()
             playlistViewModel.reset()
+            lyricsViewModel.reset()
         }
     }
 
@@ -150,6 +164,17 @@ fun AppRoot(container: AppContainer) {
 
     BackHandler(enabled = playerOpen) {
         playerOpen = false
+    }
+
+    // La letra solo se consulta con el reproductor abierto y para pistas del
+    // backend (id GUID); al cerrar la vista se descarta el estado.
+    LaunchedEffect(playerOpen, playerState.currentId) {
+        val trackId = playerState.currentId
+        if (playerOpen && trackId != null && isBackendTrackId(trackId)) {
+            lyricsViewModel.load(trackId)
+        } else {
+            lyricsViewModel.clear()
+        }
     }
 
     when (val state = sessionState) {
@@ -243,6 +268,7 @@ fun AppRoot(container: AppContainer) {
                         if (playerOpen && playerState.hasTrack) {
                             PlayerScreen(
                                 state = playerState,
+                                lyricsState = lyricsState,
                                 onBack = { playerOpen = false },
                                 onTogglePlayPause = playerViewModel::togglePlayPause,
                                 onNext = playerViewModel::next,
@@ -350,6 +376,7 @@ private fun MainContent(
                     onRetryPlaylists = onRetryPlaylists,
                     onOpenServers = onOpenServers,
                     onOpenLikedSongs = { detailRoute = Routes.LIKED },
+                    coverBaseUrl = servers.active?.address,
                     onOpenAlbum = { album, coverColor ->
                         selectedAlbum = album
                         selectedAlbumCover = coverColor
@@ -441,6 +468,7 @@ private fun MainContent(
                     albumDescription = album.descripcion,
                     albumDate = album.fechaPublicacion,
                     coverColor = selectedAlbumCover,
+                    coverUrl = resolveCoverUrl(album.portadaUrl, servers.active?.address),
                     state = albumState,
                     playerState = playerState,
                     onBack = { selectedAlbum = null },
@@ -614,6 +642,9 @@ private fun SplashScreen() {
         }
     }
 }
+
+/** Solo las pistas del backend tienen id GUID; los audios locales no consultan letra. */
+private fun isBackendTrackId(id: String): Boolean = runCatching { UUID.fromString(id) }.isSuccess
 
 private fun List<SongItem>.toPlayableTracks(): List<PlayableTrack> = map { song ->
     PlayableTrack(

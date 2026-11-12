@@ -9,4 +9,9 @@ data class ServersUiState(
     val input: String = "",
     val errorRes: Int? = null,
     val isSaving: Boolean = false,
+    /** Servidor cuya dirección se está editando; `null` cuando no hay edición abierta. */
+    val editing: ServerConfig? = null,
+    val editInput: String = "",
+    val editErrorRes: Int? = null,
+    val isSavingEdit: Boolean = false,
 )

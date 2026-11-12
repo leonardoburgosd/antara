@@ -70,6 +70,7 @@ type ServersContextValue = {
   servers: ServerConfig[];
   activeServer: ServerConfig | null;
   addServer: (raw: string) => AddServerResult;
+  updateServer: (id: string, raw: string) => AddServerResult;
   removeServer: (id: string) => void;
   setActiveServer: (id: string) => void;
 };
@@ -123,11 +124,39 @@ export function ServersProvider({ children }: { children: ReactNode }) {
     setActiveId((current) => (current === id ? null : current));
   }, []);
 
+  const updateServer = useCallback(
+    (id: string, raw: string): AddServerResult => {
+      const normalized = normalizeServerAddress(raw);
+      if (!normalized) {
+        return {
+          ok: false,
+          error: "La dirección no es válida. Ejemplo: 192.168.1.10:8080",
+        };
+      }
+
+      const duplicate = servers.some(
+        (server) =>
+          server.id !== id && server.address.toLowerCase() === normalized.toLowerCase(),
+      );
+      if (duplicate) {
+        return { ok: false, error: "Ese servidor ya está guardado" };
+      }
+
+      setServers((current) =>
+        current.map((server) =>
+          server.id === id ? { ...server, address: normalized } : server,
+        ),
+      );
+      return { ok: true };
+    },
+    [servers],
+  );
+
   const setActiveServer = useCallback((id: string) => setActiveId(id), []);
 
   const value = useMemo(
-    () => ({ servers, activeServer, addServer, removeServer, setActiveServer }),
-    [servers, activeServer, addServer, removeServer, setActiveServer],
+    () => ({ servers, activeServer, addServer, updateServer, removeServer, setActiveServer }),
+    [servers, activeServer, addServer, updateServer, removeServer, setActiveServer],
   );
 
   return <ServersContext.Provider value={value}>{children}</ServersContext.Provider>;

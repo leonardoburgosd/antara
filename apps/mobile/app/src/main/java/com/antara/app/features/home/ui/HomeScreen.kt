@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.antara.app.R
+import com.antara.app.core.image.resolveCoverUrl
 import com.antara.app.core.designsystem.AntaraTheme
 import com.antara.app.core.designsystem.color.AntaraDarkTokens
 import com.antara.app.core.designsystem.components.AntaraFilterChips
@@ -79,6 +80,7 @@ fun HomeScreen(
     onOpenAlbum: (AlbumDto, Color) -> Unit,
     onOpenPlaylist: (PlaylistDto, Color) -> Unit,
     onPlayIndex: (Int) -> Unit,
+    coverBaseUrl: String? = null,
     bottomContentPadding: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
@@ -223,6 +225,7 @@ fun HomeScreen(
                             ?: album.artista?.let { stringResource(R.string.home_album_artist, it) }
                             ?: stringResource(R.string.home_album_generic),
                         coverColor = coverColor,
+                        coverUrl = resolveCoverUrl(album.portadaUrl, coverBaseUrl),
                         onPlay = null,
                         onRowClick = { onOpenAlbum(album, coverColor) },
                     )

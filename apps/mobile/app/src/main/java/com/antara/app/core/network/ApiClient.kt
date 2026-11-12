@@ -62,6 +62,23 @@ object ApiClient {
         return runCatching { JSONArray(text) }.getOrElse { throw ApiError.Parsing }
     }
 
+    /** GET y devuelve el cuerpo de la respuesta como objeto JSON. */
+    suspend fun getJsonObject(
+        baseUrl: String,
+        path: String,
+        token: String? = null,
+    ): JSONObject {
+        val text = execute(
+            method = "GET",
+            baseUrl = baseUrl,
+            path = path,
+            payload = null,
+            token = token,
+        )
+        if (text.isBlank()) return JSONObject()
+        return runCatching { JSONObject(text) }.getOrElse { throw ApiError.Parsing }
+    }
+
     private suspend fun execute(
         method: String,
         baseUrl: String,

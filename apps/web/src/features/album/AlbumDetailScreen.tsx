@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { AddToPlaylistDialog } from "../../components/AddToPlaylistDialog";
+import { CoverArt } from "../../components/CoverArt";
 import { Icon } from "../../components/Icon";
 import { MediaRow } from "../../components/MediaRow";
 import { ApiError } from "../../services/api/apiClient";
@@ -11,6 +13,7 @@ import {
 } from "../../services/api/tracksService";
 import { usePlayer } from "../../stores/player";
 import { useServers } from "../../stores/servers";
+import { coverUrlFor } from "../../utils/coverUrl";
 import { formatTime } from "../../utils/formatTime";
 import type { Track } from "../../types/library";
 
@@ -39,6 +42,8 @@ export function AlbumDetailScreen({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  /** Canción elegida con el corazón; abre el modal de playlists. */
+  const [playlistTrack, setPlaylistTrack] = useState<{ id: string; title: string } | null>(null);
 
   const albumTitle = album.nombre?.trim() || "Álbum sin nombre";
   const albumArtist = album.artista?.trim() || "Artista desconocido";
@@ -112,9 +117,11 @@ export function AlbumDetailScreen({
       </div>
 
       <section className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end">
-        <div
-          className={`size-40 shrink-0 rounded-xl ${coverColor}`}
-          aria-hidden="true"
+        <CoverArt
+          coverColor={coverColor}
+          src={coverUrlFor(album.portadaUrl, activeServer?.address)}
+          className="size-40 rounded-xl"
+          alt={`Portada de ${albumTitle}`}
         />
 
         <div className="min-w-0 flex-1">
@@ -196,9 +203,11 @@ export function AlbumDetailScreen({
                   title={track.title}
                   subtitle={track.artist}
                   coverColor={track.coverColor}
+                  coverUrl={track.coverUrl}
                   isCurrent={isCurrent}
                   isPlaying={state.isPlaying}
                   onPlay={() => playFrom(index)}
+                  onAddToPlaylist={() => setPlaylistTrack({ id: track.id, title: track.title })}
                   durationLabel={track.durationLabel}
                 />
               );
@@ -206,6 +215,10 @@ export function AlbumDetailScreen({
           </div>
         ) : null}
       </section>
+
+      {playlistTrack ? (
+        <AddToPlaylistDialog track={playlistTrack} onClose={() => setPlaylistTrack(null)} />
+      ) : null}
     </div>
   );
 }
@@ -230,8 +243,10 @@ function toQueue(
       artist: pista.interprete?.trim() || album.artista?.trim() || "Artista desconocido",
       album: album.nombre?.trim() || "Álbum sin nombre",
       coverColor,
+      coverUrl: coverUrlFor(album.portadaUrl, baseUrl),
       duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
       durationLabel: trackDurationLabel(pista),
+      lyrics: pista.letra?.trim() || undefined,
       src: resolveTrackStreamUrl(baseUrl, pista),
     }));
 }

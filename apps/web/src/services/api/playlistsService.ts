@@ -65,3 +65,24 @@ export async function fetchPlaylistTracks(
 
   return data;
 }
+
+/**
+ * Enlaza una pista con la playlist (`POST /api/playlist/{id}/pistas`).
+ *
+ * El backend comprueba que la playlist y la canción existan y responde con la
+ * lista actualizada de canciones de la playlist. Requiere sesión iniciada.
+ */
+export async function addTrackToPlaylist(
+  baseUrl: string,
+  token: string,
+  playlistId: string,
+  trackId: string,
+): Promise<void> {
+  await apiRequest<unknown>({
+    baseUrl,
+    path: ENDPOINTS.addPlaylistTrack(playlistId),
+    method: "POST",
+    token,
+    body: { pistaId: trackId },
+  });
+}

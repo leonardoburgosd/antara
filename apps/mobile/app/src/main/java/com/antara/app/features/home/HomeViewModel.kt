@@ -47,7 +47,9 @@ class HomeViewModel(
         _uiState.update { it.copy(isLoading = true, errorRes = null) }
 
         viewModelScope.launch {
-            val session = sessionRepository.session.first()
+            // El flujo de sesión emite `Loading` antes del estado real: espera al
+            // primer estado estable para no leer un token nulo al arrancar.
+            val session = sessionRepository.session.first { it !is SessionState.Loading }
             val token = (session as? SessionState.SignedIn)?.session?.token
             val server = serverRepository.servers.first().active
 
@@ -84,7 +86,8 @@ class HomeViewModel(
         _playlistsState.update { it.copy(isLoading = true, errorRes = null) }
 
         viewModelScope.launch {
-            val session = sessionRepository.session.first()
+            // Igual que en los álbumes: evita leer el estado `Loading` inicial.
+            val session = sessionRepository.session.first { it !is SessionState.Loading }
             val token = (session as? SessionState.SignedIn)?.session?.token
             val server = serverRepository.servers.first().active
 

@@ -55,12 +55,18 @@
     <string name="player_lyrics_line_1">Susurros en la brisa nocturna,</string>
     <string name="player_lyrics_line_2">llevando sueños a través del mar,</string>
     <string name="player_lyrics_line_3">cierro los ojos y me dejo llevar.</string>
+    <string name="player_lyrics_loading">Cargando letra…</string>
+    <string name="player_lyrics_unavailable">Esta canción no tiene letra sincronizada</string>
+    <string name="player_lyrics_error">No se pudo cargar la letra</string>
+    <string name="player_lyrics_network">No se pudo conectar con el servidor</string>
 
     <!-- Autenticación -->
     <string name="auth_tagline">Tu música, en todas partes</string>
     <string name="auth_login_title">Bienvenido de nuevo</string>
     <string name="auth_email">Correo electrónico</string>
     <string name="auth_password">Contraseña</string>
+    <string name="auth_remember_email">Recordar mi usuario</string>
+    <string name="auth_remember_email_hint">Guardamos el email en este dispositivo, nunca la contraseña.</string>
     <string name="auth_enter">Entrar</string>
     <string name="auth_show_password">Mostrar contraseña</string>
     <string name="auth_hide_password">Ocultar contraseña</string>
@@ -95,6 +101,11 @@
     <string name="servers_error_invalid">La dirección no es válida. Ejemplo: 192.168.1.10:8080</string>
     <string name="servers_error_duplicate">Ese servidor ya está guardado</string>
     <string name="servers_error_save">No se pudo guardar el servidor. Inténtalo de nuevo.</string>
+    <string name="servers_edit">Editar servidor</string>
+    <string name="servers_edit_title">Editar dirección</string>
+    <string name="servers_edit_description">Cambia la dirección IP o el dominio de este servidor.</string>
+    <string name="servers_edit_save">Guardar</string>
+    <string name="servers_edit_cancel">Cancelar</string>
 
     <!-- Perfil -->
     <string name="profile_title">Perfil</string>

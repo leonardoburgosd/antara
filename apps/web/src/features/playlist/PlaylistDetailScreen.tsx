@@ -233,6 +233,7 @@ function toQueue(
       coverColor,
       duration: pista.duracionSegundos > 0 ? pista.duracionSegundos : 0,
       durationLabel: trackDurationLabel(pista),
+      lyrics: pista.letra?.trim() || undefined,
       src: resolveTrackStreamUrl(baseUrl, pista),
     }));
 }
